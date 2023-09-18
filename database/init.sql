@@ -1,0 +1,1 @@
+GRANT ALL PRIVILEGES ON DATABASE "tuxify" TO tuxify;

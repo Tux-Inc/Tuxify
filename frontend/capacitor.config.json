@@ -1,0 +1,8 @@
+{
+  "appId": "com.tuxinc.flowsphere",
+  "appName": "Tuxify",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  }
+}
