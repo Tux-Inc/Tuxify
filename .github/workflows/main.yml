@@ -33,7 +33,7 @@ jobs:
         with:
           context: "{{defaultContext}}:backend"
           push: true
-          tags: tux-inc/tuxifyapi:latest
+          tags: ghcr.io/tux-inc/tuxify:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -61,7 +61,7 @@ jobs:
         with:
           context: "{{defaultContext}}:frontend"
           push: true
-          tags: tux-inc/tuxify:latest
+          tags: ghcr.io/tux-inc/tuxify:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
