@@ -38,9 +38,9 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v5
         with:
-            context: {{defaultContext}}:frontend
-            push: true
-            tags: ghcr.io/${{ github.repository_owner }}/tuxify-frontend:latest
+          context: {{defaultContext}}:frontend
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/tuxify-frontend:latest
 
   build_android:
     name: Build APK
