@@ -33,14 +33,14 @@ jobs:
         with:
           context: "{{defaultContext}}:backend"
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/tuxify-api:latest
+          tags: ghcr.io/tux-inc/tuxify-api:latest
       - name: Build and push Frontend image
         id: docker_build
         uses: docker/build-push-action@v5
         with:
           context: "{{defaultContext}}:frontend"
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/tuxify-frontend:latest
+          tags: ghcr.io/tux-inc/tuxify-frontend:latest
 
   build_android:
     name: Build APK
