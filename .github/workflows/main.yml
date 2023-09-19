@@ -134,7 +134,7 @@ jobs:
 
   mirror:
     name: Mirror repository
-    needs: [ build_api, build_frontend, build_android ]
+    needs: [ build_android ]
     permissions:
       contents: read
     runs-on: ubuntu-latest
