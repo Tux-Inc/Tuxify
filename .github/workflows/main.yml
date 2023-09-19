@@ -88,7 +88,7 @@ jobs:
         run: npm i
 
       - name: Create Build Folder
-        run: npm run build
+        run: npm run generate
 
       - name: Add android folder if not present
         run: if [ ! -d "./android" ]; then npx cap add android; fi
