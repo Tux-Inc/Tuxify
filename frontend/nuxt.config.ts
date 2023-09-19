@@ -7,6 +7,9 @@ export default defineNuxtConfig({
     'boxicons/css/boxicons.min.css',
   ],
   devtools: { enabled: true },
+  devServer: {
+    port: 8080
+  },
   ssr: false,
   postcss: {
     plugins: {

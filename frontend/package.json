@@ -23,5 +23,6 @@
     "@capacitor/core": "^5.4.0",
     "@capacitor/ios": "^5.4.0",
     "boxicons": "^2.1.4"
-  }
+  },
+  "packageManager": "yarn@3.6.3"
 }

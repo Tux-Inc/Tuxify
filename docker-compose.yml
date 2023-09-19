@@ -21,15 +21,16 @@ services:
 
   # Nest API
   api:
-    container_name: tuixfy-api
-    build: ./backend
+    container_name: tuxify-api
+    image: node:latest
     restart: always
-    command: nest start --watch --preserveWatchOutput
+    command: yarn start:dev --preserveWatchOutput
+    working_dir: /usr/src/app
     ports:
       - "3000:3000"
     volumes:
-      - ./backend:/app
-      - ./backend/node_modules:/app/node_modules
+      - ./backend:/usr/src/app
+      - ./backend/node_modules:/usr/src/app/node_modules
     depends_on:
       - db
     networks:
@@ -40,22 +41,25 @@ services:
   # Nuxt Frontend
   frontend:
       container_name: tuxify-frontend
-      build: ./frontend
+      image: node:latest
       restart: always
-      command: npm run dev
+      command: yarn dev
+      working_dir: /usr/src/app
       ports:
-      - "8080:3000"
+      - "8080:8080"
       volumes:
-      - ./frontend:/app
-      - ./frontend/node_modules:/app/node_modules
+        - ./frontend:/usr/src/app
+        - ./frontend/node_modules:/usr/src/app/node_modules
+      depends_on:
+        - api
       networks:
-      - tuxify-network
+        - tuxify-network
       env_file:
-      - .env
+        - .env
 
 
 networks:
-  tc-network:
+  tuxify-network:
     driver: bridge
 
 volumes:

@@ -2,7 +2,8 @@
 FROM node:latest AS build-stage
 
 # Create app directory
-WORKDIR /app
+RUN mkdir /usr/src/app
+WORKDIR /usr/src/app
 
 # Install app dependencies
 COPY package*.json ./
@@ -19,10 +20,10 @@ RUN npm run build
 FROM nginx:latest AS production-stage
 
 # Set working directory
-RUN mkdir /app
+RUN mkdir /usr/src/app
 
 # Copy build from build-stage
-COPY --from=build-stage /app/.nuxt/dist /app
+COPY --from=build-stage /usr/src/app/.nuxt/dist /usr/src/app/
 
 # Copy nginx config
 COPY nginx.conf /etc/nginx/nginx.conf
