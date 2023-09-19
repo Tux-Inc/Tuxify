@@ -26,21 +26,25 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}
+          username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push API image
         uses: docker/build-push-action@v5
         with:
           context: "{{defaultContext}}:backend"
           push: true
-          tags: ghcr.io/tux-inc/tuxify-api:latest
+          tags: |
+            ghcr.io/tux-inc/tuxifyapi:latest
+            ghcr.io/tux-inc/tuxifyapi:{{ github.sha }}
       - name: Build and push Frontend image
         id: docker_build
         uses: docker/build-push-action@v5
         with:
           context: "{{defaultContext}}:frontend"
           push: true
-          tags: ghcr.io/tux-inc/tuxify-frontend:latest
+          tags: |
+            ghcr.io/tux-inc/tuxify:latest
+            ghcr.io/tux-inc/tuxify:{{ github.sha }}
 
   build_android:
     name: Build APK
