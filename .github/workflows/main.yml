@@ -1,4 +1,4 @@
-name: Mirroring
+name: CD
 
 env:
   MIRROR_URL: git@github.com:EpitechPromo2026/B-DEV-500-NCE-5-1-area-alexandre-kevin.de-freitas-martins.git
@@ -9,15 +9,126 @@ on:
       - main
 
 jobs:
-  mirror:
+  build_docker:
+    name: Build and push Docker images
     permissions:
       contents: read
     runs-on: ubuntu-latest
+    environment: production
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
-    - uses: pixta-dev/repository-mirroring-action@v1
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Build and push API image
+      id: docker_build
+      uses: docker/build-push-action@v5
+      with:
+        context: {{defaultContext}}:backend
+        push: true
+        tags: ghcr.io/${{ github.repository_owner }}/tuxify-api:latest
+    - name: Build and push Frontend image
+      id: docker_build
+      uses: docker/build-push-action@v5
+      with:
+          context: {{defaultContext}}:frontend
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/tuxify-frontend:latest
+
+  build_android:
+    name: Build APK
+    needs: [ build_docker ]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup java
+        uses: actions/setup-java@v3
+        with:
+          distribution: "zulu"
+          java-version: "11"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 19.x
+
+      - name: install dependencies
+        run: npm ci
+
+      - name: Create Build Folder
+        run: npm run build
+
+      - name: Add android folder if not present
+        run: if [ ! -d "./android" ]; then npx cap add android; fi
+
+      - name: Capacitor update
+        run: npx cap update
+
+      - name: Capacitor copy
+        run: npx cap copy
+
+      # TODO: Check for folder structure in README for generating splash screen
+      - name: Generate icons and splash screen to android folder
+        run: if [ -d "./resources" ]; then npm install @capacitor/assets --save-dev && npx capacitor-assets generate --android; fi
+
+      - name: Build app bundle
+        run: cd android && ./gradlew bundle && ./gradlew assembleDebug
+
+      - name: Extract Android signing key from env
+        run: |
+          echo "${{ secrets.RELEASE_KEYSTORE }}" > android/release.jks.base64
+          base64 -d android/release.jks.base64 > android/release.decrypted.jks
+
+      - name: Sign dev build
+        run: jarsigner -keystore android/release.decrypted.jks -storepass "${{ secrets.RELEASE_KEYSTORE_PASSWORD }}" -signedjar ./android/app/build/outputs/bundle/release/app-release-signed.aab ./android/app/build/outputs/bundle/release/app-release.aab release
+
+      - name: Check folder content of android output
+        run: ls ./android/app/build/outputs/bundle/release
+
+      - name: Set Tag
+        id: current-datetime
+        run: echo "CURRENT_DATETIME=$(date +'%Y-%m-%d-%H_%M_%S%z')" >> "$GITHUB_OUTPUT"
+
+      - name: Build Release
+        shell: bash
+        run: |
+          hub release create ${{ steps.current-datetime.outputs.CURRENT_DATETIME }} \
+          -m ${{ steps.current-datetime.outputs.CURRENT_DATETIME }} \
+          -a ./android/app/build/outputs/bundle/release/app-release-signed.aab \
+          -a ./android/app/build/outputs/apk/debug/app-debug.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+  mirror:
+    name: Mirror repository
+    needs: [ build_docker, build_android ]
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Mirror repository
+      uses: pixta-dev/repository-mirroring-action@v1
       with:
         target_repo_url:
           ${{ env.MIRROR_URL }}
