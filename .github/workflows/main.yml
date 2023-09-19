@@ -11,8 +11,6 @@ on:
 jobs:
   build_api:
     name: Build and push Docker images
-    permissions:
-      contents: read
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -39,8 +37,6 @@ jobs:
 
   build_frontend:
     name: Build and push Docker images
-    permissions:
-      contents: read
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
