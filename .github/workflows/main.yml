@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  build_docker:
+  build_api:
     name: Build and push Docker images
     permissions:
       contents: read
@@ -37,6 +37,26 @@ jobs:
           tags: ghcr.io/tux-inc/tuxifyapi:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+  build_frontend:
+    name: Build and push Docker images
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push Frontend image
         id: docker_build
         uses: docker/build-push-action@v5
@@ -49,7 +69,7 @@ jobs:
 
   build_android:
     name: Build APK
-    needs: [ build_docker ]
+    needs: [ build_api, build_frontend ]
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -119,7 +139,7 @@ jobs:
 
   mirror:
     name: Mirror repository
-    needs: [ build_docker, build_android ]
+    needs: [ build_api, build_frontend, build_android ]
     permissions:
       contents: read
     runs-on: ubuntu-latest
