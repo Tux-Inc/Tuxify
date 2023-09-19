@@ -10,7 +10,7 @@ on:
 
 jobs:
   build_api:
-    name: Build and push Docker images
+    name: Build and push API image
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -36,7 +36,8 @@ jobs:
           cache-to: type=gha,mode=max
 
   build_frontend:
-    name: Build and push Docker images
+    name: Build and push frontend image
+    needs: [ build_api ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
