@@ -9,13 +9,14 @@
         <div class="flex flex-col gap-2">
           <Button type="primary" text="Click me" icon="bx bx-user" :onClick="() => {}" :state="'idle'"></Button>
           <Button type="secondary" text="Click me" icon="bx bx-user" :onClick="() => {}" :state="'idle'"></Button>
-          <Button type="tertiary" text="Click me" icon="bx bx-user" :onClick="() => {}" :state="'idle'"></Button>
           <Button type="success" text="Click me" icon="bx bx-user" :onClick="() => {}" :state="'idle'"></Button>
           <Button type="warning" text="Click me" icon="bx bx-user" :onClick="() => {}" :state="'idle'"></Button>
           <Button type="danger" text="Click me" icon="bx bx-user" :onClick="() => {}" :state="'idle'"></Button>
           <Button type="info" text="Click me" icon="bx bx-user" :onClick="() => {}" :state="'idle'"></Button>
           <Button type="primary" text="Click me" icon="bx bx-user" :onClick="() => {}" :state="'loading'"></Button>
           <Button type="primary" text="Click me" icon="bx bx-user" :onClick="() => {}" :state="'disabled'"></Button>
+          <Button type="primary" :outlined="true" text="Click me" icon="bx bx-user" :onClick="() => {}" :state="'idle'"></Button>
+          <Button type="secondary" :outlined="true" text="Click me" icon="bx bx-user" :onClick="() => {}" :state="'idle'"></Button>
         </div>
     </div>
   </div>
