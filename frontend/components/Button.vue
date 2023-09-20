@@ -3,6 +3,7 @@ import {IButtonProps} from "../types/IButtonProps";
 const props = withDefaults(defineProps<IButtonProps>(), {
     text: 'Button',
     type: 'primary',
+    outlined: false,
     size: 'medium',
     state: 'idle',
     icon: 'bx bx-info-circle',
@@ -10,14 +11,22 @@ const props = withDefaults(defineProps<IButtonProps>(), {
     onClick: () => console.log('Default click handler'),
 });
 
-const buttonTypeStyleMap = {
-    primary: 'bg-blue-500 hover:bg-blue-700 text-white',
-    secondary: 'bg-gray-500 hover:bg-gray-700 text-white',
-    tertiary: 'bg-gray-300 hover:bg-gray-400 text-gray-800',
+const buttonFilledTypeStyleMap = {
+    primary: 'bg-primary-500 hover:bg-primary-600 text-white',
+    secondary: 'bg-secondary-500 hover:bg-secondary-600 text-white',
     danger: 'bg-red-500 hover:bg-red-700 text-white',
     warning: 'bg-yellow-500 hover:bg-yellow-700 text-white',
     success: 'bg-green-500 hover:bg-green-700 text-white',
     info: 'bg-blue-500 hover:bg-blue-700 text-white',
+}
+
+const buttonOutlinedTypeStyleMap = {
+    primary: 'border border-primary-500 hover:bg-primary-100 text-primary-500',
+    secondary: 'border border-secondary-500 hover:bg-secondary-100 text-secondary-500',
+    danger: 'border border-red-500 hover:bg-red-100 text-red-500',
+    warning: 'border border-yellow-500 hover:bg-yellow-100 text-yellow-500',
+    success: 'border border-green-500 hover:bg-green-100 text-green-500',
+    info: 'border border-blue-500 hover:bg-blue-100 text-blue-500',
 }
 
 const buttonSizeStyleMap = {
@@ -44,7 +53,7 @@ const buttonStateStyleMap = {
   <button
           @click.prevent="props.onClick"
           class="flex items-center justify-center gap-2 rounded-lg cursor-pointer transition duration-50 ease-in-out"
-          :class="buttonTypeStyleMap[props.type] + ' ' + buttonSizeStyleMap[props.size] + ' ' + buttonStateStyleMap[props.state]"
+          :class="(props.outlined ? buttonOutlinedTypeStyleMap[props.type] : buttonFilledTypeStyleMap[props.type]) + ' ' + buttonSizeStyleMap[props.size] + ' ' + buttonStateStyleMap[props.state]"
           :disabled="props.state !== 'idle'"
           :text="props.text"
           type="button"
