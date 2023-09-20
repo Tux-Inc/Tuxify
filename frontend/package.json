@@ -15,7 +15,8 @@
     "nuxt": "^3.7.3",
     "postcss": "^8.4.29",
     "tailwindcss": "^3.3.3",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "vue-i18n": "^9.4.1"
   },
   "dependencies": {
     "@capacitor/android": "^5.4.0",

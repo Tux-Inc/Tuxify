@@ -847,6 +847,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@intlify/core-base@npm:9.4.1":
+  version: 9.4.1
+  resolution: "@intlify/core-base@npm:9.4.1"
+  dependencies:
+    "@intlify/message-compiler": 9.4.1
+    "@intlify/shared": 9.4.1
+  checksum: 753464c1e66be3df98800c2507673a76f5914bd3c3030f7886fe0f0e634a2e011d0d0f775d697a697371f22be8f3e105bffc6b866302c9f804ab6087aeeddca7
+  languageName: node
+  linkType: hard
+
+"@intlify/message-compiler@npm:9.4.1":
+  version: 9.4.1
+  resolution: "@intlify/message-compiler@npm:9.4.1"
+  dependencies:
+    "@intlify/shared": 9.4.1
+    source-map-js: ^1.0.2
+  checksum: 7136d0cffcd6d9d8dbdc7aaf33e686bb4889a94ce0e4159a8349b8eac2a2ff6c8687439b4d2ba47357a7fce0893b6e5a2b049e98d828aef5a8ad71138aca4cee
+  languageName: node
+  linkType: hard
+
+"@intlify/shared@npm:9.4.1":
+  version: 9.4.1
+  resolution: "@intlify/shared@npm:9.4.1"
+  checksum: 58faa632efa06de705b76b853b879e60a6cb81c0589d353a66d31f7aa3f62258bd6dda1c87652f66e16bcc1cc63694ed7ff371815c818bc3e00a72fbf7ef94b7
+  languageName: node
+  linkType: hard
+
 "@ionic/cli-framework-output@npm:^2.2.5":
   version: 2.2.6
   resolution: "@ionic/cli-framework-output@npm:2.2.6"
@@ -6171,6 +6198,7 @@ __metadata:
     postcss: ^8.4.29
     tailwindcss: ^3.3.3
     typescript: ^5.2.2
+    vue-i18n: ^9.4.1
   languageName: unknown
   linkType: soft
 
@@ -8826,6 +8854,19 @@ __metadata:
   version: 0.1.0
   resolution: "vue-devtools-stub@npm:0.1.0"
   checksum: 3f19fa2ab6d7f65de459f6c10d8f1d682dcd4ac55934c37617423d4a70efb98aa0a35f290120ec0c429ddcc0bdb7458836f87763ee0b8acfe007e4869f67dbbb
+  languageName: node
+  linkType: hard
+
+"vue-i18n@npm:^9.4.1":
+  version: 9.4.1
+  resolution: "vue-i18n@npm:9.4.1"
+  dependencies:
+    "@intlify/core-base": 9.4.1
+    "@intlify/shared": 9.4.1
+    "@vue/devtools-api": ^6.5.0
+  peerDependencies:
+    vue: ^3.0.0
+  checksum: 50516a4441c70be36d3d471cd9660f09d15aafe61cd508a794a63d6f8111bb1c25ba6b256b45d447a6fef52cfe76ece28b5a042f1c6cff92ac5e47a1117bfd7c
   languageName: node
   linkType: hard
 
