@@ -24,7 +24,7 @@
     <div class="flex flex-col mt-24">
         <h2 class="text-2xl font-bold mb-8 text-dark dark:text-light">Links</h2>
         <div class="flex flex-col gap-2">
-            <ButtonLink></ButtonLink>
+            <ButtonLink text="Home" icon="bx bx-home" :onClick="() => console.log('Home link clicked')"></ButtonLink>
         </div>
     </div>
   </div>
