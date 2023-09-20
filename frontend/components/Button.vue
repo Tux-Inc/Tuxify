@@ -6,7 +6,6 @@ const props = withDefaults(defineProps<IButtonProps>(), {
     outlined: false,
     size: 'medium',
     state: 'idle',
-    icon: 'bx bx-info-circle',
     iconPosition: 'left',
     onClick: () => console.log('Default click handler'),
 });
