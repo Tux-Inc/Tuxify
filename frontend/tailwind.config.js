@@ -13,6 +13,7 @@ module.exports = {
       colors: {
         'light': '#e9f3ff',
         'dark': '#15191D',
+        'tint-dark': '#1B2329',
         'primary': {
             '100': '#E6F2FF',
             '200': '#D6E9FF',
@@ -33,7 +34,6 @@ module.exports = {
             '700': '#6900cc',
             '800': '#5700b3',
         },
-        'background': '#1B2329',
       },
     },
   },
