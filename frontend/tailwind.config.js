@@ -11,7 +11,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'light': '#6BB8FF',
+        'light': '#e9f3ff',
+        'dark': '#15191D',
         'primary': {
             '100': '#E6F2FF',
             '200': '#D6E9FF',
@@ -32,8 +33,7 @@ module.exports = {
             '700': '#6900cc',
             '800': '#5700b3',
         },
-        'dark': '#1B2329',
-        'background': '#15191D',
+        'background': '#1B2329',
       },
     },
   },

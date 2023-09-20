@@ -2,10 +2,10 @@
   <div class="p-12">
     <div class="flex items-center justify-start gap-4 mb-16">
       <img src="/logo@1:1.svg" alt="logo" class="h-12" />
-      <h1 class="text-3xl font-bold">Design system - Components</h1>
+      <h1 class="text-3xl font-bold text-dark dark:text-light">Design System - Components</h1>
     </div>
     <div class="flex flex-col">
-        <h2 class="text-2xl font-bold mb-8">Buttons</h2>
+        <h2 class="text-2xl font-bold mb-8 text-dark dark:text-light">Buttons</h2>
         <div class="flex flex-col gap-2">
           <Button type="primary" text="Primary filled button" icon="bx bx-user" :onClick="() => {}" :state="'idle'"></Button>
           <Button type="secondary" text="Secondary filled button" icon="bx bx-user" :onClick="() => {}" :state="'idle'"></Button>
