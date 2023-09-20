@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <div class="flex items-center justify-between p-2 bg-light dark:bg-tint-dark">
+  <div class="flex items-center justify-between py-2 px-4 bg-light dark:bg-tint-dark">
     <div class="flex items-center justify-start gap-4">
         <NuxtLink to="/">
             <svg class="h-8 fill-primary-500 dark:fill-light" viewBox="0 0 2262 782" xmlns="http://www.w3.org/2000/svg">
