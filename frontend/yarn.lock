@@ -493,6 +493,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@dash14/svg-pan-zoom@npm:^3.6.9":
+  version: 3.6.9
+  resolution: "@dash14/svg-pan-zoom@npm:3.6.9"
+  checksum: ca63a82c2bf67b725a3b423b2c62600da6a5093ba4e1c309e21c522da66121311b6a50103246dc952e4c7091061c09620e6634015c0a7e1058035fa4c0431897
+  languageName: node
+  linkType: hard
+
 "@esbuild-kit/cjs-loader@npm:^2.4.2":
   version: 2.4.4
   resolution: "@esbuild-kit/cjs-loader@npm:2.4.4"
@@ -5262,6 +5269,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash-es@npm:^4.17.21":
+  version: 4.17.21
+  resolution: "lodash-es@npm:4.17.21"
+  checksum: 05cbffad6e2adbb331a4e16fbd826e7faee403a1a04873b82b42c0f22090f280839f85b95393f487c1303c8a3d2a010048bf06151a6cbe03eee4d388fb0a12d2
+  languageName: node
+  linkType: hard
+
 "lodash.debounce@npm:^4.0.8":
   version: 4.0.8
   resolution: "lodash.debounce@npm:4.0.8"
@@ -5698,6 +5712,13 @@ __metadata:
     minipass: ^3.0.0
     yallist: ^4.0.0
   checksum: f1fdeac0b07cf8f30fcf12f4b586795b97be856edea22b5e9072707be51fc95d41487faec3f265b42973a304fe3a64acd91a44a3826a963e37b37bafde0212c3
+  languageName: node
+  linkType: hard
+
+"mitt@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "mitt@npm:3.0.1"
+  checksum: b55a489ac9c2949ab166b7f060601d3b6d893a852515ae9eca4e11df01c013876df777ea109317622b5c1c60e8aae252558e33c8c94e14124db38f64a39614b1
   languageName: node
   linkType: hard
 
@@ -6198,6 +6219,7 @@ __metadata:
     postcss: ^8.4.29
     tailwindcss: ^3.3.3
     typescript: ^5.2.2
+    v-network-graph: ^0.9.8
     vue-i18n: ^9.4.1
   languageName: unknown
   linkType: soft
@@ -8602,6 +8624,23 @@ __metadata:
     is-typed-array: ^1.1.3
     which-typed-array: ^1.1.2
   checksum: 705e51f0de5b446f4edec10739752ac25856541e0254ea1e7e45e5b9f9b0cb105bc4bd415736a6210edc68245a7f903bf085ffb08dd7deb8a0e847f60538a38a
+  languageName: node
+  linkType: hard
+
+"v-network-graph@npm:^0.9.8":
+  version: 0.9.8
+  resolution: "v-network-graph@npm:0.9.8"
+  dependencies:
+    "@dash14/svg-pan-zoom": ^3.6.9
+    lodash-es: ^4.17.21
+    mitt: ^3.0.1
+  peerDependencies:
+    d3-force: ^3.0.0
+    vue: ^3.2.45
+  peerDependenciesMeta:
+    d3-force:
+      optional: true
+  checksum: 9f3085ebbcecc375b96c98c8897d09d3cc1ed1e45767277bcbbedd7fae3c05b43b655ad7195a6a6dc2771e7b978e0095c0181a407be5b988f869924bde3913db
   languageName: node
   linkType: hard
 

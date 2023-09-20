@@ -3,5 +3,6 @@ export interface IButtonLinkProps {
     icon?: string;
     size?: 'small' | 'medium' | 'large',
     iconPosition?: 'left' | 'right',
+    customClass?: string,
     onClick: () => void;
 }

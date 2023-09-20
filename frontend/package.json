@@ -23,7 +23,8 @@
     "@capacitor/cli": "^5.4.0",
     "@capacitor/core": "^5.4.0",
     "@capacitor/ios": "^5.4.0",
-    "boxicons": "^2.1.4"
+    "boxicons": "^2.1.4",
+    "v-network-graph": "^0.9.8"
   },
   "packageManager": "yarn@3.6.3"
 }

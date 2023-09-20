@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {IButtonLinkProps} from "../types/IButtonLinkProps";
 const props = withDefaults(defineProps<IButtonLinkProps>(), {
-    text: 'Link',
+    text: '',
     iconPosition: 'left',
     size: 'medium',
     onClick: () => console.log('Default link click handler'),
@@ -17,13 +17,13 @@ const buttonSizeStyleMap = {
 <template>
     <button
         @click.prevent="props.onClick"
-        class="flex items-center justify-center gap-2 text-md rounded-lg cursor-pointer transition duration-50 ease-in-out text-dark dark:text-light hover:bg-primary-500 hover:bg-opacity-10 dark:hover:bg-primary-500 dark:hover:bg-opacity-10"
-        :class="buttonSizeStyleMap[props.size]"
+        class="flex items-center justify-start gap-2 text-md rounded-lg cursor-pointer transition duration-50 ease-in-out text-dark dark:text-light hover:bg-primary-500 hover:bg-opacity-10 dark:hover:bg-primary-500 dark:hover:bg-opacity-10"
+        :class="buttonSizeStyleMap[props.size] + ' ' + props.customClass"
     >
         <div v-if="props.iconPosition === 'left'">
             <i :class="props.icon"></i>
         </div>
-        <span>{{ props.text }}</span>
+        {{ props.text }}
         <div v-if="props.iconPosition === 'right'">
             <i :class="props.icon"></i>
         </div>

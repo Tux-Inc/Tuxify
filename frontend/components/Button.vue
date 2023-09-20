@@ -51,8 +51,8 @@ const buttonStateStyleMap = {
 <template>
   <button
           @click.prevent="props.onClick"
-          class="flex items-center justify-center gap-2 rounded-lg cursor-pointer transition duration-50 ease-in-out"
-          :class="(props.outlined ? buttonOutlinedTypeStyleMap[props.type] : buttonFilledTypeStyleMap[props.type]) + ' ' + buttonSizeStyleMap[props.size] + ' ' + buttonStateStyleMap[props.state]"
+          class="flex items-center justify-start gap-2 rounded-lg cursor-pointer transition duration-50 ease-in-out"
+          :class="(props.outlined ? buttonOutlinedTypeStyleMap[props.type] : buttonFilledTypeStyleMap[props.type]) + ' ' + buttonSizeStyleMap[props.size] + ' ' + buttonStateStyleMap[props.state] + ' ' + props.customClass"
           :disabled="props.state !== 'idle'"
           :text="props.text"
           type="button"
@@ -61,7 +61,7 @@ const buttonStateStyleMap = {
           <i v-if="props.state !== 'loading'" :class="props.icon"></i>
           <i v-else :class="iconStateStyleMap[props.state]"></i>
       </div>
-      <span>{{ props.text }}</span>
+      {{ props.text }}
       <div v-if="props.iconPosition === 'right'">
           <i v-if="props.state !== 'loading'" :class="props.icon"></i>
           <i v-else :class="iconStateStyleMap[props.state]"></i>
