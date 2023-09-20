@@ -21,12 +21,12 @@ const buttonFilledTypeStyleMap = {
 }
 
 const buttonOutlinedTypeStyleMap = {
-    primary: 'border border-primary-500 hover:bg-primary-100 text-primary-500',
-    secondary: 'border border-secondary-500 hover:bg-secondary-100 text-secondary-500',
-    danger: 'border border-red-500 hover:bg-red-100 text-red-500',
-    warning: 'border border-yellow-500 hover:bg-yellow-100 text-yellow-500',
-    success: 'border border-green-500 hover:bg-green-100 text-green-500',
-    info: 'border border-blue-500 hover:bg-blue-100 text-blue-500',
+    primary: 'border border-primary-500 hover:bg-primary-100 text-primary-500 dark:hover:bg-primary-500 dark:hover:text-light',
+    secondary: 'border border-secondary-500 hover:bg-secondary-100 text-secondary-500 dark:hover:bg-secondary-500 dark:hover:text-light',
+    danger: 'border border-red-500 hover:bg-red-100 text-red-500 dark:hover:bg-red-500 dark:hover:text-light',
+    warning: 'border border-yellow-500 hover:bg-yellow-100 text-yellow-500 dark:hover:bg-yellow-500 dark:hover:text-light',
+    success: 'border border-green-500 hover:bg-green-100 text-green-500 dark:hover:bg-green-500 dark:hover:text-light',
+    info: 'border border-blue-500 hover:bg-blue-100 text-blue-500 dark:hover:bg-blue-500 dark:hover:text-light',
 }
 
 const buttonSizeStyleMap = {

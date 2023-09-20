@@ -7,6 +7,8 @@
     <div class="flex flex-col">
         <h2 class="text-2xl font-bold mb-8 text-dark dark:text-light">Buttons</h2>
         <div class="flex flex-col gap-2">
+          <Button type="primary" text="Primary filled small button" icon="bx bx-user" :onClick="() => {}" :state="'idle'" size="small"></Button>
+          <Button type="primary" text="Primary filled large button" icon="bx bx-user" :onClick="() => {}" :state="'idle'" size="large"></Button>
           <Button type="primary" text="Primary filled button" icon="bx bx-user" :onClick="() => {}" :state="'idle'"></Button>
           <Button type="secondary" text="Secondary filled button" icon="bx bx-user" :onClick="() => {}" :state="'idle'"></Button>
           <Button type="success" text="Success filled button" icon="bx bx-check-circle" :onClick="() => {}" :state="'idle'"></Button>
