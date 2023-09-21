@@ -1,71 +1,110 @@
-<script setup lang="ts">
-import * as vNG from "v-network-graph"
-const configs = vNG.defineConfigs({
-    node: {
-        selectable: true,
-        normal: {
-            type: "rect",
-            width: 100,
-            height: 100,
-            borderRadius: 8,
-            color: "#e9f3ff",
-            strokeColor: "#0085FF",
-            strokeWidth: 2,
-        },
-        hover: {
-            color: "#e9f3ff",
-            strokeColor: "#148eff",
-            strokeWidth: 2,
-            width: 110,
-            height: 110,
-            borderRadius: 8,
-        },
-        label: {
-            fontSize: 16,
-            color: "#FFF",
-            direction: "north",
-        },
-    },
-    edge: {
-        gap: 40,
-        type: "curve",
-        normal: {
-            width: 2,
-            color: "#0085FF",
-            dasharray: "4 6",
-            linecap: "round",
-        },
-        hover: {
-            color: "#148eff",
-        },
-    },
-    path: {
-        visible: true,
-        curveInNode: true,
-        normal: {
-            width: 10,
-        },
-    }
-})
-const nodes = {
-    node1: { name: "Node 1" },
-    node2: { name: "Node 2" },
-    node3: { name: "Node 3" },
-    node4: { name: "Node 4" },
+<script setup>
+import {VueFlow, useVueFlow} from '@vue-flow/core'
+import { Background } from '@vue-flow/background'
+import {nextTick, watch} from 'vue'
+
+let id = 0
+
+function getId() {
+    return `dndnode_${id++}`
 }
 
-const edges = {
-    edge1: { source: "node1", target: "node2" },
-    edge2: { source: "node2", target: "node3" },
-    edge3: { source: "node3", target: "node4" },
+const {findNode, onConnect, addEdges, addNodes, project, vueFlowRef} = useVueFlow({
+    nodes: [
+        {
+            id: '1',
+            type: 'input',
+            label: 'input node',
+            position: {x: 250, y: 25},
+        },
+    ],
+})
+
+function onDragOver(event) {
+    event.preventDefault()
+
+    if (event.dataTransfer) {
+        event.dataTransfer.dropEffect = 'move'
+    }
+}
+
+onConnect((params) => addEdges(params))
+
+function onDrop(event) {
+    const type = event.dataTransfer?.getData('application/vueflow')
+
+    const {left, top} = vueFlowRef.value.getBoundingClientRect()
+
+    const position = project({
+        x: event.clientX - left,
+        y: event.clientY - top,
+    })
+
+    const newNode = {
+        id: getId(),
+        type,
+        position,
+        label: `${type} node`,
+    }
+
+    addNodes([newNode])
+
+    // align node position after drop, so it's centered to the mouse
+    nextTick(() => {
+        const node = findNode(newNode.id)
+        const stop = watch(
+            () => node.dimensions,
+            (dimensions) => {
+                if (dimensions.width > 0 && dimensions.height > 0) {
+                    node.position = {
+                        x: node.position.x - node.dimensions.width / 2,
+                        y: node.position.y - node.dimensions.height / 2
+                    }
+                    stop()
+                }
+            },
+            {deep: true, flush: 'post'},
+        )
+    })
 }
 </script>
 
 <template>
-    <v-network-graph
-            class="w-full h-[calc(100vh-85px)]"
-            :nodes="nodes"
-            :edges="edges"
-            :configs="configs"
-    />
+    <div class="dndflow relative" @drop="onDrop">
+        <NodeList/>
+        <VueFlow @dragover="onDragOver" :style="{ height: 'calc(100vh - 10rem)' }">
+            <Background gap="8" />
+        </VueFlow>
+    </div>
 </template>
+
+<style>
+.dndflow {
+    flex-direction: column;
+    display: flex;
+    height: 100%
+}
+
+.dndflow .vue-flow-wrapper {
+    flex-grow: 1;
+    height: 100%
+}
+
+@media screen and (min-width: 640px) {
+    .dndflow {
+        flex-direction: row
+    }
+
+    .dndflow aside {
+        min-width: 25%
+    }
+}
+
+@media screen and (max-width: 639px) {
+    .dndflow aside .nodes {
+        display: flex;
+        flex-direction: row;
+        gap: 5px
+    }
+}
+</style>

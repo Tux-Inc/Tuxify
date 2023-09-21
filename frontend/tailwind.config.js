@@ -14,6 +14,7 @@ module.exports = {
         'light': '#e9f3ff',
         'dark': '#15191D',
         'tint-dark': '#1B2329',
+        'tint-light': '#F5F7FA',
         'primary': {
             '100': '#E6F2FF',
             '200': '#D6E9FF',

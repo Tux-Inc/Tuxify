@@ -13,7 +13,6 @@
         </NuxtLink>
     </div>
       <div class="flex gap-4 items-center">
-        <ButtonLink icon="bx bx-bell"></ButtonLink>
         <img src="/avatar/3.png" alt="avatar" class="h-9 rounded-full cursor-pointer border-2 border-primary-200 dark:border-light" />
       </div>
   </div>

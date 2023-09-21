@@ -23,8 +23,9 @@
     "@capacitor/cli": "^5.4.0",
     "@capacitor/core": "^5.4.0",
     "@capacitor/ios": "^5.4.0",
-    "boxicons": "^2.1.4",
-    "v-network-graph": "^0.9.8"
+    "@vue-flow/background": "^1.2.0",
+    "@vue-flow/core": "^1.22.3",
+    "boxicons": "^2.1.4"
   },
   "packageManager": "yarn@3.6.3"
 }

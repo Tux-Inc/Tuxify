@@ -8,7 +8,8 @@ export default defineNuxtConfig({
   css: [
     '~/assets/css/main.css',
     'boxicons/css/boxicons.min.css',
-    'v-network-graph/lib/style.css',
+    '@vue-flow/core/dist/style.css',
+    '@vue-flow/core/dist/theme-default.css',
   ],
   devtools: { enabled: true },
   devServer: {
