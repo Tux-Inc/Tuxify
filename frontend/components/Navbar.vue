@@ -1,4 +1,30 @@
 <script setup lang="ts">
+import {BasicColorSchema, useColorMode} from "@vueuse/core";
+
+const colorMode = useColorMode();
+
+const colorModeIconMap = {
+  light: 'bx bxs-sun',
+  dark: 'bx bxs-moon',
+  auto: 'bx bx-adjust',
+}
+let currentColorMode = ref<BasicColorSchema>(colorMode.value);
+
+console.log(currentColorMode.value);
+
+function toggleColorMode() {
+  console.log(colorMode.value);
+  if (currentColorMode.value === 'light') {
+    colorMode.value = 'dark';
+    currentColorMode.value = 'dark';
+  } else if (currentColorMode.value === 'dark') {
+    colorMode.value = 'auto';
+    currentColorMode.value = 'auto';
+  } else {
+    colorMode.value = 'light';
+    currentColorMode.value = 'light';
+  }
+}
 </script>
 
 <template>
@@ -12,7 +38,11 @@
             </svg>
         </NuxtLink>
     </div>
-      <div class="flex gap-4 items-center">
+      <div class="flex gap-2 items-center">
+        <div class="flex">
+          <ButtonLink icon="bx bx-globe"></ButtonLink>
+          <ButtonLink :icon="colorModeIconMap[currentColorMode]" :onClick="toggleColorMode"></ButtonLink>
+        </div>
         <img src="/avatar/3.png" alt="avatar" class="h-9 rounded-full cursor-pointer border-2 border-primary-200 dark:border-light" />
       </div>
   </div>
