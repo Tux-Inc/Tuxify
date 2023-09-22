@@ -10,10 +10,7 @@ const colorModeIconMap = {
 }
 let currentColorMode = ref<BasicColorSchema>(colorMode.value);
 
-console.log(currentColorMode.value);
-
 function toggleColorMode() {
-  console.log(colorMode.value);
   if (currentColorMode.value === 'light') {
     colorMode.value = 'dark';
     currentColorMode.value = 'dark';
@@ -40,8 +37,7 @@ function toggleColorMode() {
     </div>
       <div class="flex gap-2 items-center">
         <div class="flex">
-          <ButtonLink icon="bx bx-globe"></ButtonLink>
-          <ButtonLink :icon="colorModeIconMap[currentColorMode]" :onClick="toggleColorMode"></ButtonLink>
+          <ButtonLink :icon="colorModeIconMap[currentColorMode]" :onClick="toggleColorMode" :tooltip="currentColorMode"></ButtonLink>
         </div>
         <img src="/avatar/3.png" alt="avatar" class="h-9 rounded-full cursor-pointer border-2 border-primary-200 dark:border-light" />
       </div>

@@ -6,6 +6,7 @@ export interface IButtonProps {
     state?: 'idle' | 'loading' | 'disabled',
     icon?: string,
     iconPosition?: 'left' | 'right',
+    tooltip?: string,
     customClass?: string,
     onClick?: () => void
 }
