@@ -14,6 +14,17 @@ definePageMeta({
     opacity: 0;
     transform: translateX(20px);
 }
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.2s;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+
 ::-webkit-scrollbar {
     width: 7px;
     border-radius: 10px;
