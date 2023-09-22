@@ -51,14 +51,6 @@ const buttonStateStyleMap = {
 
 </script>
 
-<style scoped>
-.tooltip {
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-}
-</style>
-
 <template>
   <button
           @click.prevent="props.onClick"
@@ -79,10 +71,6 @@ const buttonStateStyleMap = {
           <i v-if="props.state !== 'loading'" :class="props.icon"></i>
           <i v-else :class="iconStateStyleMap[props.state]"></i>
       </div>
-      <Transition name="fade">
-        <div v-if="tooltip != ''" v-show="isHovering" class="hidden md:block absolute mt-1 tooltip z-10 inline-block px-3 py-2 text-sm font-medium text-light transition-opacity duration-300 bg-dark rounded-lg shadow-sm dark:bg-light dark:text-dark">
-            {{ props.tooltip }}
-        </div>
-      </Transition>
+      <Tooltip :text="props.tooltip" :isVisible="isHovering" />
   </button>
 </template>
