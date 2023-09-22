@@ -7,8 +7,11 @@ const props = withDefaults(defineProps<IButtonProps>(), {
     size: 'medium',
     state: 'idle',
     iconPosition: 'left',
+    tooltip: '',
     onClick: () => console.log('Default click handler'),
 });
+
+let isHovering = ref(false);
 
 const buttonFilledTypeStyleMap = {
     primary: 'bg-primary-500 hover:bg-primary-600 text-white',
@@ -51,11 +54,13 @@ const buttonStateStyleMap = {
 <template>
   <button
           @click.prevent="props.onClick"
-          class="flex items-center justify-start gap-2 rounded-lg cursor-pointer transition duration-50 ease-in-out"
+          class="relative flex items-center justify-start gap-2 rounded-lg cursor-pointer transition duration-50 ease-in-out"
           :class="(props.outlined ? buttonOutlinedTypeStyleMap[props.type] : buttonFilledTypeStyleMap[props.type]) + ' ' + buttonSizeStyleMap[props.size] + ' ' + buttonStateStyleMap[props.state] + ' ' + props.customClass"
           :disabled="props.state !== 'idle'"
           :text="props.text"
           type="button"
+          @pointerenter="isHovering = true"
+          @pointerleave="isHovering = false"
   >
       <div v-if="props.iconPosition === 'left'">
           <i v-if="props.state !== 'loading'" :class="props.icon"></i>
@@ -66,5 +71,6 @@ const buttonStateStyleMap = {
           <i v-if="props.state !== 'loading'" :class="props.icon"></i>
           <i v-else :class="iconStateStyleMap[props.state]"></i>
       </div>
+      <Tooltip :text="props.tooltip" :isVisible="isHovering" />
   </button>
 </template>
