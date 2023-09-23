@@ -139,7 +139,7 @@ jobs:
         uses: azure/k8s-set-context@v2
         with:
           method: service-account
-          k8s-url: http://kube.honixsystems.com
+          k8s-url: https://kube.honixsystems.com
           k8s-secret: ${{ secrets.KUBERNETES_SECRET }}
 
       - name: Checkout source code
@@ -167,7 +167,7 @@ jobs:
         uses: azure/k8s-set-context@v2
         with:
           method: service-account
-          k8s-url: http://kube.honixsystems.com
+          k8s-url: https://kube.honixsystems.com
           k8s-secret: ${{ secrets.KUBERNETES_SECRET }}
 
       - name: Create cluster secrets
