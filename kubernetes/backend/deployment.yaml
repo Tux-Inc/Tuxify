@@ -38,7 +38,7 @@ spec:
             - name: JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: tuxify-secret
+                  name: tuxifyapi-secret
                   key: JWT_SECRET
             - name: POSTGRES_TYPE
               value: postgres
