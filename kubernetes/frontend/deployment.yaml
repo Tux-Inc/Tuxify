@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tuxify-front
+  labels:
+    app: tuxify-front
+    environment: production
+
+spec:
+  selector:
+    matchLabels:
+      app: tuxify-front
+  replicas: 1
+  revisionHistoryLimit: 3
+  template:
+    metadata:
+      labels:
+        app: tuxify-front
+        environment: production
+    spec:
+      containers:
+        - name: tuxify-front
+          image: ghcr.io/tux-inc/tuxify:latest
+          ports:
+            - containerPort: 80
+              name: tuxify
+              protocol: TCP
+          resources: {}
+          env:
+            - name: API_URL
+              value: http://api.tuxify.fr/
+      imagePullSecrets:
+        - name: github-container-registry

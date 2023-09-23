@@ -1,9 +1,12 @@
 export interface IButtonProps {
     text: string;
-    type: ['primary', 'secondary', 'tertiary', 'danger', 'warning', 'success', 'info'],
-    size?: ['small', 'medium', 'large'],
-    disabled?: boolean,
+    type: 'primary' | 'secondary' | 'danger' | 'warning' | 'success' | 'info',
+    outlined?: boolean,
+    size?: 'small' | 'medium' | 'large',
+    state?: 'idle' | 'loading' | 'disabled',
     icon?: string,
-    iconPosition?: ['left', 'right'],
-    onClick: () => void
+    iconPosition?: 'left' | 'right',
+    tooltip?: string,
+    customClass?: string,
+    onClick?: () => void
 }
