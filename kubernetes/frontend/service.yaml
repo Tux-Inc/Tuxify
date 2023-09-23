@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tuxify-front
+  labels:
+    app: tuxify-front
+spec:
+  selector:
+    app: tuxify-front
+  ports:
+    - name: tuxify-front
+      port: 80
+      targetPort: 80

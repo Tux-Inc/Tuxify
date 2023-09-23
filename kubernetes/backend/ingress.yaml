@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tuxify-api
+  annotations:
+spec:
+  rules:
+    - host: api.tuxify.fr
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: tuxify-api
+                port:
+                  number: 3000

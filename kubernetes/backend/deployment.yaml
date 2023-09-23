@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tuxify-api
+  labels:
+    app: tuxify-api
+    environment: production
+
+spec:
+  selector:
+    matchLabels:
+      app: tuxify-api
+  replicas: 1
+  revisionHistoryLimit: 3
+  template:
+    metadata:
+      labels:
+        app: tuxify-api
+        environment: production
+    spec:
+      containers:
+        - name: tuxify-api
+          image: ghcr.io/tux-inc/tuxifyapi:latest
+          ports:
+            - containerPort: 3000
+              name: tuxify-api
+              protocol: TCP
+          resources: {}
+          env:
+            - name: APP_ENV
+              value: production
+            - name: APP_NAME
+              value: TuxifyAPI
+            - name: APP_PORT
+              value: "3000"
+            - name: APP_HOST
+              value: http://api.tuxify.fr
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: openwhaleapi-secret
+                  key: JWT_SECRET
+            - name: POSTGRES_TYPE
+              value: postgres
+            - name: POSTGRES_HOST
+              value: tuxifyapi-postgres.production
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_USER
+              value: openwhale
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: tuxifyapi-secret
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              value: tuxify
+      imagePullSecrets:
+        - name: github-container-registry

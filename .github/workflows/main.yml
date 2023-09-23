@@ -6,146 +6,211 @@ env:
 on:
   push:
     branches:
-      - main
+      - feature/kubernetes-cd
 
 jobs:
-  build_api:
-    name: Build and push API image
+#  build_api:
+#    name: Build and push API image
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v4
+#      - name: Set up QEMU
+#        uses: docker/setup-qemu-action@v3
+#      - name: Set up Docker Buildx
+#        uses: docker/setup-buildx-action@v3
+#      - name: Login to GitHub Container Registry
+#        uses: docker/login-action@v3
+#        with:
+#          registry: ghcr.io
+#          username: ${{ github.repository_owner }}
+#          password: ${{ secrets.GITHUB_TOKEN }}
+#      - name: Build and push API image
+#        id: docker_build
+#        uses: docker/build-push-action@v5
+#        with:
+#          context: "{{defaultContext}}:backend"
+#          push: true
+#          tags: ghcr.io/tux-inc/tuxifyapi:latest
+#          cache-from: type=gha
+#          cache-to: type=gha,mode=max
+#
+#  build_frontend:
+#    name: Build and push frontend image
+#    needs: [ build_api ]
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v4
+#      - name: Set up QEMU
+#        uses: docker/setup-qemu-action@v3
+#      - name: Set up Docker Buildx
+#        uses: docker/setup-buildx-action@v3
+#      - name: Login to GitHub Container Registry
+#        uses: docker/login-action@v3
+#        with:
+#          registry: ghcr.io
+#          username: ${{ github.repository_owner }}
+#          password: ${{ secrets.GITHUB_TOKEN }}
+#      - name: Build and push Frontend image
+#        id: docker_build
+#        uses: docker/build-push-action@v5
+#        with:
+#          context: "{{defaultContext}}:frontend"
+#          push: true
+#          tags: ghcr.io/tux-inc/tuxify:latest
+#          cache-from: type=gha
+#          cache-to: type=gha,mode=max
+
+#  build_android:
+#    name: Build APK
+#    needs: [ build_api, build_frontend ]
+#    runs-on: ubuntu-latest
+#    defaults:
+#      run:
+#        working-directory: ./frontend
+#    steps:
+#      - name: Checkout source
+#        uses: actions/checkout@v4
+#
+#      - name: Setup java
+#        uses: actions/setup-java@v3
+#        with:
+#          distribution: "zulu"
+#          java-version: "17"
+#
+#      - name: Setup Node.js
+#        uses: actions/setup-node@v3
+#        with:
+#          node-version: 19.x
+#
+#      - name: Install dependencies
+#        run: npm i
+#
+#      - name: Create Build Folder
+#        run: npm run generate
+#
+#      - name: Add android folder if not present
+#        run: if [ ! -d "./android" ]; then npx cap add android; fi
+#
+#      - name: Capacitor copy
+#        run: npx cap copy
+#
+#      # TODO: Check for folder structure in README for generating splash screen
+#      - name: Generate icons and splash screen to android folder
+#        run: if [ -d "./resources" ]; then npm install @capacitor/assets --save-dev && npx capacitor-assets generate --android; fi
+#
+#      - name: Build app bundle
+#        run: cd android && ./gradlew bundle && ./gradlew assembleDebug
+#
+#      - name: Extract Android signing key from env
+#        run: |
+#          echo "${{ secrets.RELEASE_KEYSTORE }}" > android/release.jks.base64
+#          base64 -d android/release.jks.base64 > android/release.decrypted.jks
+#
+#      - name: Sign dev build
+#        run: jarsigner -keystore android/release.decrypted.jks -storepass "${{ secrets.RELEASE_KEYSTORE_PASSWORD }}" -signedjar ./android/app/build/outputs/bundle/release/app-release-signed.aab ./android/app/build/outputs/bundle/release/app-release.aab release
+#
+#      - name: Check folder content of android output
+#        run: ls ./android/app/build/outputs/bundle/release
+#
+#      - name: Set Tag
+#        id: current-datetime
+#        run: echo "CURRENT_DATETIME=$(date +'%Y-%m-%d-%H_%M_%S%z')" >> "$GITHUB_OUTPUT"
+#
+#      - name: Build Release
+#        shell: bash
+#        run: |
+#          hub release create ${{ steps.current-datetime.outputs.CURRENT_DATETIME }} \
+#          -m ${{ steps.current-datetime.outputs.CURRENT_DATETIME }} \
+#          -a ./android/app/build/outputs/bundle/release/app-release-signed.aab \
+#          -a ./android/app/build/outputs/apk/debug/app-debug.apk
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy_frontend_to_kubernetes:
+    name: Deploy Frontend to Kubernetes
+#    needs: [ build_api, build_frontend, build_android ]
     runs-on: ubuntu-latest
+    environment:
+      name: production
     steps:
-      - name: Checkout repository
+      - name: Set the Kubernetes context
+        uses: azure/k8s-set-context@v2
+        with:
+          method: service-account
+          k8s-url: https://kube.honixsystems.com
+          k8s-secret: ${{ secrets.KUBERNETES_SECRET }}
+
+      - name: Checkout source code
         uses: actions/checkout@v4
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build and push API image
-        id: docker_build
-        uses: docker/build-push-action@v5
-        with:
-          context: "{{defaultContext}}:backend"
-          push: true
-          tags: ghcr.io/tux-inc/tuxifyapi:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
 
-  build_frontend:
-    name: Build and push frontend image
-    needs: [ build_api ]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
+      - name: Deploy to the Kubernetes cluster
+        uses: azure/k8s-deploy@v1
         with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build and push Frontend image
-        id: docker_build
-        uses: docker/build-push-action@v5
-        with:
-          context: "{{defaultContext}}:frontend"
-          push: true
-          tags: ghcr.io/tux-inc/tuxify:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          namespace: production
+          manifests: |
+            kubernetes/frontend/deployment.yaml
+            kubernetes/frontend/service.yaml
+            kubernetes/frontend/ingress.yaml
+          images: |
+            ghcr.io/tux-inc/tuxify:latest
 
-  build_android:
-    name: Build APK
-    needs: [ build_api, build_frontend ]
+  deploy_backend_to_kubernetes:
+    name: Deploy Backend to Kubernetes
+#    needs: [ build_api, build_frontend, build_android, deploy_frontend_to_kubernetes ]
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./frontend
+    environment:
+      name: production
     steps:
-      - name: Checkout source
+      - name: Set the Kubernetes context
+        uses: azure/k8s-set-context@v2
+        with:
+          method: service-account
+          k8s-url: https://kube.honixsystems.com
+          k8s-secret: ${{ secrets.KUBERNETES_SECRET }}
+
+      - name: Create cluster secrets
+        uses: Azure/k8s-create-secret@v1
+        with:
+          namespace: production
+          secret-type: 'generic'
+          secret-name: tuxifyapi-secret
+          arguments:
+            --from-literal=JWT_SECRET=${{ secrets.JWT_SECRET }}
+            --from-literal=POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+
+      - name: Checkout source code
         uses: actions/checkout@v4
 
-      - name: Setup java
-        uses: actions/setup-java@v3
+      - name: Deploy to the Kubernetes cluster
+        uses: azure/k8s-deploy@v1
         with:
-          distribution: "zulu"
-          java-version: "17"
+          namespace: production
+          manifests: |
+            kubernetes/backend/deployment.yaml
+            kubernetes/backend/service.yaml
+            kubernetes/backend/ingress.yaml
+          images: |
+            ghcr.io/tux-inc/tuxifyapi:latest
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 19.x
-
-      - name: Install dependencies
-        run: npm i
-
-      - name: Create Build Folder
-        run: npm run generate
-
-      - name: Add android folder if not present
-        run: if [ ! -d "./android" ]; then npx cap add android; fi
-
-      - name: Capacitor copy
-        run: npx cap copy
-
-      # TODO: Check for folder structure in README for generating splash screen
-      - name: Generate icons and splash screen to android folder
-        run: if [ -d "./resources" ]; then npm install @capacitor/assets --save-dev && npx capacitor-assets generate --android; fi
-
-      - name: Build app bundle
-        run: cd android && ./gradlew bundle && ./gradlew assembleDebug
-
-      - name: Extract Android signing key from env
-        run: |
-          echo "${{ secrets.RELEASE_KEYSTORE }}" > android/release.jks.base64
-          base64 -d android/release.jks.base64 > android/release.decrypted.jks
-
-      - name: Sign dev build
-        run: jarsigner -keystore android/release.decrypted.jks -storepass "${{ secrets.RELEASE_KEYSTORE_PASSWORD }}" -signedjar ./android/app/build/outputs/bundle/release/app-release-signed.aab ./android/app/build/outputs/bundle/release/app-release.aab release
-
-      - name: Check folder content of android output
-        run: ls ./android/app/build/outputs/bundle/release
-
-      - name: Set Tag
-        id: current-datetime
-        run: echo "CURRENT_DATETIME=$(date +'%Y-%m-%d-%H_%M_%S%z')" >> "$GITHUB_OUTPUT"
-
-      - name: Build Release
-        shell: bash
-        run: |
-          hub release create ${{ steps.current-datetime.outputs.CURRENT_DATETIME }} \
-          -m ${{ steps.current-datetime.outputs.CURRENT_DATETIME }} \
-          -a ./android/app/build/outputs/bundle/release/app-release-signed.aab \
-          -a ./android/app/build/outputs/apk/debug/app-debug.apk
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-
-  mirror:
-    name: Mirror repository
-    needs: [ build_api, build_frontend, build_android ]
-    permissions:
-      contents: read
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    - name: Remove .github folder
-      run: rm -rf .github
-    - name: Mirror repository
-      uses: pixta-dev/repository-mirroring-action@v1
-      with:
-        target_repo_url:
-          ${{ env.MIRROR_URL }}
-        ssh_private_key:
-          ${{ secrets.GIT_SSH_PRIVATE_KEY }}
+#  mirror:
+#    name: Mirror repository
+#    needs: [ build_api, build_frontend, build_android, deploy_frontend_to_kubernetes, deploy_backend_to_kubernetes ]
+#    permissions:
+#      contents: read
+#    runs-on: ubuntu-latest
+#    steps:
+#    - name: Checkout repository
+#      uses: actions/checkout@v4
+#      with:
+#        fetch-depth: 0
+#    - name: Remove .github folder
+#      run: rm -rf .github
+#    - name: Mirror repository
+#      uses: pixta-dev/repository-mirroring-action@v1
+#      with:
+#        target_repo_url:
+#          ${{ env.MIRROR_URL }}
+#        ssh_private_key:
+#          ${{ secrets.GIT_SSH_PRIVATE_KEY }}
