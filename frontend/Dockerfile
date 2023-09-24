@@ -13,17 +13,17 @@ RUN npm install
 COPY . .
 
 # Build app
-RUN npm run build
+RUN npm run generate
 
 
 # Production stage
 FROM nginx:latest AS production-stage
 
 # Set working directory
-RUN mkdir /usr/src/app
+RUN mkdir /app
 
 # Copy build from build-stage
-COPY --from=build-stage /usr/src/app/.nuxt/dist /usr/src/app/
+COPY --from=build-stage /usr/src/app/dist /app/
 
 # Copy nginx config
 COPY nginx.conf /etc/nginx/nginx.conf
