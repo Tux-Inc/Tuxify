@@ -6,7 +6,7 @@ env:
 on:
   push:
     branches:
-      - main
+      - feature/kubernetes-cd
 
 jobs:
   build_api:
@@ -27,11 +27,13 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push API image
         id: docker_build
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v2
         with:
-          context: "{{defaultContext}}:backend"
+          context: "./backend"
           push: true
-          tags: ghcr.io/tux-inc/tuxifyapi:latest
+          tags: |
+            ghcr.io/tux-inc/tuxifyapi:latest
+            ghcr.io/tux-inc/tuxifyapi:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -54,11 +56,13 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push Frontend image
         id: docker_build
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v2
         with:
-          context: "{{defaultContext}}:frontend"
+          context: "./frontend"
           push: true
-          tags: ghcr.io/tux-inc/tuxify:latest
+          tags: |
+            ghcr.io/tux-inc/tuxify:latest
+            ghcr.io/tux-inc/tuxify:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -154,7 +158,7 @@ jobs:
             kubernetes/frontend/service.yaml
             kubernetes/frontend/ingress.yaml
           images: |
-            ghcr.io/tux-inc/tuxify:latest
+            ghcr.io/tux-inc/tuxify:${{ github.sha }}
 
   deploy_backend_to_kubernetes:
     name: Deploy Backend to Kubernetes
@@ -192,7 +196,7 @@ jobs:
             kubernetes/backend/service.yaml
             kubernetes/backend/ingress.yaml
           images: |
-            ghcr.io/tux-inc/tuxifyapi:latest
+            ghcr.io/tux-inc/tuxifyapi:${{ github.sha }}
 
   mirror:
     name: Mirror repository
