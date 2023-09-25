@@ -29,7 +29,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
-          context: "{{defaultContext}}:backend"
+          context: "./backend"
           push: true
           tags: |
             ghcr.io/tux-inc/tuxifyapi:latest
@@ -58,7 +58,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
-          context: "{{defaultContext}}:frontend"
+          context: "./frontend"
           push: true
           tags: |
             ghcr.io/tux-inc/tuxify:latest
