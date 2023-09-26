@@ -38,6 +38,12 @@ for (const locale of availableLocales.value) {
               </svg>
           </NuxtLink>
       </div>
+      <div class="flex flex-row gap-2 items-center">
+          <UButton to="/pricing" size="lg" color="gray" variant="ghost">Pricing</UButton>
+          <UButton to="/about-us" size="lg" color="gray" variant="ghost">About us</UButton>
+          <UButton to="https://github.com/tux-inc/Tuxify/releases" size="lg" color="gray" variant="ghost">Changelog</UButton>
+          <UButton to="https://github.com/tux-inc/Tuxify/wiki" size="lg" color="gray" variant="ghost">Documentation</UButton>
+      </div>
       <div class="flex gap-2 items-center">
             <ClientOnly>
                 <UButton
