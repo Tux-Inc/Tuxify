@@ -12,8 +12,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'light': '#e9f3ff',
-        'dark': '#15191D',
+        'base': {
+          'dark': '#111827',
+          'light': '#e9f3ff',
+        },
         'tint-dark': '#1B2329',
         'tint-light': '#F5F7FA',
         'primary': {
@@ -36,6 +38,9 @@ module.exports = {
             '700': '#6900cc',
             '800': '#5700b3',
         },
+      },
+      height: {
+        'header': '4rem',
       },
     },
   },

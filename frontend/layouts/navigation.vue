@@ -2,15 +2,9 @@
 </script>
 
 <template>
-    <div class="md:hidden">
-        <slot />
-        <MobileNavigator />
-    </div>
-    <div class="hidden md:block">
+    <div class="antialiased w-screen min-h-screen bg-base-light dark:bg-base-dark">
         <Navbar />
-        <div class="flex flex-row items-start justify-start gap-2 overflow-hidden">
-            <Sidebar />
-            <slot />
-        </div>
+        <slot />
+        <Footer />
     </div>
 </template>
