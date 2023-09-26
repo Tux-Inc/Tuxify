@@ -48,7 +48,7 @@ async function submit (event: FormSubmitEvent<any>) {
                 <UButton block size="lg" icon="i-heroicons-arrow-right-on-rectangle" type="submit" :loading="isLoading">
                     Sign in
                 </UButton>
-                <UButton block size="lg" to="/sign-up" color="primary" variant="ghost">Sign up</UButton>
+                <UButton block size="lg" to="/sign-up" color="gray" variant="solid">Sign up</UButton>
             </UForm>
 
             <template #footer>
