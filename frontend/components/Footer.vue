@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import {useI18n} from "vue-i18n";
+
+const i18n = useI18n()
 const currentYear = new Date().getFullYear()
 </script>
 
@@ -20,10 +23,10 @@ const currentYear = new Date().getFullYear()
                   <UButton icon="i-mdi-github" size="sm" to="https://github.com/tux-inc" color="gray" variant="ghost" />
               </div>
               <div class="mt-3 lg:mt-0 lg:order-2 flex items-center justify-center">
-                  <span class="text-sm text-gray-500 dark:text-gray-400">Published under the <a href="https://github.com/tux-inc" class="font-medium text-gray-900 dark:text-gray-100 hover:underline">MIT License</a></span>
+                  <span class="text-sm text-gray-500 dark:text-gray-400" v-html="i18n.t('landing.footer.publishedWith')" />
               </div>
               <div class="lg:flex-1 flex items-center justify-center lg:justify-start gap-x-1.5 lg:order-1">
-                  <span class="text-sm text-gray-500 dark:text-gray-400">Powered with <span class="text-red-500 dark:text-red-400">♥</span> by <a href="https://github.com/tux-inc" class="font-medium text-gray-900 dark:text-gray-100 hover:underline">Tux Inc.</a></span>
+                  <span class="text-sm text-gray-500 dark:text-gray-400" v-html="i18n.t('landing.footer.poweredBy')" />
               </div>
           </div>
       </footer>
