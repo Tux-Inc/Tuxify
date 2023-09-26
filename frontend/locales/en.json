@@ -1,6 +1,21 @@
 {
+  "locales": {
+    "en": "English",
+    "fr": "French",
+    "de": "German",
+    "zh": "Chinese"
+  },
   "auth": {
     "signIn": "Sign In",
     "signOut": "Sign Out"
+  },
+  "app": {
+    "sidebar": {
+      "newFlow": "New Flow",
+      "home": "Home",
+      "flows": "Flows",
+      "services": "Services",
+      "settings": "Settings"
+    }
   }
 }

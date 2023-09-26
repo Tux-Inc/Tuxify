@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {useColorMode} from "@vueuse/core";
+import {useI18n} from "vue-i18n";
 
 const colorMode = useColorMode();
 
@@ -11,6 +12,18 @@ const isDark = computed({
         colorMode.value = colorMode.value === 'dark' ? 'light' : 'dark'
     }
 })
+
+const i18n = useI18n();
+let availableLocales = computed(() => i18n.availableLocales);
+
+const localesItems = [];
+for (const locale of availableLocales.value) {
+    localesItems.push([{
+        label: i18n.t(`locales.${locale}`),
+        icon: 'i-heroicons-globe-alt',
+        click: () => i18n.locale.value = locale
+    }])
+}
 
 const items = [
     [{
@@ -32,7 +45,8 @@ const items = [
         icon: 'i-heroicons-signal'
     }], [{
         label: 'Sign out',
-        icon: 'i-heroicons-arrow-left-on-rectangle'
+        icon: 'i-heroicons-arrow-left-on-rectangle',
+        to: '/'
     }]
 ]
 
@@ -105,6 +119,14 @@ defineShortcuts({
                             aria-label="Theme"
                             @click="isDark = !isDark"
                     />
+                    <UDropdown class="ml-2.5" :items="localesItems" :ui="{ item: { disabled: 'cursor-text select-text' } }" :popper="{ placement: 'bottom-start' }">
+                        <UButton
+                            icon="i-heroicons-language"
+                            color="gray"
+                            variant="ghost"
+                            aria-label="Language"
+                        />
+                    </UDropdown>
                 </ClientOnly>
                 <UDropdown class="ml-2.5" :items="items" :ui="{ item: { disabled: 'cursor-text select-text' } }" :popper="{ placement: 'bottom-start' }">
                     <UAvatar src="https://avatars.githubusercontent.com/u/739984?v=4" />

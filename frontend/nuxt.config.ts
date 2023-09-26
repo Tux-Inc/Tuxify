@@ -2,6 +2,11 @@
 import {existsSync, readFileSync} from "node:fs";
 
 export default defineNuxtConfig({
+  build: {
+    transpile: [
+        'vue-flow-chart',
+    ],
+  },
   app: {
     pageTransition: { name: 'page', mode: 'out-in' },
     head: {
