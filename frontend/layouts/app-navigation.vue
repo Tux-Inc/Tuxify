@@ -11,7 +11,7 @@
             <AppNavbar />
             <div class="flex flex-row items-start justify-start">
                 <AppSidebar />
-                <div class="w-full h-full overflow-y-auto">
+                <div class="w-full h-full overflow-y-auto pt-2">
                     <slot />
                 </div>
             </div>
