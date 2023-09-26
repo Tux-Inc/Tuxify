@@ -47,7 +47,7 @@ const users = [
     { id: 'smarroufin', label: 'smarroufin', href: 'https://github.com/smarroufin', target: '_blank', avatar: { src: 'https://avatars.githubusercontent.com/u/7547335?v=4' } }
 ]
 const actions = [
-    { id: 'new-flow', label: 'Create a new flow', icon: 'i-heroicons-link', click: () => router.push('/app/flow/new'), shortcuts: ['⌘', 'N'] },
+    { id: 'new-flow', label: 'Create a new flow', icon: 'i-heroicons-link', click: () => router.push('/app/flows/new'), shortcuts: ['⌘', 'N'] },
     { id: 'new-team', label: 'Create a new team', icon: 'i-heroicons-user-group', click: () => toast.add({ title: 'New team added!' }), shortcuts: ['⌘', 'T'] },
     { id: 'report', label: 'Report a bug', icon: 'i-heroicons-bug-ant', click: () => toast.add({ title: 'Bug reported!' }), shortcuts: ['⌘', 'R'] },
 ]

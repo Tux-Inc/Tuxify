@@ -8,7 +8,7 @@ const menus = [
     {
         name: 'Flows',
         icon: 'bx bx-link',
-        path: '/app/flow',
+        path: '/app/flows',
     },
     {
         name: 'Components',
