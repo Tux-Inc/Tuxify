@@ -17,7 +17,9 @@ const validate = (state: any): FormError[] => {
     if (!state.password) errors.push({ path: 'password', message: 'Required' })
     return errors
 }
+const router = useRouter()
 async function submit (event: FormSubmitEvent<any>) {
+    router.push('/app')
 }
 </script>
 

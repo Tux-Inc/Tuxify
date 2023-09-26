@@ -1,6 +1,6 @@
 <script setup lang="ts">
 definePageMeta({
-    layout: 'navigation'
+    layout: 'app-navigation'
 })
 let loading = ref(false)
 function setLoading() {
