@@ -8,6 +8,10 @@ export default defineNuxtConfig({
       viewport: 'width=device-width, initial-scale=1, user-scalable=no',
     }
   },
+  modules: ['@nuxt/ui'],
+  ui : {
+    icons: ['heroicons', 'mdi'],
+  },
   css: [
     '~/assets/css/main.css',
     'boxicons/css/boxicons.min.css',

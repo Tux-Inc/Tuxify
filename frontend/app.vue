@@ -1,7 +1,4 @@
 <script setup lang="ts">
-definePageMeta({
-    layout: 'navigation',
-})
 </script>
 
 <style>
@@ -51,11 +48,10 @@ definePageMeta({
 
 <template>
   <NuxtLayout>
-    <NuxtLayout name="navigation">
-        <div class="md:rounded-lg flex flex-col min-h-[calc(100vh-80px)] max-h-[calc(100vh-80px)] md:max-h-[calc(100vh-85px)] md:min-h-[calc(100vh-85px)] overflow-y-auto w-full h-screen px-4 pb-4 pt-14 md:p-12 bg-light dark:bg-dark backdrop-blur-lg backdrop-filter bg-opacity-60 dark:bg-opacity-60">
-          <NuxtPage />
-        </div>
-    </NuxtLayout>
+      <main class="min-h-[calc(100vh-var(--header-height))] mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
+        <NuxtPage />
+      </main>
+      <UNotifications />
   </NuxtLayout>
 </template>
 
