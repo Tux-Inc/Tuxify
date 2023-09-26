@@ -9,7 +9,12 @@
         </div>
         <div class="hidden md:block">
             <AppNavbar />
-            <slot />
+            <div class="flex flex-row items-start justify-start">
+                <AppSidebar />
+                <div class="w-full h-full overflow-y-auto">
+                    <slot />
+                </div>
+            </div>
         </div>
     </div>
 </template>
