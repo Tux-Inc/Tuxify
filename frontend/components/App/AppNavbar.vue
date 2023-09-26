@@ -84,7 +84,7 @@ defineShortcuts({
 </script>
 
 <template>
-    <header class="sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800 bg-base-light/75 dark:bg-base-dark/75 dark:bg-opacity-60 backdrop-blur">
+    <header class="fixed w-full top-0 z-50 border-b border-gray-200 dark:border-gray-800 bg-base-light/75 dark:bg-base-dark/75 dark:bg-opacity-60 backdrop-blur">
         <div class="flex items-center justify-between gap-3 h-[--header-height] mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
             <div class="flex items-center justify-start gap-4">
                 <NuxtLink to="/app">

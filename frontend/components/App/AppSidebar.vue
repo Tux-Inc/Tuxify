@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <div class="sticky z-50 border-r border-gray-200 dark:border-gray-800 h-[calc(100vh-var(--header-height))]">
+  <div class="fixed w-[--sidebar-width] top-[--header-height] z-50 border-r border-gray-200 dark:border-gray-800 h-[calc(100vh-var(--header-height))] bg-base-light/75 dark:bg-base-dark/75 dark:bg-opacity-60 backdrop-blur">
     <UContainer class="flex flex-col items-start justify-between h-full py-2">
       <div class="flex flex-col items-start justify-start gap-2 w-full">
           <UButton to="/app/flows/new" size="lg" icon="i-heroicons-plus" color="primary" variant="solid">New Flow</UButton>
