@@ -42,10 +42,10 @@ async function submit (event: FormSubmitEvent<any>) {
                 class="flex flex-col gap-4"
             >
                 <UFormGroup label="Email" name="email">
-                    <UInput v-model="state.email" />
+                    <UInput v-model="state.email" placeholder="john.doe@example.com" />
                 </UFormGroup>
                 <UFormGroup label="Password" name="password">
-                    <UInput v-model="state.password" type="password" />
+                    <UInput v-model="state.password" type="password" placeholder="********" />
                 </UFormGroup>
                 <UButton block size="lg" icon="i-heroicons-arrow-right-on-rectangle" type="submit" :loading="isLoading">
                     Sign in
@@ -56,9 +56,9 @@ async function submit (event: FormSubmitEvent<any>) {
             <template #footer>
                 <div class="w-full flex flex-col gap-2 justify-center items-center">
                     <div class="w-full flex flex-col gap-2">
-                        <UButton block size="lg" icon="i-heroicons-google" color="white" variant="solid">Sign in with Google</UButton>
-                        <UButton block size="lg" icon="i-heroicons-github" color="white" variant="solid">Sign in with GitHub</UButton>
-                        <UButton block size="lg" icon="i-heroicons-slack" color="white" variant="solid">Sign in with Slack</UButton>
+                        <UButton block size="lg" icon="i-mdi-google" color="white" variant="solid">Sign in with Google</UButton>
+                        <UButton block size="lg" icon="i-mdi-github" color="white" variant="solid">Sign in with GitHub</UButton>
+                        <UButton block size="lg" icon="i-mdi-slack" color="white" variant="solid">Sign in with Slack</UButton>
                     </div>
                 </div>
             </template>

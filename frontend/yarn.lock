@@ -921,6 +921,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@iconify-json/mdi@npm:^1.1.54":
+  version: 1.1.54
+  resolution: "@iconify-json/mdi@npm:1.1.54"
+  dependencies:
+    "@iconify/types": "*"
+  checksum: e4e6dc65bdd93f80d5162e5cbe2133624baa575b605864cd8e3aebf050603de2e3faaebb83f5108e615b267ac216079c6762bfbc81a18dfe78d4e98033650e95
+  languageName: node
+  linkType: hard
+
 "@iconify/types@npm:*, @iconify/types@npm:^2.0.0":
   version: 2.0.0
   resolution: "@iconify/types@npm:2.0.0"
@@ -7169,6 +7178,7 @@ __metadata:
     "@capacitor/cli": ^5.4.0
     "@capacitor/core": ^5.4.0
     "@capacitor/ios": ^5.4.0
+    "@iconify-json/mdi": ^1.1.54
     "@nuxt/devtools": latest
     "@nuxt/ui": ^2.8.1
     "@vue-flow/background": ^1.2.0

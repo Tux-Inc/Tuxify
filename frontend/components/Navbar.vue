@@ -35,6 +35,52 @@ const items = [
         icon: 'i-heroicons-arrow-left-on-rectangle'
     }]
 ]
+
+const { metaSymbol } = useShortcuts()
+const router = useRouter()
+const toast = useToast()
+const commandPaletteRef = ref()
+const isCommandPaletteOpen = ref(false)
+const users = [
+    { id: 'benjamincanac', label: 'benjamincanac', href: 'https://github.com/benjamincanac', target: '_blank', avatar: { src: 'https://avatars.githubusercontent.com/u/739984?v=4' } },
+    { id: 'Atinux', label: 'Atinux', href: 'https://github.com/Atinux', target: '_blank', avatar: { src: 'https://avatars.githubusercontent.com/u/904724?v=4' } },
+    { id: 'smarroufin', label: 'smarroufin', href: 'https://github.com/smarroufin', target: '_blank', avatar: { src: 'https://avatars.githubusercontent.com/u/7547335?v=4' } }
+]
+const actions = [
+    { id: 'new-flow', label: 'Create a new flow', icon: 'i-heroicons-link', click: () => toast.add({ title: 'New flow added!' }), shortcuts: ['⌘', 'N'] },
+    { id: 'new-team', label: 'Create a new team', icon: 'i-heroicons-user-group', click: () => toast.add({ title: 'New team added!' }), shortcuts: ['⌘', 'T'] },
+    { id: 'report', label: 'Report a bug', icon: 'i-heroicons-bug-ant', click: () => toast.add({ title: 'Bug reported!' }), shortcuts: ['⌘', 'R'] },
+]
+const groups = computed(() =>
+    [commandPaletteRef.value?.query ? {
+        key: 'users',
+        commands: users
+    } : {
+        key: 'recent',
+        label: 'Recent searches',
+        commands: users.slice(0, 1)
+    }, {
+        key: 'actions',
+        commands: actions
+    }].filter(Boolean))
+function onSelect (option) {
+    if (option.click) {
+        option.click()
+    } else if (option.to) {
+        router.push(option.to)
+    } else if (option.href) {
+        window.open(option.href, '_blank')
+    }
+}
+
+defineShortcuts({
+    meta_k: {
+        usingInput: true,
+        handler: () => {
+            isCommandPaletteOpen.value = !isCommandPaletteOpen.value
+        }
+    }
+})
 </script>
 
 <template>
@@ -51,6 +97,8 @@ const items = [
       </div>
       <div class="flex gap-2 items-center">
         <div class="flex">
+            <UButton @click="isCommandPaletteOpen = true" color="gray" variant="ghost" aria-label="Command palette">Open palette<UKbd>{{metaSymbol}}</UKbd><UKbd>K</UKbd></UButton>
+                <UIcon name="i-heroicons-search-20-solid" />
             <ClientOnly>
                 <UButton
                     :icon="isDark ? 'i-heroicons-moon-20-solid' : 'i-heroicons-sun-20-solid'"
@@ -78,6 +126,17 @@ const items = [
                 <UIcon :name="item.icon" class="flex-shrink-0 h-4 w-4 text-gray-400 dark:text-gray-500 ms-auto" />
             </template>
           </UDropdown>
+          <UButton
+              icon="i-heroicons-arrow-right-on-rectangle"
+              to="/sign-in"
+              color="primary"
+              variant="solid"
+              aria-label="Sign in"
+              label="Sign in"
+          />
+          <UModal v-model="isCommandPaletteOpen">
+            <UCommandPalette ref="commandPaletteRef" :groups="groups" @update:model-value="onSelect" />
+          </UModal>
       </div>
     </div>
   </header>

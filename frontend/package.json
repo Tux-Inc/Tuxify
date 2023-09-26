@@ -23,6 +23,7 @@
     "@capacitor/cli": "^5.4.0",
     "@capacitor/core": "^5.4.0",
     "@capacitor/ios": "^5.4.0",
+    "@iconify-json/mdi": "^1.1.54",
     "@nuxt/ui": "^2.8.1",
     "@vue-flow/background": "^1.2.0",
     "@vue-flow/core": "^1.22.3",
