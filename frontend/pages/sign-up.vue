@@ -7,17 +7,31 @@ import { ref } from 'vue'
 import type { FormError, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types'
 const state = ref({
     email: undefined,
-    password: undefined
+    confirmEmail: undefined,
+    firstName: undefined,
+    lastName: undefined,
+    password: undefined,
+    confirmPassword: undefined,
 })
 
 const isLoading = ref(false);
 const validate = (state: any): FormError[] => {
     const errors = []
     if (!state.email) errors.push({ path: 'email', message: 'Required' })
+    if (!state.confirmEmail) errors.push({ path: 'confirmEmail', message: 'Required' })
+    if (!state.firstName) errors.push({ path: 'firstName', message: 'Required' })
+    if (!state.lastName) errors.push({ path: 'lastName', message: 'Required' })
     if (!state.password) errors.push({ path: 'password', message: 'Required' })
+    if (!state.confirmPassword) errors.push({ path: 'confirmPassword', message: 'Required' })
     return errors
 }
+
+const toast = useToast()
+const router = useRouter()
 async function submit (event: FormSubmitEvent<any>) {
+    isLoading.value = true
+    router.push('/sign-in')
+    toast.add({ title: 'Confirm Email', icon: 'i-heroicons-envelope', color: 'primary', description: `An email has been sent to ${event.data.email} to confirm your email address.`, timeout: 10000 })
 }
 </script>
 
@@ -32,33 +46,34 @@ async function submit (event: FormSubmitEvent<any>) {
         </NuxtLink>
         <UCard class=" w-full sm:w-1/2 md:w-1/3">
             <UForm
-                :validate="validate"
-                :state="state"
-                @submit="submit"
-                class="flex flex-col gap-4"
+                    :validate="validate"
+                    :state="state"
+                    @submit="submit"
+                    class="flex flex-col gap-4"
             >
                 <UFormGroup label="Email" name="email">
                     <UInput v-model="state.email" placeholder="john.doe@example.com" />
                 </UFormGroup>
+                <UFormGroup label="Confirm email" name="confirmEmail">
+                    <UInput v-model="state.confirmEmail" placeholder="john.doe@example.com" />
+                </UFormGroup>
+                <UFormGroup label="Name" name="firstName">
+                    <UInput v-model="state.firstName" placeholder="John" />
+                </UFormGroup>
+                <UFormGroup label="Last name" name="lastName">
+                    <UInput v-model="state.lastName" placeholder="Doe" />
+                </UFormGroup>
                 <UFormGroup label="Password" name="password">
                     <UInput v-model="state.password" type="password" placeholder="********" />
                 </UFormGroup>
-                <UButton block size="lg" icon="i-heroicons-arrow-right-on-rectangle" type="submit" :loading="isLoading">
-                    Sign in
+                <UFormGroup label="Confirm password" name="confirmPassword">
+                    <UInput v-model="state.confirmPassword" type="password" placeholder="********" />
+                </UFormGroup>
+                <UButton block size="lg" trailing-icon="i-heroicons-arrow-right" type="submit" :loading="isLoading">
+                    Next
                 </UButton>
-                <UButton block size="lg" to="/sign-up" color="primary" variant="ghost">Sign up</UButton>
+                <UButton block size="lg" icon="i-heroicons-arrow-left" to="/sign-in" color="primary" variant="ghost">Back</UButton>
             </UForm>
-
-            <template #footer>
-                <div class="w-full flex flex-col gap-2 justify-center items-center">
-                    <div class="w-full flex flex-col gap-2">
-                        <UButton block size="lg" icon="i-mdi-google" color="white" variant="solid">Sign in with Google</UButton>
-                        <UButton block size="lg" icon="i-mdi-github" color="white" variant="solid">Sign in with GitHub</UButton>
-                        <UButton block size="lg" icon="i-mdi-slack" color="white" variant="solid">Sign in with Slack</UButton>
-                    </div>
-                </div>
-            </template>
-
         </UCard>
     </div>
 </template>
