@@ -1,3 +1,15 @@
+<script setup lang="ts">
+definePageMeta({
+    layout: 'navigation',
+})
+let isLoading = ref(false)
+function signOut() {
+    isLoading.value = true
+    setTimeout(() => {
+        isLoading.value = false
+    }, 1000)
+}
+</script>
 <template>
     <div>
         <div class="flex flex-wrap items-center justify-between gap-4">
@@ -13,18 +25,8 @@
                 </div>
             </div>
             <div>
-                <Button type="danger" text="Sign out" icon="bx bx-log-out" :onClick="signOut" :state="isLoading ? 'loading' : 'idle'"></Button>
+                <UButton icon="i-heroicons-arrow-left-on-rectangle" color="red" variant="solid" @click="signOut" :loading="isLoading">Sign out</UButton>
             </div>
         </div>
     </div>
 </template>
-
-<script setup lang="ts">
-let isLoading = ref(false)
-function signOut() {
-    isLoading.value = true
-    setTimeout(() => {
-        isLoading.value = false
-    }, 1000)
-}
-</script>
