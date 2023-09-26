@@ -4,5 +4,6 @@
 
 :root {
     --header-height: 4rem;
+    --sidebar-width: 12rem;
     --mobile-menu-height: 5.5rem;
 }

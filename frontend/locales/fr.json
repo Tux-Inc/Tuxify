@@ -1,0 +1,21 @@
+{
+  "locales": {
+    "en": "Anglais",
+    "fr": "Français",
+    "de": "Allemand",
+    "zh": "Chinois"
+  },
+  "auth": {
+    "signIn": "Se connecter",
+    "signOut": "Créer un compte"
+  },
+  "app": {
+    "sidebar": {
+      "newFlow": "Nouveau Flow",
+      "home": "Accueil",
+      "flows": "Flows",
+      "services": "Services",
+      "settings": "Paramètres"
+    }
+  }
+}
