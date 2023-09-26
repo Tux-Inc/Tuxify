@@ -5,10 +5,40 @@
     "de": "Allemand",
     "zh": "Chinois"
   },
+
   "auth": {
     "signIn": "Se connecter",
-    "signOut": "Créer un compte"
+    "signOut": "Créer un compte",
+    "button": {
+      "signIn": "Connexion",
+      "signUp": "Créer un compte",
+      "forgotPassword": "Mot de passe oublié",
+      "resetPassword": "Réinitialiser le mot de passe",
+      "back": "Retour"
+    }
   },
+
+  "landing": {
+    "navbar": {
+      "pricing": "Tarification",
+      "aboutUs": "A propos",
+      "changelog": "Changelog",
+      "documentation": "Documentation"
+    },
+    "footer": {
+      "poweredBy": "Propulsé par <span class=\"text-red-500 dark:text-red-400\">♥</span> by <a href=\"https://github.com/tux-inc\" class=\"font-medium text-gray-900 dark:text-gray-100 hover:underline\">Tux Inc.</a>",
+      "publishedWith": "Publié sous licence <a href=\"https://github.com/tux-inc\" class=\"font-medium text-gray-900 dark:text-gray-100 hover:underline\">MIT License</a>"
+    },
+    "home": {
+      "hero": {
+        "title": "Décuplez votre <span class=\"text-primary\">productivité</span> avec les automatisations",
+        "description": "Tuxify est un outil d'automatisation qui vous permet de connecter vos applications et services préférés ensemble, pour automatiser des tâches répétitives et gagner du temps.",
+        "getStarted": "Commencer",
+        "viewOnGitHub": "Voir sur Github"
+      }
+    }
+  },
+
   "app": {
     "sidebar": {
       "newFlow": "Nouveau Flow",

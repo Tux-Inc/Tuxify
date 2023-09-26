@@ -5,10 +5,40 @@
     "de": "German",
     "zh": "Chinese"
   },
+
   "auth": {
     "signIn": "Sign In",
-    "signOut": "Sign Out"
+    "signOut": "Sign Out",
+    "button": {
+      "signIn": "Sign In",
+      "signUp": "Sign Up",
+      "forgotPassword": "Forgot Password",
+      "resetPassword": "Reset Password",
+      "back": "Back"
+    }
   },
+
+  "landing": {
+    "navbar": {
+      "pricing": "Pricing",
+      "aboutUs": "About us",
+      "changelog": "Changelog",
+      "documentation": "Documentation"
+    },
+    "footer": {
+      "poweredBy": "Powered with <span class=\"text-red-500 dark:text-red-400\">♥</span> by <a href=\"https://github.com/tux-inc\" class=\"font-medium text-gray-900 dark:text-gray-100 hover:underline\">Tux Inc.</a>",
+      "publishedWith": "Published under the <a href=\"https://github.com/tux-inc\" class=\"font-medium text-gray-900 dark:text-gray-100 hover:underline\">MIT License</a>"
+    },
+    "home": {
+      "hero": {
+        "title": "Get more than an <span class=\"text-primary\">automation</span> tool",
+        "description": "Tuxify is a platform that helps you to automate your business processes and workflows, so you can focus on what really matters.",
+        "getStarted": "Get Started",
+        "viewOnGitHub": "View on Github"
+      }
+    }
+  },
+
   "app": {
     "sidebar": {
       "newFlow": "New Flow",
