@@ -10,6 +10,7 @@
         <div class="hidden md:block">
             <Navbar />
             <slot />
+            <Footer />
         </div>
     </div>
 </template>
