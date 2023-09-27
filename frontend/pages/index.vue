@@ -10,9 +10,7 @@ const i18n = useI18n()
 
 <template>
     <div>
-        <div class="py-24 sm:py-32 md:py-40 mb-[calc(var(--header-height)*2)]">
-            <img src="/hero.webp" alt="hero" class="dark:hidden inset-0 w-screen h-[20rem] left-0 overflow-hidden absolute object-fit"/>
-            <img src="/hero-dark.webp" alt="hero" class="hidden dark:block inset-0 w-screen h-[20rem] left-0 overflow-hidden absolute object-fit"/>
+        <div class="relative py-24 sm:py-32 md:py-40 mb-[calc(var(--header-height)*2)]">
             <div class="mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
                 <div class="relative z-[1] text-center">
                     <h1 class="text-4xl font-extrabold text-dark dark:text-light sm:text-5xl md:text-6xl" v-html="i18n.t('landing.home.hero.title')" />
