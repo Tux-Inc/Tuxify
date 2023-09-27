@@ -13,7 +13,9 @@ export default defineNuxtConfig({
       viewport: 'width=device-width, initial-scale=1, user-scalable=no',
     }
   },
-  modules: ['@nuxt/ui'],
+  modules: [
+      '@nuxt/ui',
+  ],
   ui : {
     icons: ['heroicons', 'mdi'],
   },

@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import {useI18n} from "vue-i18n";
+
 definePageMeta({
     layout: 'default',
 })
+
+const i18n = useI18n();
 
 import { ref } from 'vue'
 import type { FormError, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types'
@@ -51,28 +55,26 @@ async function submit (event: FormSubmitEvent<any>) {
                     @submit="submit"
                     class="flex flex-col gap-4"
             >
-                <UFormGroup label="Email" name="email">
+                <UFormGroup :label="i18n.t('auth.form.email')" name="email">
                     <UInput v-model="state.email" placeholder="john.doe@example.com" />
                 </UFormGroup>
-                <UFormGroup label="Confirm email" name="confirmEmail">
+                <UFormGroup :label="i18n.t('auth.form.confirmEmail')" name="confirmEmail">
                     <UInput v-model="state.confirmEmail" placeholder="john.doe@example.com" />
                 </UFormGroup>
-                <UFormGroup label="Name" name="firstName">
+                <UFormGroup :label="i18n.t('auth.form.firstName')" name="firstName">
                     <UInput v-model="state.firstName" placeholder="John" />
                 </UFormGroup>
-                <UFormGroup label="Last name" name="lastName">
+                <UFormGroup :label="i18n.t('auth.form.lastName')" name="lastName">
                     <UInput v-model="state.lastName" placeholder="Doe" />
                 </UFormGroup>
-                <UFormGroup label="Password" name="password">
+                <UFormGroup :label="i18n.t('auth.form.password')" name="password">
                     <UInput v-model="state.password" type="password" placeholder="********" />
                 </UFormGroup>
-                <UFormGroup label="Confirm password" name="confirmPassword">
+                <UFormGroup :label="i18n.t('auth.form.confirmPassword')" name="confirmPassword">
                     <UInput v-model="state.confirmPassword" type="password" placeholder="********" />
                 </UFormGroup>
-                <UButton block size="lg" trailing-icon="i-heroicons-arrow-right" type="submit" :loading="isLoading">
-                    Next
-                </UButton>
-                <UButton block size="lg" icon="i-heroicons-arrow-left" to="/sign-in" color="primary" variant="ghost">Back</UButton>
+                <UButton :label="i18n.t('auth.button.next')" block size="lg" trailing-icon="i-heroicons-arrow-right" type="submit" :loading="isLoading" />
+                <UButton :label="i18n.t('auth.button.back')" block size="lg" icon="i-heroicons-arrow-left" to="/sign-in" color="primary" variant="ghost" />
             </UForm>
         </UCard>
     </div>

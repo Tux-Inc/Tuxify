@@ -5,10 +5,114 @@
     "de": "Allemand",
     "zh": "Chinois"
   },
+
   "auth": {
     "signIn": "Se connecter",
-    "signOut": "Créer un compte"
+    "signOut": "Créer un compte",
+    "button": {
+      "signIn": "Connexion",
+      "signUp": "Créer un compte",
+      "forgotPassword": "Mot de passe oublié",
+      "resetPassword": "Réinitialiser le mot de passe",
+      "next": "Suivant",
+      "back": "Retour"
+    },
+    "form": {
+      "email": "Email",
+      "confirmEmail": "Confirmation de l'email",
+      "password": "Mot de passe",
+      "confirmPassword": "Confirmation du mot de passe",
+      "firstName": "Prénom",
+      "lastName": "Nom"
+    },
+    "sso": {
+      "google": "Se connecter avec Google",
+      "github": "Se connecter avec GitHub",
+      "slack": "Se connecter avec Slack"
+    }
   },
+
+  "landing": {
+    "navbar": {
+      "pricing": "Tarification",
+      "aboutUs": "A propos",
+      "changelog": "Changelog",
+      "documentation": "Documentation"
+    },
+    "footer": {
+      "poweredBy": "Propulsé par <span class=\"text-red-500 dark:text-red-400\">♥</span> by <a href=\"https://github.com/tux-inc\" class=\"font-medium text-gray-900 dark:text-gray-100 hover:underline\">Tux Inc.</a>",
+      "publishedWith": "Publié sous licence <a href=\"https://github.com/tux-inc\" class=\"font-medium text-gray-900 dark:text-gray-100 hover:underline\">MIT License</a>"
+    },
+    "home": {
+      "hero": {
+        "title": "Décuplez votre <span class=\"text-primary\">productivité</span> avec les automatisations",
+        "description": "Tuxify est un outil d'automatisation qui vous permet de connecter vos applications et services préférés ensemble, pour automatiser des tâches répétitives et gagner du temps.",
+        "getStarted": "Commencer",
+        "viewOnGitHub": "Voir sur Github"
+      },
+      "features": {
+        "title": "Le monde repose sur les automatisations, devenez en <span class=\"text-primary\">l'initiateur</span>",
+        "ai": {
+          "title": "IA",
+          "description": "Tuxify utilise l'IA pour vous aider à créer des Flows plus facilement."
+        },
+        "graphFlow": {
+          "title": "Flows graphiques",
+          "description": "Tuxify utilise un éditeur graphique pour vous permettre de créer des Flows visuellement."
+        },
+        "services": {
+          "title": "Tous vos services",
+          "description": "Tuxify vous permet de connecter tous vos services préférés ensemble, oui, tous."
+        }
+      }
+    },
+    "pricing": {
+      "hero": {
+        "title": "Des prix simples, sans <span class=\"text-primary\">surprises</span>",
+        "description": "Nous vous proposons des prix simples et transparents, sans frais cachés. Vous pouvez commencer gratuitement et passer à un plan payant quand vous le souhaitez.",
+        "free": {
+          "title": "Gratuit",
+          "description": "Pour de petits projets et utilisation personnelle",
+          "price": "0",
+          "features": [
+            "Services illimités",
+            "Intégrations illimitées",
+            "10 Flows",
+            "1 Utilisateur"
+          ],
+          "button": "Commencer gratuitement"
+        },
+        "pro": {
+          "title": "Pro",
+          "description": "Pour les projets plus importants et les équipes",
+          "price": "9",
+          "features": [
+            "Services illimités",
+            "Intégrations illimitées",
+            "200 Flows",
+            "5 Utilisateurs",
+            "1 Organisation"
+          ],
+          "button": "Commencer avec 14 jours gratuits"
+        },
+        "enterprise": {
+          "title": "Entreprise",
+          "description": "Pour les grandes entreprises et les organisations",
+          "price": "99",
+          "features": [
+            "Services illimités",
+            "Intégrations illimitées",
+            "Flows illimités",
+            "Utilisateurs illimités",
+            "Organisations illimitées",
+            "Bien plus encore..."
+          ],
+          "button": "Nous contacter"
+        }
+      }
+    }
+  },
+
   "app": {
     "sidebar": {
       "newFlow": "Nouveau Flow",

@@ -7,7 +7,108 @@
   },
   "auth": {
     "signIn": "Sign In",
-    "signOut": "Sign Out"
+    "signOut": "Sign Out",
+    "button": {
+      "signIn": "Sign In",
+      "signUp": "Sign up",
+      "forgotPassword": "Forgot Password",
+      "resetPassword": "Reset Password",
+      "next": "Next",
+      "back": "Back"
+    },
+    "form": {
+      "email": "Email",
+      "confirmEmail": "Confirm Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "firstName": "First Name",
+      "lastName": "Last Name"
+    },
+    "sso": {
+      "google": "Sign in with Google",
+      "github": "Sign in with GitHub",
+      "slack": "Sign in with Slack"
+    }
+  },
+  "landing": {
+    "navbar": {
+      "pricing": "Pricing",
+      "aboutUs": "About us",
+      "changelog": "Changelog",
+      "documentation": "Documentation"
+    },
+    "footer": {
+      "poweredBy": "Powered with <span class=\"text-red-500 dark:text-red-400\">♥</span> by <a href=\"https://github.com/tux-inc\" class=\"font-medium text-gray-900 dark:text-gray-100 hover:underline\">Tux Inc.</a>",
+      "publishedWith": "Published under the <a href=\"https://github.com/tux-inc\" class=\"font-medium text-gray-900 dark:text-gray-100 hover:underline\">MIT License</a>"
+    },
+    "home": {
+      "hero": {
+        "title": "Get more than an <span class=\"text-primary\">automation</span> tool",
+        "description": "Tuxify is a platform that helps you to automate your business processes and workflows, so you can focus on what really matters.",
+        "getStarted": "Get Started",
+        "viewOnGitHub": "View on Github"
+      },
+      "features": {
+        "title": "Everything you need to automate your business processes and workflows <span class=\"text-primary\">in one place</span>",
+        "ai": {
+          "title": "AI-powered workflows",
+          "description": "Tuxify uses AI to help you automate your workflows. It learns from your data and suggests new ways to automate your business processes."
+        },
+        "graphFlow": {
+          "title": "Graph-based flows",
+          "description": "Tuxify uses a graph-based approach to automate your workflows. It's easy to use and allows you to create complex workflows."
+        },
+        "services": {
+          "title": "All your services",
+          "description": "Tuxify allows you to connect to an unlimited number of services. You can connect to any service that has an API."
+        }
+      }
+    },
+    "pricing": {
+      "hero": {
+        "title": "Simple pricing, no <span class=\"text-primary\">hidden fees</span>",
+        "description": "We offer a simple pricing model, with no hidden fees. You can start for free and upgrade as you grow.",
+        "free": {
+          "title": "Free",
+          "description": "For small projects and personal use",
+          "price": "0",
+          "features": [
+            "Unlimited Services",
+            "Unlimited Integrations",
+            "10 Flows",
+            "1 User"
+          ],
+          "button": "Start for free"
+        },
+        "pro": {
+          "title": "Pro",
+          "description": "For small businesses and startups",
+          "price": "9",
+          "features": [
+            "Unlimited Services",
+            "Unlimited Integrations",
+            "200 Flows",
+            "5 Users",
+            "1 Team"
+          ],
+          "button": "Free 14-day trial"
+        },
+        "enterprise": {
+          "title": "Enterprise",
+          "description": "For large businesses and enterprises",
+          "price": "99",
+          "features": [
+            "Unlimited Services",
+            "Unlimited Integrations",
+            "Unlimited Flows",
+            "Unlimited Users",
+            "Unlimited Teams",
+            "many more..."
+          ],
+          "button": "Contact us"
+        }
+      }
+    }
   },
   "app": {
     "sidebar": {

@@ -36,10 +36,14 @@ const items = [
         to: '/app/settings'
     }], [{
         label: 'Documentation',
-        icon: 'i-heroicons-book-open'
+        icon: 'i-heroicons-book-open',
+        to: 'https://github.com/tux-inc/Tuxify/wiki',
+        target: '_blank'
     }, {
         label: 'Changelog',
-        icon: 'i-heroicons-megaphone'
+        icon: 'i-heroicons-megaphone',
+        to: 'https://github.com/tux-inc/Tuxify/releases',
+        target: '_blank'
     }, {
         label: 'Status',
         icon: 'i-heroicons-signal'
