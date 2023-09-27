@@ -2,7 +2,7 @@
 </script>
 
 <template>
-    <div class="antialiased w-screen min-h-screen bg-base-light dark:bg-base-dark">
+    <div class="antialiased min-h-screen bg-base-light dark:bg-base-dark">
         <div class="md:hidden">
             <slot />
             <MobileNavigator />
