@@ -21,29 +21,6 @@
 .fade-leave-to {
     opacity: 0;
 }
-
-::-webkit-scrollbar {
-    width: 7px;
-    border-radius: 10px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: #04070A;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-    background: #0085BD;
-}
-::-webkit-scrollbar {
-    display: none;
-}
 </style>
 
 <template>
