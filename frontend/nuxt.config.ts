@@ -2,13 +2,20 @@
 import {existsSync, readFileSync} from "node:fs";
 
 export default defineNuxtConfig({
+  build: {
+    transpile: [
+        'vue-flow-chart',
+    ],
+  },
   app: {
     pageTransition: { name: 'page', mode: 'out-in' },
     head: {
       viewport: 'width=device-width, initial-scale=1, user-scalable=no',
     }
   },
-  modules: ['@nuxt/ui'],
+  modules: [
+      '@nuxt/ui',
+  ],
   ui : {
     icons: ['heroicons', 'mdi'],
   },

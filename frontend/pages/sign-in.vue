@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import {useI18n} from "vue-i18n";
+
 definePageMeta({
     layout: 'default',
 })
+
+const i18n = useI18n();
 
 import { ref } from 'vue'
 import type { FormError, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types'
@@ -39,24 +43,22 @@ async function submit (event: FormSubmitEvent<any>) {
                 @submit="submit"
                 class="flex flex-col gap-4"
             >
-                <UFormGroup label="Email" name="email">
+                <UFormGroup :label="i18n.t('auth.form.email')" name="email">
                     <UInput v-model="state.email" placeholder="john.doe@example.com" />
                 </UFormGroup>
-                <UFormGroup label="Password" name="password">
+                <UFormGroup :label="i18n.t('auth.form.password')" name="password">
                     <UInput v-model="state.password" type="password" placeholder="********" />
                 </UFormGroup>
-                <UButton block size="lg" icon="i-heroicons-arrow-right-on-rectangle" type="submit" :loading="isLoading">
-                    Sign in
-                </UButton>
-                <UButton block size="lg" to="/sign-up" color="gray" variant="solid">Sign up</UButton>
+                <UButton :label="i18n.t('auth.button.signIn')" block size="lg" icon="i-heroicons-arrow-right-on-rectangle" type="submit" :loading="isLoading" />
+                <UButton :label="i18n.t('auth.button.signUp')" block size="lg" to="/sign-up" color="gray" variant="solid" />
             </UForm>
 
             <template #footer>
                 <div class="w-full flex flex-col gap-2 justify-center items-center">
                     <div class="w-full flex flex-col gap-2">
-                        <UButton block size="lg" icon="i-mdi-google" color="white" variant="solid">Sign in with Google</UButton>
-                        <UButton block size="lg" icon="i-mdi-github" color="white" variant="solid">Sign in with GitHub</UButton>
-                        <UButton block size="lg" icon="i-mdi-slack" color="white" variant="solid">Sign in with Slack</UButton>
+                        <UButton :label="i18n.t('auth.sso.google')" block size="lg" icon="i-mdi-google" color="white" variant="solid" />
+                        <UButton :label="i18n.t('auth.sso.github')" block size="lg" icon="i-mdi-github" color="white" variant="solid" />
+                        <UButton :label="i18n.t('auth.sso.slack')" block size="lg" icon="i-mdi-slack" color="white" variant="solid" />
                     </div>
                 </div>
             </template>
