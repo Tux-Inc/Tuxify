@@ -14,7 +14,21 @@
       "signUp": "Créer un compte",
       "forgotPassword": "Mot de passe oublié",
       "resetPassword": "Réinitialiser le mot de passe",
+      "next": "Suivant",
       "back": "Retour"
+    },
+    "form": {
+      "email": "Email",
+      "confirmEmail": "Confirmation de l'email",
+      "password": "Mot de passe",
+      "confirmPassword": "Confirmation du mot de passe",
+      "firstName": "Prénom",
+      "lastName": "Nom"
+    },
+    "sso": {
+      "google": "Se connecter avec Google",
+      "github": "Se connecter avec GitHub",
+      "slack": "Se connecter avec Slack"
     }
   },
 

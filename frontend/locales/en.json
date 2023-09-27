@@ -11,10 +11,24 @@
     "signOut": "Sign Out",
     "button": {
       "signIn": "Sign In",
-      "signUp": "Sign Up",
+      "signUp": "Sign up",
       "forgotPassword": "Forgot Password",
       "resetPassword": "Reset Password",
+      "next": "Next",
       "back": "Back"
+    },
+    "form": {
+      "email": "Email",
+      "confirmEmail": "Confirm Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "firstName": "First Name",
+      "lastName": "Last Name"
+    },
+    "sso": {
+      "google": "Sign in with Google",
+      "github": "Sign in with GitHub",
+      "slack": "Sign in with Slack"
     }
   },
 
