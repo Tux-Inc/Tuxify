@@ -26,9 +26,48 @@ const i18n = useI18n()
         </div>
         <div class="py-24 sm:py-32">
             <UContainer>
-                <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl lg:text-5xl text-center">
-                    Everything you need to automate your business processes and workflows <span class="text-primary">in one place</span>
-                </h2>
+                <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl lg:text-5xl text-center" v-html="i18n.t('landing.home.features.title')" />
+                <div class="flex flex-raw gap-4 flex-wrap lg:flex-nowrap justify-center items-center mt-8">
+                    <UCard class="hover:bg-gray-50 dark:hover:bg-gray-800 hover:outline-primary hover:outline transition duration-150 ease-in-out">
+                        <div class="flex flex-row gap-4 flex-nowrap items-center justify-start">
+                            <img class="h-24" alt="ai" src="/landing/ai.png" />
+                            <div>
+                                <span class="text-lg font-bold tracking-tight text-gray-900 dark:text-white sm:text-xl lg:text-2xl text-center">
+                                    {{ i18n.t('landing.home.features.ai.title') }}
+                                </span>
+                                <p class="text-gray-600 dark:text-gray-300 text-left whitespace-wrap">
+                                    {{ i18n.t('landing.home.features.ai.description') }}
+                                </p>
+                            </div>
+                        </div>
+                    </UCard>
+                    <UCard class="hover:bg-gray-50 dark:hover:bg-gray-800 hover:outline-blue-300 hover:outline transition duration-150 ease-in-out">
+                        <div class="flex flex-row gap-4 flex-nowrap items-center justify-start">
+                            <img class="h-24" alt="graph" src="/landing/graph.png" />
+                            <div>
+                                <span class="text-lg font-bold tracking-tight text-gray-900 dark:text-white sm:text-xl lg:text-2xl text-center">
+                                    {{ i18n.t('landing.home.features.graphFlow.title') }}
+                                </span>
+                                <p class="text-gray-600 dark:text-gray-300 text-left whitespace-wrap">
+                                    {{ i18n.t('landing.home.features.graphFlow.description') }}
+                                </p>
+                            </div>
+                        </div>
+                    </UCard>
+                    <UCard class="hover:bg-gray-50 dark:hover:bg-gray-800 hover:outline-green-300 hover:outline transition duration-150 ease-in-out">
+                        <div class="flex flex-row gap-4 flex-nowrap items-center justify-start">
+                            <img class="h-24" alt="graph" src="/landing/services.png" />
+                            <div>
+                                <span class="text-lg font-bold tracking-tight text-gray-900 dark:text-white sm:text-xl lg:text-2xl text-center">
+                                    {{ i18n.t('landing.home.features.services.title') }}
+                                </span>
+                                <p class="text-gray-600 dark:text-gray-300 text-left whitespace-wrap">
+                                    {{ i18n.t('landing.home.features.services.description') }}
+                                </p>
+                            </div>
+                        </div>
+                    </UCard>
+                </div>
             </UContainer>
         </div>
     </div>

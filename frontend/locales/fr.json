@@ -49,6 +49,21 @@
         "description": "Tuxify est un outil d'automatisation qui vous permet de connecter vos applications et services préférés ensemble, pour automatiser des tâches répétitives et gagner du temps.",
         "getStarted": "Commencer",
         "viewOnGitHub": "Voir sur Github"
+      },
+      "features": {
+        "title": "Le monde repose sur les automatisations, devenez en <span class=\"text-primary\">l'initiateur</span>",
+        "ai": {
+          "title": "IA",
+          "description": "Tuxify utilise l'IA pour vous aider à créer des Flows plus facilement."
+        },
+        "graphFlow": {
+          "title": "Flows graphiques",
+          "description": "Tuxify utilise un éditeur graphique pour vous permettre de créer des Flows visuellement."
+        },
+        "services": {
+          "title": "Tous vos services",
+          "description": "Tuxify vous permet de connecter tous vos services préférés ensemble, oui, tous."
+        }
       }
     },
     "pricing": {

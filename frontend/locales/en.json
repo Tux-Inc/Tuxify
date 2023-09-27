@@ -5,7 +5,6 @@
     "de": "German",
     "zh": "Chinese"
   },
-
   "auth": {
     "signIn": "Sign In",
     "signOut": "Sign Out",
@@ -31,7 +30,6 @@
       "slack": "Sign in with Slack"
     }
   },
-
   "landing": {
     "navbar": {
       "pricing": "Pricing",
@@ -49,6 +47,21 @@
         "description": "Tuxify is a platform that helps you to automate your business processes and workflows, so you can focus on what really matters.",
         "getStarted": "Get Started",
         "viewOnGitHub": "View on Github"
+      },
+      "features": {
+        "title": "Everything you need to automate your business processes and workflows <span class=\"text-primary\">in one place</span>",
+        "ai": {
+          "title": "AI-powered workflows",
+          "description": "Tuxify uses AI to help you automate your workflows. It learns from your data and suggests new ways to automate your business processes."
+        },
+        "graphFlow": {
+          "title": "Graph-based flows",
+          "description": "Tuxify uses a graph-based approach to automate your workflows. It's easy to use and allows you to create complex workflows."
+        },
+        "services": {
+          "title": "All your services",
+          "description": "Tuxify allows you to connect to an unlimited number of services. You can connect to any service that has an API."
+        }
       }
     },
     "pricing": {
@@ -97,7 +110,6 @@
       }
     }
   },
-
   "app": {
     "sidebar": {
       "newFlow": "New Flow",
