@@ -50,6 +50,51 @@
         "getStarted": "Commencer",
         "viewOnGitHub": "Voir sur Github"
       }
+    },
+    "pricing": {
+      "hero": {
+        "title": "Des prix simples, sans <span class=\"text-primary\">surprises</span>",
+        "description": "Nous vous proposons des prix simples et transparents, sans frais cachés. Vous pouvez commencer gratuitement et passer à un plan payant quand vous le souhaitez.",
+        "free": {
+          "title": "Gratuit",
+          "description": "Pour de petits projets et utilisation personnelle",
+          "price": "0",
+          "features": [
+            "Services illimités",
+            "Intégrations illimitées",
+            "10 Flows",
+            "1 Utilisateur"
+          ],
+          "button": "Commencer gratuitement"
+        },
+        "pro": {
+          "title": "Pro",
+          "description": "Pour les projets plus importants et les équipes",
+          "price": "9",
+          "features": [
+            "Services illimités",
+            "Intégrations illimitées",
+            "200 Flows",
+            "5 Utilisateurs",
+            "1 Organisation"
+          ],
+          "button": "Commencer avec 14 jours gratuits"
+        },
+        "enterprise": {
+          "title": "Entreprise",
+          "description": "Pour les grandes entreprises et les organisations",
+          "price": "99",
+          "features": [
+            "Services illimités",
+            "Intégrations illimitées",
+            "Flows illimités",
+            "Utilisateurs illimités",
+            "Organisations illimitées",
+            "Bien plus encore..."
+          ],
+          "button": "Nous contacter"
+        }
+      }
     }
   },
 

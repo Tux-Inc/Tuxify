@@ -50,6 +50,51 @@
         "getStarted": "Get Started",
         "viewOnGitHub": "View on Github"
       }
+    },
+    "pricing": {
+      "hero": {
+        "title": "Simple pricing, no <span class=\"text-primary\">hidden fees</span>",
+        "description": "We offer a simple pricing model, with no hidden fees. You can start for free and upgrade as you grow.",
+        "free": {
+          "title": "Free",
+          "description": "For small projects and personal use",
+          "price": "0",
+          "features": [
+            "Unlimited Services",
+            "Unlimited Integrations",
+            "10 Flows",
+            "1 User"
+          ],
+          "button": "Start for free"
+        },
+        "pro": {
+          "title": "Pro",
+          "description": "For small businesses and startups",
+          "price": "9",
+          "features": [
+            "Unlimited Services",
+            "Unlimited Integrations",
+            "200 Flows",
+            "5 Users",
+            "1 Team"
+          ],
+          "button": "Free 14-day trial"
+        },
+        "enterprise": {
+          "title": "Enterprise",
+          "description": "For large businesses and enterprises",
+          "price": "99",
+          "features": [
+            "Unlimited Services",
+            "Unlimited Integrations",
+            "Unlimited Flows",
+            "Unlimited Users",
+            "Unlimited Teams",
+            "many more..."
+          ],
+          "button": "Contact us"
+        }
+      }
     }
   },
 
