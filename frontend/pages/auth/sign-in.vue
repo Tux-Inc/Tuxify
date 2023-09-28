@@ -50,7 +50,10 @@ async function submit (event: FormSubmitEvent<any>) {
                     <UInput v-model="state.password" type="password" placeholder="********" />
                 </UFormGroup>
                 <UButton :label="i18n.t('auth.button.signIn')" block size="lg" icon="i-heroicons-arrow-right-on-rectangle" type="submit" :loading="isLoading" />
-                <UButton :label="i18n.t('auth.button.signUp')" block size="lg" to="/sign-up" color="gray" variant="solid" />
+                <UButton :label="i18n.t('auth.button.signUp')" block size="lg" to="/auth/sign-up" color="gray" variant="solid" />
+                <NuxtLink class="flex items-center justify-center w-full" to="/auth/reset">
+                    <span class="mx-auto text-center text-sm text-gray-500 dark:text-gray-400 hover:underline">{{ i18n.t('auth.button.forgotPassword') }}</span>
+                </NuxtLink>
             </UForm>
 
             <template #footer>

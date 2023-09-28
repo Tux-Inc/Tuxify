@@ -32,7 +32,7 @@ const i18n = useI18n()
                                 <span class="ml-1 text-xl text-gray-600 dark:text-gray-300">/mo</span>
                             </div>
                             <div class="mt-6 flex flex-wrap gap-x-6 gap-y-3 justify-center">
-                                <UButton icon="i-heroicons-rocket-launch" size="lg" to="/sign-in" color="primary" variant="solid">{{ i18n.t('landing.pricing.hero.free.button') }}</UButton>
+                                <UButton icon="i-heroicons-rocket-launch" size="lg" to="/auth/sign-in" color="primary" variant="solid">{{ i18n.t('landing.pricing.hero.free.button') }}</UButton>
                             </div>
                         </UCard>
                         <UCard class="h-full">
@@ -49,7 +49,7 @@ const i18n = useI18n()
                                 <span class="ml-1 text-xl text-gray-600 dark:text-gray-300">/mo</span>
                             </div>
                             <div class="mt-6 flex flex-wrap gap-x-6 gap-y-3 justify-center">
-                                <UButton icon="i-heroicons-rocket-launch" size="lg" to="/sign-in" color="primary" variant="solid">{{ i18n.t('landing.pricing.hero.pro.button') }}</UButton>
+                                <UButton icon="i-heroicons-rocket-launch" size="lg" to="/auth/sign-in" color="primary" variant="solid">{{ i18n.t('landing.pricing.hero.pro.button') }}</UButton>
                             </div>
                         </UCard>
                         <UCard class="h-full">

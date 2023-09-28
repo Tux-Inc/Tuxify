@@ -59,6 +59,7 @@ const router = useRouter()
 const toast = useToast()
 const commandPaletteRef = ref()
 const isCommandPaletteOpen = ref(false)
+const isNewFlowModalOpen = ref(false)
 const users = [
     { id: 'benjamincanac', label: 'benjamincanac', href: 'https://github.com/benjamincanac', target: '_blank', avatar: { src: 'https://avatars.githubusercontent.com/u/739984?v=4' } },
     { id: 'Atinux', label: 'Atinux', href: 'https://github.com/Atinux', target: '_blank', avatar: { src: 'https://avatars.githubusercontent.com/u/904724?v=4' } },
@@ -96,6 +97,12 @@ defineShortcuts({
         usingInput: true,
         handler: () => {
             isCommandPaletteOpen.value = !isCommandPaletteOpen.value
+        }
+    },
+    meta_shift_f: {
+        usingInput: true,
+        handler: () => {
+            isNewFlowModalOpen.value = true
         }
     }
 })
@@ -151,6 +158,9 @@ defineShortcuts({
                 </UDropdown>
                 <UModal v-model="isCommandPaletteOpen">
                     <UCommandPalette ref="commandPaletteRef" :groups="groups" @update:model-value="onSelect" />
+                </UModal>
+                <UModal v-model="isNewFlowModalOpen">
+                    <AppFlowNewForm />
                 </UModal>
             </div>
         </div>
