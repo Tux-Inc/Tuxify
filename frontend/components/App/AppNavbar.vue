@@ -36,10 +36,14 @@ const items = [
         to: '/app/settings'
     }], [{
         label: 'Documentation',
-        icon: 'i-heroicons-book-open'
+        icon: 'i-heroicons-book-open',
+        to: 'https://github.com/tux-inc/Tuxify/wiki',
+        target: '_blank'
     }, {
         label: 'Changelog',
-        icon: 'i-heroicons-megaphone'
+        icon: 'i-heroicons-megaphone',
+        to: 'https://github.com/tux-inc/Tuxify/releases',
+        target: '_blank'
     }, {
         label: 'Status',
         icon: 'i-heroicons-signal'
@@ -99,7 +103,7 @@ defineShortcuts({
 
 <template>
     <header class="fixed w-full top-0 z-50 border-b border-gray-200 dark:border-gray-800 bg-base-light/75 dark:bg-base-dark/75 dark:bg-opacity-60 backdrop-blur">
-        <div class="flex items-center justify-between gap-3 h-[--header-height] mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
+        <div class="flex items-center justify-between gap-3 h-[--header-height] px-6">
             <div class="flex items-center justify-start gap-4">
                 <NuxtLink to="/app">
                     <svg class="h-8 fill-primary dark:fill-base-light" viewBox="0 0 2262 782" xmlns="http://www.w3.org/2000/svg">

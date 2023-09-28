@@ -2,7 +2,7 @@
 </script>
 
 <template>
-    <div class="antialiased w-screen min-h-screen bg-base-light dark:bg-base-dark">
+    <div class="antialiased min-h-screen bg-base-light dark:bg-base-dark">
         <div class="md:hidden">
             <slot />
             <MobileNavigator />
@@ -11,7 +11,7 @@
             <AppNavbar />
             <div class="flex flex-row items-start justify-start">
                 <AppSidebar />
-                <div class="w-full h-full overflow-y-auto py-2 ml-[--sidebar-width] mt-[--header-height]">
+                <div class="w-full h-full overflow-y-auto ml-[--sidebar-width] mt-[--header-height] p-6">
                     <slot />
                 </div>
             </div>

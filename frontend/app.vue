@@ -21,34 +21,11 @@
 .fade-leave-to {
     opacity: 0;
 }
-
-::-webkit-scrollbar {
-    width: 7px;
-    border-radius: 10px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: #04070A;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-    background: #0085BD;
-}
-::-webkit-scrollbar {
-    display: none;
-}
 </style>
 
 <template>
   <NuxtLayout>
-      <main class="min-h-[calc(100vh-var(--header-height))] mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
+      <main>
         <NuxtPage />
       </main>
       <UNotifications />
