@@ -20,10 +20,10 @@ export default defineNuxtConfig({
     icons: ['heroicons', 'mdi'],
   },
   css: [
-    '~/assets/css/main.css',
     'boxicons/css/boxicons.min.css',
     '@vue-flow/core/dist/style.css',
     '@vue-flow/core/dist/theme-default.css',
+    '~/assets/css/main.css',
   ],
   devtools: {
     enabled: true,
