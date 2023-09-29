@@ -16,7 +16,7 @@ definePageMeta({
                         Tuxify is a platform that helps you to automate your business processes and workflows, so you can focus on what really matters.
                     </p>
                     <div class="mt-10 flex flex-wrap gap-x-6 gap-y-3 justify-center">
-                        <UButton icon="i-heroicons-rocket-launch" size="lg" to="/sign-in" color="primary" variant="solid">Get started</UButton>
+                        <UButton icon="i-heroicons-rocket-launch" size="lg" to="/auth/sign-in" color="primary" variant="solid">Get started</UButton>
                         <UButton icon="i-mdi-github" size="lg" to="https://github.com/tux-inc/" target="_blank" color="white" variant="solid">View on GitHub</UButton>
                     </div>
                 </div>

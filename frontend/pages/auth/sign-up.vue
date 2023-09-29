@@ -34,7 +34,7 @@ const toast = useToast()
 const router = useRouter()
 async function submit (event: FormSubmitEvent<any>) {
     isLoading.value = true
-    router.push('/sign-in')
+    router.push('/auth/sign-in')
     toast.add({ title: 'Confirm Email', icon: 'i-heroicons-envelope', color: 'primary', description: `An email has been sent to ${event.data.email} to confirm your email address.`, timeout: 10000 })
 }
 </script>
@@ -74,7 +74,7 @@ async function submit (event: FormSubmitEvent<any>) {
                     <UInput v-model="state.confirmPassword" type="password" placeholder="********" />
                 </UFormGroup>
                 <UButton :label="i18n.t('auth.button.next')" block size="lg" trailing-icon="i-heroicons-arrow-right" type="submit" :loading="isLoading" />
-                <UButton :label="i18n.t('auth.button.back')" block size="lg" icon="i-heroicons-arrow-left" to="/sign-in" color="primary" variant="ghost" />
+                <UButton :label="i18n.t('auth.button.back')" block size="lg" icon="i-heroicons-arrow-left" to="/auth/sign-in" color="primary" variant="ghost" />
             </UForm>
         </UCard>
     </div>
