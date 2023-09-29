@@ -3,8 +3,8 @@ import {VueFlow, useVueFlow} from '@vue-flow/core'
 import {Background} from '@vue-flow/background'
 import {nextTick, watch} from 'vue'
 import { INodeType } from "~/types/INodeType.js";
-import Text from "~/components/App/Node/Text.vue";
-import Void from "~/components/App/Node/Void.vue";
+import Text from "~/components/App/Flow/Node/Text.vue";
+import Void from "~/components/App/Flow/Node/Void.vue";
 
 const nodeTypes: INodeType[] = [
   {
