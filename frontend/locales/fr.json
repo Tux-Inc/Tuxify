@@ -34,6 +34,7 @@
 
   "landing": {
     "navbar": {
+      "home": "Accueil",
       "pricing": "Tarification",
       "aboutUs": "A propos",
       "changelog": "Changelog",
