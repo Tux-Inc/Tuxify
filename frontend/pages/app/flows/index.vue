@@ -6,8 +6,10 @@ definePageMeta({
 })
 
 const i18n = useI18n();
-
 const { metaSymbol } = useShortcuts()
+const { $event } = useNuxtApp()
+
+const sendEvent = (event: string) => $event(event)
 </script>
 
 <template>
@@ -15,7 +17,7 @@ const { metaSymbol } = useShortcuts()
       <div class="flex items-center justify-between gap-4">
         <h1 class="text-4xl font-bold text-dark dark:text-light">Flows</h1>
           <UTooltip text="Create a new flow" :shortcuts="[metaSymbol, 'shift', 'F']">
-            <UButton icon="i-heroicons-plus" @click="$emit('newFlow')" color="primary" variant="solid">New flow</UButton>
+            <UButton icon="i-heroicons-plus" @click="sendEvent('app:newFlow')" color="primary" variant="solid">New flow</UButton>
           </UTooltip>
       </div>
       <div class="w-full mt-4">
