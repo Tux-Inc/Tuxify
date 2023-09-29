@@ -1,12 +1,32 @@
-<script setup>
+<script setup lang="ts">
 import {VueFlow, useVueFlow} from '@vue-flow/core'
 import {Background} from '@vue-flow/background'
 import {nextTick, watch} from 'vue'
-import Text from "~/components/Node/Text.vue";
+import { INodeType } from "~/types/INodeType.js";
+import Text from "~/components/App/Node/Text.vue";
+import Void from "~/components/App/Node/Void.vue";
 
-const nodeTypes = {
-  text: markRaw(Text),
-}
+const nodeTypes: INodeType[] = [
+  {
+    icon: 'i-heroicons-document-text',
+    name: 'Text',
+    description: 'Basic text input',
+    type: 'text',
+    component: markRaw(Text),
+  },
+  {
+    icon: 'i-heroicons-globe-alt',
+    name: 'Void',
+    description: 'Node with void',
+    type: 'void',
+    component: markRaw(Void),
+  },
+]
+
+const nodeComponents = nodeTypes.reduce((acc, type) => {
+  acc[type.type] = type.component
+  return acc
+}, {})
 
 let id = 0
 
@@ -15,14 +35,7 @@ function getId() {
 }
 
 const {findNode, onConnect, addEdges, addNodes, project, vueFlowRef} = useVueFlow({
-  nodes: [
-    {
-      id: '1',
-      type: 'input',
-      label: 'input node',
-      position: {x: 250, y: 25},
-    },
-  ],
+  nodes: [],
 })
 
 function onDragOver(event) {
@@ -35,10 +48,10 @@ function onDragOver(event) {
 
 onConnect((params) => addEdges({...params, type: 'smoothstep'}))
 
-function onDrop(event) {
+function onDrop(event: any) {
   const type = event.dataTransfer?.getData('application/vueflow')
 
-  const {left, top} = vueFlowRef.value.getBoundingClientRect()
+  const {left, top} = vueFlowRef.value?.getBoundingClientRect()
 
   const position = project({
     x: event.clientX - left,
@@ -76,9 +89,9 @@ function onDrop(event) {
 
 <template>
   <div class="dndflow relative" @drop="onDrop">
-    <NodeList/>
-    <VueFlow @dragover="onDragOver" :style="{ height: 'calc(100vh - 10rem)' }" :node-types="nodeTypes">
-      <Background gap="12"/>
+    <NodeList :node-types="nodeTypes" />
+    <VueFlow @dragover="onDragOver" :style="{ height: 'calc(100vh - 10rem)' }" :node-types="nodeComponents">
+      <Background :gap="12"/>
     </VueFlow>
   </div>
 </template>
