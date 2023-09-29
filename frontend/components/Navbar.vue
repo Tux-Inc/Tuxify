@@ -40,6 +40,10 @@ for (const locale of availableLocales.value) {
                 </NuxtLink>
             </div>
             <div class="flex flex-row gap-2 items-center">
+              <UButton to="/" size="lg" color="gray" variant="ghost">{{
+                  i18n.t('landing.navbar.home')
+                }}
+              </UButton>
                 <UButton to="/pricing" size="lg" color="gray" variant="ghost">{{
                     i18n.t('landing.navbar.pricing')
                     }}

@@ -32,6 +32,7 @@
   },
   "landing": {
     "navbar": {
+      "home": "Home",
       "pricing": "Pricing",
       "aboutUs": "About us",
       "changelog": "Changelog",
