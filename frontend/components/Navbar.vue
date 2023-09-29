@@ -77,7 +77,7 @@ for (const locale of availableLocales.value) {
                 </ClientOnly>
                 <UButton
                         icon="i-heroicons-arrow-right-on-rectangle"
-                        to="/sign-in"
+                        to="/auth/sign-in"
                         color="primary"
                         variant="solid"
                         :aria-label="i18n.t('auth.signIn')"

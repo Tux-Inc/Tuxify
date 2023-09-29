@@ -27,7 +27,8 @@
     "@nuxt/ui": "^2.8.1",
     "@vue-flow/background": "^1.2.0",
     "@vue-flow/core": "^1.22.3",
-    "boxicons": "^2.1.4"
+    "boxicons": "^2.1.4",
+    "mitt": "^3.0.1"
   },
   "packageManager": "yarn@3.6.3"
 }

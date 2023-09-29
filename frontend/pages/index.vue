@@ -18,10 +18,13 @@ const i18n = useI18n()
                         {{ i18n.t('landing.home.hero.description') }}
                     </p>
                     <div class="mt-10 flex flex-wrap gap-x-6 gap-y-3 justify-center">
-                        <UButton icon="i-heroicons-rocket-launch" size="lg" to="/sign-in" color="primary" variant="solid">{{ i18n.t('landing.home.hero.getStarted') }}</UButton>
+                        <UButton icon="i-heroicons-rocket-launch" size="lg" to="/auth/sign-in" color="primary" variant="solid">{{ i18n.t('landing.home.hero.getStarted') }}</UButton>
                         <UButton icon="i-mdi-github" size="lg" to="https://github.com/tux-inc/Tuxify" target="_blank" color="white" variant="solid">{{ i18n.t('landing.home.hero.viewOnGitHub') }}</UButton>
                     </div>
                 </div>
+            </div>
+            <div class="flex justify-center items-center w-full absolute bottom-0 left-0 right-0">
+                <UIcon name="i-heroicons-chevron-down" class="text-4xl text-dark dark:text-light animate-bounce" />
             </div>
         </div>
         <div class="py-24 sm:py-32">
