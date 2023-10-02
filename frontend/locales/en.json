@@ -35,7 +35,8 @@
       "pricing": "Pricing",
       "aboutUs": "About us",
       "changelog": "Changelog",
-      "documentation": "Documentation"
+      "documentation": "Documentation",
+      "integration": "Integration"
     },
     "footer": {
       "poweredBy": "Powered with <span class=\"text-red-500 dark:text-red-400\">♥</span> by <a href=\"https://github.com/tux-inc\" class=\"font-medium text-gray-900 dark:text-gray-100 hover:underline\">Tux Inc.</a>",
@@ -108,6 +109,58 @@
           "button": "Contact us"
         }
       }
+    },
+    "integration": {
+      "title": "Connect to any <span class=\"text-primary\">service</span>",
+      "description": "Tuxify allows you to connect to any service that has an API. You can connect to an unlimited number of services.",
+      "button": "View all services",
+      "services": [
+        {
+          "title": "GitHub",
+          "description": "GitHub is a development platform inspired by the way you work. From open source to business, you can host and review code, manage projects, and build software alongside 50 million developers.",
+          "icon": "i-mdi-github"
+        },
+        {
+          "title": "Gmail",
+          "description": "Gmail is email that's intuitive, efficient, and useful. 15 GB of storage, less spam, and mobile access.",
+          "icon": "i-mdi-gmail"
+        },
+        {
+          "title": "Google Calendar",
+          "description": "Google Calendar is a time-management and scheduling calendar service developed by Google. It became available in beta release April 13, 2006, and in general release in July 2009, on the web and as mobile apps for the Android and iOS platforms.",
+          "icon": "i-mdi-calendar"
+        },
+        {
+          "title": "Google Sheets",
+          "description": "Google Sheets is a spreadsheet program included as part of a free, web-based software office suite offered by Google within its Google Drive service. The service also includes Google Docs and Google Slides, a word processor and presentation program respectively.",
+          "icon": "i-mdi-google-sheets"
+        },
+        {
+          "title": "Google Docs",
+          "description": "Google Docs is a word processor included as part of a free, web-based software office suite offered by Google within its Google Drive service. The service also includes Google Sheets and Google Slides, a spreadsheet and presentation program respectively.",
+          "icon": "i-mdi-google-docs"
+        },
+        {
+          "title": "Google Drive",
+          "description": "Google Drive is a file storage and synchronization service developed by Google. Launched on April 24, 2012, Google Drive allows users to store files on their servers, synchronize files across devices, and share files.",
+          "icon": "i-mdi-google-drive"
+        },
+        {
+          "title": "Linear",
+          "description": "Linear helps streamline software projects, sprints, tasks, and bug tracking. It's built for high-performance teams.",
+          "icon": "i-mdi-linear"
+        },
+       {
+          "title": "Slack",
+          "description": "Slack is a new way to communicate with your team. It's faster, better organized, and more secure than email.",
+          "icon": "i-mdi-slack"
+        },
+        {
+          "title": "LinkedIn",
+          "description": "LinkedIn is a business and employment-oriented online service that operates via websites and mobile apps. Launched on May 5, 2003, it is mainly used for professional networking, including employers posting jobs and job seekers posting their CVs.",
+          "icon": "i-mdi-linkedin"
+        }
+      ]
     }
   },
   "app": {

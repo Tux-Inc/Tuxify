@@ -54,6 +54,10 @@ for (const locale of availableLocales.value) {
                 <UButton to="https://github.com/tux-inc/Tuxify/wiki" size="lg" color="gray" variant="ghost">
                     {{ i18n.t('landing.navbar.documentation') }}
                 </UButton>
+                <UButton to="/integration" size="lg" color="gray" variant="ghost">{{
+                    i18n.t('landing.navbar.integration')
+                  }}
+                </UButton>
             </div>
             <div class="flex gap-2 items-center">
                 <ClientOnly>
