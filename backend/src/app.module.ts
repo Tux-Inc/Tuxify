@@ -8,6 +8,10 @@ import { GroupController } from './group/group.controller';
 import { GroupModule } from './group/group.module';
 import { UserController } from './user/user.controller';
 import { UserModule } from './user/user.module';
+import { EmailVerificationController } from './emailVerification/emailVerification.controller';
+import { EmailVerificationModule } from './emailVerification/emailVerification.module';
+import { ResetPasswordController } from './resetPassword/resetPassword.controller';
+import { ResetPasswordModule } from './resetPassword/resetPassword.module';
 @Module({
   imports: [
       ConfigModule.forRoot({}),
@@ -26,8 +30,10 @@ import { UserModule } from './user/user.module';
       }),
       GroupModule,
       UserModule,
+      EmailVerificationModule,
+      ResetPasswordModule,
   ],
-  controllers: [GroupController, UserController],
+  controllers: [GroupController, UserController, EmailVerificationController, ResetPasswordController],
   providers: [GroupService],
 })
 export class AppModule {}
