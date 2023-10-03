@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tuxify-postgres-deployment
+  namespace: production
+  labels:
+    app: tuxify-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tuxify-postgres
+  template:
+    metadata:
+      labels:
+        app: tuxify-postgres
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: tuxify-postgres-container
+          image: postgres:16
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: tuxifyapi-secret
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_USER
+              value: tuxify
+            - name: POSTGRES_DB
+              value: tuxify
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: tuxify-postgres-volume
+          ports:
+            - containerPort: 5432
+      volumes:
+        - name: tuxify-postgres-volume
+          persistentVolumeClaim:
+            claimName: tuxify-postgres-claim
