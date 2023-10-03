@@ -1,25 +1,48 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from 'typeorm';
-import { Roles } from "../role/role.enum";
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    ManyToMany,
+    JoinTable,
+    OneToOne,
+    RelationOptions,
+    JoinColumn
+} from 'typeorm';
+import { AuthToken } from '../auth/auth.entity';
+import {ResetPassword} from "../resetPassword/resetPassword.entity";
+import {EmailVerification} from "../emailVerification/emailVerification.entity";
 @Entity()
 export class User {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column( { nullable: true })
-    firstName: string;
-
-    @Column()
-    lastName: string;
-
-    @Column({ unique: true })
+    @Column( {unique: true})
     email: string;
 
-    @Column({select: false})
+    @Column()
+    username: string;
+
+    @Column()
     password: string;
 
-    @Column({ default: 'user' })
-    role: Roles;
+    @Column({ default: 'false' })
+    isVerified: string;
 
-    @Column({ nullable: true, select: false})
-    token: string;
+    @Column()
+    created_at: Date;
+
+    @Column()
+    updated_at: Date;
+
+    @OneToOne(type => AuthToken)
+    @JoinColumn()
+    authToken: AuthToken;
+
+    @OneToOne(type => ResetPassword)
+    @JoinColumn()
+    resetPassword: ResetPassword;
+
+    @OneToOne(type => EmailVerification)
+    @JoinColumn()
+    emailVerification: EmailVerification;
 }
