@@ -36,7 +36,8 @@
       "pricing": "Pricing",
       "aboutUs": "About us",
       "changelog": "Changelog",
-      "documentation": "Documentation"
+      "documentation": "Documentation",
+      "contact": "Contact"
     },
     "footer": {
       "poweredBy": "Powered with <span class=\"text-red-500 dark:text-red-400\">♥</span> by <a href=\"https://github.com/tux-inc\" class=\"font-medium text-gray-900 dark:text-gray-100 hover:underline\">Tux Inc.</a>",
@@ -119,9 +120,9 @@
         "members": [
           {
             "name": "John Doe",
-              "job": "CEO",
-              "description": "John is the CEO of Tux Inc. John is a passionate entrepreneur and loves to build beautiful products that are easy to use.",
-              "image": "https://media.licdn.com/dms/image/D4E35AQEbfQG34_wS0A/profile-framedphoto-shrink_200_200/0/1677248288053?e=1696557600&v=beta&t=fa_-u2bxsAfyJXMvFhMpxt3vNfIX80uEG50aakjKPrY",
+            "job": "CEO",
+            "description": "John is the CEO of Tux Inc. John is a passionate entrepreneur and loves to build beautiful products that are easy to use.",
+            "image": "https://media.licdn.com/dms/image/D4E35AQEbfQG34_wS0A/profile-framedphoto-shrink_200_200/0/1677248288053?e=1696557600&v=beta&t=fa_-u2bxsAfyJXMvFhMpxt3vNfIX80uEG50aakjKPrY",
             "socials": [
               {
                 "icon": "twitter",
@@ -267,6 +268,45 @@
             ]
           }
         ]
+      }
+    },
+    "contact": {
+      "hero": {
+        "title": "Get in touch with us",
+        "description": "We are always happy to hear from you. If you have any questions or feedback, please feel free to contact us."
+      },
+      "form": {
+        "title": "Contact us",
+        "description": "You have a question ? An idea ? A feature request ? Any bug to report ? Any other reason ?\nFeel free to contact us !\nWe will answer you as soon as possible.",
+        "address": "131 Boulevard René Cassin, 06200 Nice, France",
+        "phone": "+33 6 00 00 00 00",
+        "email": "help@tuxify.fr",
+        "labels": {
+          "name": "Name",
+          "email": "Email",
+          "phone": "Phone",
+          "message": "Message",
+          "reason": "Reason",
+          "submit": "Submit"
+        },
+        "placeholders": {
+          "name": "Name",
+          "email": "Email",
+          "phone": "Phone",
+          "message": "Message",
+          "reason": "Reason",
+          "submit": "Submit"
+        },
+        "reasons": {
+          "sales": "Sales",
+          "support": "Support",
+          "feedback": "Feedback",
+          "other": "Other"
+        },
+        "messages": {
+          "success": "Your message has been sent successfully.",
+          "error": "An error occurred while sending your message. Please try again later."
+        }
       }
     }
   },
