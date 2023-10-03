@@ -1,4 +1,13 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToOne, RelationOptions} from 'typeorm';
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    ManyToMany,
+    JoinTable,
+    OneToOne,
+    RelationOptions,
+    JoinColumn
+} from 'typeorm';
 import { AuthToken } from '../auth/auth.entity';
 import {ResetPassword} from "../resetPassword/resetPassword.entity";
 import {EmailVerification} from "../emailVerification/emailVerification.entity";
@@ -25,15 +34,15 @@ export class User {
     @Column()
     updated_at: Date;
 
-    @Column()
-    resetPasswordToken: string;
+    @OneToOne(type => AuthToken)
+    @JoinColumn()
+    authToken: AuthToken;
 
-    @OneToOne(type => AuthToken, auth => auth.user)
-    authToken: string | ((object: User) => any) | RelationOptions;
+    @OneToOne(type => ResetPassword)
+    @JoinColumn()
+    resetPassword: ResetPassword;
 
-    @OneToOne(type => ResetPassword, resetPassword => resetPassword.user)
-    resetPassword: string | ((object: User) => any) | RelationOptions;
-
-    @OneToOne(type => EmailVerification, emailVerification => emailVerification.user)
-    emailVerification: string | ((object: User) => any) | RelationOptions;
+    @OneToOne(type => EmailVerification)
+    @JoinColumn()
+    emailVerification: EmailVerification;
 }

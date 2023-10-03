@@ -1,4 +1,4 @@
-import {Column, Entity, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {User} from "../user/user.entity";
 
 
@@ -18,6 +18,7 @@ export class EmailVerification {
     @Column()
     createdAt: Date;
 
-    @OneToOne(type => User, user => user.emailVerification)
+    @OneToOne(type => User)
+    @JoinColumn()
     user: User;
 }

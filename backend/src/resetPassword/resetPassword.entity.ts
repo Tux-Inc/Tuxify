@@ -1,4 +1,4 @@
-import {Column, Entity, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {User} from "../user/user.entity";
 
 
@@ -18,6 +18,7 @@ export class ResetPassword {
     @Column()
     createdAt: Date;
 
-    @OneToOne(type => User, user => user.resetPassword)
+    @OneToOne(type => User)
+    @JoinColumn()
     user: User;
 }
