@@ -1,20 +1,20 @@
-<script setup>
-function onDragStart(event, nodeType) {
-    if (event.dataTransfer) {
-        event.dataTransfer.setData('application/vueflow', nodeType)
-        event.dataTransfer.effectAllowed = 'move'
+<script setup lang="ts">
+import { INodeType } from "~/types/INodeType";
+
+defineProps({
+    nodeTypes: {
+        type: Array as PropType<INodeType[]>,
+        required: true
     }
-}
+})
 </script>
 
 <template>
-    <aside class="rounded-lg bg-tint-light dark:bg-tint-dark p-4 flex flex-col gap-4 m-4 absolute z-10 h-full bg-opacity-90 dark:bg-opacity-90">
+    <aside class="rounded-lg bg-white dark:bg-gray-800 p-4 flex flex-col gap-4 m-2 absolute z-10 bg-opacity-90 dark:bg-opacity-90">
         <div class="text-dark dark:text-light font-bold text-xl">Available nodes</div>
-
+        <UInput icon="i-heroicons-magnifying-glass-20-solid" placeholder="Search..." size="sm" color="white" :trailing="false" />
         <div class="flex flex-col gap-2">
-            <div class="vue-flow__node-input" :draggable="true" @dragstart="onDragStart($event, 'input')">Input Node</div>
-            <div class="vue-flow__node-default" :draggable="true" @dragstart="onDragStart($event, 'default')">Default Node</div>
-            <div class="vue-flow__node-output" :draggable="true" @dragstart="onDragStart($event, 'output')">Output Node</div>
+            <NodeListElement v-for="nodeType in nodeTypes" :key="nodeType.name" :nodeType="nodeType" />
         </div>
     </aside>
 </template>
