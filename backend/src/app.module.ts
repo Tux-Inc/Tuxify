@@ -15,9 +15,13 @@ import {AuthToken} from "./auth/auth.entity";
 import {User} from "./user/user.entity";
 import {ResetPassword} from "./resetPassword/resetPassword.entity";
 import {EmailVerification} from "./emailVerification/emailVerification.entity";
+import {DevtoolsModule} from "@nestjs/devtools-integration";
 @Module({
   imports: [
       ConfigModule.forRoot(),
+      DevtoolsModule.register({
+          http: process.env.NODE_ENV !== 'production',
+      }),
       TypeOrmModule.forRootAsync({
           imports: undefined,
             useFactory: () => ({
