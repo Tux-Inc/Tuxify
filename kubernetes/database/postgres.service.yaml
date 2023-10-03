@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tuxify-postgres-service
+  namespace: production
+  labels:
+    app: tuxify-postgres
+spec:
+  ports:
+    - port: 5432
+      targetPort: 5432
+  selector:
+    app: tuxify-postgres
