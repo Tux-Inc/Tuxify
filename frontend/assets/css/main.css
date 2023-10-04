@@ -10,6 +10,27 @@
     --mobile-menu-height: 5.5rem;
 }
 
+.vue-flow__handle {
+    height: 16px;
+    width: 16px;
+}
+
+.vue-flow__handle-right {
+    right: -8px;
+}
+
+.vue-flow__handle-left {
+    left: -8px;
+}
+
+.vue-flow__handle-top {
+    top: -8px;
+}
+
+.vue-flow__handle-bottom {
+    bottom: -8px;
+}
+
 html {
     background-color: #e9f3ff;
 }

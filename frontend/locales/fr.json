@@ -5,7 +5,6 @@
     "de": "Allemand",
     "zh": "Chinois"
   },
-
   "auth": {
     "signIn": "Se connecter",
     "signOut": "Créer un compte",
@@ -31,13 +30,14 @@
       "slack": "Se connecter avec Slack"
     }
   },
-
   "landing": {
     "navbar": {
+      "home": "Accueil",
       "pricing": "Tarification",
       "aboutUs": "A propos",
       "changelog": "Changelog",
-      "documentation": "Documentation"
+      "documentation": "Documentation",
+      "contact": "Contact"
     },
     "footer": {
       "poweredBy": "Propulsé par <span class=\"text-red-500 dark:text-red-400\">♥</span> by <a href=\"https://github.com/tux-inc\" class=\"font-medium text-gray-900 dark:text-gray-100 hover:underline\">Tux Inc.</a>",
