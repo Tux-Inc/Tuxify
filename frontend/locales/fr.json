@@ -110,6 +110,58 @@
           "button": "Nous contacter"
         }
       }
+    },
+    "integration": {
+      "title": "Se connecter à n'importe quel <span class=\"text-primary\">service</span>",
+      "description": "Tuxify vous permet de vous connecter à n'importe quel service disposant d'une API. Vous pouvez vous connecter à un nombre illimité de service",
+      "button": "View all services",
+      "services": [
+        {
+          "title": "GitHub",
+          "description": "GitHub est une plateforme de développement inspirée par votre façon de travailler. Vous pouvez héberger et réviser du code, gérer des projets utilisés par plus de 50 millions de développeurs.",
+          "icon": "landing/integration_icons/github.svg"
+        },
+        {
+          "title": "Gmail",
+          "description": "Gmail est un service de messagerie électronique intuitif, efficace et utile. 15 Go de stockage, moins de spam et un accès mobile.",
+          "icon": "landing/integration_icons/gmail.svg"
+        },
+        {
+          "title": "Google Calendar",
+          "description": "Google Agenda est un outil en ligne qui permet de planifier, d'organiser des événements et de gérer son temps de manière collaborative grâce à des rappels personnalisables.",
+          "icon": "landing/integration_icons/google-calendar.svg"
+        },
+        {
+          "title": "Google Sheets",
+          "description": "Google Sheets est un logiciel de feuille de calcul basé sur le cloud pour l'analyse, la collaboration et la visualisation de données.",
+          "icon": "landing/integration_icons/google-sheets.svg"
+        },
+        {
+          "title": "Google Docs",
+          "description": "Google Docs est un traitement de texte collaboratif en ligne proposé par Google, qui permet d'éditer et de partager des documents en temps réel.",
+          "icon": "landing/integration_icons/google-docs.svg"
+        },
+        {
+          "title": "Google Drive",
+          "description": "Google Drive est un service de stockage en nuage de Google pour les fichiers, les documents et la collaboration, accessible depuis n'importe quel endroit en ligne.",
+          "icon": "landing/integration_icons/google-drive.svg"
+        },
+        {
+          "title": "Linear",
+          "description": "Linear aide à rationaliser les projets logiciels, les sprints, les tâches et le suivi des bogues. Il est conçu pour les équipes performantes.",
+          "icon": "landing/integration_icons/linear.svg"
+        },
+        {
+          "title": "Slack",
+          "description": "Slack est une nouvelle façon de communiquer avec votre équipe. Il est plus rapide, mieux organisé et plus sûr que le courrier électronique.",
+          "icon": "landing/integration_icons/slack.svg"
+        },
+        {
+          "title": "LinkedIn",
+          "description": "LinkedIn est une plateforme de réseautage professionnel qui met en relation des individus, favorise le développement de carrière et facilite les relations d'affaires pour les professionnels du monde entier.",
+          "icon": "landing/integration_icons/linkedin.svg"
+        }
+      ]
     }
   },
   "app": {

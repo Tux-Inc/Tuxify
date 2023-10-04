@@ -37,6 +37,7 @@
       "aboutUs": "About us",
       "changelog": "Changelog",
       "documentation": "Documentation",
+      "integration": "Integration"
       "contact": "Contact"
     },
     "footer": {
@@ -111,12 +112,64 @@
         }
       }
     },
+    "integration": {
+      "title": "Connect to any <span class=\"text-primary\">service</span>",
+      "description": "Tuxify allows you to connect to any service that has an API. You can connect to an unlimited number of services.",
+      "button": "View all services",
+      "services": [
+        {
+          "title": "GitHub",
+          "description": "GitHub is a development platform inspired by the way you work. You can host and review code, manage projects used by over50 million developers.",
+          "icon": "landing/integration_icons/github.svg"
+        },
+        {
+          "title": "Gmail",
+          "description": "Gmail is email that's intuitive, efficient, and useful. 15 GB of storage, less spam, and mobile access.",
+          "icon": "landing/integration_icons/gmail.svg"
+        },
+        {
+          "title": "Google Calendar",
+          "description": "Google Calendar is a online tool for scheduling, organizing events, and managing time collaboratively with customizable reminders.",
+          "icon": "landing/integration_icons/google-calendar.svg"
+        },
+        {
+          "title": "Google Sheets",
+          "description": "Google Sheets is a cloud-based spreadsheet software for data analysis, collaboration, and visualization.",
+          "icon": "landing/integration_icons/google-sheets.svg"
+        },
+        {
+          "title": "Google Docs",
+          "description": "Google Docs is a online collaborative word processor by Google, enables real-time editing and sharing of documents.",
+          "icon": "landing/integration_icons/google-docs.svg"
+        },
+        {
+          "title": "Google Drive",
+          "description": "Google Drive is a cloud storage service by Google for files, documents, and collaboration, accessible from anywhere online.",
+          "icon": "landing/integration_icons/google-drive.svg"
+        },
+        {
+          "title": "Linear",
+          "description": "Linear helps streamline software projects, sprints, tasks, and bug tracking. It's built for high-performance teams.",
+          "icon": "landing/integration_icons/linear.svg"
+        },
+       {
+          "title": "Slack",
+          "description": "Slack is a new way to communicate with your team. It's faster, better organized, and more secure than email.",
+          "icon": "landing/integration_icons/slack.svg"
+        },
+        {
+          "title": "LinkedIn",
+          "description": "LinkedIn is professional networking platform connecting individuals, fostering career development, and facilitating business connections for professionals worldwide.",
+          "icon": "landing/integration_icons/linkedin.svg"
+        }
+      ]
+    },
     "about-us": {
       "hero": {
         "title": "A journey about <span class=\"text-primary\">passion </span> tool",
         "description": "Tuxify was created by small team of passionate developers. We love to build products that make people's lives easier."
-      },
-      "team": {
+     },
+     "team": {
         "members": [
           {
             "name": "John Doe",
