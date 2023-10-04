@@ -19,9 +19,9 @@ services:
     networks:
       - tuxify-network
 
-  # Nest API
-  api:
-    container_name: tuxify-api
+  # Nest API services
+  api_gateway:
+    container_name: tuxify-api-gateway
     image: node:latest
     restart: always
     command: yarn start:dev --preserveWatchOutput
@@ -30,10 +30,25 @@ services:
       - "3000:3000"
       - "8000:8000"
     volumes:
-      - ./backend:/usr/src/app
-      - ./backend/node_modules:/usr/src/app/node_modules
+      - ./backend/gateway:/usr/src/app
+      - ./backend/gateway/node_modules:/usr/src/app/node_modules
     depends_on:
       - db
+    networks:
+      - tuxify-network
+    env_file:
+      - .env
+
+  # Mailer microservice
+  api_mailer:
+    container_name: tuxify-api-mailer
+    image: node:latest
+    restart: always
+    command: yarn start:dev --preserveWatchOutput
+    working_dir: /usr/src/app
+    volumes:
+      - ./backend/mailer:/usr/src/app
+      - ./backend/mailer/node_modules:/usr/src/app/node_modules
     networks:
       - tuxify-network
     env_file:
@@ -53,7 +68,7 @@ services:
         - ./frontend:/usr/src/app
         - ./frontend/node_modules:/usr/src/app/node_modules
       depends_on:
-        - api
+        - api_gateway
       networks:
         - tuxify-network
       env_file:

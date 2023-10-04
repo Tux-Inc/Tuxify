@@ -1,23 +1,35 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule} from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import {Module} from '@nestjs/common';
+import {ConfigModule} from '@nestjs/config';
+import {TypeOrmModule} from '@nestjs/typeorm';
 import * as process from "process";
-import { GroupService } from './group/group.service';
-import { GroupController } from './group/group.controller';
-import { GroupModule } from './group/group.module';
-import { UserController } from './user/user.controller';
-import { UserModule } from './user/user.module';
-import { EmailVerificationController } from './emailVerification/emailVerification.controller';
-import { EmailVerificationModule } from './emailVerification/emailVerification.module';
-import { ResetPasswordController } from './resetPassword/resetPassword.controller';
-import { ResetPasswordModule } from './resetPassword/resetPassword.module';
+import {GroupService} from './group/group.service';
+import {GroupController} from './group/group.controller';
+import {GroupModule} from './group/group.module';
+import {UserController} from './user/user.controller';
+import {UserModule} from './user/user.module';
+import {EmailVerificationController} from './emailVerification/emailVerification.controller';
+import {EmailVerificationModule} from './emailVerification/emailVerification.module';
+import {ResetPasswordController} from './resetPassword/resetPassword.controller';
+import {ResetPasswordModule} from './resetPassword/resetPassword.module';
 import {AuthToken} from "./auth/auth.entity";
 import {User} from "./user/user.entity";
 import {ResetPassword} from "./resetPassword/resetPassword.entity";
 import {EmailVerification} from "./emailVerification/emailVerification.entity";
 import {DevtoolsModule} from "@nestjs/devtools-integration";
+import {ClientsModule, Transport} from "@nestjs/microservices";
+
 @Module({
   imports: [
+      ClientsModule.register([
+            {
+                name: 'MAILER_SERVICE',
+                transport: Transport.TCP,
+                options: {
+                    host: process.env.NESTSV_MAILER_HOST || 'localhost',
+                    port: parseInt(process.env.NESTSV_MAILER_PORT, 10) || 3000,
+                }
+            }
+      ]),
       ConfigModule.forRoot(),
       DevtoolsModule.register({
           http: process.env.NODE_ENV !== 'production',
