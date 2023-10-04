@@ -1,5 +1,5 @@
 import {Module} from '@nestjs/common';
-import {AppController} from './app.controller';
+import {MailerWrapperController} from './mailer-wrapper.controller';
 import {MailerModule} from "@nestjs-modules/mailer";
 import {ConfigurationMailerService} from "./config/mailer/configuration-mailer.service";
 import {ConfigModule} from "@nestjs/config";
@@ -13,7 +13,7 @@ import {ConfigModule} from "@nestjs/config";
             isGlobal: true,
         }),
     ],
-    controllers: [AppController],
+    controllers: [MailerWrapperController],
 })
-export class AppModule {
+export class MailerWrapperModule {
 }

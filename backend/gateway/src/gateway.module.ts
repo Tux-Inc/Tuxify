@@ -17,6 +17,8 @@ import {ResetPassword} from "./resetPassword/resetPassword.entity";
 import {EmailVerification} from "./emailVerification/emailVerification.entity";
 import {DevtoolsModule} from "@nestjs/devtools-integration";
 import {ClientsModule, Transport} from "@nestjs/microservices";
+import {GatewayService} from "./gateway.service";
+import {GatewayController} from "./gateway.controller";
 
 @Module({
   imports: [
@@ -28,7 +30,7 @@ import {ClientsModule, Transport} from "@nestjs/microservices";
                     host: process.env.NESTSV_MAILER_HOST || 'localhost',
                     port: parseInt(process.env.NESTSV_MAILER_PORT, 10) || 3000,
                 }
-            }
+            },
       ]),
       ConfigModule.forRoot(),
       DevtoolsModule.register({
@@ -52,7 +54,7 @@ import {ClientsModule, Transport} from "@nestjs/microservices";
       EmailVerificationModule,
       ResetPasswordModule,
   ],
-  controllers: [GroupController, UserController, EmailVerificationController, ResetPasswordController],
-  providers: [GroupService],
+  controllers: [GroupController, UserController, EmailVerificationController, ResetPasswordController, GatewayController],
+  providers: [GroupService, GatewayService],
 })
-export class AppModule {}
+export class GatewayModule {}

@@ -6,8 +6,8 @@ import {SendEmailEvent} from "./event/send-email.event";
 import {UserResetPasswordEvent} from "./event/user-reset-password.event";
 
 @Controller()
-export class AppController {
-    private readonly logger: Logger = new Logger(AppController.name);
+export class MailerWrapperController {
+    private readonly logger: Logger = new Logger(MailerWrapperController.name);
     constructor(
         private readonly mailerService: MailerService,
     ) {}
