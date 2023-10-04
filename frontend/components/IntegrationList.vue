@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineProps, withDefaults } from 'vue'
 import { IIntegrationList} from "~/types/IIntegrationList";
 
 const props = withDefaults(defineProps<IIntegrationList>(), {
@@ -12,10 +11,11 @@ const props = withDefaults(defineProps<IIntegrationList>(), {
 
 <template>
   <UCard class="h-full">
-    <span class="text-4xl text-center font-bold text-primary">{{title}}</span>
     <div class="my-4">
-      <UButton :name="icon" size="xl" color="white" variant="ghost" />
+      <img :src="icon" class="w-10 h-10 mx-auto text-primary" />
     </div>
+    <span class="text-4xl text-center font-bold text-primary">{{title}}</span>
+
     <p class="mt-2 text-lg text-center tracking-tight text-gray-600 dark:text-gray-300">
       {{description}}
     </p>

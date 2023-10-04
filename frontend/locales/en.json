@@ -117,48 +117,48 @@
       "services": [
         {
           "title": "GitHub",
-          "description": "GitHub is a development platform inspired by the way you work. From open source to business, you can host and review code, manage projects, and build software alongside 50 million developers.",
-          "icon": "i-mdi-github"
+          "description": "GitHub is a development platform inspired by the way you work. You can host and review code, manage projects used by over50 million developers.",
+          "icon": "landing/integration_icons/github.svg"
         },
         {
           "title": "Gmail",
           "description": "Gmail is email that's intuitive, efficient, and useful. 15 GB of storage, less spam, and mobile access.",
-          "icon": "i-mdi-gmail"
+          "icon": "landing/integration_icons/gmail.svg"
         },
         {
           "title": "Google Calendar",
-          "description": "Google Calendar is a time-management and scheduling calendar service developed by Google. It became available in beta release April 13, 2006, and in general release in July 2009, on the web and as mobile apps for the Android and iOS platforms.",
-          "icon": "i-mdi-calendar"
+          "description": "Google Calendar is a online tool for scheduling, organizing events, and managing time collaboratively with customizable reminders.",
+          "icon": "landing/integration_icons/google-calendar.svg"
         },
         {
           "title": "Google Sheets",
-          "description": "Google Sheets is a spreadsheet program included as part of a free, web-based software office suite offered by Google within its Google Drive service. The service also includes Google Docs and Google Slides, a word processor and presentation program respectively.",
-          "icon": "i-mdi-google-sheets"
+          "description": "Google Sheets is a cloud-based spreadsheet software for data analysis, collaboration, and visualization.",
+          "icon": "landing/integration_icons/google-sheets.svg"
         },
         {
           "title": "Google Docs",
-          "description": "Google Docs is a word processor included as part of a free, web-based software office suite offered by Google within its Google Drive service. The service also includes Google Sheets and Google Slides, a spreadsheet and presentation program respectively.",
-          "icon": "i-mdi-google-docs"
+          "description": "Google Docs is a online collaborative word processor by Google, enables real-time editing and sharing of documents.",
+          "icon": "landing/integration_icons/google-docs.svg"
         },
         {
           "title": "Google Drive",
-          "description": "Google Drive is a file storage and synchronization service developed by Google. Launched on April 24, 2012, Google Drive allows users to store files on their servers, synchronize files across devices, and share files.",
-          "icon": "i-mdi-google-drive"
+          "description": "Google Drive is a cloud storage service by Google for files, documents, and collaboration, accessible from anywhere online.",
+          "icon": "landing/integration_icons/google-drive.svg"
         },
         {
           "title": "Linear",
           "description": "Linear helps streamline software projects, sprints, tasks, and bug tracking. It's built for high-performance teams.",
-          "icon": "i-mdi-linear"
+          "icon": "landing/integration_icons/linear.svg"
         },
        {
           "title": "Slack",
           "description": "Slack is a new way to communicate with your team. It's faster, better organized, and more secure than email.",
-          "icon": "i-mdi-slack"
+          "icon": "landing/integration_icons/slack.svg"
         },
         {
           "title": "LinkedIn",
-          "description": "LinkedIn is a business and employment-oriented online service that operates via websites and mobile apps. Launched on May 5, 2003, it is mainly used for professional networking, including employers posting jobs and job seekers posting their CVs.",
-          "icon": "i-mdi-linkedin"
+          "description": "LinkedIn is professional networking platform connecting individuals, fostering career development, and facilitating business connections for professionals worldwide.",
+          "icon": "landing/integration_icons/linkedin.svg"
         }
       ]
     }

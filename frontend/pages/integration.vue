@@ -7,7 +7,10 @@ definePageMeta({
 })
 
 const i18n = useI18n()
-const integrations : IIntegrationList[] = i18n.tm<IIntegrationList[]>("landing.integration.services");
+let integrations = ref<IIntegrationList[]>(i18n.tm<IIntegrationList[]>('landing.integration.services') as IIntegrationList[]);
+onUpdated(() => {
+  integrations.value = i18n.tm<IIntegrationList[]>('landing.integration.services') as IIntegrationList[];
+})
 
 </script>
 
@@ -20,14 +23,16 @@ const integrations : IIntegrationList[] = i18n.tm<IIntegrationList[]>("landing.i
           {{ i18n.t('landing.integration.description') }}
         </p>
       </div>
-      <div class="mt-10 flex flex-wrap gap-x-6 gap-y-10 justify-center max text-center">
-        <IntegrationList
-          v-for="(integration) in integrations"
-          :title="integration.title"
-          :description="integration.description"
-          :icon="integration.icon"
-        />
-      </div>
     </div>
+      <div class="mt-10 flex flex-wrap gap-x-6 gap-y-10 justify-center max text-center">
+        <div class="container mx-auto my-auto grid grid-cols-3 gap-8">
+          <IntegrationList
+            v-for="(integration) in integrations"
+            :title="integration.title"
+            :description="integration.description"
+            :icon="integration.icon"
+          />
+        </div>
+      </div>
   </div>
 </template>
