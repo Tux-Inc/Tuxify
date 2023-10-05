@@ -18,6 +18,9 @@ async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter(),
+    {
+        snapshot: true,
+    }
   );
   const configService = app.get(ConfigService);
   app.register(fastifyCookie, {

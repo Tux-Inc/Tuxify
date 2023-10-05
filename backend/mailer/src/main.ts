@@ -6,6 +6,7 @@ async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
       MailerWrapperModule,
       {
+        snapshot: true,
         transport: Transport.TCP,
         options: {
             host: process.env.NESTSV_MAILER_HOST || 'localhost',

@@ -1067,6 +1067,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nestjs/devtools-integration@npm:^0.1.5":
+  version: 0.1.5
+  resolution: "@nestjs/devtools-integration@npm:0.1.5"
+  dependencies:
+    chalk: ^4.1.2
+    node-fetch: ^2.6.9
+  peerDependencies:
+    "@nestjs/common": ^9.3.7 || ^10.0.0
+    "@nestjs/core": ^9.3.7 || ^10.0.0
+    reflect-metadata: ^0.1.12
+  checksum: c9c006a5769bf09886712c91d405c4344ba6429ddd34b7e949b4b899bd1e7f707a8ebdd50a0b2be4bb191b69b631119f448f9663275a8ba658bef36b9b928b61
+  languageName: node
+  linkType: hard
+
 "@nestjs/microservices@npm:^10.2.6":
   version: 10.2.6
   resolution: "@nestjs/microservices@npm:10.2.6"
@@ -6174,6 +6188,7 @@ __metadata:
     "@nestjs/common": ^10.0.0
     "@nestjs/config": ^3.1.1
     "@nestjs/core": ^10.0.0
+    "@nestjs/devtools-integration": ^0.1.5
     "@nestjs/microservices": ^10.2.6
     "@nestjs/platform-express": ^10.0.0
     "@nestjs/schematics": ^10.0.0
@@ -7065,7 +7080,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-fetch@npm:^2.6.0, node-fetch@npm:^2.6.1":
+"node-fetch@npm:^2.6.0, node-fetch@npm:^2.6.1, node-fetch@npm:^2.6.9":
   version: 2.7.0
   resolution: "node-fetch@npm:2.7.0"
   dependencies:
