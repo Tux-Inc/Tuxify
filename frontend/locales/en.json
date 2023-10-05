@@ -37,7 +37,7 @@
       "aboutUs": "About us",
       "changelog": "Changelog",
       "documentation": "Documentation",
-      "integration": "Integration"
+      "integration": "Integration",
       "contact": "Contact"
     },
     "footer": {
@@ -152,7 +152,7 @@
           "description": "Linear helps streamline software projects, sprints, tasks, and bug tracking. It's built for high-performance teams.",
           "icon": "landing/integration_icons/linear.svg"
         },
-       {
+        {
           "title": "Slack",
           "description": "Slack is a new way to communicate with your team. It's faster, better organized, and more secure than email.",
           "icon": "landing/integration_icons/slack.svg"
@@ -168,8 +168,8 @@
       "hero": {
         "title": "A journey about <span class=\"text-primary\">passion </span> tool",
         "description": "Tuxify was created by small team of passionate developers. We love to build products that make people's lives easier."
-     },
-     "team": {
+      },
+      "team": {
         "members": [
           {
             "name": "John Doe",
