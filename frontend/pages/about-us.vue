@@ -1,13 +1,18 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
 import { IFounderCardProps } from "~/types/IFounderCardProps";
+import {IIntegrationList} from "~/types/IIntegrationList";
 
 definePageMeta({
     layout: "navigation",
 });
 
-const i18n = useI18n();
-const founders = i18n.tm<string>("landing.about-us.team.members");
+const i18n = useI18n()
+let founders = ref<string[]>(i18n.tm<string[]>('landing.about-us.team.members') as string[]);
+onUpdated(() => {
+  founders.value = i18n.tm<string[]>('landing.about-us.team.members') as string[];
+})
+
 </script>
 
 <template>
