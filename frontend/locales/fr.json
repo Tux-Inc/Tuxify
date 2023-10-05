@@ -162,6 +162,45 @@
           "icon": "landing/integration_icons/linkedin.svg"
         }
       ]
+    },
+    "contact": {
+      "hero": {
+        "title": "Prenez <span class=\"text-primary\">contact</span> avec nous",
+        "description": "Nous sommes toujours heureux d'avoir de vos nouvelles. Si vous avez des questions ou des commentaires, n'hésitez pas à nous contacter."
+      },
+      "form": {
+        "title": "Contactez nous",
+        "description": "Vous avez une question ? Une idée ? Une demande de fonctionnalité ? Un bug à signaler ? Une autre raison ?\nN'hésitez pas à nous contacter !\nNous vous répondrons dans les plus brefs délais.",
+        "address": "131 Boulevard René Cassin, 06200 Nice, France",
+        "phone": "+33 6 00 00 00 00",
+        "email": "help@tuxify.fr",
+        "labels": {
+          "name": "Nom",
+          "email": "Email",
+          "phone": "Téléphone",
+          "message": "Message",
+          "reason": "Raison",
+          "submit": "Soumettre"
+        },
+        "placeholders": {
+          "name": "Nom",
+          "email": "Email",
+          "phone": "Téléphone",
+          "message": "Message",
+          "reason": "Raison",
+          "submit": "Soumettre"
+        },
+        "reasons": {
+          "sales": "Vente",
+          "support": "Support",
+          "feedback": "Feedback",
+          "other": "Autre"
+        },
+        "messages": {
+          "success": "Votre message a été envoyé avec succès.",
+          "error": "Une erreur s'est produite lors de l'envoi de votre message. Veuillez réessayer plus tard."
+        }
+      }
     }
   },
   "app": {
