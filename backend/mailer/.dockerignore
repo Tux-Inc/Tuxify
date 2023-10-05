@@ -1,3 +1,6 @@
 .gitignore
 *.md
 dist
+node_modules
+.yarn
+yarn.lock

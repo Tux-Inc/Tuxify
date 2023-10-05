@@ -1,9 +1,9 @@
 version: '3'
 
 services:
-  # PostgreSQL
-  db:
-    container_name: tuxify-db
+  # PostgreSQL auth database
+  api_auth_db:
+    container_name: tuxify-api-auth-db
     image: postgres:16-alpine
     restart: always
     environment:
@@ -19,21 +19,31 @@ services:
     networks:
       - tuxify-network
 
+  # Redis auth cache
+  api_auth_cache:
+    container_name: tuxify-api-auth-cache
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - tuxify-network
+
   # Nest API services
   api_gateway:
     container_name: tuxify-api-gateway
-    image: node:latest
+    build:
+      context: ./backend/gateway
+      dockerfile: Dockerfile.dev
     restart: always
-    command: yarn start:dev --preserveWatchOutput
+    command: npm run start:dev --watch-preserve-output
     working_dir: /usr/src/app
     ports:
       - "3000:3000"
       - "8000:8000"
     volumes:
       - ./backend/gateway:/usr/src/app
-      - ./backend/gateway/node_modules:/usr/src/app/node_modules
-    depends_on:
-      - db
+      - /usr/src/app/node_modules
     networks:
       - tuxify-network
     env_file:
@@ -42,13 +52,35 @@ services:
   # Mailer microservice
   api_mailer:
     container_name: tuxify-api-mailer
-    image: node:latest
+    build:
+      context: ./backend/mailer
+      dockerfile: Dockerfile.dev
     restart: always
-    command: yarn start:dev --preserveWatchOutput
+    command: npm run start:dev --watch-preserve-output
     working_dir: /usr/src/app
     volumes:
       - ./backend/mailer:/usr/src/app
-      - ./backend/mailer/node_modules:/usr/src/app/node_modules
+      - /usr/src/app/node_modules
+    networks:
+      - tuxify-network
+    env_file:
+      - .env
+
+  # Auth microservice
+  api_auth:
+    container_name: tuxify-api-auth
+    build:
+      context: ./backend/auth
+      dockerfile: Dockerfile.dev
+    restart: always
+    command: npm run start:dev --watch-preserve-output
+    working_dir: /usr/src/app
+    volumes:
+      - ./backend/auth:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - api_auth_db
+      - api_auth_cache
     networks:
       - tuxify-network
     env_file:
