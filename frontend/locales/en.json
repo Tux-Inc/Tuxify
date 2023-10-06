@@ -325,7 +325,7 @@
     },
     "contact": {
       "hero": {
-        "title": "Get in touch with us",
+        "title": "Get in <span class=\"text-primary\">touch</span> with us",
         "description": "We are always happy to hear from you. If you have any questions or feedback, please feel free to contact us."
       },
       "form": {
