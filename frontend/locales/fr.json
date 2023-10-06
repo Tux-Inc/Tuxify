@@ -162,6 +162,165 @@
           "icon": "landing/integration_icons/linkedin.svg"
         }
       ]
+    },
+    "about-us": {
+      "hero": {
+        "title": "Un voyage sur le thème de la <span class=\"text-primary\">passion </span>",
+        "description": "Tuxify a été créé par une petite équipe de développeurs passionnés. Nous aimons construire des produits qui facilitent la vie des gens."
+      },
+      "team": {
+        "members": [
+          {
+            "name": "John Doe",
+            "job": "CEO",
+            "description": "John est le PDG de Tux Inc. John est un entrepreneur passionné qui aime construire de beaux produits faciles à utiliser.",
+            "image": "https://media.licdn.com/dms/image/D4E35AQEbfQG34_wS0A/profile-framedphoto-shrink_200_200/0/1677248288053?e=1696557600&v=beta&t=fa_-u2bxsAfyJXMvFhMpxt3vNfIX80uEG50aakjKPrY",
+            "socials": [
+              {
+                "icon": "twitter",
+                "name": "Twitter",
+                "link": "https://twitter.com"
+              },
+              {
+                "icon": "linkedin",
+                "name": "LinkedIn",
+                "link": "https://linkedin.com"
+              },
+              {
+                "icon": "github",
+                "name": "Github",
+                "link": "https://github.com"
+              },
+              {
+                "icon": "web",
+                "name": "Website",
+                "link": "http://honixsystems.com/"
+              },
+              {
+                "icon": "mail",
+                "name": "Email",
+                "link": "gwenael.hublert@tuxify.fr"
+              }
+            ]
+          },
+          {
+            "image": "https://media.licdn.com/dms/image/D4E35AQGY6GZi81_i4A/profile-framedphoto-shrink_200_200/0/1694979200375?e=1696557600&v=beta&t=L09JT6u4TX-OW0F7KZkK_GX5uWOCfPPdB65EHqM6ABA",
+            "alt": "Alexandre De Freitas Martins profile picture",
+            "name": "Alexandre De Freitas Martins",
+            "job": "Développeur",
+            "description": "Etudiant à Epitech Nice en 3ème année, Alexandre est un développeur passionné et aime construire des produits qui facilitent la vie des gens.",
+            "socials": [
+              {
+                "icon": "twitter",
+                "name": "Twitter",
+                "link": "https://twitter.com"
+              },
+              {
+                "icon": "linkedin",
+                "name": "LinkedIn",
+                "link": "https://linkedin.com"
+              },
+              {
+                "icon": "github",
+                "name": "Github",
+                "link": "https://github.com"
+              },
+              {
+                "icon": "email",
+                "name": "Email",
+                "link": "alexandre.de-freitas-martins@tuxify.fr"
+              }
+            ]
+          },
+          {
+            "image": "https://media.licdn.com/dms/image/C4D03AQFwOCFOwMrUOQ/profile-displayphoto-shrink_200_200/0/1642772926117?e=1701302400&v=beta&t=Tq-qomlqSy91b8isnb7DZzQ4knOhjPSm6Xt7ctlZmvs",
+            "alt": "Roman Lopez profile picture",
+            "name": "Roman Lopez",
+            "job": "Développeur",
+            "description": "Etudiant à Epitech Nice en 3ème année, Roman est un développeur passionné qui sait gérer une équipe.",
+            "socials": [
+              {
+                "icon": "twitter",
+                "name": "Twitter",
+                "link": "https://twitter.com"
+              },
+              {
+                "icon": "linkedin",
+                "name": "LinkedIn",
+                "link": "https://linkedin.com"
+              },
+              {
+                "icon": "github",
+                "name": "Github",
+                "link": "https://github.com"
+              },
+              {
+                "icon": "email",
+                "name": "Email",
+                "link": "roman.lopez@tuxify.fr"
+              }
+            ]
+          },
+          {
+            "image": "https://media.licdn.com/dms/image/C4E03AQHOy7QadrH0ZA/profile-displayphoto-shrink_200_200/0/1646759490047?e=1701302400&v=beta&t=QlKabCLTyc5E6ZHeTHrY0QXc20BZ2nNLbnsAozXsmdU",
+            "alt": "Stéphane Fievez profile picture",
+            "name": "Stéphane Fievez",
+            "job": "Développeur",
+            "description": "Etudiant à Epitech Nice en 3ème année, Stéphane est un développeur qui sait stimuler le plaisir et la motivation au sein d'une équipe.",
+            "socials": [
+              {
+                "icon": "twitter",
+                "name": "Twitter",
+                "link": "https://twitter.com"
+              },
+              {
+                "icon": "linkedin",
+                "name": "LinkedIn",
+                "link": "https://linkedin.com"
+              },
+              {
+                "icon": "github",
+                "name": "Github",
+                "link": "https://github.com"
+              },
+              {
+                "icon": "email",
+                "name": "Email",
+                "link": "stephane.fievez@tuxify.fr"
+              }
+            ]
+          },
+          {
+            "image": "https://media.licdn.com/dms/image/D4E35AQFo4mdOxROCtw/profile-framedphoto-shrink_200_200/0/1695844629955?e=1696557600&v=beta&t=50cdhDzuD-rfUEMZcsBbo_Gfkg1UUgmEvuxGyYDb58Y",
+            "alt": "Bouna Diallo profile picture",
+            "name": "Bouna Diallo",
+            "job": "Développeur",
+            "description": "Etudiant à Epitech Nice en 3ème année, Bouna est un développeur qui monte en puissance très rapidement.",
+            "socials": [
+              {
+                "icon": "twitter",
+                "name": "Twitter",
+                "link": "https://twitter.com"
+              },
+              {
+                "icon": "linkedin",
+                "name": "LinkedIn",
+                "link": "https://linkedin.com"
+              },
+              {
+                "icon": "github",
+                "name": "Github",
+                "link": "https://github.com"
+              },
+              {
+                "icon": "email",
+                "name": "Email",
+                "link": "bouna.diallo@tuxify.fr"
+              }
+            ]
+          }
+        ]
+      }
     }
   },
   "app": {
