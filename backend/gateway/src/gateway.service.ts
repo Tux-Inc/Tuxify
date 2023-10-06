@@ -6,10 +6,10 @@ import {CreatedUserDto} from "./created-user.dto";
 export class GatewayService {
     private readonly logger: Logger = new Logger(GatewayService.name);
     constructor(
-        @Inject('MAILER_SERVICE') private readonly mailerClient: ClientProxy,
+        @Inject('NATS_CLIENT') private readonly natsClient: ClientProxy,
     ) {}
 
     sendEmail(createdUserDto: CreatedUserDto) {
-        this.mailerClient.emit('user_created', createdUserDto);
+        this.natsClient.emit('user.created', createdUserDto);
     }
 }

@@ -12,7 +12,7 @@ export class MailerWrapperController {
         private readonly mailerService: MailerService,
     ) {}
 
-    @EventPattern('send_email')
+    @EventPattern('email.send')
     handleSendEmail(data: SendEmailEvent) {
         this.logger.log(`Sending email to ${data.to}`);
         this.mailerService.sendMail({
@@ -29,7 +29,7 @@ export class MailerWrapperController {
         });
     }
 
-    @EventPattern('user_created')
+    @EventPattern('user.created')
     handleUserCreated(data: CreatedUserEvent) {
         this.logger.log(`Sending confirmation email to ${data.email}`);
         this.mailerService.sendMail({
@@ -46,7 +46,7 @@ export class MailerWrapperController {
         });
     }
 
-    @EventPattern('user_reset_password')
+    @EventPattern('user.reset_password')
     handleUserResetPassword(data: UserResetPasswordEvent) {
         this.logger.log(`Sending reset password email to ${data.email}`);
         this.mailerService.sendMail({

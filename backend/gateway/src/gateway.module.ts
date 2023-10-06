@@ -5,29 +5,24 @@ import {DevtoolsModule} from "@nestjs/devtools-integration";
 import {ClientsModule, Transport} from "@nestjs/microservices";
 import {GatewayService} from "./gateway.service";
 import {GatewayController} from "./gateway.controller";
+import { FlowsModule } from './flows/flows.module';
 
 @Module({
   imports: [
       ClientsModule.register([
-            {
-                name: 'MAILER_SERVICE',
-                transport: Transport.NATS,
-                options: {
-                    servers: [process.env.NATS_SERVER_URL || 'nats://localhost:4222'],
-                }
-            },
-          {
-                name: 'AUTH_SERVICE',
-                transport: Transport.NATS,
-                options: {
-                    servers: [process.env.NATS_SERVER_URL || 'nats://localhost:4222'],
-                }
-          },
+        {
+            name: 'NATS_CLIENT',
+            transport: Transport.NATS,
+            options: {
+                servers: [process.env.NATS_SERVER_URL || 'nats://localhost:4222'],
+            }
+        },
       ]),
       ConfigModule.forRoot(),
       DevtoolsModule.register({
           http: process.env.NODE_ENV !== 'production',
       }),
+      FlowsModule,
   ],
   controllers: [GatewayController],
   providers: [GatewayService],

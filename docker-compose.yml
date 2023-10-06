@@ -18,7 +18,7 @@ services:
     networks:
       - tuxify-network
 
-  # MongoDB flows database
+  # MongoDB Flows database
   api_flows_db:
     container_name: tuxify-api-flows-db
     image: mongo:latest
@@ -110,6 +110,25 @@ services:
     depends_on:
       - api_auth_db
       - api_auth_cache
+    networks:
+      - tuxify-network
+    env_file:
+      - .env
+
+  # Flows microservice
+  api_flows:
+    container_name: tuxify-api-flows
+    build:
+      context: ./backend/flows
+      dockerfile: Dockerfile.dev
+    restart: always
+    command: npm run start:dev --watch-preserve-output
+    working_dir: /usr/src/app
+    volumes:
+      - ./backend/flows:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - api_flows_db
     networks:
       - tuxify-network
     env_file:

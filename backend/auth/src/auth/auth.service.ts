@@ -63,7 +63,7 @@ export class AuthService {
         email: user.email,
         confirmationLink: `https://${this.configService.get<string>('domain')}/auth/confirm-email?token=${confirmationToken}`,
     }
-    this.mailerClient.emit('user_created', createdUserDto);
+    this.mailerClient.emit('user.created', createdUserDto);
     return this.commonService.generateMessage('Registration successful');
   }
 
@@ -101,7 +101,7 @@ export class AuthService {
         email: user.email,
         confirmationLink: `https://${this.configService.get<string>('domain')}/auth/confirm-email?token=${confirmationToken}`,
       }
-        this.mailerClient.emit('user_created', createdUserDto);
+        this.mailerClient.emit('user.created', createdUserDto);
       throw new UnauthorizedException(
         'Please confirm your email, a new email has been sent',
       );
@@ -154,7 +154,7 @@ export class AuthService {
         email: user.email,
         resetLink: `https://${this.configService.get<string>('domain')}/auth/reset-password?token=${resetToken}`,
       }
-      this.mailerClient.emit('user_reset_password', userResetPasswordDto);
+      this.mailerClient.emit('user.reset_password', userResetPasswordDto);
     }
 
     return this.commonService.generateMessage('Reset password email sent');
