@@ -1,6 +1,5 @@
 import {Module} from '@nestjs/common';
 import {JwtModule} from '../jwt/jwt.module';
-import {MailerModule} from '../mailer/mailer.module';
 import {UsersModule} from '../users/users.module';
 import {AuthController} from './auth.controller';
 import {AuthService} from './auth.service';
@@ -11,7 +10,6 @@ import process from "process";
     imports: [
         UsersModule,
         JwtModule,
-        MailerModule,
         ClientsModule.register([
             {
                 name: 'MAILER_SERVICE',

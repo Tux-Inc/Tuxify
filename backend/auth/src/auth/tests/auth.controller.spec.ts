@@ -17,7 +17,6 @@ import { ThrottlerConfig } from '../../config/throttler.config';
 import { TokenTypeEnum } from '../../jwt/enums/token-type.enum';
 import { JwtModule } from '../../jwt/jwt.module';
 import { JwtService } from '../../jwt/jwt.service';
-import { MailerModule } from '../../mailer/mailer.module';
 import { MailerService } from '../../mailer/mailer.service';
 import { OAuthProvidersEnum } from '../../users/enums/oauth-providers.enum';
 import { IUser } from '../../users/interfaces/user.interface';
@@ -54,7 +53,6 @@ describe('AuthController', () => {
         CommonModule,
         UsersModule,
         JwtModule,
-        MailerModule,
         ThrottlerModule.forRootAsync({
           imports: [ConfigModule],
           useClass: ThrottlerConfig,

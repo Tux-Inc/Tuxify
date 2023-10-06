@@ -18,7 +18,6 @@ import { TokenTypeEnum } from '../jwt/enums/token-type.enum';
 import { IEmailToken } from '../jwt/interfaces/email-token.interface';
 import { IRefreshToken } from '../jwt/interfaces/refresh-token.interface';
 import { JwtService } from '../jwt/jwt.service';
-import { MailerService } from '../mailer/mailer.service';
 import { UserEntity } from '../users/entities/user.entity';
 import { OAuthProvidersEnum } from '../users/enums/oauth-providers.enum';
 import { ICredentials } from '../users/interfaces/credentials.interface';
@@ -31,7 +30,6 @@ import { SignInDto } from './dtos/sign-in.dto';
 import { SignUpDto } from './dtos/sign-up.dto';
 import { IAuthResult } from './interfaces/auth-result.interface';
 import {ClientProxy} from "@nestjs/microservices";
-import * as process from "process";
 import {ConfigService} from "@nestjs/config";
 import {UserResetPasswordDto} from "./dtos/user-reset-password.dto";
 
@@ -43,7 +41,6 @@ export class AuthService {
     private readonly commonService: CommonService,
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
-    private readonly mailerService: MailerService,
     private readonly configService: ConfigService,
     @Inject('MAILER_SERVICE') private readonly mailerClient: ClientProxy,
   ) {}
