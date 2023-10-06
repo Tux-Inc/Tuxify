@@ -25,7 +25,7 @@ export class AppService implements OnModuleInit, OnModuleDestroy {
   public async onModuleInit() {
     if (this.testing) {
       this.loggerService.log('Started generating schema');
-      await this.orm.getSchemaGenerator().createSchema();
+      // await this.orm.getSchemaGenerator().createSchema();
       this.loggerService.log('Finished generating schema');
     }
   }
@@ -33,7 +33,7 @@ export class AppService implements OnModuleInit, OnModuleDestroy {
   public async onModuleDestroy() {
     if (this.testing) {
       this.loggerService.log('Started dropping schema');
-      await this.orm.getSchemaGenerator().dropSchema();
+      // await this.orm.getSchemaGenerator().dropSchema();
       this.loggerService.log('Finished dropping schema');
     }
 

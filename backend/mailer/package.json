@@ -27,6 +27,7 @@
     "@nestjs/devtools-integration": "^0.1.5",
     "@nestjs/microservices": "^10.2.6",
     "@nestjs/platform-express": "^10.0.0",
+    "nats": "^2.17.0",
     "nodemailer": "^6.9.5",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1"

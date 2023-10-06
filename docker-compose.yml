@@ -29,6 +29,18 @@ services:
     networks:
       - tuxify-network
 
+  # Nest microservices NATS transport server
+  api_nats:
+    container_name: tuxify-api-nats
+    image: nats:latest
+    restart: always
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+      - "6222:6222"
+    networks:
+      - tuxify-network
+
   # Nest API services
   api_gateway:
     container_name: tuxify-api-gateway
@@ -75,6 +87,8 @@ services:
     restart: always
     command: npm run start:dev --watch-preserve-output
     working_dir: /usr/src/app
+    ports:
+      - "3010:3010"
     volumes:
       - ./backend/auth:/usr/src/app
       - /usr/src/app/node_modules

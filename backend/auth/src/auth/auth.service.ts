@@ -30,6 +30,10 @@ import { ResetPasswordDto } from './dtos/reset-password.dto';
 import { SignInDto } from './dtos/sign-in.dto';
 import { SignUpDto } from './dtos/sign-up.dto';
 import { IAuthResult } from './interfaces/auth-result.interface';
+import {ClientProxy} from "@nestjs/microservices";
+import * as process from "process";
+import {ConfigService} from "@nestjs/config";
+import {UserResetPasswordDto} from "./dtos/user-reset-password.dto";
 
 @Injectable()
 export class AuthService {
@@ -40,12 +44,14 @@ export class AuthService {
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
     private readonly mailerService: MailerService,
+    private readonly configService: ConfigService,
+    @Inject('MAILER_SERVICE') private readonly mailerClient: ClientProxy,
   ) {}
 
   public async signUp(dto: SignUpDto, domain?: string): Promise<IMessage> {
     const { name, email, password1, password2 } = dto;
     this.comparePasswords(password1, password2);
-    const user = await this.usersService.create(
+    const user: UserEntity = await this.usersService.create(
       OAuthProvidersEnum.LOCAL,
       email,
       name,
@@ -56,7 +62,11 @@ export class AuthService {
       TokenTypeEnum.CONFIRMATION,
       domain,
     );
-    this.mailerService.sendConfirmationEmail(user, confirmationToken);
+    const createdUserDto = {
+        email: user.email,
+        confirmationLink: `https://${this.configService.get<string>('domain')}/auth/confirm-email?token=${confirmationToken}`,
+    }
+    this.mailerClient.emit('user_created', createdUserDto);
     return this.commonService.generateMessage('Registration successful');
   }
 
@@ -69,6 +79,8 @@ export class AuthService {
       confirmationToken,
       TokenTypeEnum.CONFIRMATION,
     );
+    console.log('id', id);
+    console.log('version', version);
     const user = await this.usersService.confirmEmail(id, version);
     const [accessToken, refreshToken] =
       await this.jwtService.generateAuthTokens(user, domain);
@@ -88,7 +100,11 @@ export class AuthService {
         TokenTypeEnum.CONFIRMATION,
         domain,
       );
-      this.mailerService.sendConfirmationEmail(user, confirmationToken);
+      const createdUserDto = {
+        email: user.email,
+        confirmationLink: `https://${this.configService.get<string>('domain')}/auth/confirm-email?token=${confirmationToken}`,
+      }
+        this.mailerClient.emit('user_created', createdUserDto);
       throw new UnauthorizedException(
         'Please confirm your email, a new email has been sent',
       );
@@ -137,7 +153,11 @@ export class AuthService {
         TokenTypeEnum.RESET_PASSWORD,
         domain,
       );
-      this.mailerService.sendResetPasswordEmail(user, resetToken);
+      const userResetPasswordDto: UserResetPasswordDto = {
+        email: user.email,
+        resetLink: `https://${this.configService.get<string>('domain')}/auth/reset-password?token=${resetToken}`,
+      }
+      this.mailerClient.emit('user_reset_password', userResetPasswordDto);
     }
 
     return this.commonService.generateMessage('Reset password email sent');

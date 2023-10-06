@@ -14,10 +14,10 @@ export class ConfigurationMailerService implements MailerOptionsFactory {
         },
       },
       defaults: {
-        from: process.env.NESTSV_MAILER_SMTP_FROM || '',
+        from: process.env.NESTSV_MAILER_FROM || '',
       },
       template: {
-        dir: __dirname + '/templates',
+        dir: './templates',
         adapter: new PugAdapter(),
         options: {
           strict: true,

@@ -14,6 +14,7 @@ export class MailerWrapperController {
 
     @EventPattern('send_email')
     handleSendEmail(data: SendEmailEvent) {
+        this.logger.log(`Sending email to ${data.to}`);
         this.mailerService.sendMail({
             to: data.to,
             subject: data.subject,
@@ -30,6 +31,7 @@ export class MailerWrapperController {
 
     @EventPattern('user_created')
     handleUserCreated(data: CreatedUserEvent) {
+        this.logger.log(`Sending confirmation email to ${data.email}`);
         this.mailerService.sendMail({
             to: data.email,
             subject: 'Confirm your email',
@@ -46,6 +48,7 @@ export class MailerWrapperController {
 
     @EventPattern('user_reset_password')
     handleUserResetPassword(data: UserResetPasswordEvent) {
+        this.logger.log(`Sending reset password email to ${data.email}`);
         this.mailerService.sendMail({
             to: data.email,
             subject: 'Reset your password',

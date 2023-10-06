@@ -13,6 +13,7 @@ import {
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import {Transport} from "@nestjs/microservices";
+import * as process from "process";
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -39,9 +40,9 @@ async function bootstrap() {
   );
 
   const swaggerConfig = new DocumentBuilder()
-    .setTitle('NestJS Authentication API')
-    .setDescription('An OAuth2.0 authentication API made with NestJS')
-    .setVersion('0.0.1')
+    .setTitle('Tuxify Authentication API')
+    .setDescription('OAuth2.0 authentication API microservice')
+    .setVersion('1.0.0')
     .addBearerAuth()
     .addTag('Authentication API')
     .build();
@@ -49,10 +50,9 @@ async function bootstrap() {
   SwaggerModule.setup('api/docs', app, document);
 
   app.connectMicroservice({
-    transport: Transport.TCP,
+    transport: Transport.NATS,
     options: {
-        host: process.env.NESTSV_AUTH_HOST || 'localhost',
-        port: parseInt(process.env.NESTSV_AUTH_PORT, 10) || 3000,
+        servers: [process.env.NATS_SERVER_URL || 'nats://localhost:4222'],
     }
   })
 
@@ -60,7 +60,7 @@ async function bootstrap() {
 
   await app.listen(
     configService.get<number>('port'),
-    configService.get<boolean>('testing') ? '127.0.0.1' : '0.0.0.0',
+    configService.get<boolean>('testing') ? 'tuxify-api-auth' : '0.0.0.0',
   );
 }
 

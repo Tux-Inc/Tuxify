@@ -2,7 +2,7 @@
 import {
   BadRequestException,
   Injectable,
-  InternalServerErrorException,
+  InternalServerErrorException, Logger,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as jwt from 'jsonwebtoken';
@@ -20,9 +20,11 @@ import {
   IRefreshPayload,
   IRefreshToken,
 } from './interfaces/refresh-token.interface';
+import {logger} from "@mikro-orm/nestjs";
 
 @Injectable()
 export class JwtService {
+  private static logger: Logger = new Logger(JwtService.name);
   private readonly jwtConfig: IJwt;
   private readonly issuer: string;
   private readonly domain: string;
@@ -75,9 +77,11 @@ export class JwtService {
       return await promise;
     } catch (error) {
       if (error instanceof jwt.TokenExpiredError) {
+        this.logger.error('TokenExpiredError', error);
         throw new BadRequestException('Token expired');
       }
       if (error instanceof jwt.JsonWebTokenError) {
+        this.logger.error('JsonWebTokenError', error);
         throw new BadRequestException('Invalid token');
       }
       throw new InternalServerErrorException(error);
@@ -145,7 +149,7 @@ export class JwtService {
   >(token: string, tokenType: TokenTypeEnum): Promise<T> {
     const jwtOptions: jwt.VerifyOptions = {
       issuer: this.issuer,
-      audience: new RegExp(this.domain),
+      // audience: new RegExp(this.domain), // ENABLE FOR PRODUCTION
     };
 
     switch (tokenType) {

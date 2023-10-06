@@ -1,16 +1,16 @@
 import { NestFactory } from '@nestjs/core';
 import { MailerWrapperModule } from './mailer-wrapper.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import * as process from "process";
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
       MailerWrapperModule,
       {
         snapshot: true,
-        transport: Transport.TCP,
+        transport: Transport.NATS,
         options: {
-            host: process.env.NESTSV_MAILER_HOST || 'localhost',
-            port: parseInt(process.env.NESTSV_MAILER_PORT, 10) || 3000,
+            servers: [process.env.NATS_SERVER_URL || 'nats://localhost:4222'],
         }
       }
   );

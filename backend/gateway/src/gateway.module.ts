@@ -11,18 +11,16 @@ import {GatewayController} from "./gateway.controller";
       ClientsModule.register([
             {
                 name: 'MAILER_SERVICE',
-                transport: Transport.TCP,
+                transport: Transport.NATS,
                 options: {
-                    host: process.env.NESTSV_MAILER_HOST || 'localhost',
-                    port: parseInt(process.env.NESTSV_MAILER_PORT, 10) || 3000,
+                    servers: [process.env.NATS_SERVER_URL || 'nats://localhost:4222'],
                 }
             },
           {
                 name: 'AUTH_SERVICE',
-                transport: Transport.TCP,
+                transport: Transport.NATS,
                 options: {
-                    host: process.env.NESTSV_AUTH_HOST || 'localhost',
-                    port: parseInt(process.env.NESTSV_AUTH_PORT, 10) || 3001,
+                    servers: [process.env.NATS_SERVER_URL || 'nats://localhost:4222'],
                 }
           },
       ]),

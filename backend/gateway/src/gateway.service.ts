@@ -1,5 +1,6 @@
 import {Inject, Injectable, Logger} from "@nestjs/common";
 import {ClientProxy} from "@nestjs/microservices";
+import {CreatedUserDto} from "./created-user.dto";
 
 @Injectable()
 export class GatewayService {
@@ -8,7 +9,7 @@ export class GatewayService {
         @Inject('MAILER_SERVICE') private readonly mailerClient: ClientProxy,
     ) {}
 
-    sendEmail(data: any) {
-        this.mailerClient.emit('send_email', data);
+    sendEmail(createdUserDto: CreatedUserDto) {
+        this.mailerClient.emit('user_created', createdUserDto);
     }
 }
