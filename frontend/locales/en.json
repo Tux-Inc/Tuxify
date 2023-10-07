@@ -329,7 +329,7 @@
         "description": "We are always happy to hear from you. If you have any questions or feedback, please feel free to contact us."
       },
       "form": {
-        "title": "Contact us",
+        "title": "Contact <span class=\"text-primary\">us</span>",
         "description": "You have a question ? An idea ? A feature request ? Any bug to report ? Any other reason ?\nFeel free to contact us !\nWe will answer you as soon as possible.",
         "address": "131 Boulevard René Cassin, 06200 Nice, France",
         "phone": "+33 6 00 00 00 00",

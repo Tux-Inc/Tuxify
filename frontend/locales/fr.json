@@ -328,7 +328,7 @@
         "description": "Nous sommes toujours heureux d'avoir de vos nouvelles. Si vous avez des questions ou des commentaires, n'hésitez pas à nous contacter."
       },
       "form": {
-        "title": "Contactez nous",
+        "title": "Contactez <span class=\"text-primary\">nous</span>",
         "description": "Vous avez une question ? Une idée ? Une demande de fonctionnalité ? Un bug à signaler ? Une autre raison ?\nN'hésitez pas à nous contacter !\nNous vous répondrons dans les plus brefs délais.",
         "address": "131 Boulevard René Cassin, 06200 Nice, France",
         "phone": "+33 6 00 00 00 00",
