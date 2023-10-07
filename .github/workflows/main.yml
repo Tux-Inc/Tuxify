@@ -125,7 +125,7 @@ jobs:
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "./android/app/build/outputs/bundle/release/app-release-signed.aab, ./android/app/build/outputs/apk/debug/app-debug.apk"
+          artifacts: "android/app/build/outputs/bundle/release/app-release-signed.aab, android/app/build/outputs/apk/debug/app-debug.apk"
           name: ${{ steps.current-datetime.outputs.CURRENT_DATETIME }}
           tag: ${{ steps.current-datetime.outputs.CURRENT_DATETIME }}
 
