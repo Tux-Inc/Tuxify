@@ -1,6 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { FlowsService } from './flows.service';
 import {Ctx, MessagePattern, Payload} from "@nestjs/microservices";
+import {Flow} from "./schemas/flow.schema";
 
 @Controller()
 export class FlowsController {
@@ -9,7 +10,7 @@ export class FlowsController {
   ) {}
 
   @MessagePattern({ cmd: 'flows.create' })
-  async createFlow(@Payload() data: any,  @Ctx() context: any) {
-    return this.flowsService.createFlow(data, context);
+  async createFlow(@Payload() flow: Flow) {
+    return this.flowsService.createFlow(flow);
   }
 }

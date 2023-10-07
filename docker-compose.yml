@@ -12,7 +12,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - auth_data:/var/lib/postgresql/data
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./dabatase/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
     networks:
@@ -23,12 +23,14 @@ services:
     container_name: tuxify-api-flows-db
     image: mongo:latest
     restart: always
+    command: --quiet
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=${NESTSV_FLOWS_MONGO_USER}
-      - MONGO_INITDB_ROOT_PASSWORD=${NESTSV_FLOWS_MONGO_PASSWORD}
-      - MONGO_INITDB_DATABASE=${NESTSV_FLOWS_MONGO_DB}
+      MONGO_INITDB_ROOT_USERNAME: ${NESTSV_FLOWS_MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${NESTSV_FLOWS_MONGO_PASSWORD}
+      MONGO_INITDB_DATABASE: ${NESTSV_FLOWS_MONGO_DB}
     volumes:
       - flows_data:/data/db
+      - ./database/init.js:/docker-entrypoint-initdb.d/init.js:ro
     ports:
       - "27017:27017"
     networks:
