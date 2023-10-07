@@ -66,7 +66,7 @@ const i18n = useI18n();
         <div class="py-24 sm:py-32 md:py-40 relative">
             <div
                 class="mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl md:mb-[calc(var(--header-height))]"
-            >
+            >   
                 <div class="relative z-[1] text-center">
                     <h1
                         class="text-4xl font-extrabold text-dark dark:text-light sm:text-5xl md:text-6xl"
@@ -91,17 +91,17 @@ const i18n = useI18n();
                         {{ i18n.t("landing.contact.form.address") }}
                     </p>
                     <div class="items-center text-center text-gray-600 dark:text-gray-300">
-                        <UButton icon="i-heroicons-phone" :to="`tel:${i18n.t('landing.contact.form.phone')}`"
+                        <UButton icon="i-heroicons-phone" to="tel:+33 6 00 00 00 00"
                                  color="primary"
                                  variant="ghost"
-                                 :label="i18n.t('landing.contact.form.phone')" />
-                        <UButton icon="i-heroicons-envelope" :to="`mailto:${i18n.t('landing.contact.form.email')}`"
+                                 label="+33 6 00 00 00 00" />
+                        <UButton icon="i-heroicons-envelope" to="mailto:help@tuxify.fr"
                                  color="primary"
                                  variant="ghost"
-                                 :label="i18n.t('landing.contact.form.email')" />
+                                 label="help@tuxify.fr" />
                     </div>
                 </div>
-                <UForm
+               <UForm
                     class="md:col-start-3 md:col-end-6 gap-4"
                     :validate="validate"
                     :state="state"
@@ -128,7 +128,7 @@ const i18n = useI18n();
                 </UForm>
                 <UButton block class="md:col-start-4 text-center" type="submit"
                          :label="i18n.t('landing.contact.form.labels.submit')" />
-            </div>
+            </div> 
         </div>
     </div>
 </template>
