@@ -122,20 +122,12 @@ jobs:
         id: current-datetime
         run: echo "CURRENT_DATETIME=$(date +'%Y-%m-%d-%H_%M_%S%z')" >> "$GITHUB_OUTPUT"
 
-      - name: Install hub
-        uses: geertvdc/setup-hub@master
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "./android/app/build/outputs/bundle/release/app-release-signed.aab, ./android/app/build/outputs/apk/debug/app-debug.apk"
+          name: ${{ steps.current-datetime.outputs.CURRENT_DATETIME }}
 
-      - name: Build Release
-        shell: bash
-        env:
-          GITHUB_USER: ${{ secrets.GITHUB_USER }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-        run: |
-          hub release create ${{ steps.current-datetime.outputs.CURRENT_DATETIME }} \
-          -m ${{ steps.current-datetime.outputs.CURRENT_DATETIME }} \
-          -a ./android/app/build/outputs/bundle/release/app-release-signed.aab \
-          -a ./android/app/build/outputs/apk/debug/app-debug.apk
 
   deploy_frontend_to_kubernetes:
     name: Deploy Frontend to Kubernetes
