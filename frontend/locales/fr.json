@@ -200,7 +200,7 @@
               {
                 "icon": "mail",
                 "name": "Email",
-                "link": "gwenael.hublert@tuxify.fr"
+                "link": "mailto:gwenael.hublert@tuxify.fr"
               }
             ]
           },
@@ -229,7 +229,7 @@
               {
                 "icon": "email",
                 "name": "Email",
-                "link": "alexandre.de-freitas-martins@tuxify.fr"
+                "link": "mailto:alexandre.de-freitas-martins@tuxify.fr"
               }
             ]
           },
@@ -258,7 +258,7 @@
               {
                 "icon": "email",
                 "name": "Email",
-                "link": "roman.lopes@tuxify.fr"
+                "link": "mailto:roman.lopes@tuxify.fr"
               }
             ]
           },
@@ -287,7 +287,7 @@
               {
                 "icon": "email",
                 "name": "Email",
-                "link": "stephane.fievez@tuxify.fr"
+                "link": "mailto:stephane.fievez@tuxify.fr"
               }
             ]
           },
@@ -316,7 +316,7 @@
               {
                 "icon": "email",
                 "name": "Email",
-                "link": "bouna.diallo@tuxify.fr"
+                "link": "mailto:bouna.diallo@tuxify.fr"
               }
             ]
           }
