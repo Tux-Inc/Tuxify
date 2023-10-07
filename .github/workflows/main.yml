@@ -130,6 +130,7 @@ jobs:
         env:
           GITHUB_USER: ${{ secrets.GITHUB_USER }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         run: |
           hub release create ${{ steps.current-datetime.outputs.CURRENT_DATETIME }} \
           -m ${{ steps.current-datetime.outputs.CURRENT_DATETIME }} \
@@ -138,7 +139,7 @@ jobs:
 
   deploy_frontend_to_kubernetes:
     name: Deploy Frontend to Kubernetes
-    needs: [ build_api, build_frontend, build_android ]
+    needs: [ build_api, build_frontend ]
     runs-on: ubuntu-latest
     environment:
       name: production
@@ -166,7 +167,7 @@ jobs:
 
   deploy_backend_to_kubernetes:
     name: Deploy Backend to Kubernetes
-    needs: [ build_api, build_frontend, build_android, deploy_frontend_to_kubernetes ]
+    needs: [ build_api, build_frontend, deploy_frontend_to_kubernetes ]
     runs-on: ubuntu-latest
     environment:
       name: production
@@ -204,7 +205,7 @@ jobs:
 
   mirror:
     name: Mirror repository
-    needs: [ build_api, build_frontend, build_android, deploy_frontend_to_kubernetes, deploy_backend_to_kubernetes ]
+    needs: [ build_api, build_frontend, deploy_frontend_to_kubernetes, deploy_backend_to_kubernetes ]
     permissions:
       contents: read
     runs-on: ubuntu-latest
