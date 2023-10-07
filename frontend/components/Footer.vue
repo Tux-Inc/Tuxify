@@ -19,6 +19,7 @@ const currentYear = new Date().getFullYear()
           <div class="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-8 lg:flex lg:items-center lg:justify-between lg:py-4">
               <div class="lg:flex-1 flex items-center justify-center lg:justify-end gap-x-1.5 lg:order-3">
                   <UButton icon="i-mdi-discord" size="sm" to="https://discord.gg/2YHSAeV" color="gray" variant="ghost" />
+                  <UButton icon="i-mdi-linkedin" size="sm" to="https://www.linkedin.com/company/tux-inc" color="gray" variant="ghost" />
                   <UButton icon="i-mdi-twitter" size="sm" to="https://x.com/tuxinc" color="gray" variant="ghost" />
                   <UButton icon="i-mdi-github" size="sm" to="https://github.com/tux-inc" color="gray" variant="ghost" />
               </div>
