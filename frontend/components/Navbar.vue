@@ -32,7 +32,7 @@ for (const locale of availableLocales.value) {
         <div class="flex items-center justify-between gap-3 h-[--header-height] mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
             <div class="flex items-center justify-start gap-4">
                 <NuxtLink to="/">
-                    <svg class="h-8 fill-primary dark:fill-base-light" viewBox="0 0 2262 782"
+                    <svg class="h-8 fill-primary dark:fill-base-light" viewBox="0 0 2262 782" aria-label="Tuxify Logo"
                          xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M198.863 302.876C164.945 208.09 49.406 202.205 0 208.09C11.8797 194.451 47.4614 175.075 82.2401 142.113C111.209 114.658 137.202 75.4932 170.985 43.61C222.095 0.86487 272.275 -2.19441 308.981 0.864822C370.313 5.97645 469.279 31.9951 469.279 147.224C464.633 302.876 377.747 351.727 353.586 426.468C329.425 501.209 353.586 554.307 353.586 554.307C353.586 554.307 357.767 473.991 422.816 450.229C487.865 426.468 541.298 366.131 541.298 366.131C564.065 506.915 436.526 516.607 400.514 652.28C380.535 727.55 431.18 781.554 422.816 778.195C198.863 688.258 243.932 466.891 252.76 426.468C267.981 356.773 389.363 88.115 222.095 90.0737C164.599 90.7469 131.956 113.77 136.602 152.334C141.248 190.899 185.573 211.66 198.863 242.473C214.695 279.179 198.863 302.876 198.863 302.876Z" />
@@ -46,22 +46,22 @@ for (const locale of availableLocales.value) {
             <div class="flex flex-row gap-2 items-center">
                 <UButton to="/" size="lg" color="gray" variant="ghost" :label="i18n.t('landing.navbar.home')" />
                 <UButton to="/pricing" size="lg" color="gray" variant="ghost">{{
-                    i18n.t('landing.navbar.pricing')
+                        i18n.t("landing.navbar.pricing")
                     }}
                 </UButton>
                 <UButton to="/about-us" size="lg" color="gray" variant="ghost">{{
-                    i18n.t('landing.navbar.aboutUs')
+                        i18n.t("landing.navbar.aboutUs")
                     }}
                 </UButton>
                 <UButton to="https://github.com/tux-inc/Tuxify/releases" size="lg" color="gray" variant="ghost">
-                    {{ i18n.t('landing.navbar.changelog') }}
+                    {{ i18n.t("landing.navbar.changelog") }}
                 </UButton>
                 <UButton to="https://github.com/tux-inc/Tuxify/wiki" size="lg" color="gray" variant="ghost">
-                    {{ i18n.t('landing.navbar.documentation') }}
+                    {{ i18n.t("landing.navbar.documentation") }}
                 </UButton>
                 <UButton to="/integration" size="lg" color="gray" variant="ghost">{{
-                    i18n.t('landing.navbar.integration')
-                  }}
+                        i18n.t("landing.navbar.integration")
+                    }}
                 </UButton>
                 <UButton to="/contact" size="lg" color="gray" variant="ghost"
                          :label="i18n.t('landing.navbar.contact')" />
