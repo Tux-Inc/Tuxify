@@ -22,6 +22,7 @@ import {
   IMicrosoftUser,
 } from './interfaces/user-response.interface';
 import { Oauth2Service } from './oauth2.service';
+import {IAuthResponseTokensInterface} from "./interfaces/auth-response-tokens.interface";
 
 @ApiTags('Oauth2')
 @Controller('api/auth/ext')
@@ -72,9 +73,9 @@ export class Oauth2Controller {
     @Res() res: FastifyReply,
   ): Promise<FastifyReply> {
     const provider = OAuthProvidersEnum.MICROSOFT;
-    const { displayName, mail } =
+    const { displayName, mail, tokens } =
       await this.oauth2Service.getUserData<IMicrosoftUser>(provider, cbQuery);
-    return this.loginAndRedirect(res, provider, mail, displayName);
+    return this.loginAndRedirect(res, provider, mail, displayName, tokens);
   }
 
   @Public()
@@ -106,11 +107,11 @@ export class Oauth2Controller {
     @Res() res: FastifyReply,
   ): Promise<FastifyReply> {
     const provider = OAuthProvidersEnum.GOOGLE;
-    const { name, email } = await this.oauth2Service.getUserData<IGoogleUser>(
+    const { name, email, tokens } = await this.oauth2Service.getUserData<IGoogleUser>(
       provider,
       cbQuery,
     );
-    return this.loginAndRedirect(res, provider, email, name);
+    return this.loginAndRedirect(res, provider, email, name, tokens);
   }
 
   @Public()
@@ -142,11 +143,11 @@ export class Oauth2Controller {
     @Res() res: FastifyReply,
   ): Promise<FastifyReply> {
     const provider = OAuthProvidersEnum.FACEBOOK;
-    const { name, email } = await this.oauth2Service.getUserData<IFacebookUser>(
+    const { name, email, tokens } = await this.oauth2Service.getUserData<IFacebookUser>(
       provider,
       cbQuery,
     );
-    return this.loginAndRedirect(res, provider, email, name);
+    return this.loginAndRedirect(res, provider, email, name, tokens);
   }
 
   @Public()
@@ -178,11 +179,11 @@ export class Oauth2Controller {
     @Res() res: FastifyReply,
   ): Promise<FastifyReply> {
     const provider = OAuthProvidersEnum.GITHUB;
-    const { name, email } = await this.oauth2Service.getUserData<IGitHubUser>(
+    const { name, email, tokens } = await this.oauth2Service.getUserData<IGitHubUser>(
       provider,
       cbQuery,
     );
-    return this.loginAndRedirect(res, provider, email, name);
+    return this.loginAndRedirect(res, provider, email, name, tokens);
   }
 
   private startRedirect(
@@ -199,11 +200,13 @@ export class Oauth2Controller {
     provider: OAuthProvidersEnum,
     email: string,
     name: string,
+    tokens: IAuthResponseTokensInterface,
   ): Promise<FastifyReply> {
     const [accessToken, refreshToken] = await this.oauth2Service.login(
       provider,
       email,
       name,
+      tokens,
     );
     return res
       .cookie(this.cookieName, refreshToken, {
@@ -214,6 +217,6 @@ export class Oauth2Controller {
         expires: new Date(Date.now() + this.refreshTime * 1000),
       })
       .status(HttpStatus.PERMANENT_REDIRECT)
-      .redirect(`${this.url}/?access_token=${accessToken}`);
+      .redirect(`${this.url}/oauth/?access_token=${accessToken}`);
   }
 }

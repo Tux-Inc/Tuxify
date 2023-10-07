@@ -5,6 +5,7 @@ import { OAuthProvidersEnum } from '../../users/enums/oauth-providers.enum';
 import { IAuthParams } from '../interfaces/auth-params.interface';
 import { IClient } from '../interfaces/client.interface';
 import { IProvider } from '../interfaces/provider.interface';
+import {IAuthResponseTokensInterface} from "../interfaces/auth-response-tokens.interface";
 
 export class OAuthClass {
   private static readonly [OAuthProvidersEnum.MICROSOFT]: IProvider = {
@@ -15,7 +16,7 @@ export class OAuthClass {
   };
   private static readonly [OAuthProvidersEnum.GOOGLE]: IProvider = {
     authorizeHost: 'https://accounts.google.com',
-    authorizePath: '/o/oauth2/v2/auth',
+    authorizePath: '/o/oauth2/v2/auth?access_type=offline&',
     tokenHost: 'https://www.googleapis.com',
     tokenPath: '/oauth2/v4/token',
   };
@@ -112,12 +113,15 @@ export class OAuthClass {
     }
   }
 
-  public async getToken(code: string): Promise<string> {
+  public async getToken(code: string): Promise<IAuthResponseTokensInterface> {
     const result = await this.code.getToken({
       code,
       redirect_uri: this.authorization.redirect_uri,
       scope: this.authorization.scope,
     });
-    return result.token.access_token as string;
+    return {
+      accessToken: result.token.access_token as string,
+      refreshToken: result.token.refresh_token as string
+    };
   }
 }
