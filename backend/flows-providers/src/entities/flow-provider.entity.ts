@@ -9,20 +9,17 @@ export class FlowProviderEntity {
     provider: string;
 
     @Column()
-    token: string;
+    accessToken: string;
 
     @Column()
-    refresh_token: string;
+    refreshToken: string;
 
     @Column()
-    expires_in: number;
-
-    @Column()
-    user_id: number;
+    userId: number;
 
     @Column({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-    created_at: Date;
+    createdAt: Date;
 
     @Column({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-    updated_at: Date;
+    updatedAt: Date;
 }

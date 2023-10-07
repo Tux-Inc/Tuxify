@@ -13,8 +13,6 @@ services:
     volumes:
       - auth_data:/var/lib/postgresql/data
       - ./dabatase/init.sql:/docker-entrypoint-initdb.d/init.sql
-    ports:
-      - "5432:5432"
     networks:
       - tuxify-network
 
@@ -27,6 +25,8 @@ services:
       POSTGRES_PASSWORD: ${NESTSV_FLOWSPROVIDERS_POSTGRES_PASSWORD}
       POSTGRES_USER: ${NESTSV_FLOWSPROVIDERS_POSTGRES_USER}
       POSTGRES_DB: ${NESTSV_FLOWSPROVIDERS_POSTGRES_DB}
+    ports:
+      - "5432:5432"
     volumes:
       - flows_providers_data:/var/lib/postgresql/data
       - ./dabatase/init.sql:/docker-entrypoint-initdb.d/init.sql

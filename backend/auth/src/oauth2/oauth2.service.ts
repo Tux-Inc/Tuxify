@@ -109,7 +109,7 @@ export class Oauth2Service {
         accessToken: tokens.accessToken,
         refreshToken: tokens.refreshToken,
     }
-    this.natsClient.emit('oauth2.user.created', localUserProviderTokens);
+    this.natsClient.emit('oauth2.user.connected', localUserProviderTokens);
     return this.jwtService.generateAuthTokens(user);
   }
 
