@@ -110,6 +110,257 @@
           "button": "Nous contacter"
         }
       }
+    },
+    "integration": {
+      "title": "Se connecter à n'importe quel <span class=\"text-primary\">service</span>",
+      "description": "Tuxify vous permet de vous connecter à n'importe quel service disposant d'une API. Vous pouvez vous connecter à un nombre illimité de service",
+      "button": "View all services",
+      "services": [
+        {
+          "title": "GitHub",
+          "description": "GitHub est une plateforme de développement inspirée par votre façon de travailler. Vous pouvez héberger et réviser du code, gérer des projets utilisés par plus de 50 millions de développeurs.",
+          "icon": "landing/integration_icons/github.svg"
+        },
+        {
+          "title": "Gmail",
+          "description": "Gmail est un service de messagerie électronique intuitif, efficace et utile. 15 Go de stockage, moins de spam et un accès mobile.",
+          "icon": "landing/integration_icons/gmail.svg"
+        },
+        {
+          "title": "Google Calendar",
+          "description": "Google Agenda est un outil en ligne qui permet de planifier, d'organiser des événements et de gérer son temps de manière collaborative grâce à des rappels personnalisables.",
+          "icon": "landing/integration_icons/google-calendar.svg"
+        },
+        {
+          "title": "Google Sheets",
+          "description": "Google Sheets est un logiciel de feuille de calcul basé sur le cloud pour l'analyse, la collaboration et la visualisation de données.",
+          "icon": "landing/integration_icons/google-sheets.svg"
+        },
+        {
+          "title": "Google Docs",
+          "description": "Google Docs est un traitement de texte collaboratif en ligne proposé par Google, qui permet d'éditer et de partager des documents en temps réel.",
+          "icon": "landing/integration_icons/google-docs.svg"
+        },
+        {
+          "title": "Google Drive",
+          "description": "Google Drive est un service de stockage en nuage de Google pour les fichiers, les documents et la collaboration, accessible depuis n'importe quel endroit en ligne.",
+          "icon": "landing/integration_icons/google-drive.svg"
+        },
+        {
+          "title": "Linear",
+          "description": "Linear aide à rationaliser les projets logiciels, les sprints, les tâches et le suivi des bogues. Il est conçu pour les équipes performantes.",
+          "icon": "landing/integration_icons/linear.svg"
+        },
+        {
+          "title": "Slack",
+          "description": "Slack est une nouvelle façon de communiquer avec votre équipe. Il est plus rapide, mieux organisé et plus sûr que le courrier électronique.",
+          "icon": "landing/integration_icons/slack.svg"
+        },
+        {
+          "title": "LinkedIn",
+          "description": "LinkedIn est une plateforme de réseautage professionnel qui met en relation des individus, favorise le développement de carrière et facilite les relations d'affaires pour les professionnels du monde entier.",
+          "icon": "landing/integration_icons/linkedin.svg"
+        }
+      ]
+    },
+    "about-us": {
+      "hero": {
+        "title": "Un voyage sur le thème de la <span class=\"text-primary\">passion </span>",
+        "description": "Tuxify a été créé par une petite équipe de développeurs passionnés. Nous aimons construire des produits qui facilitent la vie des gens."
+      },
+      "team": {
+        "members": [
+          {
+            "image": "/landing/contributors/gwenael_hubler.jpg",
+            "alt": "Gwenaël Hubler profile picture",
+            "name": "Gwenaël Hubler",
+            "job": "CEO",
+            "description": "Gwenaël est le PDG de Tux Inc. Gwenaël est un entrepreneur passionné qui aime construire de beaux produits faciles à utiliser.",
+            "socials": [
+              {
+                "icon": "twitter",
+                "name": "Twitter",
+                "link": "https://twitter.com"
+              },
+              {
+                "icon": "linkedin",
+                "name": "LinkedIn",
+                "link": "https://linkedin.com"
+              },
+              {
+                "icon": "github",
+                "name": "Github",
+                "link": "https://github.com"
+              },
+              {
+                "icon": "web",
+                "name": "Website",
+                "link": "http://honixsystems.com/"
+              },
+              {
+                "icon": "mail",
+                "name": "Email",
+                "link": "gwenael.hublert@tuxify.fr"
+              }
+            ]
+          },
+          {
+            "image": "/landing/contributors/alexandre-kevin_de_freitas_martins.jpg",
+            "alt": "Alexandre De Freitas Martins profile picture",
+            "name": "Alexandre De Freitas Martins",
+            "job": "Développeur",
+            "description": "Etudiant à Epitech Nice en 3ème année, Alexandre est un développeur passionné et aime construire des produits qui facilitent la vie des gens.",
+            "socials": [
+              {
+                "icon": "twitter",
+                "name": "Twitter",
+                "link": "https://twitter.com"
+              },
+              {
+                "icon": "linkedin",
+                "name": "LinkedIn",
+                "link": "https://linkedin.com"
+              },
+              {
+                "icon": "github",
+                "name": "Github",
+                "link": "https://github.com"
+              },
+              {
+                "icon": "email",
+                "name": "Email",
+                "link": "alexandre.de-freitas-martins@tuxify.fr"
+              }
+            ]
+          },
+          {
+            "image": "/landing/contributors/roman_lopes.jpg",
+            "alt": "Roman Lopez profile picture",
+            "name": "Roman Lopez",
+            "job": "Développeur",
+            "description": "Etudiant à Epitech Nice en 3ème année, Roman est un développeur passionné qui sait gérer une équipe.",
+            "socials": [
+              {
+                "icon": "twitter",
+                "name": "Twitter",
+                "link": "https://twitter.com"
+              },
+              {
+                "icon": "linkedin",
+                "name": "LinkedIn",
+                "link": "https://linkedin.com"
+              },
+              {
+                "icon": "github",
+                "name": "Github",
+                "link": "https://github.com"
+              },
+              {
+                "icon": "email",
+                "name": "Email",
+                "link": "roman.lopez@tuxify.fr"
+              }
+            ]
+          },
+          {
+            "image": "/landing/contributors/stephane_fievez.jpg",
+            "alt": "Stéphane Fievez profile picture",
+            "name": "Stéphane Fievez",
+            "job": "Développeur",
+            "description": "Etudiant à Epitech Nice en 3ème année, Stéphane est un développeur qui sait stimuler le plaisir et la motivation au sein d'une équipe.",
+            "socials": [
+              {
+                "icon": "twitter",
+                "name": "Twitter",
+                "link": "https://twitter.com"
+              },
+              {
+                "icon": "linkedin",
+                "name": "LinkedIn",
+                "link": "https://linkedin.com"
+              },
+              {
+                "icon": "github",
+                "name": "Github",
+                "link": "https://github.com"
+              },
+              {
+                "icon": "email",
+                "name": "Email",
+                "link": "stephane.fievez@tuxify.fr"
+              }
+            ]
+          },
+          {
+            "image": "/landing/contributors/bouna_diallo.jpg",
+            "alt": "Bouna Diallo profile picture",
+            "name": "Bouna Diallo",
+            "job": "Développeur",
+            "description": "Etudiant à Epitech Nice en 3ème année, Bouna est un développeur qui monte en puissance très rapidement.",
+            "socials": [
+              {
+                "icon": "twitter",
+                "name": "Twitter",
+                "link": "https://twitter.com"
+              },
+              {
+                "icon": "linkedin",
+                "name": "LinkedIn",
+                "link": "https://linkedin.com"
+              },
+              {
+                "icon": "github",
+                "name": "Github",
+                "link": "https://github.com"
+              },
+              {
+                "icon": "email",
+                "name": "Email",
+                "link": "bouna.diallo@tuxify.fr"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "contact": {
+      "hero": {
+        "title": "Prenez <span class=\"text-primary\">contact</span> avec nous",
+        "description": "Nous sommes toujours heureux d'avoir de vos nouvelles. Si vous avez des questions ou des commentaires, n'hésitez pas à nous contacter."
+      },
+      "form": {
+        "title": "Contactez <span class=\"text-primary\">nous</span>",
+        "description": "Vous avez une question ? Une idée ? Une demande de fonctionnalité ? Un bug à signaler ? Une autre raison ?\nN'hésitez pas à nous contacter !\nNous vous répondrons dans les plus brefs délais.",
+        "address": "131 Boulevard René Cassin, 06200 Nice, France",
+        "phone": "+33 6 00 00 00 00",
+        "email": "help@tuxify.fr",
+        "labels": {
+          "name": "Nom",
+          "email": "Email",
+          "phone": "Téléphone",
+          "message": "Message",
+          "reason": "Raison",
+          "submit": "Soumettre"
+        },
+        "placeholders": {
+          "name": "Nom",
+          "email": "Email",
+          "phone": "Téléphone",
+          "message": "Message",
+          "reason": "Raison",
+          "submit": "Soumettre"
+        },
+        "reasons": {
+          "sales": "Vente",
+          "support": "Support",
+          "feedback": "Feedback",
+          "other": "Autre"
+        },
+        "messages": {
+          "success": "Votre message a été envoyé avec succès.",
+          "error": "Une erreur s'est produite lors de l'envoi de votre message. Veuillez réessayer plus tard."
+        }
+      }
     }
   },
   "app": {

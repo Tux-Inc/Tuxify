@@ -65,7 +65,7 @@ const i18n = useI18n();
     <div>
         <div class="py-24 sm:py-32 md:py-40 relative">
             <div
-                class="mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl mb-[calc(var(--header-height))]"
+                class="mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl md:mb-[calc(var(--header-height))]"
             >
                 <div class="relative z-[1] text-center">
                     <h1
@@ -79,28 +79,30 @@ const i18n = useI18n();
                     </p>
                 </div>
             </div>
-            <div class="container mx-auto grid gap-4 grid-cols-5 p-4">
-                <div class="col-start-1 col-end-3 p-8 my-auto">
-                    <h1 class="text-center text-3xl font-extrabold text-dark dark:text-light my-4">
-                        {{ i18n.t("landing.contact.form.title") }}
-                    </h1>
-                    <p class="text-gray-600 dark:text-gray-300">
+            <div class="container mx-auto grid gap-4 md:grid-cols-5 sm:grid-cols-1 p-4">
+                <div class="md:col-start-1 md:col-end-3 md:p-8 sm:p-4 my-auto">
+                    <h1 class="text-center text-3xl font-extrabold text-dark dark:text-light my-4"
+                        v-html="i18n.t('landing.contact.form.title')"
+                    />
+                    <p class="text-gray-600 dark:text-gray-300 text-justify">
                         {{ i18n.t("landing.contact.form.description") }}
                     </p>
-                    <p class="text-gray-600 dark:text-gray-300 my-5">
+                    <p class="my-5 text-center text-primary">
                         {{ i18n.t("landing.contact.form.address") }}
                     </p>
                     <div class="items-center text-center text-gray-600 dark:text-gray-300">
-                        <UButton icon="i-mdi-phone" :to="`tel:${i18n.t('landing.contact.form.phone')}`" color="gray"
+                        <UButton icon="i-heroicons-phone" :to="`tel:${i18n.t('landing.contact.form.phone')}`"
+                                 color="primary"
                                  variant="ghost"
                                  :label="i18n.t('landing.contact.form.phone')" />
-                        <UButton icon="i-mdi-mail" :to="`mailto:${i18n.t('landing.contact.form.email')}`" color="gray"
+                        <UButton icon="i-heroicons-envelope" :to="`mailto:${i18n.t('landing.contact.form.email')}`"
+                                 color="primary"
                                  variant="ghost"
                                  :label="i18n.t('landing.contact.form.email')" />
                     </div>
                 </div>
                 <UForm
-                    class="col-start-3 col-end-6 gap-4"
+                    class="md:col-start-3 md:col-end-6 gap-4"
                     :validate="validate"
                     :state="state"
                     @submit="submit"
@@ -124,7 +126,7 @@ const i18n = useI18n();
                                    :placeholder="i18n.t('landing.contact.form.placeholders.message')" />
                     </UFormGroup>
                 </UForm>
-                <UButton block class="col-start-4 text-center" type="submit"
+                <UButton block class="md:col-start-4 text-center" type="submit"
                          :label="i18n.t('landing.contact.form.labels.submit')" />
             </div>
         </div>

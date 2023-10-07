@@ -45,14 +45,24 @@ for (const locale of availableLocales.value) {
             </div>
             <div class="flex flex-row gap-2 items-center">
                 <UButton to="/" size="lg" color="gray" variant="ghost" :label="i18n.t('landing.navbar.home')" />
-                <UButton to="/pricing" size="lg" color="gray" variant="ghost"
-                         :label="i18n.t('landing.navbar.pricing')" />
-                <UButton to="https://github.com/tux-inc/Tuxify/releases" size="lg" color="gray" variant="ghost"
-                         :label="i18n.t('landing.navbar.changelog')" />
-                <UButton to="https://github.com/tux-inc/Tuxify/wiki" size="lg" color="gray" variant="ghost"
-                         :label="i18n.t('landing.navbar.documentation')" />
-                <UButton to="/about-us" size="lg" color="gray" variant="ghost"
-                         :label="i18n.t('landing.navbar.aboutUs')" />
+                <UButton to="/pricing" size="lg" color="gray" variant="ghost">{{
+                    i18n.t('landing.navbar.pricing')
+                    }}
+                </UButton>
+                <UButton to="/about-us" size="lg" color="gray" variant="ghost">{{
+                    i18n.t('landing.navbar.aboutUs')
+                    }}
+                </UButton>
+                <UButton to="https://github.com/tux-inc/Tuxify/releases" size="lg" color="gray" variant="ghost">
+                    {{ i18n.t('landing.navbar.changelog') }}
+                </UButton>
+                <UButton to="https://github.com/tux-inc/Tuxify/wiki" size="lg" color="gray" variant="ghost">
+                    {{ i18n.t('landing.navbar.documentation') }}
+                </UButton>
+                <UButton to="/integration" size="lg" color="gray" variant="ghost">{{
+                    i18n.t('landing.navbar.integration')
+                  }}
+                </UButton>
                 <UButton to="/contact" size="lg" color="gray" variant="ghost"
                          :label="i18n.t('landing.navbar.contact')" />
             </div>
