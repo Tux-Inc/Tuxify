@@ -39,7 +39,6 @@ jobs:
 
   build_frontend:
     name: Build and push frontend image
-    needs: [ build_api ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -118,21 +117,34 @@ jobs:
       - name: Check folder content of android output
         run: ls ./android/app/build/outputs/bundle/release
 
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: tuxify-android
+          path: |
+            ./android/app/build/outputs/bundle/release/
+            ./android/app/build/outputs/apk/debug/
+
       - name: Set Tag
         id: current-datetime
         run: echo "CURRENT_DATETIME=$(date +'%Y-%m-%d-%H_%M_%S%z')" >> "$GITHUB_OUTPUT"
 
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: tuxify-android
+
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "android/app/build/outputs/bundle/release/app-release-signed.aab, android/app/build/outputs/apk/debug/app-debug.apk"
+          artifacts: "app-release-signed.aab, app-debug.apk"
           name: ${{ steps.current-datetime.outputs.CURRENT_DATETIME }}
           tag: ${{ steps.current-datetime.outputs.CURRENT_DATETIME }}
 
 
   deploy_frontend_to_kubernetes:
     name: Deploy Frontend to Kubernetes
-    needs: [ build_api, build_frontend ]
+    needs: [ build_frontend ]
     runs-on: ubuntu-latest
     environment:
       name: production
@@ -160,7 +172,7 @@ jobs:
 
   deploy_backend_to_kubernetes:
     name: Deploy Backend to Kubernetes
-    needs: [ build_api, build_frontend, deploy_frontend_to_kubernetes ]
+    needs: [ build_api ]
     runs-on: ubuntu-latest
     environment:
       name: production
@@ -198,7 +210,7 @@ jobs:
 
   mirror:
     name: Mirror repository
-    needs: [ build_api, build_frontend, deploy_frontend_to_kubernetes, deploy_backend_to_kubernetes ]
+    needs: [ build_api, build_frontend, deploy_frontend_to_kubernetes, deploy_backend_to_kubernetes, build_android ]
     permissions:
       contents: read
     runs-on: ubuntu-latest
