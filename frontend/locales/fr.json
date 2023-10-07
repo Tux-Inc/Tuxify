@@ -171,10 +171,11 @@
       "team": {
         "members": [
           {
-            "name": "John Doe",
+            "image": "/landing/contributors/gwenael_hubler.jpg",
+            "alt": "Gwenaël Hubler profile picture",
+            "name": "Gwenaël Hubler",
             "job": "CEO",
-            "description": "John est le PDG de Tux Inc. John est un entrepreneur passionné qui aime construire de beaux produits faciles à utiliser.",
-            "image": "https://media.licdn.com/dms/image/D4E35AQEbfQG34_wS0A/profile-framedphoto-shrink_200_200/0/1677248288053?e=1696557600&v=beta&t=fa_-u2bxsAfyJXMvFhMpxt3vNfIX80uEG50aakjKPrY",
+            "description": "Gwenaël est le PDG de Tux Inc. Gwenaël est un entrepreneur passionné qui aime construire de beaux produits faciles à utiliser.",
             "socials": [
               {
                 "icon": "twitter",
@@ -204,7 +205,7 @@
             ]
           },
           {
-            "image": "https://media.licdn.com/dms/image/D4E35AQGY6GZi81_i4A/profile-framedphoto-shrink_200_200/0/1694979200375?e=1696557600&v=beta&t=L09JT6u4TX-OW0F7KZkK_GX5uWOCfPPdB65EHqM6ABA",
+            "image": "/landing/contributors/alexandre-kevin_de_freitas_martins.jpg",
             "alt": "Alexandre De Freitas Martins profile picture",
             "name": "Alexandre De Freitas Martins",
             "job": "Développeur",
@@ -233,7 +234,7 @@
             ]
           },
           {
-            "image": "https://media.licdn.com/dms/image/C4D03AQFwOCFOwMrUOQ/profile-displayphoto-shrink_200_200/0/1642772926117?e=1701302400&v=beta&t=Tq-qomlqSy91b8isnb7DZzQ4knOhjPSm6Xt7ctlZmvs",
+            "image": "/landing/contributors/roman_lopes.jpg",
             "alt": "Roman Lopez profile picture",
             "name": "Roman Lopez",
             "job": "Développeur",
@@ -262,7 +263,7 @@
             ]
           },
           {
-            "image": "https://media.licdn.com/dms/image/C4E03AQHOy7QadrH0ZA/profile-displayphoto-shrink_200_200/0/1646759490047?e=1701302400&v=beta&t=QlKabCLTyc5E6ZHeTHrY0QXc20BZ2nNLbnsAozXsmdU",
+            "image": "/landing/contributors/stephane_fievez.jpg",
             "alt": "Stéphane Fievez profile picture",
             "name": "Stéphane Fievez",
             "job": "Développeur",
@@ -291,7 +292,7 @@
             ]
           },
           {
-            "image": "https://media.licdn.com/dms/image/D4E35AQFo4mdOxROCtw/profile-framedphoto-shrink_200_200/0/1695844629955?e=1696557600&v=beta&t=50cdhDzuD-rfUEMZcsBbo_Gfkg1UUgmEvuxGyYDb58Y",
+            "image": "/landing/contributors/bouna_diallo.jpg",
             "alt": "Bouna Diallo profile picture",
             "name": "Bouna Diallo",
             "job": "Développeur",
