@@ -1,7 +1,7 @@
 import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 
 @Entity('flow_providers')
-export class FlowProviderEntity {
+export class ProviderEntity {
     @PrimaryGeneratedColumn()
     id: number;
 

@@ -1,9 +1,9 @@
 import {NestFactory} from '@nestjs/core';
-import {FlowsProvidersModule} from './flows-providers.module';
+import {ProvidersModule} from './providers.module';
 import {MicroserviceOptions, Transport} from "@nestjs/microservices";
 
 async function bootstrap() {
-    const app = await NestFactory.create(FlowsProvidersModule);
+    const app = await NestFactory.create(ProvidersModule);
     app.connectMicroservice(
         {
             transport: Transport.NATS,
@@ -13,7 +13,7 @@ async function bootstrap() {
         }
     );
     await app.startAllMicroservices();
-    await app.listen(process.env.NESTSV_FLOWSPROVIDERS_PORT || 3000);
+    await app.listen(process.env.NESTSV_PROVIDERS_PORT || 3000);
 }
 
 bootstrap();

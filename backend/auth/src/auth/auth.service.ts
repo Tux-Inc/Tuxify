@@ -1,37 +1,32 @@
-
-import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import {
-  BadRequestException,
-  Inject,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
-import { compare } from 'bcrypt';
-import { Cache } from 'cache-manager';
-import { isEmail } from 'class-validator';
+import {CACHE_MANAGER} from '@nestjs/cache-manager';
+import {BadRequestException, Inject, Injectable, UnauthorizedException,} from '@nestjs/common';
+import {compare} from 'bcrypt';
+import {Cache} from 'cache-manager';
+import {isEmail} from 'class-validator';
 import dayjs from 'dayjs';
-import { CommonService } from '../common/common.service';
-import { SLUG_REGEX } from '../common/consts/regex.const';
-import { IMessage } from '../common/interfaces/message.interface';
-import { isNull, isUndefined } from '../common/utils/validation.util';
-import { TokenTypeEnum } from '../jwt/enums/token-type.enum';
-import { IEmailToken } from '../jwt/interfaces/email-token.interface';
-import { IRefreshToken } from '../jwt/interfaces/refresh-token.interface';
-import { JwtService } from '../jwt/jwt.service';
-import { UserEntity } from '../users/entities/user.entity';
-import { OAuthProvidersEnum } from '../users/enums/oauth-providers.enum';
-import { ICredentials } from '../users/interfaces/credentials.interface';
-import { UsersService } from '../users/users.service';
-import { ChangePasswordDto } from './dtos/change-password.dto';
-import { ConfirmEmailDto } from './dtos/confirm-email.dto';
-import { EmailDto } from './dtos/email.dto';
-import { ResetPasswordDto } from './dtos/reset-password.dto';
-import { SignInDto } from './dtos/sign-in.dto';
-import { SignUpDto } from './dtos/sign-up.dto';
-import { IAuthResult } from './interfaces/auth-result.interface';
+import {CommonService} from '../common/common.service';
+import {SLUG_REGEX} from '../common/consts/regex.const';
+import {IMessage} from '../common/interfaces/message.interface';
+import {isNull, isUndefined} from '../common/utils/validation.util';
+import {TokenTypeEnum} from '../jwt/enums/token-type.enum';
+import {IEmailToken} from '../jwt/interfaces/email-token.interface';
+import {IRefreshToken} from '../jwt/interfaces/refresh-token.interface';
+import {JwtService} from '../jwt/jwt.service';
+import {UserEntity} from '../users/entities/user.entity';
+import {OAuthProvidersEnum} from '../users/enums/oauth-providers.enum';
+import {ICredentials} from '../users/interfaces/credentials.interface';
+import {UsersService} from '../users/users.service';
+import {ChangePasswordDto} from './dtos/change-password.dto';
+import {ConfirmEmailDto} from './dtos/confirm-email.dto';
+import {EmailDto} from './dtos/email.dto';
+import {ResetPasswordDto} from './dtos/reset-password.dto';
+import {SignInDto} from './dtos/sign-in.dto';
+import {SignUpDto} from './dtos/sign-up.dto';
+import {IAuthResult} from './interfaces/auth-result.interface';
 import {ClientProxy} from "@nestjs/microservices";
 import {ConfigService} from "@nestjs/config";
 import {UserResetPasswordDto} from "./dtos/user-reset-password.dto";
+import {RpcException} from "@nestjs/microservices";
 
 @Injectable()
 export class AuthService {
@@ -44,6 +39,15 @@ export class AuthService {
     private readonly configService: ConfigService,
     @Inject('MAILER_SERVICE') private readonly mailerClient: ClientProxy,
   ) {}
+
+  public async verifyJwt(token: string): Promise<number> {
+    try {
+      const {id} = await this.jwtService.verifyToken(token, TokenTypeEnum.ACCESS);
+      return id;
+    } catch (error) {
+      throw new RpcException(error.message);
+    }
+  }
 
   public async signUp(dto: SignUpDto, domain?: string): Promise<IMessage> {
     const { name, email, password1, password2 } = dto;
@@ -76,8 +80,6 @@ export class AuthService {
       confirmationToken,
       TokenTypeEnum.CONFIRMATION,
     );
-    console.log('id', id);
-    console.log('version', version);
     const user = await this.usersService.confirmEmail(id, version);
     const [accessToken, refreshToken] =
       await this.jwtService.generateAuthTokens(user, domain);
@@ -101,7 +103,7 @@ export class AuthService {
         email: user.email,
         confirmationLink: `https://${this.configService.get<string>('domain')}/auth/confirm-email?token=${confirmationToken}`,
       }
-        this.mailerClient.emit('user.created', createdUserDto);
+      this.mailerClient.emit('user.created', createdUserDto);
       throw new UnauthorizedException(
         'Please confirm your email, a new email has been sent',
       );

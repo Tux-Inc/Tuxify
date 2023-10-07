@@ -6,6 +6,7 @@ import {ClientsModule, Transport} from "@nestjs/microservices";
 import {GatewayService} from "./gateway.service";
 import {GatewayController} from "./gateway.controller";
 import { FlowsModule } from './flows/flows.module';
+import { ProvidersModule } from './providers/providers.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { FlowsModule } from './flows/flows.module';
           http: process.env.NODE_ENV !== 'production',
       }),
       FlowsModule,
+      ProvidersModule,
   ],
   controllers: [GatewayController],
   providers: [GatewayService],

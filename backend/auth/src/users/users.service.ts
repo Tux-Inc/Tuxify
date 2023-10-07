@@ -76,7 +76,6 @@ export class UsersService {
 
   public async findOneById(id: number): Promise<UserEntity> {
     const user = await this.usersRepository.findOne({ id });
-    console.log(user);
     this.commonService.checkEntityExistence(user, 'User');
     return user;
   }
@@ -241,7 +240,6 @@ export class UsersService {
     email: string,
     name: string,
   ): Promise<UserEntity> {
-    console.log(email, name, provider);
     const formattedEmail = email.toLowerCase();
     const user = await this.usersRepository.findOne(
       {
