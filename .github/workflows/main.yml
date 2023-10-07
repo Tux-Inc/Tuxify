@@ -67,7 +67,6 @@ jobs:
 
   build_android:
     name: Build APK
-    needs: [ build_api, build_frontend ]
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -117,29 +116,16 @@ jobs:
       - name: Check folder content of android output
         run: ls ./android/app/build/outputs/bundle/release
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: tuxify-android
-          path: |
-            ./android/app/build/outputs/bundle/release/
-            ./android/app/build/outputs/apk/debug/
-
       - name: Set Tag
         id: current-datetime
         run: echo "CURRENT_DATETIME=$(date +'%Y-%m-%d-%H_%M_%S%z')" >> "$GITHUB_OUTPUT"
 
-      - name: Download artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: tuxify-android
-
       - name: Create Release
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: "app-release-signed.aab, app-debug.apk"
-          name: ${{ steps.current-datetime.outputs.CURRENT_DATETIME }}
-          tag: ${{ steps.current-datetime.outputs.CURRENT_DATETIME }}
+        run: |
+          gh release upload ${{ steps.current-datetime.outputs.CURRENT_DATETIME }} ./android/app/build/outputs/bundle/release/app-release-signed.aab ./android/app/build/outputs/apk/debug/app-debug.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
 
 
   deploy_frontend_to_kubernetes:
