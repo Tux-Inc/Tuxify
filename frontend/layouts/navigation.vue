@@ -10,9 +10,9 @@ const setOpened = () => isOpen.value = !isOpen.value;
 <template>
     <div class="antialiased relative min-h-screen bg-base-light dark:bg-base-dark">
         <NuxtImg src="/hero.webp" alt="hero"
-                 class="dark:hidden sm:w-412 sm:h-320 md:mx-auto inset-0 h-[20rem] left-0 overflow-hidden absolute object-fit" />
-        <NuxtImg src="/hero-dark.webp" alt="hero" width="412" height="320"
-                 class="hidden dark:block sm:w-412 sm:h-320 md:mx-auto inset-0 h-[20rem] left-0 overflow-hidden absolute object-fit" />
+                 class="dark:hidden sm:w-screen md:w-[calc(100vh-var(--header-weight))] md:mx-auto inset-0 h-[20rem] left-0 overflow-hidden absolute object-fit" />
+        <NuxtImg src="/hero-dark.webp" alt="hero"
+                 class="hidden dark:block sm:w-screen md:w-[calc(100vh-var(--header-weight))] md:mx-auto inset-0 h-[20rem] left-0 overflow-hidden absolute object-fit" />
         <div class="hidden md:block">
             <Navbar :isOpen="isOpen" @setOpened="setOpened" />
         </div>
