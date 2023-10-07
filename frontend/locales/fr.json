@@ -235,8 +235,8 @@
           },
           {
             "image": "/landing/contributors/roman_lopes.jpg",
-            "alt": "Roman Lopez profile picture",
-            "name": "Roman Lopez",
+            "alt": "Roman Lopes profile picture",
+            "name": "Roman Lopes",
             "job": "Développeur",
             "description": "Etudiant à Epitech Nice en 3ème année, Roman est un développeur passionné qui sait gérer une équipe.",
             "socials": [
@@ -258,7 +258,7 @@
               {
                 "icon": "email",
                 "name": "Email",
-                "link": "roman.lopez@tuxify.fr"
+                "link": "roman.lopes@tuxify.fr"
               }
             ]
           },
