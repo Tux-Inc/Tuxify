@@ -16,6 +16,7 @@ onUpdated(() => {
 </script>
 
 <template>
+    <title>About-us</title>
     <div>
         <div class="py-24 sm:py-32 md:py-40 relative">
             <div class="mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl mb-[calc(var(--header-height))]">

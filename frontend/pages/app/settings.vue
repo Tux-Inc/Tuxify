@@ -1,13 +1,14 @@
 <script setup lang="ts">
 definePageMeta({
-    layout: 'app-navigation',
-})
-let isLoading = ref(false)
+    layout: "app-navigation",
+});
+let isLoading = ref(false);
+
 function signOut() {
-    isLoading.value = true
+    isLoading.value = true;
     setTimeout(() => {
-        isLoading.value = false
-    }, 1000)
+        isLoading.value = false;
+    }, 1000);
 }
 </script>
 <template>
@@ -18,14 +19,16 @@ function signOut() {
         <div class="flex flex-col gap-4 mt-14">
             <span class="text-dark dark:text-light font-bold text-2xl">My account</span>
             <div class="flex items-center gap-2">
-                <img src="/avatar/3.png" class="rounded-full h-20"/>
+                <NuxtImg src="/avatar/3.png" class="rounded-full h-20" />
                 <div class="flex flex-col">
                     <span class="text-dark dark:text-light font-bold text-xl">John Doe</span>
                     <span class="text-dark dark:text-light">Basic user</span>
                 </div>
             </div>
             <div>
-                <UButton icon="i-heroicons-arrow-left-on-rectangle" color="red" variant="solid" @click="signOut" :loading="isLoading">Sign out</UButton>
+                <UButton icon="i-heroicons-arrow-left-on-rectangle" color="red" variant="solid" @click="signOut"
+                         :loading="isLoading">Sign out
+                </UButton>
             </div>
         </div>
     </div>
