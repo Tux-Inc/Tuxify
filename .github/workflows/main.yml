@@ -122,15 +122,19 @@ jobs:
         id: current-datetime
         run: echo "CURRENT_DATETIME=$(date +'%Y-%m-%d-%H_%M_%S%z')" >> "$GITHUB_OUTPUT"
 
+      - name: Install hub
+        uses: geertvdc/setup-hub@master
+
       - name: Build Release
         shell: bash
+        env:
+          GITHUB_USER: ${{ secrets.GITHUB_USER }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           hub release create ${{ steps.current-datetime.outputs.CURRENT_DATETIME }} \
           -m ${{ steps.current-datetime.outputs.CURRENT_DATETIME }} \
           -a ./android/app/build/outputs/bundle/release/app-release-signed.aab \
           -a ./android/app/build/outputs/apk/debug/app-debug.apk
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   deploy_frontend_to_kubernetes:
     name: Deploy Frontend to Kubernetes
@@ -205,16 +209,16 @@ jobs:
       contents: read
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    - name: Remove .github folder
-      run: rm -rf .github
-    - name: Mirror repository
-      uses: pixta-dev/repository-mirroring-action@v1
-      with:
-        target_repo_url:
-          ${{ env.MIRROR_URL }}
-        ssh_private_key:
-          ${{ secrets.GIT_SSH_PRIVATE_KEY }}
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Remove .github folder
+        run: rm -rf .github
+      - name: Mirror repository
+        uses: pixta-dev/repository-mirroring-action@v1
+        with:
+          target_repo_url:
+            ${{ env.MIRROR_URL }}
+          ssh_private_key:
+            ${{ secrets.GIT_SSH_PRIVATE_KEY }}
