@@ -9,12 +9,12 @@ import {RpcException} from "@nestjs/microservices";
 @Injectable()
 export class AuthService {
     private google: OAuthClass | null;
-    private readonly logger = new Logger(AuthService.name);
+    private readonly logger: Logger = new Logger(AuthService.name);
 
     constructor() {
     }
 
-    async addProvider(addProvider: AddProvider): Promise<string | void> {
+    async addProvider(addProvider: AddProvider): Promise<string> {
         this.logger.log('Sending authentication URL to client');
         this.google = AuthService.setOAuthClass('http://localhost:3000', addProvider.userId);
         return this.getAuthorizationUrl();
@@ -28,15 +28,11 @@ export class AuthService {
         return tokensUser;
     }
 
-    private static setOAuthClass(
-        url: string,
-        userId: number,
-    ): OAuthClass | null {
+    private static setOAuthClass(url: string, userId: number): OAuthClass | null {
         const client: IClient = {
             id: process.env.GOOGLE_CLIENT_ID,
             secret: process.env.GOOGLE_CLIENT_SECRET,
         }
-
         return new OAuthClass(client, url, userId);
     }
 
@@ -50,16 +46,10 @@ export class AuthService {
         return this.google;
     }
 
-    private async getAccessToken(
-        code: string,
-        state: string,
-    ): Promise<AddedProvider> {
+    private async getAccessToken(code: string, state: string): Promise<AddedProvider> {
         const oauth: OAuthClass = this.getOAuth();
-
-        if (state !== oauth.state) {
+        if (state !== oauth.state)
             throw new RpcException('Corrupted state');
-        }
-
         return oauth.getToken(code, state);
     }
 }

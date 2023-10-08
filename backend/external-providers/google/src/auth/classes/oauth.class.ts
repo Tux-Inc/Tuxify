@@ -66,12 +66,16 @@ export class OAuthClass {
             redirect_uri: this.authorization.redirect_uri,
             scope: this.authorization.scope,
         });
-        const decodedState = state.split('-');
-        const userId = Number(decodedState[decodedState.length - 1]);
+        const userId: number = this.getUserIdFromState(state);
         return {
             accessToken: result.token.access_token as string,
             refreshToken: result.token.refresh_token as string,
             userId,
         };
+    }
+
+    private getUserIdFromState(state: string): number {
+        const decodedState = state.split('-');
+        return Number(decodedState[decodedState.length - 1]);
     }
 }
