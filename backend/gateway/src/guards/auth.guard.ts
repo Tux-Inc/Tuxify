@@ -4,7 +4,7 @@ import {
     ExecutionContext,
     ForbiddenException,
     Inject,
-    Injectable, Logger
+    Injectable, Logger, UnauthorizedException
 } from '@nestjs/common';
 import {ClientProxy, RpcException} from '@nestjs/microservices';
 import {Request} from 'express';
@@ -21,9 +21,14 @@ export class AuthGuard implements CanActivate {
 
         if (!bearerToken) {
             this.logger.error('Bearer token not found');
-            throw new ForbiddenException('Bearer token not found');
+            throw new UnauthorizedException('Bearer token not found');
         }
-        const userId: number = await firstValueFrom(this.getUserData(bearerToken));
+        let userId: number = null;
+        try {
+            userId = await firstValueFrom(this.getUserData(bearerToken));
+        } catch (error) {
+            throw new ForbiddenException(error);
+        }
 
         if (!userId) {
             this.logger.error('Invalid bearer token');

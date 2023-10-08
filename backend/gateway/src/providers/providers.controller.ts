@@ -11,6 +11,7 @@ export class ProvidersController {
     ) {
     }
 
+    @UseGuards(AuthGuard)
     @Get(':provider')
     async addProvider(@Param('provider') provider: string, @Res() res: any): Promise<void> {
         this.natsClient.send(`providers.${provider}.add`, provider).subscribe({
@@ -32,7 +33,6 @@ export class ProvidersController {
             state: cbQuery.state,
             userId: req.user.userId,
         }
-        console.log(addProviderCallback);
         this.natsClient.send(`providers.${provider}.add.callback`, addProviderCallback).subscribe({
             next: (data) => {
                 res.redirect(data);

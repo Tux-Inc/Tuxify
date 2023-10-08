@@ -18,7 +18,7 @@ services:
 
   # PostgreSQL flows-providers database
   api_providers_db:
-    container_name: tuxify-api-flows-providers-db
+    container_name: tuxify-api-providers-db
     image: postgres:16-alpine
     restart: always
     environment:

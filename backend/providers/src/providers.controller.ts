@@ -14,6 +14,11 @@ export class ProvidersController {
         return await this.providersService.updateOrCreate(localUserProviderTokens);
     }
 
+    @MessagePattern('providers')
+    async getAllAvailableProviders(): Promise<string[]> {
+        return await this.providersService.getAllAvailableProviders();
+    }
+
     @MessagePattern('providers.*.add')
     async addProvider(@Payload() provider: string): Promise<string | void> {
         return await this.providersService.addProvider(provider);

@@ -1,9 +1,9 @@
-import {Inject, Injectable, Logger} from '@nestjs/common';
+import {BadGatewayException, Inject, Injectable, Logger} from '@nestjs/common';
 import {LocalUserProviderTokens} from "./events/local-user-provider-tokens.event";
 import {InjectRepository} from "@nestjs/typeorm";
 import {ProviderEntity} from "./entities/provider.entity";
 import {Repository} from "typeorm";
-import {ClientProxy} from "@nestjs/microservices";
+import {ClientProxy, RpcException} from "@nestjs/microservices";
 import {AddedProvider} from "./dtos/added-provider.dto";
 import {AddProviderCallback} from "./dtos/add-provider-callback.dto";
 import {Observable} from "rxjs";
@@ -39,6 +39,23 @@ export class ProvidersService {
 
     async findOneByProviderAndUserId(provider: string, userId: number): Promise<ProviderEntity> {
         return await this.providersRepository.findOne({where: {provider, userId}});
+    }
+
+    async getAllAvailableProviders(): Promise<string[]> {
+        let providers: string[] = [];
+        const providersObservable = this.natsClient.send('providers.whoami', {});
+        providersObservable.subscribe({
+            next: (data: string) => {
+                providers.push(...data);
+            },
+            complete: () => {
+                return providers;
+            },
+            error: (err) => {
+                throw new RpcException(err);
+            }
+        })
+        return providers;
     }
 
     async addProvider(provider: string): Promise<string | void> {
