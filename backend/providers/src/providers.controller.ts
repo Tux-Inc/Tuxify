@@ -1,8 +1,9 @@
 import {Controller} from '@nestjs/common';
 import {ProvidersService} from './providers.service';
-import {Ctx, EventPattern, MessagePattern, Payload} from "@nestjs/microservices";
+import {Ctx, EventPattern, MessagePattern, Payload, RpcException} from "@nestjs/microservices";
 import {LocalUserProviderTokens} from "./events/local-user-provider-tokens.event";
 import {AddProviderCallback} from "./dtos/add-provider-callback.dto";
+import {AddProvider} from "./dtos/add-provider.dto";
 
 @Controller()
 export class ProvidersController {
@@ -20,12 +21,20 @@ export class ProvidersController {
     }
 
     @MessagePattern('providers.*.add')
-    async addProvider(@Payload() provider: string): Promise<string | void> {
-        return await this.providersService.addProvider(provider);
+    async addProvider(@Payload() addProvider: AddProvider): Promise<string> {
+        try {
+            return await this.providersService.addProvider(addProvider);
+        } catch (e) {
+            throw new RpcException(e);
+        }
     }
 
     @MessagePattern('providers.*.add.callback')
-    async addProviderCallback(@Payload() addProviderCallback: AddProviderCallback): Promise<string | void> {
-        return await this.providersService.addProviderCallback(addProviderCallback);
+    async addProviderCallback(@Payload() addProviderCallback: AddProviderCallback): Promise<string> {
+        try {
+            return await this.providersService.addProviderCallback(addProviderCallback);
+        } catch (e) {
+            throw new RpcException(e);
+        }
     }
 }
