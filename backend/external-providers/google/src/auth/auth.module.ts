@@ -1,8 +1,7 @@
 import {Module} from '@nestjs/common';
-import {GoogleController} from './google.controller';
-import {GoogleService} from './google.service';
+import {AuthController} from './auth.controller';
+import {AuthService} from './auth.service';
 import {ClientsModule, Transport} from "@nestjs/microservices";
-import { AuthModule } from './auth/auth.module';
 
 @Module({
     imports: [
@@ -14,11 +13,10 @@ import { AuthModule } from './auth/auth.module';
                     servers: [process.env.NATS_SERVER_URL || 'nats://localhost:4222'],
                 }
             }
-        ]),
-        AuthModule,
+        ])
     ],
-    controllers: [GoogleController],
-    providers: [GoogleService],
+    controllers: [AuthController],
+    providers: [AuthService]
 })
-export class GoogleModule {
+export class AuthModule {
 }
