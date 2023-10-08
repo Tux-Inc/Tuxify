@@ -172,6 +172,27 @@ services:
     env_file:
       - .env
 
+  # Google provider
+  api_google:
+    container_name: tuxify-api-google
+    build:
+      context: ./backend/external-providers/google
+      dockerfile: Dockerfile.dev
+    restart: always
+    command: npm run start:dev --watch-preserve-output
+    working_dir: /usr/src/app
+    ports:
+      - ${NESTSV_GOOGLE_PORT}:${NESTSV_GOOGLE_PORT}
+    volumes:
+      - ./backend/external-providers/google:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - api_providers
+    networks:
+      - tuxify-network
+    env_file:
+      - .env
+
   # Nuxt Frontend
   frontend:
       container_name: tuxify-frontend
