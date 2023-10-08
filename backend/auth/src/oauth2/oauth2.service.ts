@@ -1,21 +1,19 @@
-
-import { HttpService } from '@nestjs/axios';
-import {
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { AxiosError } from 'axios';
-import { catchError, firstValueFrom } from 'rxjs';
-import { CommonService } from '../common/common.service';
-import { isNull } from '../common/utils/validation.util';
-import { JwtService } from '../jwt/jwt.service';
-import { OAuthProvidersEnum } from '../users/enums/oauth-providers.enum';
-import { UsersService } from '../users/users.service';
-import { OAuthClass } from './classes/oauth.class';
-import { ICallbackQuery } from './interfaces/callback-query.interface';
-import { IClient } from './interfaces/client.interface';
+import {HttpService} from '@nestjs/axios';
+import {Inject, Injectable, NotFoundException, UnauthorizedException,} from '@nestjs/common';
+import {ConfigService} from '@nestjs/config';
+import {AxiosError} from 'axios';
+import {catchError, firstValueFrom} from 'rxjs';
+import {CommonService} from '../common/common.service';
+import {isNull} from '../common/utils/validation.util';
+import {JwtService} from '../jwt/jwt.service';
+import {OAuthProvidersEnum} from '../users/enums/oauth-providers.enum';
+import {UsersService} from '../users/users.service';
+import {OAuthClass} from './classes/oauth.class';
+import {ICallbackQuery} from './interfaces/callback-query.interface';
+import {IClient} from './interfaces/client.interface';
+import {ClientProxy} from "@nestjs/microservices";
+import {IAuthResponseTokensInterface} from "./interfaces/auth-response-tokens.interface";
+import {LocalUserProviderTokensDto} from "./dtos/local-user-provider-tokens.dto";
 
 @Injectable()
 export class Oauth2Service {
@@ -30,6 +28,7 @@ export class Oauth2Service {
     private readonly configService: ConfigService,
     private readonly httpService: HttpService,
     private readonly commonService: CommonService,
+    @Inject('NATS_CLIENT') private readonly natsClient: ClientProxy,
   ) {
     const url = configService.get<string>('url');
     this[OAuthProvidersEnum.MICROSOFT] = Oauth2Service.setOAuthClass(
@@ -79,13 +78,13 @@ export class Oauth2Service {
     cbQuery: ICallbackQuery,
   ): Promise<T> {
     const { code, state } = cbQuery;
-    const accessToken = await this.getAccessToken(provider, code, state);
+    const tokens = await this.getAccessToken(provider, code, state);
     const userData = await firstValueFrom(
       this.httpService
         .get<T>(this.getOAuth(provider).dataUrl, {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${tokens.accessToken}`,
           },
         })
         .pipe(
@@ -94,15 +93,23 @@ export class Oauth2Service {
           }),
         ),
     );
-    return userData.data;
+    return {...userData.data, tokens};
   }
 
   public async login(
     provider: OAuthProvidersEnum,
     email: string,
     name: string,
+    tokens: IAuthResponseTokensInterface,
   ): Promise<[string, string]> {
     const user = await this.usersService.findOrCreate(provider, email, name);
+    const localUserProviderTokens: LocalUserProviderTokensDto = {
+        userId: user.id,
+        provider,
+        accessToken: tokens.accessToken,
+        refreshToken: tokens.refreshToken,
+    }
+    this.natsClient.emit('oauth2.user.connected', localUserProviderTokens);
     return this.jwtService.generateAuthTokens(user);
   }
 
@@ -120,7 +127,7 @@ export class Oauth2Service {
     provider: OAuthProvidersEnum,
     code: string,
     state: string,
-  ): Promise<string> {
+  ): Promise<IAuthResponseTokensInterface> {
     const oauth = this.getOAuth(provider);
 
     if (state !== oauth.state) {

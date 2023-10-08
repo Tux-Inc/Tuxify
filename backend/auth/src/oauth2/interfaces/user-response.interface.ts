@@ -1,3 +1,4 @@
+import {IAuthResponseTokensInterface} from "./auth-response-tokens.interface";
 
 export interface IMicrosoftUser {
   readonly businessPhones: string[];
@@ -11,6 +12,7 @@ export interface IMicrosoftUser {
   readonly surname: string;
   readonly userPrincipalName: string;
   readonly id: string;
+  readonly tokens: IAuthResponseTokensInterface;
 }
 
 export interface IGoogleUser {
@@ -23,12 +25,14 @@ export interface IGoogleUser {
   readonly email_verified: boolean;
   readonly locale: string;
   readonly hd: string;
+  readonly tokens: IAuthResponseTokensInterface;
 }
 
 export interface IFacebookUser {
   readonly id: string;
   readonly name: string;
   readonly email: string;
+  readonly tokens: IAuthResponseTokensInterface;
 }
 
 interface IGitHubPlan {
@@ -78,4 +82,5 @@ export interface IGitHubUser {
   readonly collaborators: number;
   readonly two_factor_authentication: boolean;
   readonly plan: IGitHubPlan;
+  readonly tokens: IAuthResponseTokensInterface;
 }

@@ -42,6 +42,7 @@ import { IOAuthProvidersResponse } from './interfaces/oauth-provider-response.in
 import { AuthResponseUserMapper } from './mappers/auth-response-user.mapper';
 import { AuthResponseMapper } from './mappers/auth-response.mapper';
 import { OAuthProvidersResponseMapper } from './mappers/oauth-provider-response.mapper';
+import {MessagePattern, Payload} from "@nestjs/microservices";
 
 @ApiTags('Auth')
 @Controller('api/auth')
@@ -60,6 +61,11 @@ export class AuthController {
     this.cookieName = this.configService.get<string>('REFRESH_COOKIE');
     this.refreshTime = this.configService.get<number>('jwt.refresh.time');
     this.testing = this.configService.get<boolean>('testing');
+  }
+
+  @MessagePattern('auth.jwt.verify')
+  public async verifyJwt(@Payload() token: string): Promise<number> {
+    return this.authService.verifyJwt(token);
   }
 
   @Public()
