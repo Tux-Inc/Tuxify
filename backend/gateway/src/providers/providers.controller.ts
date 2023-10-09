@@ -29,11 +29,12 @@ export class ProvidersController {
         return await lastValueFrom(this.natsClient.send('providers', {}));
     }
 
+    // @UseGuards(AuthGuard)
     @Get(':provider')
     async addProvider(@Param('provider') provider: string, @Res() res: any, @Req() req: any): Promise<void> {
         const addProvider: AddProvider = {
             provider,
-            userId: 1,
+            userId: 1, // req.user.userId,
         }
         try {
             await lastValueFrom(this.natsClient.send(`providers.${provider}.add`, addProvider)).then((data) => {

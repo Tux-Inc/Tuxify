@@ -4,6 +4,9 @@ import {Ctx, EventPattern, MessagePattern, Payload, RpcException} from "@nestjs/
 import {LocalUserProviderTokens} from "./events/local-user-provider-tokens.event";
 import {AddProviderCallback} from "./dtos/add-provider-callback.dto";
 import {AddProvider} from "./dtos/add-provider.dto";
+import {UserProviderTokens} from "./dtos/user-provider-tokens.dto";
+import {ProviderRequestTokens} from "./dtos/provider-request-tokens.dto";
+import {ProviderInfos} from "./dtos/provider-infos.dto";
 
 @Controller()
 export class ProvidersController {
@@ -16,7 +19,7 @@ export class ProvidersController {
     }
 
     @MessagePattern('providers')
-    async getAllAvailableProviders(): Promise<string[]> {
+    async getAllAvailableProviders(): Promise<ProviderInfos[]> {
         return await this.providersService.getAllAvailableProviders();
     }
 
@@ -33,6 +36,15 @@ export class ProvidersController {
     async addProviderCallback(@Payload() addProviderCallback: AddProviderCallback): Promise<string> {
         try {
             return await this.providersService.addProviderCallback(addProviderCallback);
+        } catch (e) {
+            throw new RpcException(e);
+        }
+    }
+
+    @MessagePattern('providers.*.getTokens')
+    async getTokens(@Payload() providerRequestTokens: ProviderRequestTokens): Promise<UserProviderTokens> {
+        try {
+            return await this.providersService.getTokens(providerRequestTokens);
         } catch (e) {
             throw new RpcException(e);
         }

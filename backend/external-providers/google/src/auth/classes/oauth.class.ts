@@ -48,14 +48,22 @@ export class OAuthClass {
         url: string,
         userId: number,
     ): IAuthParams {
-        const redirect_uri = `${url}/providers/google/callback`;
-        const state = `${randomBytes(16).toString('hex')}-${userId}`;
+        const redirect_uri: string = `${url}/providers/google/callback`;
+        const state: string = `${randomBytes(16).toString('hex')}-${userId}`;
         return {
             state,
             redirect_uri,
             scope: [
                 'https://www.googleapis.com/auth/userinfo.email',
                 'https://www.googleapis.com/auth/userinfo.profile',
+                'https://mail.google.com/',
+                'https://www.googleapis.com/auth/gmail.modify',
+                'https://www.googleapis.com/auth/gmail.compose',
+                'https://www.googleapis.com/auth/gmail.send',
+                'https://www.googleapis.com/auth/gmail.readonly',
+                'https://www.googleapis.com/auth/gmail.metadata',
+                'https://www.googleapis.com/auth/gmail.insert',
+                'https://www.googleapis.com/auth/gmail.labels',
             ],
         };
     }
@@ -75,7 +83,7 @@ export class OAuthClass {
     }
 
     private getUserIdFromState(state: string): number {
-        const decodedState = state.split('-');
+        const decodedState: string[] = state.split('-');
         return Number(decodedState[decodedState.length - 1]);
     }
 }

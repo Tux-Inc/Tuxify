@@ -1,5 +1,5 @@
 import {Controller} from '@nestjs/common';
-import {MessagePattern, Payload, RpcException} from "@nestjs/microservices";
+import {Ctx, MessagePattern, Payload, RpcException} from "@nestjs/microservices";
 import {AddProvider} from "./dtos/add-provider.dto";
 import {AddProviderCallback} from "./dtos/add-provider-callback.dto";
 import {AddedProvider} from "./dtos/added-provider.dto";

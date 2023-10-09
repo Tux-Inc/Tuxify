@@ -1,4 +1,4 @@
-import {BadGatewayException, Inject, Injectable, Logger} from '@nestjs/common';
+import {Inject, Injectable, Logger} from '@nestjs/common';
 import {LocalUserProviderTokens} from "./events/local-user-provider-tokens.event";
 import {InjectRepository} from "@nestjs/typeorm";
 import {ProviderEntity} from "./entities/provider.entity";
@@ -8,10 +8,12 @@ import {AddedProvider} from "./dtos/added-provider.dto";
 import {AddProviderCallback} from "./dtos/add-provider-callback.dto";
 import {Observable, lastValueFrom, toArray} from "rxjs";
 import {AddProvider} from "./dtos/add-provider.dto";
+import {ProviderRequestTokens} from "./dtos/provider-request-tokens.dto";
+import {ProviderInfos} from "./dtos/provider-infos.dto";
 
 @Injectable()
 export class ProvidersService {
-    private readonly logger = new Logger(ProvidersService.name);
+    private readonly logger: Logger = new Logger(ProvidersService.name);
     constructor(
         @InjectRepository(ProviderEntity)
         private providersRepository: Repository<ProviderEntity>,
@@ -38,14 +40,15 @@ export class ProvidersService {
         this.logger.log(`New provider ${provider} added for user ${userId}`);
     }
 
-    async findOneByProviderAndUserId(provider: string, userId: number): Promise<ProviderEntity> {
+    async getTokens(providerRequestedTokens: ProviderRequestTokens): Promise<ProviderEntity> {
+        const {provider, userId} = providerRequestedTokens;
         return await this.providersRepository.findOne({where: {provider, userId}});
     }
 
-    async getAllAvailableProviders(): Promise<string[]> {
-        const providersObservable = this.natsClient.send('provider.whoami', {});
+    async getAllAvailableProviders(): Promise<ProviderInfos[]> {
+        const providersObservable: Observable<any> = this.natsClient.send('provider.infos', {});
         try {
-            const providers: string[] = await providersObservable.pipe(
+            const providers: ProviderInfos[] = await providersObservable.pipe(
                 toArray()
             ).toPromise();
             this.logger.log(`Available providers: ${providers}`);
