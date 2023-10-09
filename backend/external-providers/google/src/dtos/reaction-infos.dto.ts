@@ -1,4 +1,4 @@
-export class TriggerInfos {
+export class ReactionInfos {
     constructor(
         public readonly name: string,
     ) {

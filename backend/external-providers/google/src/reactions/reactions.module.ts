@@ -1,6 +1,6 @@
 import {Module} from '@nestjs/common';
-import {ActionsController} from './actions.controller';
-import {ActionsService} from './actions.service';
+import {ReactionsController} from './reactions.controller';
+import {ReactionsService} from './reactions.service';
 import {ClientsModule, Transport} from "@nestjs/microservices";
 import {GmailService} from "../gmail/gmail.service";
 import {GmailModule} from "../gmail/gmail.module";
@@ -19,8 +19,8 @@ import {TokensService} from "../tokens/tokens.service";
         ]),
         GmailModule,
     ],
-    controllers: [ActionsController],
-    providers: [ActionsService, GmailService, TokensService],
+    controllers: [ReactionsController],
+    providers: [ReactionsService, GmailService, TokensService],
 })
-export class ActionsModule {
+export class ReactionsModule {
 }

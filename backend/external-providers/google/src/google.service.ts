@@ -1,9 +1,9 @@
 import {Inject, Injectable, Logger} from '@nestjs/common';
 import {ProviderInfos} from "./dtos/provider-infos.dto";
-import {ActionInfos} from "./dtos/action-infos.dto";
+import {ReactionInfos} from "./dtos/reaction-infos.dto";
 import {Observable, toArray} from "rxjs";
 import {ClientProxy, RpcException} from "@nestjs/microservices";
-import {TriggerInfos} from "./dtos/trigger-infos.dto";
+import {ActionInfos} from "./dtos/action-infos.dto";
 
 @Injectable()
 export class GoogleService {
@@ -15,42 +15,42 @@ export class GoogleService {
 
     public async getProviderInfos(): Promise<ProviderInfos> {
         try {
-            const actionsInfos: ActionInfos[] = await this.getActionsInfos();
-            const triggersInfos: TriggerInfos[] = await this.getTriggersInfos();
+            const reactionsInfos: ReactionInfos[] = await this.getReactionsInfos();
+            const triggersInfos: ActionInfos[] = await this.getTriggersInfos();
             return {
                 name: 'google',
                 title: 'Google',
                 image: 'https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg',
-                actions: actionsInfos,
-                triggers: triggersInfos,
+                reactions: reactionsInfos,
+                actions: triggersInfos,
             }
         } catch (err) {
             throw new RpcException(err);
         }
     }
 
-    private async getActionsInfos(): Promise<ActionInfos[]> {
+    private async getReactionsInfos(): Promise<ReactionInfos[]> {
         try {
-            const actionsObservable: Observable<any> = this.natsClient.send('provider.google.actions.infos', {});
-            const actionsInfos: ActionInfos[] = await actionsObservable.pipe(
+            const reactionsObservable: Observable<any> = this.natsClient.send('provider.google.reactions.infos', {});
+            const reactionsInfos: ReactionInfos[] = await reactionsObservable.pipe(
                 toArray()
             ).toPromise();
-            this.logger.log(`Available google actions: ${actionsInfos}`);
-            return actionsInfos;
+            this.logger.log(`Available google reactions: ${reactionsInfos}`);
+            return reactionsInfos;
         } catch (err) {
             this.logger.error(err);
             return [];
         }
     }
 
-    private async getTriggersInfos(): Promise<TriggerInfos[]> {
+    private async getTriggersInfos(): Promise<ActionInfos[]> {
         try {
-            const triggersObservable: Observable<any> = this.natsClient.send('provider.google.triggers.infos', {});
-            const triggersInfos: TriggerInfos[] = await triggersObservable.pipe(
+            const actionsObservable: Observable<any> = this.natsClient.send('provider.google.actions.infos', {});
+            const actionsInfos: ActionInfos[] = await actionsObservable.pipe(
                 toArray()
             ).toPromise();
-            this.logger.log(`Available google triggers: ${triggersInfos}`);
-            return triggersInfos;
+            this.logger.log(`Available google triggers: ${actionsInfos}`);
+            return actionsInfos;
         } catch (err) {
             this.logger.error(err);
             return [];

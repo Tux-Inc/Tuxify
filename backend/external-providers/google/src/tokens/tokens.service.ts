@@ -1,6 +1,6 @@
 import {Inject, Injectable} from '@nestjs/common';
 import {ClientProxy} from "@nestjs/microservices";
-import {ProviderRequestTokens} from "../actions/dtos/provider-request-tokens.dto";
+import {ProviderRequestTokens} from "../reactions/dtos/provider-request-tokens.dto";
 import {lastValueFrom} from "rxjs";
 import {UserProviderTokens} from "./dtos/user-provider-tokens.dto";
 

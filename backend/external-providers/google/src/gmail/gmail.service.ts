@@ -1,6 +1,6 @@
 import {Injectable, Logger} from '@nestjs/common';
 import {SendEmailInput} from "./dtos/send-email-input.dto";
-import {CommonActionInput} from "../dtos/common-action-input.dto";
+import {CommonReactionInput} from "../dtos/common-reaction-input.dto";
 import {TokensService} from "../tokens/tokens.service";
 import {UserProviderTokens} from "../tokens/dtos/user-provider-tokens.dto";
 
@@ -12,8 +12,8 @@ export class GmailService {
     ) {
     }
 
-    async sendEmail(commonActionInput: CommonActionInput<SendEmailInput>): Promise<any> {
-        const userProviderTokens: UserProviderTokens = await this.tokensService.getTokens(commonActionInput.userId);
+    async sendEmail(commonReactionInput: CommonReactionInput<SendEmailInput>): Promise<any> {
+        const userProviderTokens: UserProviderTokens = await this.tokensService.getTokens(commonReactionInput.userId);
         this.logger.log("sendEmail");
         this.logger.log(userProviderTokens);
     }

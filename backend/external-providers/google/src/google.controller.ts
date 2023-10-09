@@ -1,10 +1,7 @@
-import {Controller, Inject, Logger, Res} from '@nestjs/common';
+import {Controller, Inject, Logger} from '@nestjs/common';
 import {GoogleService} from './google.service';
-import {ClientProxy, MessagePattern, Payload, RpcException} from "@nestjs/microservices";
+import {ClientProxy, MessagePattern} from "@nestjs/microservices";
 import {ProviderInfos} from "./dtos/provider-infos.dto";
-import {toArray} from "rxjs";
-import {ActionInfos} from "./dtos/action-infos.dto";
-import {TriggerInfos} from "./dtos/trigger-infos.dto";
 @Controller()
 export class GoogleController {
     public readonly logger: Logger = new Logger(GoogleController.name);

@@ -3,7 +3,7 @@ import {GoogleController} from './google.controller';
 import {GoogleService} from './google.service';
 import {ClientsModule, Transport} from "@nestjs/microservices";
 import {AuthModule} from './auth/auth.module';
-import {ActionsModule} from './actions/actions.module';
+import {ReactionsModule} from './reactions/reactions.module';
 import { GmailModule } from './gmail/gmail.module';
 import { TokensModule } from './tokens/tokens.module';
 
@@ -19,7 +19,7 @@ import { TokensModule } from './tokens/tokens.module';
             }
         ]),
         AuthModule,
-        ActionsModule,
+        ReactionsModule,
         GmailModule,
         TokensModule,
     ],
