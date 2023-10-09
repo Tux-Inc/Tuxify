@@ -39,7 +39,6 @@ jobs:
 
   build_frontend:
     name: Build and push frontend image
-    needs: [ build_api ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -68,7 +67,6 @@ jobs:
 
   build_android:
     name: Build APK
-    needs: [ build_api, build_frontend ]
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -123,16 +121,16 @@ jobs:
         run: echo "CURRENT_DATETIME=$(date +'%Y-%m-%d-%H_%M_%S%z')" >> "$GITHUB_OUTPUT"
 
       - name: Create Release
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: "./android/app/build/outputs/bundle/release/app-release-signed.aab, ./android/app/build/outputs/apk/debug/app-debug.apk"
-          name: ${{ steps.current-datetime.outputs.CURRENT_DATETIME }}
-          tag: ${{ steps.current-datetime.outputs.CURRENT_DATETIME }}
+        run: |
+          gh release create v1.0.0 ./android/app/build/outputs/bundle/release/app-release-signed.aab ./android/app/build/outputs/apk/debug/app-debug.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
 
 
   deploy_frontend_to_kubernetes:
     name: Deploy Frontend to Kubernetes
-    needs: [ build_api, build_frontend ]
+    needs: [ build_frontend ]
     runs-on: ubuntu-latest
     environment:
       name: production
@@ -160,7 +158,7 @@ jobs:
 
   deploy_backend_to_kubernetes:
     name: Deploy Backend to Kubernetes
-    needs: [ build_api, build_frontend, deploy_frontend_to_kubernetes ]
+    needs: [ build_api ]
     runs-on: ubuntu-latest
     environment:
       name: production
@@ -198,7 +196,7 @@ jobs:
 
   mirror:
     name: Mirror repository
-    needs: [ build_api, build_frontend, deploy_frontend_to_kubernetes, deploy_backend_to_kubernetes ]
+    needs: [ deploy_frontend_to_kubernetes, deploy_backend_to_kubernetes, build_android ]
     permissions:
       contents: read
     runs-on: ubuntu-latest

@@ -19,7 +19,7 @@ function signOut() {
         <div class="flex flex-col gap-4">
             <span class="text-dark dark:text-light font-bold text-2xl">My account</span>
             <div class="flex items-center gap-2">
-                <img src="/avatar/3.png" class="rounded-full h-20" />
+                <NuxtImg src="/avatar/3.png" class="rounded-full h-20" />
                 <div class="flex flex-col">
                     <span class="text-dark dark:text-light font-bold text-xl">John Doe</span>
                     <span class="text-dark dark:text-light">Basic user</span>
