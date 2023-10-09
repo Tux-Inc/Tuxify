@@ -21,8 +21,6 @@ const i18n = useI18n();
                 <UButton to="/app/services" size="lg" icon="i-heroicons-globe-europe-africa" color="gray"
                          variant="ghost">{{ i18n.t("app.sidebar.services") }}
                 </UButton>
-                <UButton to="/components" size="lg" icon="i-heroicons-cube" color="gray" variant="ghost">Components
-                </UButton>
             </div>
             <div class="flex flex-col items-start justify-center gap-4 w-full">
                 <UButton to="/app/settings" size="lg" icon="i-heroicons-cog-8-tooth" color="gray" variant="ghost">

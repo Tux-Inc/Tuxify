@@ -1,26 +1,12 @@
 <script setup lang="ts">
-const menus = [
-    {
-        name: "Home",
-        icon: "bx bx-home",
-        path: "/app",
+
+const props = defineProps({
+    title: {
+        type: String,
+        required: true,
     },
-    {
-        name: "Flows",
-        icon: "bx bx-link",
-        path: "/app/flows",
-    },
-    {
-        name: "Services",
-        icon: "bx bx-server",
-        path: "/app/services",
-    },
-    {
-        name: "Settings",
-        icon: "bx bx-cog",
-        path: "/app/settings",
-    },
-];
+});
+
 </script>
 
 <template>
@@ -29,7 +15,7 @@ const menus = [
         <div
             class="flex items-center justify-center min-h-[--mobile-menu-height] max-h-[--mobile-menu-height] px-4 bg-light dark:bg-dark">
             <h1 class="text-4xl font-bold text-dark dark:text-light">
-                Services
+                {{ props.title }}
             </h1>
         </div>
     </header>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+
 const menus = [
     {
         name: "Home",
@@ -21,6 +22,7 @@ const menus = [
         path: "/app/settings",
     },
 ];
+
 </script>
 
 <template>

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-const { metaSymbol } = useShortcuts();
-const { $listen, $event } = useNuxtApp();
-const router = useRouter();
 const toast = useToast();
+const router = useRouter();
 const commandPaletteRef = ref();
-const isCommandPaletteOpen = ref(false);
+const { metaSymbol } = useShortcuts();
 const isNewFlowModalOpen = ref(false);
+const isCommandPaletteOpen = ref(false);
+const { $listen, $event } = useNuxtApp();
 
 const sendEvent = (event: string) => {
     isCommandPaletteOpen.value = false;
@@ -105,13 +105,44 @@ function onSelect(option: any) {
     }
 }
 
+const route = useRoute();
+
+const pages = [
+    {
+        path: "app",
+        name: "Home",
+    },
+    {
+        path: "app-flows",
+        name: "Flows",
+    },
+    {
+        path: "app-services",
+        name: "Services",
+    },
+    {
+        path: "app-settings",
+        name: "Settings",
+    },
+];
+
+const getHeaderTitle = (routeName: string): string => {
+    let title = "Home";
+    pages.forEach(page => {
+        if (page.path === routeName) {
+            title = page.name;
+        }
+    });
+    return title;
+};
+
 </script>
 
 <template>
     <div class="antialiased min-h-screen bg-base-light dark:bg-base-dark">
         <div class="md:hidden">
-            <MobileHeaderBar />
-            <div class="p-8 min-h-[--mobile-menu-height] max-h-[--mobile-menu-height]">
+            <MobileHeaderBar :title="getHeaderTitle(String(route.name))" />
+            <div class="p-4 my-[calc((var(--mobile-menu-height)))]">
                 <slot />
             </div>
             <MobileNavigator />
