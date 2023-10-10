@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tuxify-api-nats
+  labels:
+    app: tuxify-api-nats
+    environment: production
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: tuxify-api-nats
+  template:
+    metadata:
+      labels:
+        app: tuxify-api-nats
+        environment: production
+    spec:
+      containers:
+      - name: tuxify-api-nats
+        image: nats:latest
+        ports:
+          - containerPort: 4222
+          - containerPort: 6222
+          - containerPort: 8222
+        resources: {}

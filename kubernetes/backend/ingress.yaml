@@ -12,6 +12,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: tuxify-api
+                name: tuxify-api-gateway
                 port:
                   number: 80

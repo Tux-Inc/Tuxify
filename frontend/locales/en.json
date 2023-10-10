@@ -201,7 +201,7 @@
               {
                 "icon": "i-heroicons-envelope",
                 "name": "Email",
-                "link": "gwenael.hublert@tuxify.fr"
+                "link": "mailto:gwenael.hublert@tuxify.fr"
               }
             ]
           },
@@ -230,14 +230,14 @@
               {
                 "icon": "i-heroicons-envelope",
                 "name": "Email",
-                "link": "alexandre.de-freitas-martins@tuxify.fr"
+                "link": "mailto:alexandre.de-freitas-martins@tuxify.fr"
               }
             ]
           },
           {
             "image": "/landing/contributors/roman_lopes.jpg",
-            "alt": "Roman Lopez profile picture",
-            "name": "Roman Lopez",
+            "alt": "Roman Lopes profile picture",
+            "name": "Roman Lopes",
             "job": "Developer",
             "description": "Student at Epitech Nice in 3rd year, Roman is a focused developer that know how to manage a team.",
             "socials": [
@@ -259,7 +259,7 @@
               {
                 "icon": "i-heroicons-envelope",
                 "name": "Email",
-                "link": "roman.lopez@tuxify.fr"
+                "link": "mailto:roman.lopes@tuxify.fr"
               }
             ]
           },
@@ -288,7 +288,7 @@
               {
                 "icon": "i-heroicons-envelope",
                 "name": "Email",
-                "link": "stephane.fievez@tuxify.fr"
+                "link": "mailto:stephane.fievez@tuxify.fr"
               }
             ]
           },
@@ -317,7 +317,7 @@
               {
                 "icon": "i-heroicons-envelope",
                 "name": "Email",
-                "link": "bouna.diallo@tuxify.fr"
+                "link": "mailto:bouna.diallo@tuxify.fr"
               }
             ]
           }

@@ -19,7 +19,7 @@ const props = withDefaults(defineProps<IFounderCardProps>(), {
 <template>
     <UCard class="flex flex-col">
         <div class="md:flex md:flex-row gap-4 md:flex-nowrap items-center justify-start">
-            <img class="rounded-md mx-auto" :src="props.image" :alt="props.alt" width="250" height="250" />
+            <NuxtImg class="rounded-md mx-auto" :src="props.image" :alt="props.alt" width="250" height="250" />
             <div>
                 <br />
                 <div
@@ -38,10 +38,10 @@ const props = withDefaults(defineProps<IFounderCardProps>(), {
                     <div v-for="(social, index) in props.socials">
                         <UButton
                             :key="props.name + social.name + index"
+                            :aria-label="`${social.name}`"
                             :icon="`${social.icon}`"
                             size="lg"
                             :to="social.link"
-                            color="grey"
                             variant="ghost"
                         />
                     </div>

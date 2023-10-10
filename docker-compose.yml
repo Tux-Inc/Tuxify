@@ -1,39 +1,193 @@
 version: '3'
 
 services:
-  # PostgreSQL
-  db:
-    container_name: tuxify-db
+  # PostgreSQL auth database
+  api_auth_db:
+    container_name: tuxify-api-auth-db
     image: postgres:16-alpine
     restart: always
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_DB: ${POSTGRES_DB}
-
     volumes:
-      - db_data:/var/lib/postgresql/data
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
-    ports:
-      - "5432:5432"
+      - auth_data:/var/lib/postgresql/data
+      - ./dabatase/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - tuxify-network
 
-  # Nest API
-  api:
-    container_name: tuxify-api
-    image: node:latest
+  # PostgreSQL providers database
+  api_providers_db:
+    container_name: tuxify-api-providers-db
+    image: postgres:16-alpine
     restart: always
-    command: yarn start:dev --preserveWatchOutput
+    environment:
+      POSTGRES_PASSWORD: ${NESTSV_PROVIDERS_POSTGRES_PASSWORD}
+      POSTGRES_USER: ${NESTSV_PROVIDERS_POSTGRES_USER}
+      POSTGRES_DB: ${NESTSV_PROVIDERS_POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - providers_data:/var/lib/postgresql/data
+      - ./dabatase/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - tuxify-network
+
+  # MongoDB Flows database
+  api_flows_db:
+    container_name: tuxify-api-flows-db
+    image: mongo:latest
+    restart: always
+    command: --quiet
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${NESTSV_FLOWS_MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${NESTSV_FLOWS_MONGO_PASSWORD}
+      MONGO_INITDB_DATABASE: ${NESTSV_FLOWS_MONGO_DB}
+    volumes:
+      - flows_data:/data/db
+      - ./database/init.js:/docker-entrypoint-initdb.d/init.js:ro
+    ports:
+      - "27017:27017"
+    networks:
+      - tuxify-network
+
+  # Redis auth cache
+  api_auth_cache:
+    container_name: tuxify-api-auth-cache
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - tuxify-network
+
+  # Nest microservices NATS transport server
+  api_nats:
+    container_name: tuxify-api-nats
+    image: nats:latest
+    restart: always
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+      - "6222:6222"
+    networks:
+      - tuxify-network
+
+  # Nest API services
+  api_gateway:
+    container_name: tuxify-api-gateway
+    build:
+      context: ./backend/gateway
+      dockerfile: Dockerfile.dev
+    restart: always
+    command: npm run start:dev --watch-preserve-output
     working_dir: /usr/src/app
     ports:
       - "3000:3000"
       - "8000:8000"
     volumes:
-      - ./backend:/usr/src/app
-      - ./backend/node_modules:/usr/src/app/node_modules
+      - ./backend/gateway:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - tuxify-network
+    env_file:
+      - .env
+
+  # Mailer microservice
+  api_mailer:
+    container_name: tuxify-api-mailer
+    build:
+      context: ./backend/mailer
+      dockerfile: Dockerfile.dev
+    restart: always
+    command: npm run start:dev --watch-preserve-output
+    working_dir: /usr/src/app
+    volumes:
+      - ./backend/mailer:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - tuxify-network
+    env_file:
+      - .env
+
+  # Auth microservice
+  api_auth:
+    container_name: tuxify-api-auth
+    build:
+      context: ./backend/auth
+      dockerfile: Dockerfile.dev
+    restart: always
+    command: npm run start:dev --watch-preserve-output
+    working_dir: /usr/src/app
+    ports:
+      - ${NESTSV_AUTH_PORT}:${NESTSV_AUTH_PORT}
+    volumes:
+      - ./backend/auth:/usr/src/app
+      - /usr/src/app/node_modules
     depends_on:
-      - db
+      - api_auth_db
+      - api_auth_cache
+    networks:
+      - tuxify-network
+    env_file:
+      - .env
+
+  # Flows microservice
+  api_flows:
+    container_name: tuxify-api-flows
+    build:
+      context: ./backend/flows
+      dockerfile: Dockerfile.dev
+    restart: always
+    command: npm run start:dev --watch-preserve-output
+    working_dir: /usr/src/app
+    volumes:
+      - ./backend/flows:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - api_flows_db
+    networks:
+      - tuxify-network
+    env_file:
+      - .env
+
+  # Providers microservice
+  api_providers:
+    container_name: tuxify-api-providers
+    build:
+      context: ./backend/providers
+      dockerfile: Dockerfile.dev
+    restart: always
+    command: npm run start:dev --watch-preserve-output
+    working_dir: /usr/src/app
+    ports:
+      - ${NESTSV_PROVIDERS_PORT}:${NESTSV_PROVIDERS_PORT}
+    volumes:
+      - ./backend/providers:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - api_providers_db
+    networks:
+      - tuxify-network
+    env_file:
+      - .env
+
+  # Google provider
+  api_google:
+    container_name: tuxify-api-google
+    build:
+      context: ./backend/external-providers/google
+      dockerfile: Dockerfile.dev
+    restart: always
+    command: npm run start:dev --watch-preserve-output
+    working_dir: /usr/src/app
+    ports:
+      - ${NESTSV_GOOGLE_PORT}:${NESTSV_GOOGLE_PORT}
+    volumes:
+      - ./backend/external-providers/google:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - api_providers
     networks:
       - tuxify-network
     env_file:
@@ -53,7 +207,7 @@ services:
         - ./frontend:/usr/src/app
         - ./frontend/node_modules:/usr/src/app/node_modules
       depends_on:
-        - api
+        - api_gateway
       networks:
         - tuxify-network
       env_file:
@@ -65,4 +219,6 @@ networks:
     driver: bridge
 
 volumes:
-  db_data:
+  auth_data:
+  flows_data:
+  providers_data:
