@@ -89,7 +89,7 @@ spec:
       containers:
         - name: tuxify-api-auth
           image: ghcr.io/tux-inc/tuxify-api-auth:latest
-          port:
+          ports:
             - containerPort: 3010
               name: auth
               protocol: TCP
