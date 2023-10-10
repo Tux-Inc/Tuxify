@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import {useI18n} from "vue-i18n";
+import { ref } from "vue";
+import { useI18n } from "vue-i18n";
+import type { FormError, FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
 
 definePageMeta({
   layout: 'default',
@@ -7,21 +9,24 @@ definePageMeta({
 
 const i18n = useI18n();
 
-import { ref } from 'vue'
-import type { FormError, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types'
 const state = ref({
-  email: undefined
+    email: "",
+    password: "",
+    check_password: "",
 })
 
 const isLoading = ref(false);
+
 const validate = (state: any): FormError[] => {
-  const errors = []
-  if (!state.password) errors.push({ path: 'password', message: 'Required' })
-  if (!state.vpassword) errors.push({ path: 'vpassword', message: 'Required' })
-  if (state.password != state.vpassword) errors.push({ path: 'vpassword' ,message: 'Should be the same Password'})
-  return errors
+    const errors = [];
+    if (!state.password) errors.push({ path: "password", message: "Required" });
+    if (!state.check_password) errors.push({ path: "check_password", message: "Required" });
+    if (state.password != state.check_password) errors.push({ path: "check_password", message: "Shoudld be same Password" });
+    return errors;
 }
-const router = useRouter()
+
+const router = useRouter();
+
 async function submit (event: FormSubmitEvent<any>) {
   router.push('/app')
 }
@@ -49,13 +54,11 @@ const setVisibleCheckPassworad = () => isVisible.value.check_password = !isVisib
     <UCard class=" w-full sm:w-1/2 md:w-1/3">
       <UForm
           :validate="validate"
+          class="flex flex-col gap-4"
           :state="state"
           @submit="submit"
-          class="flex flex-col gap-4"
       >
           <UFormGroup
-              v-slot="{ error }"
-              :error="(!state.password) || (state.password != state.check_password)"
               :label="i18n.t('auth.password.new')"
               name="password"
               required
@@ -66,7 +69,7 @@ const setVisibleCheckPassworad = () => isVisible.value.check_password = !isVisib
                       :trailing-icon="error && 'i-heroicons-exclamation-triangle-20-solid'"
                       :type="`${isVisible.password ? 'text' : 'password'}`"
                       :ui="{ icon: { trailing: { pointer: ''}}}"
-                      placeholder="New Password"
+                      :placeholder="i18n.t('auth.password.new')"
                       required
                   >
                       <template #trailing>
@@ -82,30 +85,30 @@ const setVisibleCheckPassworad = () => isVisible.value.check_password = !isVisib
               </div>
               <UFormGroup
                       v-slot="{ error }"
-                      :error="(!state.password) || (state.password != state.check_password)"
-                      :label="i18n.t('auth.password.new')"
+                      :label="i18n.t('auth.form.confirmNewPassword')"
                       name="check_password"
-                      >
-                  <UInput
-                      v-model="state.check_password"
-                      :trailing-icon="error && 'i-heroicons-exclamation-triangle-20-solid'"
-                      :type="`${isVisible.check_password ? 'text' : 'password'}`"
-                      :ui="{ icon: { trailing: { pointer: ''}}}"
-                      class="p-4"
-                      placeholder="Confirm new Password"
                       required
-                  >
-                    <template #trailing>
-                        <UButton
-                            v-show="true"
-                            :padded="false"
-                            class="p-4"
-                            icon="i-heroicons-eye-slash"
-                            variant="link"
-                            @click="setVisibleCheckPassworad"
-                        />
-                  </template>
-              </UInput>
+                      >
+                  <div class="p-4">
+                      <UInput
+                          v-model="state.check_password"
+                          :trailing-icon="error && 'i-heroicons-exclamation-triangle-20-solid'"
+                          :type="`${isVisible.check_password ? 'text' : 'password'}`"
+                          :ui="{ icon: { trailing: { pointer: ''}}}"
+                          :placeholder="i18n.t('auth.form.confirmNewPassword')"
+                          required
+                      >
+                        <template #trailing>
+                            <UButton
+                                v-show="true"
+                                :padded="false"
+                                icon="i-heroicons-eye-slash"
+                                variant="link"
+                                @click="setVisibleCheckPassworad"
+                            />
+                        </template>
+                      </UInput>
+                  </div>
               </UFormGroup>
               <div class="p-4">
               <UButton
