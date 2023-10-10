@@ -262,6 +262,7 @@ jobs:
             --from-literal=JWT_REFRESH_SECRET=${{ secrets.JWT_REFRESH_SECRET }}
             --from-literal=JWT_RESET_PASSWORD_SECRET=${{ secrets.JWT_RESET_PASSWORD_SECRET }}
             --from-literal=JWT_CONFIRMATION_SECRET=${{ secrets.JWT_CONFIRMATION_SECRET }}
+            --from-literal=POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
 
       - name: Create flows secrets
         uses: Azure/k8s-create-secret@v1
@@ -315,12 +316,12 @@ jobs:
             kubernetes/backend/service.yaml
             kubernetes/backend/ingress.yaml
           images: |
-            ghcr.io/tux-inc/tuxify-api-gateway:latest
-            ghcr.io/tux-inc/tuxify-api-mailer:latest
-            ghcr.io/tux-inc/tuxify-api-auth:latest
-            ghcr.io/tux-inc/tuxify-api-flows:latest
-            ghcr.io/tux-inc/tuxify-api-providers:latest
-            ghcr.io/tux-inc/tuxify-api-google:latest
+            ghcr.io/tux-inc/tuxify-api-gateway:${{ github.sha }}
+            ghcr.io/tux-inc/tuxify-api-mailer:${{ github.sha }}
+            ghcr.io/tux-inc/tuxify-api-auth:${{ github.sha }}
+            ghcr.io/tux-inc/tuxify-api-flows:${{ github.sha }}
+            ghcr.io/tux-inc/tuxify-api-providers:${{ github.sha }}
+            ghcr.io/tux-inc/tuxify-api-google:${{ github.sha }}
 
   # mirror:
   #   name: Mirror repository
