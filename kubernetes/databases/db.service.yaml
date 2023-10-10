@@ -1,13 +1,44 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: tuxify-postgres-service
+  name: tuxify-api-auth-db
   namespace: production
   labels:
-    app: tuxify-postgres
+    app: tuxify-api-auth-db
 spec:
   ports:
     - port: 5432
       targetPort: 5432
   selector:
-    app: tuxify-postgres
+    app: tuxify-api-auth-db
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tuxify-api-providers-db
+  namespace: production
+  labels:
+    app: tuxify-api-providers-db
+spec:
+  ports:
+    - port: 5432
+      targetPort: 5432
+  selector:
+    app: tuxify-api-providers-db
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tuxify-api-flows-db
+  namespace: production
+  labels:
+    app: tuxify-api-flows-db
+spec:
+  ports:
+    - port: 27017
+      targetPort: 27017
+  selector:
+    app: tuxify-api-flows-db
+
