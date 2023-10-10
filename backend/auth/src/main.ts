@@ -60,7 +60,7 @@ async function bootstrap() {
 
   await app.listen(
     configService.get<number>('port'),
-    configService.get<boolean>('testing') ? 'tuxify-api-auth' : '0.0.0.0',
+    configService.get<boolean>('testing') ? 'tuxify-api-auth.production' : '0.0.0.0',
   );
 }
 
