@@ -8,12 +8,12 @@ spec:
   selector:
     app: tuxify-api-nats
   ports:
-    - name: tuxify-api-nats
+    - name: tuxify-api-nats-4222
       port: 4222
       targetPort: 4222
-    - name: tuxify-api-nats
+    - name: tuxify-api-nats-6222
       port: 6222
       targetPort: 6222
-    - name: tuxify-api-nats
+    - name: tuxify-api-nats-8222
       port: 8222
       targetPort: 8222
