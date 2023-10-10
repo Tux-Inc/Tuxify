@@ -207,7 +207,7 @@ jobs:
 
   deploy_backend_to_kubernetes:
     name: Deploy Backend to Kubernetes
-    needs: [ build_api ]
+    # needs: [ build_api ]
     runs-on: ubuntu-latest
     environment:
       name: production
