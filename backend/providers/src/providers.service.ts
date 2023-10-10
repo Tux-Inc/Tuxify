@@ -1,16 +1,20 @@
-import {BadGatewayException, Inject, Injectable, Logger} from '@nestjs/common';
-import {LocalUserProviderTokens} from "./events/local-user-provider-tokens.event";
-import {InjectRepository} from "@nestjs/typeorm";
-import {ProviderEntity} from "./entities/provider.entity";
-import {Repository} from "typeorm";
-import {ClientProxy, RpcException} from "@nestjs/microservices";
-import {AddedProvider} from "./dtos/added-provider.dto";
-import {AddProviderCallback} from "./dtos/add-provider-callback.dto";
-import {Observable} from "rxjs";
+import { Inject, Injectable, Logger } from "@nestjs/common";
+import { LocalUserProviderTokens } from "./events/local-user-provider-tokens.event";
+import { InjectRepository } from "@nestjs/typeorm";
+import { ProviderEntity } from "./entities/provider.entity";
+import { Repository } from "typeorm";
+import { ClientProxy, RpcException } from "@nestjs/microservices";
+import { AddedProvider } from "./dtos/added-provider.dto";
+import { AddProviderCallback } from "./dtos/add-provider-callback.dto";
+import { lastValueFrom, Observable, toArray } from "rxjs";
+import { AddProvider } from "./dtos/add-provider.dto";
+import { ProviderRequestTokens } from "./dtos/provider-request-tokens.dto";
+import { ProviderInfos } from "./dtos/provider-infos.dto";
+import { UserProviderTokens } from "./dtos/user-provider-tokens.dto";
 
 @Injectable()
 export class ProvidersService {
-    private readonly logger = new Logger(ProvidersService.name);
+    private readonly logger: Logger = new Logger(ProvidersService.name);
     constructor(
         @InjectRepository(ProviderEntity)
         private providersRepository: Repository<ProviderEntity>,
@@ -37,48 +41,73 @@ export class ProvidersService {
         this.logger.log(`New provider ${provider} added for user ${userId}`);
     }
 
-    async findOneByProviderAndUserId(provider: string, userId: number): Promise<ProviderEntity> {
-        return await this.providersRepository.findOne({where: {provider, userId}});
+    async getTokens(providerRequestedTokens: ProviderRequestTokens): Promise<ProviderEntity> {
+        const {provider, userId} = providerRequestedTokens;
+        const tokens =  await this.providersRepository.findOne({where: {provider, userId}});
+        return await this.refreshTokens(tokens);
     }
 
-    async getAllAvailableProviders(): Promise<string[]> {
-        let providers: string[] = [];
-        const providersObservable = this.natsClient.send('providers.whoami', {});
-        providersObservable.subscribe({
-            next: (data: string) => {
-                providers.push(...data);
-            },
-            complete: () => {
-                return providers;
-            },
-            error: (err) => {
-                throw new RpcException(err);
-            }
-        })
-        return providers;
+    async getAllTokens(provider: string): Promise<ProviderEntity[]> {
+        const userProviderEntities = await this.providersRepository.find({where: {provider}});
+        const userProviderEntitiesWithRefreshedTokens: ProviderEntity[] = [];
+        for (const userProviderEntity of userProviderEntities) {
+            userProviderEntitiesWithRefreshedTokens.push(await this.refreshTokens(userProviderEntity));
+        }
+        setTimeout(() => {
+            return userProviderEntitiesWithRefreshedTokens;
+        }, 10000);
+        return userProviderEntitiesWithRefreshedTokens;
     }
 
-    async addProvider(provider: string): Promise<string | void> {
-        const newProviderObservable = this.natsClient.send(`providers.${provider}.add`, {});
-        newProviderObservable.subscribe({
-            next: (redirectUrl: string) => {
-                return redirectUrl;
-            }
-        });
+    private async refreshTokens(providerEntity: ProviderEntity): Promise<ProviderEntity> {
+        const newEntity = await lastValueFrom(this.natsClient.send(`provider.${providerEntity.provider}.refresh`, providerEntity));
+        return await this.providersRepository.save(newEntity);
     }
 
-    async addProviderCallback(addProviderCallback: AddProviderCallback): Promise<string | void> {
-        const newProviderObservable: Observable<any> = this.natsClient.send(`providers.${addProviderCallback.provider}.add.callback`, addProviderCallback);
+    async getAllAvailableProviders(): Promise<ProviderInfos[]> {
+        const providersObservable: Observable<any> = this.natsClient.send('provider.infos', {});
+        try {
+            const providers: ProviderInfos[] = await providersObservable.pipe(
+                toArray()
+            ).toPromise();
+            this.logger.log(`Available providers: ${providers.map(provider => provider.name)}`);
+            return providers;
+        } catch (err) {
+            throw new RpcException(err);
+        }
+    }
+
+    async addProvider(addProvider: AddProvider): Promise<string> {
+        this.logger.log(`Requesting adding ${addProvider.provider} provider`);
+        try {
+            const responseObservable: Observable<string> = this.natsClient.send(`provider.${addProvider.provider}.add`, addProvider);
+            return await lastValueFrom(responseObservable);
+        } catch (err) {
+            this.logger.error(err);
+            throw new RpcException(`Provider ${addProvider.provider} is not available`);
+        }
+    }
+
+    async addProviderCallback(addProviderCallback: AddProviderCallback): Promise<string> {
+        const newProviderObservable: Observable<any> = this.natsClient.send(`provider.${addProviderCallback.provider}.add.callback`, addProviderCallback);
         newProviderObservable.subscribe({
             next: (addedProvider: AddedProvider) => {
-                this.updateOrCreate({
+                const localUserProviderTokens: LocalUserProviderTokens = {
                     provider: addProviderCallback.provider,
-                    userId: addProviderCallback.userId,
+                    userId: addedProvider.userId,
                     accessToken: addedProvider.accessToken,
                     refreshToken: addedProvider.refreshToken,
-                });
-                return process.env.NESTSV_PROVIDERS_CALLBACK_REDIRECT;
+                }
+                this.updateOrCreate(localUserProviderTokens);
+                this.logger.log(`Provider ${addProviderCallback.provider} added for user ${addedProvider.userId}`);
+                this.logger.log(`Sending success callback to ${addProviderCallback.provider} provider`);
+                this.natsClient.emit(`provider.${addProviderCallback.provider}.add.callback.success`, addedProvider);
+            },
+            error: (err) => {
+            },
+            complete: () => {
             }
         });
+        return process.env.NESTSV_PROVIDERS_CALLBACK_REDIRECT;
     }
 }

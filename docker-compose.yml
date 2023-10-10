@@ -16,7 +16,7 @@ services:
     networks:
       - tuxify-network
 
-  # PostgreSQL flows-providers database
+  # PostgreSQL providers database
   api_providers_db:
     container_name: tuxify-api-providers-db
     image: postgres:16-alpine
