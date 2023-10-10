@@ -13,13 +13,13 @@ export class ReactionsController {
     }
 
     @MessagePattern('provider.google.reaction.infos')
-    async sendEmailInfos(): Promise<ReactionInfos> {
+    sendEmailInfos(): ReactionInfos {
         return {
             name: 'provider.google.reaction.gmail.send',
         }
     }
     @MessagePattern('provider.google.reaction.gmail.send')
-    async sendEmail(@Payload() commonReactionInput: CommonReactionInput<SendEmailInput>): Promise<any> {
+    async sendEmail(@Payload() commonReactionInput: CommonReactionInput<SendEmailInput>): Promise<void> {
         return await this.gmailService.sendEmail(commonReactionInput);
     }
 }

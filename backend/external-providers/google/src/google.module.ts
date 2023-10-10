@@ -6,6 +6,7 @@ import {AuthModule} from './auth/auth.module';
 import {ReactionsModule} from './reactions/reactions.module';
 import { GmailModule } from './gmail/gmail.module';
 import { TokensModule } from './tokens/tokens.module';
+import { ActionsModule } from './actions/actions.module';
 
 @Module({
     imports: [
@@ -22,6 +23,7 @@ import { TokensModule } from './tokens/tokens.module';
         ReactionsModule,
         GmailModule,
         TokensModule,
+        ActionsModule,
     ],
     controllers: [GoogleController],
     providers: [GoogleService],

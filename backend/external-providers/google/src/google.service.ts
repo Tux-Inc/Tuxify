@@ -7,7 +7,7 @@ import {ActionInfos} from "./dtos/action-infos.dto";
 
 @Injectable()
 export class GoogleService {
-    private readonly logger = new Logger(GoogleService.name);
+    private readonly logger: Logger = new Logger(GoogleService.name);
     constructor(
         @Inject('NATS_CLIENT') private readonly natsClient: ClientProxy,
     ) {
@@ -31,11 +31,11 @@ export class GoogleService {
 
     private async getReactionsInfos(): Promise<ReactionInfos[]> {
         try {
-            const reactionsObservable: Observable<any> = this.natsClient.send('provider.google.reactions.infos', {});
+            const reactionsObservable: Observable<any> = this.natsClient.send('provider.google.reaction.infos', {});
             const reactionsInfos: ReactionInfos[] = await reactionsObservable.pipe(
                 toArray()
             ).toPromise();
-            this.logger.log(`Available google reactions: ${reactionsInfos}`);
+            this.logger.log(`Available google reactions: ${reactionsInfos.map(reaction => reaction.name)}`);
             return reactionsInfos;
         } catch (err) {
             this.logger.error(err);
@@ -45,11 +45,11 @@ export class GoogleService {
 
     private async getTriggersInfos(): Promise<ActionInfos[]> {
         try {
-            const actionsObservable: Observable<any> = this.natsClient.send('provider.google.actions.infos', {});
+            const actionsObservable: Observable<any> = this.natsClient.send('provider.google.action.infos', {});
             const actionsInfos: ActionInfos[] = await actionsObservable.pipe(
                 toArray()
             ).toPromise();
-            this.logger.log(`Available google triggers: ${actionsInfos}`);
+            this.logger.log(`Available google triggers: ${actionsInfos.map(action => action.name)}`);
             return actionsInfos;
         } catch (err) {
             this.logger.error(err);

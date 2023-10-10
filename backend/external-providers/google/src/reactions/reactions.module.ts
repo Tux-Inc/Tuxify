@@ -3,8 +3,8 @@ import {ReactionsController} from './reactions.controller';
 import {ReactionsService} from './reactions.service';
 import {ClientsModule, Transport} from "@nestjs/microservices";
 import {GmailService} from "../gmail/gmail.service";
-import {GmailModule} from "../gmail/gmail.module";
 import {TokensService} from "../tokens/tokens.service";
+import { HttpModule } from "@nestjs/axios";
 
 @Module({
     imports: [
@@ -17,7 +17,7 @@ import {TokensService} from "../tokens/tokens.service";
                 }
             }
         ]),
-        GmailModule,
+        HttpModule,
     ],
     controllers: [ReactionsController],
     providers: [ReactionsService, GmailService, TokensService],

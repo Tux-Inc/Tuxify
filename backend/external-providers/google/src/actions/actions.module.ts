@@ -1,8 +1,7 @@
 import {Module} from '@nestjs/common';
-import {AuthController} from './auth.controller';
-import {AuthService} from './auth.service';
+import {ActionsController} from './actions.controller';
+import {ActionsService} from './actions.service';
 import {ClientsModule, Transport} from "@nestjs/microservices";
-import { HttpModule } from "@nestjs/axios";
 
 @Module({
     imports: [
@@ -15,10 +14,9 @@ import { HttpModule } from "@nestjs/axios";
                 }
             }
         ]),
-        HttpModule,
     ],
-    controllers: [AuthController],
-    providers: [AuthService]
+    controllers: [ActionsController],
+    providers: [ActionsService]
 })
-export class AuthModule {
+export class ActionsModule {
 }

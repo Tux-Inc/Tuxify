@@ -4,6 +4,7 @@ import {AddProvider} from "./dtos/add-provider.dto";
 import {AddProviderCallback} from "./dtos/add-provider-callback.dto";
 import {AddedProvider} from "./dtos/added-provider.dto";
 import {AuthService} from "./auth.service";
+import { ProviderEntity } from "./dtos/provider.dto";
 
 @Controller('auth')
 export class AuthController {
@@ -25,6 +26,15 @@ export class AuthController {
     async addProviderCallback(addProviderCallback: AddProviderCallback): Promise<AddedProvider> {
         try {
             return await this.authService.addProviderCallback(addProviderCallback);
+        } catch (e) {
+            throw new RpcException(e.message);
+        }
+    }
+
+    @MessagePattern('provider.google.refresh')
+    async refreshTokens(@Payload() providerEntity: ProviderEntity): Promise<ProviderEntity> {
+        try {
+            return await this.authService.refreshTokens(providerEntity);
         } catch (e) {
             throw new RpcException(e.message);
         }

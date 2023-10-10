@@ -1,22 +1,26 @@
-import {Injectable, Logger} from '@nestjs/common';
-import {AddProvider} from "./dtos/add-provider.dto";
-import {AddProviderCallback} from "./dtos/add-provider-callback.dto";
-import {AddedProvider} from "./dtos/added-provider.dto";
-import {OAuthClass} from "./classes/oauth.class";
-import {IClient} from "./interfaces/client.interface";
-import {RpcException} from "@nestjs/microservices";
+import { Injectable, Logger } from "@nestjs/common";
+import { AddProvider } from "./dtos/add-provider.dto";
+import { AddProviderCallback } from "./dtos/add-provider-callback.dto";
+import { AddedProvider } from "./dtos/added-provider.dto";
+import { OAuthClass } from "./classes/oauth.class";
+import { IClient } from "./interfaces/client.interface";
+import { RpcException } from "@nestjs/microservices";
+import { ProviderEntity } from "./dtos/provider.dto";
+import { HttpService } from "@nestjs/axios";
 
 @Injectable()
 export class AuthService {
     private google: OAuthClass | null;
     private readonly logger: Logger = new Logger(AuthService.name);
 
-    constructor() {
+    constructor(
+        public readonly httpService: HttpService,
+    ) {
     }
 
     async addProvider(addProvider: AddProvider): Promise<string> {
         this.logger.log('Sending authentication URL to client');
-        this.google = AuthService.setOAuthClass('http://localhost:3000', addProvider.userId);
+        this.google = AuthService.setOAuthClass('http://localhost:3000', addProvider.userId, this.httpService);
         return this.getAuthorizationUrl();
     }
 
@@ -28,12 +32,19 @@ export class AuthService {
         return tokensUser;
     }
 
-    private static setOAuthClass(url: string, userId: number): OAuthClass | null {
+    async refreshTokens(providerEntity: ProviderEntity): Promise<ProviderEntity> {
+
+        const { refreshToken } = providerEntity;
+        this.google = AuthService.setOAuthClass('http://localhost:3000', providerEntity.userId, this.httpService);
+        return await this.google.refreshTokens(providerEntity);
+    }
+
+    private static setOAuthClass(url: string, userId: number, httpService: HttpService): OAuthClass | null {
         const client: IClient = {
             id: process.env.GOOGLE_CLIENT_ID,
             secret: process.env.GOOGLE_CLIENT_SECRET,
         }
-        return new OAuthClass(client, url, userId);
+        return new OAuthClass(client, url, userId, httpService);
     }
 
     public getAuthorizationUrl(): string {
