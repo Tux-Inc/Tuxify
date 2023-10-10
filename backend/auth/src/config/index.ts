@@ -100,12 +100,12 @@ export function config(): IConfig {
               secret: process.env.FACEBOOK_CLIENT_SECRET,
             },
       github:
-        isUndefined(process.env.GITHUB_CLIENT_ID) ||
-        isUndefined(process.env.GITHUB_CLIENT_SECRET)
+        isUndefined(process.env.GH_CLIENT_ID) ||
+        isUndefined(process.env.GH_CLIENT_SECRET)
           ? null
           : {
-              id: process.env.GITHUB_CLIENT_ID,
-              secret: process.env.GITHUB_CLIENT_SECRET,
+              id: process.env.GH_CLIENT_ID,
+              secret: process.env.GH_CLIENT_SECRET,
             },
     },
   };

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tuxify-api-nats
+  labels:
+    app: tuxify-api-nats
+spec:
+  selector:
+    app: tuxify-api-nats
+  ports:
+    - name: tuxify-api-nats
+      port: 4222
+      targetPort: 4222
+    - name: tuxify-api-nats
+      port: 6222
+      targetPort: 6222
+    - name: tuxify-api-nats
+      port: 8222
+      targetPort: 8222

@@ -1,59 +1,198 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tuxify-api
+  name: tuxify-api-gateway
   labels:
-    app: tuxify-api
+    app: tuxify-api-gateway
     environment: production
 
 spec:
   selector:
     matchLabels:
-      app: tuxify-api
+      app: tuxify-api-gateway
   replicas: 1
   revisionHistoryLimit: 3
   template:
     metadata:
       labels:
-        app: tuxify-api
+        app: tuxify-api-gateway
         environment: production
     spec:
       containers:
-        - name: tuxify-api
-          image: ghcr.io/tux-inc/tuxifyapi:latest
+        - name: tuxify-api-gateway
+          image: ghcr.io/tux-inc/tuxify-api-gateway:latest
           ports:
             - containerPort: 3000
-              name: tuxify-api
+              name: tuxify-api-gateway
               protocol: TCP
           resources: {}
-          env:
-            - name: APP_ENV
-              value: production
-            - name: APP_NAME
-              value: TuxifyAPI
-            - name: APP_PORT
-              value: "3000"
-            - name: APP_HOST
-              value: http://api.tuxify.fr
-            - name: JWT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: tuxifyapi-secret
-                  key: JWT_SECRET
-            - name: POSTGRES_TYPE
-              value: postgres
-            - name: POSTGRES_HOST
-              value: tuxify-postgres-service
-            - name: POSTGRES_PORT
-              value: "5432"
-            - name: POSTGRES_USER
-              value: tuxify
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: tuxifyapi-secret
-                  key: POSTGRES_PASSWORD
-            - name: POSTGRES_DB
-              value: tuxify
+          envFrom:
+            - configMapRef:
+                name: tuxify-global-configmap
+      imagePullSecrets:
+        - name: github-container-registry
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tuxify-api-mailer
+  labels:
+    app: tuxify-api-mailer
+    environment: production
+
+spec:
+  selector:
+    matchLabels:
+      app: tuxify-api-mailer
+  replicas: 1
+  revisionHistoryLimit: 3
+  template:
+    metadata:
+      labels:
+        app: tuxify-api-mailer
+        environment: production
+    spec:
+      containers:
+        - name: tuxify-api-mailer
+          image: ghcr.io/tux-inc/tuxify-api-mailer:latest
+          resources: {}
+          envFrom:
+            - configMapRef:
+                name: tuxify-global-configmap
+            - secretRef:
+                name: tuxify-api-mailer-secret
+      imagePullSecrets:
+        - name: github-container-registry
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tuxify-api-auth
+  labels:
+    app: tuxify-api-auth
+    environment: production
+
+spec:
+  selector:
+    matchLabels:
+      app: tuxify-api-auth
+  replicas: 1
+  revisionHistoryLimit: 3
+  template:
+    metadata:
+      labels:
+        app: tuxify-api-auth
+        environment: production
+    spec:
+      containers:
+        - name: tuxify-api-auth
+          image: ghcr.io/tux-inc/tuxify-api-auth:latest
+          resources: {}
+          envFrom:
+            - configMapRef:
+                name: tuxify-global-configmap
+            - secretRef:
+                name: tuxify-api-auth-secret
+      imagePullSecrets:
+        - name: github-container-registry
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tuxify-api-flows
+  labels:
+    app: tuxify-api-flows
+    environment: production
+
+spec:
+  selector:
+    matchLabels:
+      app: tuxify-api-flows
+  replicas: 1
+  revisionHistoryLimit: 3
+  template:
+    metadata:
+      labels:
+        app: tuxify-api-flows
+        environment: production
+    spec:
+      containers:
+        - name: tuxify-api-flows
+          image: ghcr.io/tux-inc/tuxify-api-flows:latest
+          resources: {}
+          envFrom:
+            - configMapRef:
+                name: tuxify-global-configmap
+            - secretRef:
+                name: tuxify-api-flows-secret
+      imagePullSecrets:
+        - name: github-container-registry
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tuxify-api-providers
+  labels:
+    app: tuxify-api-providers
+    environment: production
+
+spec:
+  selector:
+    matchLabels:
+      app: tuxify-api-providers
+  replicas: 1
+  revisionHistoryLimit: 3
+  template:
+    metadata:
+      labels:
+        app: tuxify-api-providers
+        environment: production
+    spec:
+      containers:
+        - name: tuxify-api-providers
+          image: ghcr.io/tux-inc/tuxify-api-providers:latest
+          resources: {}
+          envFrom:
+            - configMapRef:
+                name: tuxify-global-configmap
+            - secretRef:
+                name: tuxify-api-providers-secret
+      imagePullSecrets:
+        - name: github-container-registry
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tuxify-api-google
+  labels:
+    app: tuxify-api-google
+    environment: production
+
+spec:
+  selector:
+    matchLabels:
+      app: tuxify-api-google
+  replicas: 1
+  revisionHistoryLimit: 3
+  template:
+    metadata:
+      labels:
+        app: tuxify-api-google
+        environment: production
+    spec:
+      containers:
+        - name: tuxify-api-google
+          image: ghcr.io/tux-inc/tuxify-api-google:latest
+          resources: {}
+          envFrom:
+            - configMapRef:
+                name: tuxify-global-configmap
+            - secretRef:
+                name: tuxify-api-auth-secret
       imagePullSecrets:
         - name: github-container-registry

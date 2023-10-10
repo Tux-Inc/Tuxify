@@ -10,7 +10,7 @@ on:
 
 jobs:
   build_api:
-    name: Build and push API image
+    name: Build and push Backend images
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -25,15 +25,64 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build and push API image
-        id: docker_build
+      - name: Build and push gateway image
         uses: docker/build-push-action@v2
         with:
-          context: "./backend"
+          context: "./backend/gateway"
           push: true
           tags: |
-            ghcr.io/tux-inc/tuxifyapi:latest
-            ghcr.io/tux-inc/tuxifyapi:${{ github.sha }}
+            ghcr.io/tux-inc/tuxify-api-gateway:latest
+            ghcr.io/tux-inc/tuxify-api-gateway:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Build and push mailer image
+        uses: docker/build-push-action@v2
+        with:
+          context: "./backend/mailer"
+          push: true
+          tags: |
+            ghcr.io/tux-inc/tuxify-api-mailer:latest
+            ghcr.io/tux-inc/tuxify-api-mailer:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Build and push auth image
+        uses: docker/build-push-action@v2
+        with:
+          context: "./backend/auth"
+          push: true
+          tags: |
+            ghcr.io/tux-inc/tuxify-api-auth:latest
+            ghcr.io/tux-inc/tuxify-api-auth:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Build and push flows image
+        uses: docker/build-push-action@v2
+        with:
+          context: "./backend/flows"
+          push: true
+          tags: |
+            ghcr.io/tux-inc/tuxify-api-flows:latest
+            ghcr.io/tux-inc/tuxify-api-flows:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Build and push providers image
+        uses: docker/build-push-action@v2
+        with:
+          context: "./backend/providers"
+          push: true
+          tags: |
+            ghcr.io/tux-inc/tuxify-api-providers:latest
+            ghcr.io/tux-inc/tuxify-api-providers:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Build and push google image
+        uses: docker/build-push-action@v2
+        with:
+          context: "./backend/google"
+          push: true
+          tags: |
+            ghcr.io/tux-inc/tuxify-api-google:latest
+            ghcr.io/tux-inc/tuxify-api-google:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -170,20 +219,94 @@ jobs:
           k8s-url: https://kube.honixsystems.com
           k8s-secret: ${{ secrets.KUBERNETES_SECRET }}
 
-      - name: Create cluster secrets
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Create global configmap
+        uses: azure/k8s-deploy@v1
+        with:
+          namespace: production
+          manifests: |
+            kubernetes/global-configmap.yaml
+
+
+      - name: Create mailer secrets
         uses: Azure/k8s-create-secret@v1
         with:
           namespace: production
           secret-type: 'generic'
-          secret-name: tuxifyapi-secret
+          secret-name: 'tuxify-api-mailer-secret'
           arguments:
+            --from-literal=NESTSV_MAILER_SMTP_HOST=${{ secrets.NESTSV_MAILER_SMTP_HOST }}
+            --from-literal=NESTSV_MAILER_SMTP_PORT=${{ secrets.NESTSV_MAILER_SMTP_PORT }}
+            --from-literal=NESTSV_MAILER_SMTP_USER=${{ secrets.NESTSV_MAILER_SMTP_USER }}
+            --from-literal=NESTSV_MAILER_SMTP_PASSWORD=${{ secrets.NESTSV_MAILER_SMTP_PASSWORD }}
+
+      - name: Create auth secrets
+        uses: Azure/k8s-create-secret@v1
+        with:
+          namespace: production
+          secret-type: 'generic'
+          secret-name: 'tuxify-api-auth-secret'
+          arguments:
+            --from-literal=COOKIE_SECRET=${{ secrets.COOKIE_SECRET }}
+            --from-literal=FACEBOOK_CLIENT_ID=${{ secrets.FACEBOOK_CLIENT_ID }}
+            --from-literal=FACEBOOK_CLIENT_SECRET=${{ secrets.FACEBOOK_CLIENT_SECRET }}
+            --from-literal=GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
+            --from-literal=GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
+            --from-literal=GH_CLIENT_ID=${{ secrets.GH_CLIENT_ID }}
+            --from-literal=GH_CLIENT_SECRET=${{ secrets.GH_CLIENT_SECRET }}
+            --from-literal=MICROSOFT_CLIENT_ID=${{ secrets.MICROSOFT_CLIENT_ID }}
+            --from-literal=MICROSOFT_CLIENT_SECRET=${{ secrets.MICROSOFT_CLIENT_SECRET }}
             --from-literal=JWT_SECRET=${{ secrets.JWT_SECRET }}
-            --from-literal=POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+            --from-literal=JWT_REFRESH_SECRET=${{ secrets.JWT_REFRESH_SECRET }}
+            --from-literal=JWT_RESET_PASSWORD_SECRET=${{ secrets.JWT_RESET_PASSWORD_SECRET }}
+            --from-literal=JWT_CONFIRMATION_SECRET=${{ secrets.JWT_CONFIRMATION_SECRET }}
+
+      - name: Create flows secrets
+        uses: Azure/k8s-create-secret@v1
+        with:
+          namespace: production
+          secret-type: 'generic'
+          secret-name: 'tuxify-api-flows-secret'
+          arguments:
+            --from-literal=NESTSV_FLOWS_MONGO_PASSWORD=${{ secrets.NESTSV_FLOWS_MONGO_PASSWORD }}
+
+      - name: Create providers secrets
+        uses: Azure/k8s-create-secret@v1
+        with:
+          namespace: production
+          secret-type: 'generic'
+          secret-name: 'tuxify-api-providers-secret'
+          arguments:
+            --from-literal=NESTSV_PROVIDERS_POSTGRES_PASSWORD=${{ secrets.NESTSV_PROVIDERS_POSTGRES_PASSWORD }}
 
       - name: Checkout source code
         uses: actions/checkout@v4
 
-      - name: Deploy to the Kubernetes cluster
+      - name: Deploy DB to the Kubernetes cluster
+        uses: azure/k8s-deploy@v1
+        with:
+          namespace: production
+          manifests: |
+            kubernetes/databases/db.deployment.yaml
+            kubernetes/databases/db.volume.yaml
+
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Deploy message broker to the Kubernetes cluster
+        uses: azure/k8s-deploy@v1
+        with:
+          namespace: production
+          manifests: |
+            kubernetes/message-broker/nats.deployment.yaml
+            kubernetes/message-broker/nats.service.yaml
+
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Deploy API to the Kubernetes cluster
         uses: azure/k8s-deploy@v1
         with:
           namespace: production
@@ -192,7 +315,12 @@ jobs:
             kubernetes/backend/service.yaml
             kubernetes/backend/ingress.yaml
           images: |
-            ghcr.io/tux-inc/tuxifyapi:${{ github.sha }}
+            ghcr.io/tux-inc/tuxify-api-gateway:${{ github.sha }}
+            ghcr.io/tux-inc/tuxify-api-mailer:${{ github.sha }}
+            ghcr.io/tux-inc/tuxify-api-auth:${{ github.sha }}
+            ghcr.io/tux-inc/tuxify-api-flows:${{ github.sha }}
+            ghcr.io/tux-inc/tuxify-api-providers:${{ github.sha }}
+            ghcr.io/tux-inc/tuxify-api-google:${{ github.sha }}
 
   mirror:
     name: Mirror repository

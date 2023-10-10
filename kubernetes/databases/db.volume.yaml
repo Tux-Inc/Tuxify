@@ -1,0 +1,100 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: tuxify-api-auth-db-volume
+  namespace: production
+  labels:
+    type: local
+    app: tuxify-api-auth-db
+spec:
+  storageClassName: default
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/var/lib/postgresql/data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tuxify-api-auth-db-claim
+  namespace: production
+  labels:
+    app: tuxify-api-auth-db
+spec:
+  volumeMode: Filesystem
+  storageClassName: default
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: tuxify-api-providers-db-volume
+  namespace: production
+  labels:
+    type: local
+    app: tuxify-api-providers-db
+spec:
+  storageClassName: default
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/var/lib/postgresql/data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tuxify-api-providers-db-claim
+  namespace: production
+  labels:
+    app: tuxify-api-providers-db
+spec:
+  volumeMode: Filesystem
+  storageClassName: default
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: tuxify-api-flows-db-volume
+  namespace: production
+  labels:
+    type: local
+    app: tuxify-api-flows-db
+spec:
+  storageClassName: default
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/var/lib/postgresql/data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tuxify-api-flows-db-claim
+  namespace: production
+  labels:
+    app: tuxify-api-flows-db
+spec:
+  volumeMode: Filesystem
+  storageClassName: default
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi

@@ -30,6 +30,6 @@ export const validationSchema = Joi.object({
   GOOGLE_CLIENT_SECRET: Joi.string().optional(),
   FACEBOOK_CLIENT_ID: Joi.string().optional(),
   FACEBOOK_CLIENT_SECRET: Joi.string().optional(),
-  GITHUB_CLIENT_ID: Joi.string().optional(),
-  GITHUB_CLIENT_SECRET: Joi.string().optional(),
+  GH_CLIENT_ID: Joi.string().optional(),
+  GH_CLIENT_SECRET: Joi.string().optional(),
 });

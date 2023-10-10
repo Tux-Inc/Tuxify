@@ -1,6 +1,6 @@
 import { Controller } from '@nestjs/common';
 import { FlowsService } from './flows.service';
-import {Ctx, MessagePattern, Payload} from "@nestjs/microservices";
+import { Ctx, EventPattern, MessagePattern, Payload } from "@nestjs/microservices";
 import {Flow} from "./schemas/flow.schema";
 
 @Controller()

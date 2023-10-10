@@ -1,0 +1,112 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tuxify-api-auth-db
+  namespace: production
+  labels:
+    app: tuxify-api-auth-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tuxify-api-auth-db
+  template:
+    metadata:
+      labels:
+        app: tuxify-api-auth-db
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: tuxify-api-auth-db
+          image: postgres:16
+          resources: {}
+          envFrom:
+            - configMapRef:
+                name: tuxify-global-configmap
+            - secretRef:
+                name: tuxify-api-auth-secrets
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: tuxify-api-auth-db-volume
+          ports:
+            - containerPort: 5432
+      volumes:
+        - name: tuxify-api-auth-db-volume
+          persistentVolumeClaim:
+            claimName: tuxify-api-auth-db-claim
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tuxify-api-providers-db
+  namespace: production
+  labels:
+    app: tuxify-api-providers-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tuxify-api-providers-db
+  template:
+    metadata:
+      labels:
+        app: tuxify-api-providers-db
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: tuxify-api-providers-db
+          image: postgres:16
+          resources: {}
+          envFrom:
+            - configMapRef:
+                name: tuxify-global-configmap
+            - secretRef:
+                name: tuxify-api-providers-secrets
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: tuxify-api-providers-db-volume
+          ports:
+            - containerPort: 5432
+      volumes:
+        - name: tuxify-api-providers-db-volume
+          persistentVolumeClaim:
+            claimName: tuxify-api-providers-db-claim
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tuxify-api-flows-db
+  namespace: production
+  labels:
+    app: tuxify-api-flows-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tuxify-api-flows-db
+  template:
+    metadata:
+      labels:
+        app: tuxify-api-flows-db
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: tuxify-api-flows-db
+          image: mongo:latest
+          resources: {}
+          envFrom:
+            - configMapRef:
+                name: tuxify-global-configmap
+            - secretRef:
+                name: tuxify-api-flows-secrets
+          volumeMounts:
+            - mountPath: /var/lib/mongodb/data
+              name: tuxify-api-flows-db-volume
+          ports:
+            - containerPort: 27017
+      volumes:
+        - name: tuxify-api-flows-db-volume
+          persistentVolumeClaim:
+            claimName: tuxify-api-flows-db-claim
