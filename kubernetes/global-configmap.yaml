@@ -4,7 +4,7 @@ metadata:
   name: tuxify-global-configmap
   namespace: production
 data:
-  NODE_ENV: production
+  NODE_ENV: dev
   NATS_SERVER_URL: 'nats://tuxify-api-nats:4222'
   REDIS_HOST: 'redis://tuxify-api-auth-cache:6379'
   FRONT_URL: 'https://tuxify.fr'
