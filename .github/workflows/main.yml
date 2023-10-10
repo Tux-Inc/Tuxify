@@ -262,6 +262,7 @@ jobs:
             --from-literal=JWT_REFRESH_SECRET=${{ secrets.JWT_REFRESH_SECRET }}
             --from-literal=JWT_RESET_PASSWORD_SECRET=${{ secrets.JWT_RESET_PASSWORD_SECRET }}
             --from-literal=JWT_CONFIRMATION_SECRET=${{ secrets.JWT_CONFIRMATION_SECRET }}
+            --from-literal=POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
 
       - name: Create flows secrets
         uses: Azure/k8s-create-secret@v1
