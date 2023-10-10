@@ -19,7 +19,7 @@ const props = withDefaults(defineProps<IFounderCardProps>(), {
 <template>
     <UCard class="flex flex-col">
         <div class="md:flex md:flex-row gap-4 md:flex-nowrap items-center justify-start">
-            <NuxtImg class="rounded-md mx-auto" :src="props.image" :alt="props.alt" width="250" height="250" />
+            <img class="rounded-md mx-auto" :src="props.image" :alt="props.alt" width="250" height="250" />
             <div>
                 <br />
                 <div

@@ -12,7 +12,7 @@ const props = withDefaults(defineProps<IIntegrationList>(), {
 <template>
     <UCard class="h-full">
         <div class="my-4">
-            <NuxtImg :src="icon" class="w-10 h-10 mx-auto text-primary" />
+            <img :src="icon" class="w-10 h-10 mx-auto text-primary" />
         </div>
         <span class="text-4xl text-center font-bold text-primary">{{ title }}</span>
 

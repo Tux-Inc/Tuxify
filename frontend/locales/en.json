@@ -21,6 +21,7 @@
       "confirmEmail": "Confirm Email",
       "password": "Password",
       "confirmPassword": "Confirm Password",
+      "confirmNewPassword": "Confirm new Password",
       "firstName": "First Name",
       "lastName": "Last Name"
     },
@@ -28,6 +29,10 @@
       "google": "Sign in with Google",
       "github": "Sign in with GitHub",
       "slack": "Sign in with Slack"
+    },
+    "password": {
+      "new": "New Password",
+      "confirm": "Confirm new password"
     }
   },
   "landing": {
