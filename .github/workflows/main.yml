@@ -282,16 +282,16 @@ jobs:
           arguments:
             --from-literal=NESTSV_PROVIDERS_POSTGRES_PASSWORD=${{ secrets.NESTSV_PROVIDERS_POSTGRES_PASSWORD }}
 
-      # - name: Checkout source code
-      #   uses: actions/checkout@v4
+      - name: Checkout source code
+        uses: actions/checkout@v4
 
-      # - name: Deploy DB to the Kubernetes cluster
-      #   uses: azure/k8s-deploy@v1
-      #   with:
-      #     namespace: production
-      #     manifests: |
-      #       kubernetes/databases/db.deployment.yaml
-      #       kubernetes/databases/db.volume.yaml
+      - name: Deploy DB to the Kubernetes cluster
+        uses: azure/k8s-deploy@v1
+        with:
+          namespace: production
+          manifests: |
+            kubernetes/databases/db.deployment.yaml
+            kubernetes/databases/db.volume.yaml
 
       - name: Checkout source code
         uses: actions/checkout@v4
