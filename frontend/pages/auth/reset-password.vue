@@ -83,6 +83,7 @@ const setVisibleCheckPassworad = () => isVisible.value.check_password = !isVisib
                             </template>
                         </UInput>
                     </div>
+                    </UFormGroup>
                     <UFormGroup
                         v-slot="{ error }"
                         :label="i18n.t('auth.form.confirmNewPassword')"
@@ -127,7 +128,7 @@ const setVisibleCheckPassworad = () => isVisible.value.check_password = !isVisib
                             variant="ghost"
                         />
                     </div>
-                </UFormGroup>
+<!--                </UFormGroup>-->
             </UForm>
         </UCard>
     </div>
