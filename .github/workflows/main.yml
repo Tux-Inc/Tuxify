@@ -316,12 +316,12 @@ jobs:
             kubernetes/backend/service.yaml
             kubernetes/backend/ingress.yaml
           images: |
-            ghcr.io/tux-inc/tuxify-api-gateway:latest
-            ghcr.io/tux-inc/tuxify-api-mailer:latest
-            ghcr.io/tux-inc/tuxify-api-auth:latest
-            ghcr.io/tux-inc/tuxify-api-flows:latest
-            ghcr.io/tux-inc/tuxify-api-providers:latest
-            ghcr.io/tux-inc/tuxify-api-google:latest
+            ghcr.io/tux-inc/tuxify-api-gateway:${{ github.sha }}
+            ghcr.io/tux-inc/tuxify-api-mailer:${{ github.sha }}
+            ghcr.io/tux-inc/tuxify-api-auth:${{ github.sha }}
+            ghcr.io/tux-inc/tuxify-api-flows:${{ github.sha }}
+            ghcr.io/tux-inc/tuxify-api-providers:${{ github.sha }}
+            ghcr.io/tux-inc/tuxify-api-google:${{ github.sha }}
 
   # mirror:
   #   name: Mirror repository
