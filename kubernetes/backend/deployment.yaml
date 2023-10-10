@@ -23,7 +23,7 @@ spec:
           image: ghcr.io/tux-inc/tuxify-api-gateway:latest
           ports:
             - containerPort: 3000
-              name: tuxify-api-gateway
+              name: gateway
               protocol: TCP
           resources: {}
           envFrom:
