@@ -83,52 +83,51 @@ const setVisibleCheckPassworad = () => isVisible.value.check_password = !isVisib
                             </template>
                         </UInput>
                     </div>
-                    </UFormGroup>
-                    <UFormGroup
-                        v-slot="{ error }"
-                        :label="i18n.t('auth.form.confirmNewPassword')"
-                        name="check_password"
-                        required
-                    >
-                        <div class="p-4">
-                            <UInput
-                                v-model="state.check_password"
-                                :trailing-icon="error && 'i-heroicons-exclamation-triangle-20-solid'"
-                                :type="`${isVisible.check_password ? 'text' : 'password'}`"
-                                :ui="{ icon: { trailing: { pointer: ''}}}"
-                                :placeholder="i18n.t('auth.form.confirmNewPassword')"
-                                required
-                            >
-                                <template #trailing>
-                                    <UButton
-                                        v-show="true"
-                                        :padded="false"
-                                        icon="i-heroicons-eye-slash"
-                                        variant="link"
-                                        @click="setVisibleCheckPassworad"
-                                    />
-                                </template>
-                            </UInput>
-                        </div>
-                    </UFormGroup>
+                </UFormGroup>
+                <UFormGroup
+                    v-slot="{ error }"
+                    :label="i18n.t('auth.form.confirmNewPassword')"
+                    name="check_password"
+                    required
+                >
                     <div class="p-4">
-                        <UButton
-                            :label="i18n.t('auth.button.resetPassword')"
-                            :loading="isLoading" block
-                            icon="i-heroicons-check"
-                            size="lg"
-                            type="submit"
-                        />
-                        <UButton
-                            :label="i18n.t('auth.button.back')"
-                            block color="primary"
-                            icon="i-heroicons-arrow-left"
-                            size="lg"
-                            to="/auth/sign-in"
-                            variant="ghost"
-                        />
+                        <UInput
+                            v-model="state.check_password"
+                            :trailing-icon="error && 'i-heroicons-exclamation-triangle-20-solid'"
+                            :type="`${isVisible.check_password ? 'text' : 'password'}`"
+                            :ui="{ icon: { trailing: { pointer: ''}}}"
+                            :placeholder="i18n.t('auth.form.confirmNewPassword')"
+                            required
+                        >
+                            <template #trailing>
+                                <UButton
+                                    v-show="true"
+                                    :padded="false"
+                                    icon="i-heroicons-eye-slash"
+                                    variant="link"
+                                    @click="setVisibleCheckPassworad"
+                                />
+                            </template>
+                        </UInput>
                     </div>
-<!--                </UFormGroup>-->
+                </UFormGroup>
+                <div class="p-4">
+                    <UButton
+                        :label="i18n.t('auth.button.resetPassword')"
+                        :loading="isLoading" block
+                        icon="i-heroicons-check"
+                        size="lg"
+                        type="submit"
+                    />
+                    <UButton
+                        :label="i18n.t('auth.button.back')"
+                        block color="primary"
+                        icon="i-heroicons-arrow-left"
+                        size="lg"
+                        to="/auth/sign-in"
+                        variant="ghost"
+                    />
+                </div>
             </UForm>
         </UCard>
     </div>
