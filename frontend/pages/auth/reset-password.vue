@@ -25,7 +25,15 @@ const router = useRouter()
 async function submit (event: FormSubmitEvent<any>) {
   router.push('/app')
 }
-let bool = false
+
+const isVisible = ref({
+    password: false,
+    check_password: false,
+});
+
+const setVisiblePassword = () => isVisible.value.password = !isVisible.value.password;
+
+const setVisibleCheckPassworad = () => isVisible.value.check_password = !isVisible.value.check_password;
 
 </script>
 
@@ -45,25 +53,78 @@ let bool = false
           @submit="submit"
           class="flex flex-col gap-4"
       >
-        <UFormGroup :label="i18n.t('auth.password.new')" name="password">
-          <div>
-            <UInput v-if="bool == false" v-model="state.password" type="password" placeholder="password example">
-              <template #trailing>
-                <UButton icon="i-heroicons-eye-slash" style="z-index: 1" variant="solide" z @click="bool = true"/>
-              </template>
-            </UInput>
-            <UInput v-else v-model="state.password" placeholder="password example">
-              <template #trailing>
-                <UButton icon="i-heroicons-eye-slash" variant="solide" @click="bool = true"/>
-              </template>
-            </UInput>
-          </div>
-        </UFormGroup>
-        <UFormGroup :label="i18n.t('auth.password.confirm')" name="vpassword">
-          <UInput v-model="state.vpassword" type="password" placeholder="password example" />
-        </UFormGroup>
-        <UButton :label="i18n.t('auth.button.resetPassword')" block size="lg" icon="i-heroicons-check" type="submit" :loading="isLoading" />
-        <UButton :label="i18n.t('auth.button.back')" block size="lg" icon="i-heroicons-arrow-left" to="/auth/sign-in" color="primary" variant="ghost" />
+          <UFormGroup
+              v-slot="{ error }"
+              :error="(!state.password) || (state.password != state.check_password)"
+              :label="i18n.t('auth.password.new')"
+              name="password"
+              required
+          >
+              <div class="p-4">
+                  <UInput
+                      v-model="state.password"
+                      :trailing-icon="error && 'i-heroicons-exclamation-triangle-20-solid'"
+                      :type="`${isVisible.password ? 'text' : 'password'}`"
+                      :ui="{ icon: { trailing: { pointer: ''}}}"
+                      placeholder="New Password"
+                      required
+                  >
+                      <template #trailing>
+                          <UButton
+                              v-show="true"
+                              :padded="false"
+                              icon="i-heroicons-eye-slash"
+                              variant="link"
+                              @click="setVisiblePassword"
+                          />
+                      </template>
+                  </UInput>
+              </div>
+              <UFormGroup
+                      v-slot="{ error }"
+                      :error="(!state.password) || (state.password != state.check_password)"
+                      :label="i18n.t('auth.password.new')"
+                      name="check_password"
+                      >
+                  <UInput
+                      v-model="state.check_password"
+                      :trailing-icon="error && 'i-heroicons-exclamation-triangle-20-solid'"
+                      :type="`${isVisible.check_password ? 'text' : 'password'}`"
+                      :ui="{ icon: { trailing: { pointer: ''}}}"
+                      class="p-4"
+                      placeholder="Confirm new Password"
+                      required
+                  >
+                    <template #trailing>
+                        <UButton
+                            v-show="true"
+                            :padded="false"
+                            class="p-4"
+                            icon="i-heroicons-eye-slash"
+                            variant="link"
+                            @click="setVisibleCheckPassworad"
+                        />
+                  </template>
+              </UInput>
+              </UFormGroup>
+              <div class="p-4">
+              <UButton
+                  :label="i18n.t('auth.button.resetPassword')"
+                  :loading="isLoading" block
+                  icon="i-heroicons-check"
+                  size="lg"
+                  type="submit"
+              />
+              <UButton
+                  :label="i18n.t('auth.button.back')"
+                  block color="primary"
+                  icon="i-heroicons-arrow-left"
+                  size="lg"
+                  to="/auth/sign-in"
+                  variant="ghost"
+              />
+              </div>
+          </UFormGroup>
       </UForm>
     </UCard>
   </div>
