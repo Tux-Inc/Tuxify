@@ -94,7 +94,7 @@ spec:
       restartPolicy: Always
       containers:
         - name: tuxify-api-flows-db
-          image: mongo:latest
+          image: mongo:4.4.6
           resources: {}
           envFrom:
             - configMapRef:
