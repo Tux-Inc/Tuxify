@@ -58,11 +58,22 @@ spec:
         - name: tuxify-api-providers-db
           image: postgres:16
           resources: {}
-          envFrom:
-            - configMapRef:
-                name: tuxify-global-configmap
-            - secretRef:
-                name: tuxify-api-providers-secret
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: tuxify-api-providers-secret
+                  key: NESTSV_PROVIDERS_POSTGRES_PASSWORD
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: tuxify-global-configmap
+                  key: NESTSV_PROVIDERS_POSTGRES_USER
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: tuxify-global-configmap
+                  key: NESTSV_PROVIDERS_POSTGRES_DB
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: tuxify-api-providers-db-volume
@@ -96,11 +107,22 @@ spec:
         - name: tuxify-api-flows-db
           image: mongo:4.4.6
           resources: {}
-          envFrom:
-            - configMapRef:
-                name: tuxify-global-configmap
-            - secretRef:
-                name: tuxify-api-flows-secret
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: tuxify-global-configmap
+                  key: NESTSV_FLOWS_MONGO_USER
+            - name: MONGO_INITDB_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: tuxify-global-configmap
+                  key: NESTSV_FLOWS_MONGO_DB
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: tuxify-api-flows-secret
+                  key: NESTSV_FLOWS_MONGO_PASSWORD
           volumeMounts:
             - mountPath: /var/lib/mongodb/data
               name: tuxify-api-flows-db-volume
