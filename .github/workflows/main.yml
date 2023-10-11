@@ -291,6 +291,7 @@ jobs:
           namespace: production
           manifests: |
             kubernetes/databases/db.deployment.yaml
+            kubernetes/databases/db.service.yaml
             kubernetes/databases/db.volume.yaml
 
       - name: Checkout source code
