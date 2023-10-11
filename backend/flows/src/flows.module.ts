@@ -7,7 +7,7 @@ import {Flow, FlowSchema} from "./schemas/flow.schema";
 
 @Module({
   imports: [
-      MongooseModule.forRoot(`mongodb://${process.env.NESTSV_FLOWS_MONGO_USER}:${process.env.NESTSV_FLOWS_MONGO_PASSWORD}@${process.env.NESTSV_FLOWS_MONGO_HOST}:${process.env.NESTSV_FLOWS_MONGO_PORT}/${process.env.NESTSV_FLOWS_MONGO_DB}`),
+      MongooseModule.forRoot(`mongodb://${process.env.NESTSV_FLOWS_MONGO_USER}:${process.env.NESTSV_FLOWS_MONGO_PASSWORD}@${process.env.NESTSV_FLOWS_MONGO_HOST}:${process.env.NESTSV_FLOWS_MONGO_PORT}`),
       MongooseModule.forFeature([
             { name: Flow.name, schema: FlowSchema },
         ]),
