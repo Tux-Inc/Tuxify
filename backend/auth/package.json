@@ -22,10 +22,10 @@
     "migrate:update": "npx mikro-orm schema:update --run"
   },
   "dependencies": {
-    "@fastify/cookie": "^9.1.0",
-    "@fastify/cors": "^8.4.0",
-    "@fastify/csrf-protection": "^6.3.0",
-    "@fastify/helmet": "^11.1.1",
+    "@fastify/cookie": "9.1.0",
+    "@fastify/cors": "8.4.0",
+    "@fastify/csrf-protection": "6.3.0",
+    "@fastify/helmet": "11.1.1",
     "@fastify/static": "^6.11.2",
     "@mikro-orm/core": "^5.8.6",
     "@mikro-orm/nestjs": "^5.2.2",
@@ -47,7 +47,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "dayjs": "^1.11.7",
-    "fastify": "^4.23.2",
+    "fastify": "4.23.2",
     "handlebars": "^4.7.7",
     "ioredis": "^5.3.1",
     "joi": "^17.9.1",
