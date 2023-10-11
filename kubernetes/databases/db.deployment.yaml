@@ -24,7 +24,7 @@ spec:
             - configMapRef:
                 name: tuxify-global-configmap
             - secretRef:
-                name: tuxify-api-auth-secrets
+                name: tuxify-api-auth-secret
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: tuxify-api-auth-db-volume
@@ -62,7 +62,7 @@ spec:
             - configMapRef:
                 name: tuxify-global-configmap
             - secretRef:
-                name: tuxify-api-providers-secrets
+                name: tuxify-api-providers-secret
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: tuxify-api-providers-db-volume
@@ -94,13 +94,13 @@ spec:
       restartPolicy: Always
       containers:
         - name: tuxify-api-flows-db
-          image: mongo:latest
+          image: mongo:4.4.6
           resources: {}
           envFrom:
             - configMapRef:
                 name: tuxify-global-configmap
             - secretRef:
-                name: tuxify-api-flows-secrets
+                name: tuxify-api-flows-secret
           volumeMounts:
             - mountPath: /var/lib/mongodb/data
               name: tuxify-api-flows-db-volume

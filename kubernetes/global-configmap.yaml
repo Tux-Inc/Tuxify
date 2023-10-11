@@ -5,8 +5,8 @@ metadata:
   namespace: production
 data:
   NODE_ENV: dev
-  NATS_SERVER_URL: 'nats://tuxify-api-nats:4222'
-  REDIS_HOST: 'redis://tuxify-api-auth-cache:6379'
+  NATS_SERVER_URL: 'nats://tuxify-api-nats.production:4222'
+  REDIS_HOST: 'redis://tuxify-api-auth-cache.production:6379'
   FRONT_URL: 'https://tuxify.fr'
   FRONT_APP_URL: 'https:/tuxify.fr/app'
   NESTSV_MAILER_FROM: noreply@tuxify.fr
@@ -27,14 +27,13 @@ data:
   JWT_ACCESS_TIME: '600'
   REFRESH_COOKIE: 'rf'
   NESTSV_FLOWS_MONGO_TYPE: mongo
-  NESTSV_FLOWS_MONGO_HOST: tuxify-api-flows-db
+  NESTSV_FLOWS_MONGO_HOST: tuxify-api-flows-db.production
   NESTSV_FLOWS_MONGO_PORT: '27017'
   NESTSV_FLOWS_MONGO_USER: tuxify
   NESTSV_FLOWS_MONGO_DB: tuxify
   NESTSV_PROVIDERS_CALLBACK_REDIRECT: 'https://tuxify.fr/app/services'
   NESTSV_PROVIDERS_POSTGRES_TYPE: postgres
-  NESTSV_PROVIDERS_POSTGRES_HOST: tuxify-api-providers-db
+  NESTSV_PROVIDERS_POSTGRES_HOST: tuxify-api-providers-db.production
   NESTSV_PROVIDERS_POSTGRES_PORT: '5432'
   NESTSV_PROVIDERS_POSTGRES_USER: tuxify
   NESTSV_PROVIDERS_POSTGRES_DB: providers
-

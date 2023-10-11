@@ -31,10 +31,10 @@ const nodeComponents = nodeTypes.reduce((acc, type) => {
 let id = 0
 
 function getId() {
-  return `dndnode_${id++}`
+  return `_${id++}`
 }
 
-const {findNode, onConnect, addEdges, addNodes, project, vueFlowRef} = useVueFlow({
+const {findNode, onConnect, addEdges, addNodes, project, vueFlowRef, toObject} = useVueFlow({
   nodes: [],
 })
 
@@ -46,7 +46,11 @@ function onDragOver(event) {
   }
 }
 
-onConnect((params) => addEdges({...params, type: 'smoothstep'}))
+onConnect((params) => {
+  addEdges({...params, type: 'smoothstep'});
+  // print all the flow data
+  console.log(JSON.parse(JSON.stringify(toObject())))
+})
 
 function onDrop(event: any) {
   const type = event.dataTransfer?.getData('application/vueflow')
@@ -59,10 +63,10 @@ function onDrop(event: any) {
   })
 
   const newNode = {
-    id: getId(),
+    id: type + getId(),
     type,
     position,
-    label: `${type} node`,
+    name: `${type}`,
   }
 
   addNodes([newNode])

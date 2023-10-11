@@ -18,7 +18,7 @@ const text = ref('')
     </div>
     <div class="flex flex-col gap-2 w-full h-full">
       <UTextarea v-model="text" placeholder="Text" />
-      <Handle type="target" :position="Position.Right" id="a" :connectable="true" />
+      <Handle type="source" :position="Position.Right" id="text" :connectable="true" />
     </div>
   </div>
 </template>
