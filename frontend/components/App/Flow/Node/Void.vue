@@ -16,7 +16,7 @@ const props = defineProps({
       <span class="text-gray-500 dark:text-gray-300">Void node</span>
     </div>
     <div class="flex flex-col gap-2 w-full h-full">
-      <Handle type="source" :position="Position.Right" id="a" />
+      <Handle type="target" :position="Position.Left" id="data" />
     </div>
   </div>
 </template>

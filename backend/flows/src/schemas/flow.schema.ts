@@ -1,22 +1,27 @@
 import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
 import {HydratedDocument} from "mongoose";
+import { v4 as uuidv4 } from 'uuid';
 
 export type FlowDocument = HydratedDocument<Flow>
 
 @Schema()
 export class Flow {
+    @Prop({ type: String, default: function genUUID() {
+            return uuidv4()
+        }})
+    _id: string;
     @Prop({required: true})
     name: string;
-    @Prop()
-    description: string;
-    @Prop()
-    steps: any[];
+    @Prop({default: ''})
+    description?: string;
+    @Prop({required: true, type: Object})
+    data: any;
     @Prop({required: true})
-    userId: string;
-    @Prop()
-    createdAt: Date;
-    @Prop()
-    updatedAt: Date;
+    userId?: number;
+    @Prop({default: Date.now})
+    createdAt?: Date;
+    @Prop({default: Date.now})
+    updatedAt?: Date;
 }
 
 export const FlowSchema = SchemaFactory.createForClass(Flow);
