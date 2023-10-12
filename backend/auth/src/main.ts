@@ -23,6 +23,7 @@ async function bootstrap() {
         snapshot: true,
     }
   );
+  const whitelist = ['http://localhost:8080', 'https://tuxify.fr'];
   const configService = app.get(ConfigService);
   app.register(fastifyCookie, {
     secret: configService.get<string>('COOKIE_SECRET'),
@@ -55,6 +56,10 @@ async function bootstrap() {
         servers: [process.env.NATS_SERVER_URL || 'nats://localhost:4222'],
     }
   })
+
+  app.enableCors({
+    origin: whitelist,
+  });
 
   app.startAllMicroservices();
 
