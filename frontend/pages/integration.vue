@@ -12,6 +12,16 @@ onUpdated(() => {
     integrations.value = i18n.tm<IIntegrationList[]>('landing.integration.services') as IIntegrationList[];
 });
 
+function checkIntegration(integration: IIntegrationList[], index: number) {
+    if (index === integration.length - 1 && integration.length % 3 === 0) {
+        return '';
+    } else if (index === integration.length - 2 && integration.length % 2 !== 0) {
+        return 'md:col-start-2';
+    } else if (index === integration.length - 1 && (integration.length + 1) % 3 !== 0) {
+        return 'md:col-start-3';
+    }
+}
+
 </script>
 
 <template>
@@ -24,15 +34,14 @@ onUpdated(() => {
                 </p>
             </div>
         </div>
-        <div class="mt-10 flex flex-wrap justify-centermax text-center mx-auto my-auto grid grid-cols-1 gap-8 sm:grid-cols-3 text-5xl md:text-6xl">
+        <div
+            class="mt-10 flex flex-wrap justify-centermax text-center mx-auto my-auto grid sm:grid-cols-1 gap-8 md:grid-cols-6 text-5xl md:text-6xl">
             <IntegrationList
                 v-for="(integration, index) in integrations"
                 :class="`${
-                       index === integrations.length - 1 &&
-                       integrations.length % 3 !== 0
-                           ? 'md:col-start-2'
-                           : ''
+                       checkIntegration(integrations, index)
                     }`"
+                class="md:col-span-2 flex flex-col justify-center"
                 :title="integration.title"
                 :description="integration.description"
                 :icon="integration.icon"
