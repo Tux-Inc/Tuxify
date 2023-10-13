@@ -97,7 +97,7 @@ export class JwtService {
     const jwtOptions: jwt.SignOptions = {
       issuer: this.issuer,
       subject: user.email,
-      audience: domain ?? this.domain,
+      // audience: domain ?? this.domain,
       algorithm: 'HS256',
     };
 
