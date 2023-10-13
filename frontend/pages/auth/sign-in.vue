@@ -1,29 +1,60 @@
 <script setup lang="ts">
 import {useI18n} from "vue-i18n";
+import { ref } from 'vue'
+import type { FormError, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types'
+const runtimeConfig = useRuntimeConfig()
 
 definePageMeta({
     layout: 'default',
 })
 
+const toast = useToast()
 const i18n = useI18n();
-
-import { ref } from 'vue'
-import type { FormError, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types'
 const state = ref({
-    email: undefined,
+    emailOrUsername: undefined,
     password: undefined
 })
 
 const isLoading = ref(false);
 const validate = (state: any): FormError[] => {
     const errors = []
-    if (!state.email) errors.push({ path: 'email', message: 'Required' })
+    if (!state.emailOrUsername) errors.push({ path: 'email', message: 'Required' })
     if (!state.password) errors.push({ path: 'password', message: 'Required' })
     return errors
 }
 const router = useRouter()
 async function submit (event: FormSubmitEvent<any>) {
-    router.push('/app')
+    isLoading.value = true;
+    const { data, pending, error } = await useAsyncData("user", () =>
+        $fetch(
+            `${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/sign-in`,
+            {
+                method: "POST",
+                body: JSON.stringify(event.data),
+            }
+        )
+    );
+    if (error.value) {
+        isLoading.value = false;
+        console.log(error.value);
+        toast.add({
+            color: "red",
+            title: `Error ${error.value.statusCode}`,
+            description: error.value.message,
+        });
+    } else {
+        isLoading.value = false;
+        toast.add({
+            color: "green",
+            title: "Success",
+            description: "You are now logged in",
+        });
+        await router.push("/app");
+    }
+}
+
+async function ssoSignIn(provider: string) {
+    navigateTo(`${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/ext/${provider}`, { external: true })
 }
 </script>
 
@@ -44,7 +75,7 @@ async function submit (event: FormSubmitEvent<any>) {
                 class="flex flex-col gap-4"
             >
                 <UFormGroup :label="i18n.t('auth.form.email')" name="email">
-                    <UInput v-model="state.email" placeholder="john.doe@example.com" />
+                    <UInput v-model="state.emailOrUsername" placeholder="john.doe@example.com" />
                 </UFormGroup>
                 <UFormGroup :label="i18n.t('auth.form.password')" name="password">
                     <UInput v-model="state.password" type="password" placeholder="********" />
@@ -59,9 +90,8 @@ async function submit (event: FormSubmitEvent<any>) {
             <template #footer>
                 <div class="w-full flex flex-col gap-2 justify-center items-center">
                     <div class="w-full flex flex-col gap-2">
-                        <UButton :label="i18n.t('auth.sso.google')" block size="lg" icon="i-mdi-google" color="white" variant="solid" />
-                        <UButton :label="i18n.t('auth.sso.github')" block size="lg" icon="i-mdi-github" color="white" variant="solid" />
-                        <UButton :label="i18n.t('auth.sso.slack')" block size="lg" icon="i-mdi-slack" color="white" variant="solid" />
+                        <UButton @click.prevent="ssoSignIn('google')" :label="i18n.t('auth.sso.google')" block size="lg" icon="i-mdi-google" color="white" variant="solid" />
+                        <UButton @click.prevent="ssoSignIn('github')" :label="i18n.t('auth.sso.github')" block size="lg" icon="i-mdi-github" color="white" variant="solid" />
                     </div>
                 </div>
             </template>

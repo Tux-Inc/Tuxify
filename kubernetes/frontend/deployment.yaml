@@ -28,8 +28,8 @@ spec:
           resources: {}
           env:
             - name: API_BASE_URL
-              value: https://api.tuxify.fr/
+              value: https://api.tuxify.fr
             - name: API_AUTH_BASE_URL
-              value: https://auth.api.tuxify.fr/api/
+              value: https://auth.api.tuxify.fr
       imagePullSecrets:
         - name: github-container-registry
