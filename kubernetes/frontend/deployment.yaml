@@ -27,7 +27,9 @@ spec:
               protocol: TCP
           resources: {}
           env:
-            - name: API_URL
-              value: http://api.tuxify.fr/
+            - name: API_BASE_URL
+              value: https://api.tuxify.fr/
+            - name: API_AUTH_BASE_URL
+              value: https://auth.api.tuxify.fr/api/
       imagePullSecrets:
         - name: github-container-registry
