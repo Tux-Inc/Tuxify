@@ -32,7 +32,7 @@ async function bootstrap() {
   app.register(fastifyCsrfProtection, { cookieOpts: { signed: true }, sessionPlugin: '@fastify/session' });
   app.register(fastifyCors, {
     credentials: true,
-    origin: `https://${configService.get<string>('domain')}`,
+    origin: whitelist,
   });
   app.useGlobalPipes(
     new ValidationPipe({
@@ -56,10 +56,6 @@ async function bootstrap() {
         servers: [process.env.NATS_SERVER_URL || 'nats://localhost:4222'],
     }
   })
-
-  app.enableCors({
-    origin: whitelist,
-  });
 
   app.startAllMicroservices();
 
