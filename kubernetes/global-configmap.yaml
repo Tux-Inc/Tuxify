@@ -12,7 +12,7 @@ data:
   NESTSV_MAILER_FROM: noreply@tuxify.fr
   NESTSV_AUTH_ID: '5261d0ba-6793-4525-b99a-431dce1c7fc1'
   NESTSV_AUTH_PORT: '3010'
-  NESTSV_AUTH_DOMAIN: 'tuxify.fr'
+  NESTSV_AUTH_DOMAIN: 'https://tuxify.fr'
   NESTSV_AUTH_URL: 'https://auth.api.tuxify.fr'
   NESTSV_AUTH_THROTTLE_TTL: '60'
   NESTSV_AUTH_THROTTLE_LIMIT: '20'

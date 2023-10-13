@@ -5,7 +5,7 @@ export const validationSchema = Joi.object({
   NESTSV_AUTH_ID: Joi.string().uuid({ version: 'uuidv4' }).required(),
   NODE_ENV: Joi.string().required(),
   NESTSV_AUTH_PORT: Joi.number().required(),
-  NESTSV_AUTH_DOMAIN: Joi.string().domain().required(),
+  NESTSV_AUTH_DOMAIN: Joi.string().required(),
   NESTSV_AUTH_URL: Joi.string().uri().required(),
   POSTGRES_HOST: Joi.string().required(),
   POSTGRES_PORT: Joi.number().required(),

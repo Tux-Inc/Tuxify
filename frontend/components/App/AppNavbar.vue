@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import {useColorMode} from "@vueuse/core";
 import {useI18n} from "vue-i18n";
+import {User} from "~/types/IUser";
+import md5 from "md5";
 
 const i18n = useI18n();
 const { metaSymbol } = useShortcuts();
@@ -8,8 +10,11 @@ const { $event } = useNuxtApp();
 const colorMode = useColorMode();
 const availableLocales = computed(() => i18n.availableLocales);
 const localesItems: any = [];
+const userCookie = useCookie("user");
 
 const sendEvent = (event: string) => $event(event);
+
+const user: User = toRaw(userCookie.value?.user);
 
 const isDark = computed({
     get() {
@@ -30,7 +35,7 @@ for (const locale of availableLocales.value) {
 
 const items = [
     [{
-        label: 'john.doe@example.com',
+        label: user?.email,
         slot: 'account',
         disabled: true
     }], [{
@@ -91,7 +96,7 @@ const items = [
                     </UDropdown>
                 </ClientOnly>
                 <UDropdown class="ml-2.5" :items="items" :ui="{ item: { disabled: 'cursor-text select-text' } }" :popper="{ placement: 'bottom-start' }">
-                    <UAvatar src="https://avatars.githubusercontent.com/u/739984?v=4" />
+                    <UAvatar :src="`https://www.gravatar.com/avatar/${md5(user.email.trim().toLowerCase())}`" class="flex-shrink-0 h-8 w-8 bg-base-dark dark:bg-base-light" />
                     <template #account="{ item }">
                         <div class="text-left">
                             <p>
