@@ -98,11 +98,11 @@ const items = [
                 <UDropdown class="ml-2.5" :items="items" :ui="{ item: { disabled: 'cursor-text select-text' } }" :popper="{ placement: 'bottom-start' }">
                     <UAvatar :src="`https://www.gravatar.com/avatar/${md5(user.email.trim().toLowerCase())}`" class="flex-shrink-0 h-8 w-8 bg-base-dark dark:bg-base-light" />
                     <template #account="{ item }">
-                        <div class="text-left">
+                        <div class="text-left w-full">
                             <p>
                                 Signed in as
                             </p>
-                            <p class="truncate font-medium text-gray-900 dark:text-white">
+                            <p class="text-ellipsis overflow-hidden font-medium text-gray-900 dark:text-white">
                                 {{ item.label }}
                             </p>
                         </div>

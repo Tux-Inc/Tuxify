@@ -18,11 +18,9 @@
     },
     "form": {
       "email": "Email",
-      "confirmEmail": "Confirmation de l'email",
       "password": "Mot de passe",
       "confirmPassword": "Confirmation du mot de passe",
-      "firstName": "Prénom",
-      "lastName": "Nom"
+      "name": "Nom complet"
     },
     "sso": {
       "google": "Se connecter avec Google",
