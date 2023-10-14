@@ -20,12 +20,14 @@ async function confirmEmail() {
     if (error.value) {
         toast.add({
             color: "red",
+            icon: "i-heroicons-exclamation-triangle",
             title: `Error ${error.value.statusCode}`,
             description: error.value.data.message,
         });
     } else {
         toast.add({
             color: "green",
+            icon: "i-heroicons-check",
             title: "Success",
             description: "Email confirmed, please sign in",
         });
