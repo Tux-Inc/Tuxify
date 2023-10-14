@@ -6,14 +6,7 @@ const userCookie = useCookie("user");
 const token = useRoute().query.access_token;
 
 async function getUser() {
-    const { data, pending, error } = await useAsyncData("user", () =>
-        $fetch(`${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/me`, {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        })
-    );
+    const { data, error } = await useFetch(`${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/me`, { headers: { Authorization: `Bearer ${token}`, }, });
     if (error.value) {
         toast.add({
             color: "red",

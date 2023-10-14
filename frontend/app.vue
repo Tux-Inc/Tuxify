@@ -26,6 +26,7 @@
 <template>
   <NuxtLayout>
       <main>
+        <NuxtLoadingIndicator />
         <NuxtPage />
       </main>
       <UNotifications />

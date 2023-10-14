@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {useI18n} from "vue-i18n";
+import { ref } from 'vue';
 
 definePageMeta({
     layout: 'default',
@@ -8,8 +9,8 @@ definePageMeta({
 const i18n = useI18n();
 const toast = useToast();
 const runtimeConfig = useRuntimeConfig();
+const router = useRouter();
 
-import { ref } from 'vue'
 import type { FormError, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types'
 const state = ref({
     email: undefined
@@ -21,24 +22,18 @@ const validate = (state: any): FormError[] => {
     if (!state.email) errors.push({ path: 'email', message: 'Required' })
     return errors
 }
-const router = useRouter()
 async function submit (event: FormSubmitEvent<any>) {
-    const { data, pending, error } = await useAsyncData("user", () =>
-        $fetch(
-            `${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/forgot-password`,
-            {
-                method: "POST",
-                body: JSON.stringify(event.data),
-            }
-        )
-    );
+    isLoading.value = true;
+    const { error } = await useFetch(`${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/forgot-password`, { method: "POST", body: JSON.stringify(event.data), });
     if (error.value) {
+        isLoading.value = false;
         toast.add({
             color: "red",
             title: `Error ${error.value.statusCode}`,
             description: error.value.data.message,
         });
     } else {
+        isLoading.value = false;
         toast.add({
             icon: "i-heroicons-envelope",
             title: "Email sent",

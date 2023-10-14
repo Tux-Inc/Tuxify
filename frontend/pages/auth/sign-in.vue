@@ -4,13 +4,14 @@ import { ref } from 'vue'
 import type { FormError, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types'
 const runtimeConfig = useRuntimeConfig();
 const userCookie = useCookie("user");
+const router = useRouter();
+const toast = useToast();
+const i18n = useI18n();
 
 definePageMeta({
     layout: 'default',
 })
 
-const toast = useToast()
-const i18n = useI18n();
 const state = ref({
     emailOrUsername: undefined,
     password: undefined
@@ -23,18 +24,9 @@ const validate = (state: any): FormError[] => {
     if (!state.password) errors.push({ path: 'password', message: 'Required' })
     return errors
 }
-const router = useRouter()
 async function submit (event: FormSubmitEvent<any>) {
     isLoading.value = true;
-    const { data, pending, error } = await useAsyncData("user", () =>
-        $fetch(
-            `${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/sign-in`,
-            {
-                method: "POST",
-                body: JSON.stringify(event.data),
-            }
-        )
-    );
+    const { data, error } = await useFetch(`${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/sign-in`, {method: "POST", body: JSON.stringify(event.data)});
     if (error.value) {
         isLoading.value = false;
         toast.add({
