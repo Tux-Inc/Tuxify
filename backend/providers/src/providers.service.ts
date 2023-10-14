@@ -10,7 +10,7 @@ import { lastValueFrom, Observable, toArray } from "rxjs";
 import { AddProvider } from "./dtos/add-provider.dto";
 import { ProviderRequestTokens } from "./dtos/provider-request-tokens.dto";
 import { ProviderInfos } from "./dtos/provider-infos.dto";
-import { UserProviderTokens } from "./dtos/user-provider-tokens.dto";
+import { ProviderInfosUser } from "./dtos/provider-infos-user.dtos";
 
 @Injectable()
 export class ProvidersService {
@@ -20,6 +20,40 @@ export class ProvidersService {
         private providersRepository: Repository<ProviderEntity>,
         @Inject('NATS_CLIENT') private readonly natsClient: ClientProxy,
     ) {
+    }
+
+    async getAllAvailableProviders(): Promise<ProviderInfos[]> {
+        const providersObservable: Observable<any> = this.natsClient.send('provider.infos', {});
+        try {
+            const providers: ProviderInfos[] = await providersObservable.pipe(
+                toArray()
+            ).toPromise();
+            this.logger.log(`Available providers: ${providers.map(provider => provider.name)}`);
+            return providers;
+        } catch (err) {
+            throw new RpcException(err);
+        }
+    }
+
+    async getProvidersForUser(userId: number): Promise<ProviderInfosUser[]> {
+        const availableProviders: ProviderInfos[] = await this.getAllAvailableProviders();
+        const userProviders: ProviderEntity[] = await this.providersRepository.find({where: {userId}});
+        const userProvidersInfos: ProviderInfosUser[] = [];
+        for (const availableProvider of availableProviders) {
+            const userProvider: ProviderEntity = userProviders.find(userProvider => userProvider.provider === availableProvider.name);
+            if (userProvider) {
+                userProvidersInfos.push({
+                    ...availableProvider,
+                    isConnected: true,
+                });
+            } else {
+                userProvidersInfos.push({
+                    ...availableProvider,
+                    isConnected: false,
+                });
+            }
+        }
+        return userProvidersInfos;
     }
 
     async updateOrCreate(localUserProviderTokens: LocalUserProviderTokens): Promise<void> {
@@ -62,19 +96,6 @@ export class ProvidersService {
     private async refreshTokens(providerEntity: ProviderEntity): Promise<ProviderEntity> {
         const newEntity = await lastValueFrom(this.natsClient.send(`provider.${providerEntity.provider}.refresh`, providerEntity));
         return await this.providersRepository.save(newEntity);
-    }
-
-    async getAllAvailableProviders(): Promise<ProviderInfos[]> {
-        const providersObservable: Observable<any> = this.natsClient.send('provider.infos', {});
-        try {
-            const providers: ProviderInfos[] = await providersObservable.pipe(
-                toArray()
-            ).toPromise();
-            this.logger.log(`Available providers: ${providers.map(provider => provider.name)}`);
-            return providers;
-        } catch (err) {
-            throw new RpcException(err);
-        }
     }
 
     async addProvider(addProvider: AddProvider): Promise<string> {

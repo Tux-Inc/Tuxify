@@ -8,6 +8,7 @@ import { UserProviderTokens } from "./dtos/user-provider-tokens.dto";
 import { ProviderRequestTokens } from "./dtos/provider-request-tokens.dto";
 import { ProviderInfos } from "./dtos/provider-infos.dto";
 import { ProviderEntity } from "./entities/provider.entity";
+import { ProviderInfosUser } from "./dtos/provider-infos-user.dtos";
 
 @Controller()
 export class ProvidersController {
@@ -19,9 +20,18 @@ export class ProvidersController {
         return await this.providersService.updateOrCreate(localUserProviderTokens);
     }
 
-    @MessagePattern("providers")
+    @MessagePattern("infos.providers")
     async getAllAvailableProviders(): Promise<ProviderInfos[]> {
         return await this.providersService.getAllAvailableProviders();
+    }
+
+    @MessagePattern("providers")
+    async getProvidersForUser(@Payload() userId: number): Promise<ProviderInfosUser[]> {
+        try {
+            return await this.providersService.getProvidersForUser(userId);
+        } catch (e) {
+            throw new RpcException(e);
+        }
     }
 
     @MessagePattern("providers.*.add")

@@ -1,55 +1,39 @@
 <script setup lang="ts">
-
 import { IServiceDisplay } from "~/types/IServiceDisplay";
+const userCookie = useCookie("user");
+const runtimeConfig = useRuntimeConfig();
+const toast = useToast();
 
 definePageMeta({
     layout: "app-navigation",
 });
 
-const services: IServiceDisplay[] = [
-    {
-        "image": "../landing/integration_icons/github.svg",
-        "name": "github",
-        "title": "GitHub",
-        "description": "GitHub is a development platform inspired by the way you work. You can host and review code, manage projects used by over50 million developers.",
-        "isConnected": false,
-    },
-    {
-        "image": "../landing/integration_icons/gmail.svg",
-        "name": "gmail",
-        "title": "Gmail",
-        "description": "Gmail is email that's intuitive, efficient, and useful. 15 GB of storage, less spam, and mobile access.",
-        "isConnected": true,
-    },
-    {
-        "image": "../landing/integration_icons/google-calendar.svg",
-        "name": "google",
-        "title": "Google",
-        "description": "Bonjour",
-        "isConnected": false,
-    },
-    {
-        "image": "../landing/integration_icons/linear.svg",
-        "name": "linear",
-        "title": "Linear",
-        "description": "Linear helps streamline software projects, sprints, tasks, and bug tracking. It's built for high-performance teams.",
-        "isConnected": false,
-    },
-    {
-        "image": "../landing/integration_icons/slack.svg",
-        "name": "slack",
-        "title": "Slack",
-        "description": "Slack is a new way to communicate with your team. It's faster, better organized, and more secure than email.",
-        "isConnected": false,
-    },
-    {
-        "image": "../landing/integration_icons/linkedin.svg",
-        "name": "linkedin",
-        "title": "LinkedIn",
-        "description": "LinkedIn is professional networking platform connecting individuals, fostering career development, and facilitating business connections for professionals worldwide.",
-        "isConnected": false,
-    },
-];
+async function getProviders(): Promise<IServiceDisplay[]> {
+    const { data, pending, error } = await useAsyncData("user", () =>
+        $fetch(`${runtimeConfig.public.API_BASE_URL}/providers`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${toRaw(userCookie.value)?.access_token}`,
+            },
+        }),
+    );
+    if (error.value) {
+        toast.add({
+            color: "red",
+            title: `Error ${error.value.statusCode}`,
+            description: error.value.data.message,
+        });
+        return [];
+    } else {
+        return data.value as IServiceDisplay[];
+    }
+}
+
+const services = ref<IServiceDisplay[]>([]);
+onMounted(async () => {
+    services.value = await getProviders();
+});
+
 
 </script>
 
@@ -64,6 +48,8 @@ const services: IServiceDisplay[] = [
                 :title="service.title"
                 :description="service.description"
                 :isConnected="service.isConnected"
+                :actions="service.actions"
+                :reactions="service.reactions"
             />
         </div>
     </div>
