@@ -31,7 +31,6 @@ async function getUser() {
             user,
             access_token: token,
         };
-        console.log(userObject);
         userCookie.value = JSON.stringify(userObject);
         await router.push("/app");
     }
