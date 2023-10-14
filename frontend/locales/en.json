@@ -18,12 +18,10 @@
     },
     "form": {
       "email": "Email",
-      "confirmEmail": "Confirm Email",
       "password": "Password",
       "confirmPassword": "Confirm Password",
       "confirmNewPassword": "Confirm new Password",
-      "firstName": "First Name",
-      "lastName": "Last Name"
+      "name": "Full name"
     },
     "sso": {
       "google": "Sign in with Google",

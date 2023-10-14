@@ -2,7 +2,8 @@
 import {useI18n} from "vue-i18n";
 import { ref } from 'vue'
 import type { FormError, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types'
-const runtimeConfig = useRuntimeConfig()
+const runtimeConfig = useRuntimeConfig();
+const userCookie = useCookie("user");
 
 definePageMeta({
     layout: 'default',
@@ -36,7 +37,6 @@ async function submit (event: FormSubmitEvent<any>) {
     );
     if (error.value) {
         isLoading.value = false;
-        console.log(error.value);
         toast.add({
             color: "red",
             title: `Error ${error.value.statusCode}`,
@@ -49,6 +49,12 @@ async function submit (event: FormSubmitEvent<any>) {
             title: "Success",
             description: "You are now logged in",
         });
+        const userAuth = Object.assign({} as any, data.value);
+        const userObject = {
+            user: userAuth.user,
+            access_token: userAuth.accessToken,
+        };
+        userCookie.value = JSON.stringify(userObject);
         await router.push("/app");
     }
 }
