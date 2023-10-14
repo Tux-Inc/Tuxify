@@ -47,7 +47,7 @@ async function submit(event: FormSubmitEvent<any>) {
         toast.add({
             color: "red",
             title: `Error ${error.value.statusCode}`,
-            description: error.value.message,
+            description: error.value.data.message,
         });
     } else {
         isLoading.value = false;

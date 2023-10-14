@@ -26,21 +26,31 @@ export class ProvidersController {
     ) {
     }
 
-    @Get()
+    @Get('infos')
     async getAllAvailableProviders(): Promise<ProviderInfos> {
-        return await lastValueFrom(this.natsClient.send('providers', {}));
+        return await lastValueFrom(this.natsClient.send('infos.providers', {}));
     }
 
-    // @UseGuards(AuthGuard)
+    @UseGuards(AuthGuard)
+    @Get()
+    async getProvidersForUser(@Req() req: any): Promise<any> {
+        try {
+            return lastValueFrom(this.natsClient.send('providers', req.user))
+        } catch (e) {
+            throw new BadGatewayException(e.message);
+        }
+    }
+
+    @UseGuards(AuthGuard)
     @Get(':provider/add')
-    async addProvider(@Param('provider') provider: string, @Res() res: any, @Req() req: any): Promise<void> {
+    async addProvider(@Param('provider') provider: string, @Res() res: any, @Req() req: any): Promise<any> {
         const addProvider: AddProvider = {
             provider,
-            userId: 2, // req.user.userId,
+            userId: req.user,
         }
         try {
             await lastValueFrom(this.natsClient.send(`providers.${provider}.add`, addProvider)).then((data) => {
-                res.redirect(data);
+                res.send(data);
             })
         } catch (e) {
             throw new BadGatewayException(e.message);
