@@ -21,7 +21,7 @@ async function confirmEmail() {
         toast.add({
             color: "red",
             title: `Error ${error.value.statusCode}`,
-            description: error.value.message,
+            description: error.value.data.message,
         });
     } else {
         toast.add({
