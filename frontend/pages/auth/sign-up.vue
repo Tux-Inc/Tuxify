@@ -46,6 +46,7 @@ async function submit(event: FormSubmitEvent<any>) {
         isLoading.value = false;
         toast.add({
             color: "red",
+            icon: "i-heroicons-exclamation-triangle",
             title: `Error ${error.value.statusCode}`,
             description: error.value.data.message,
         });

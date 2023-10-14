@@ -39,6 +39,7 @@ async function submit (event: FormSubmitEvent<any>) {
         isLoading.value = false;
         toast.add({
             color: "red",
+            icon: "i-heroicons-exclamation-triangle",
             title: `Error ${error.value.statusCode}`,
             description: error.value.data.message,
         });
@@ -46,6 +47,7 @@ async function submit (event: FormSubmitEvent<any>) {
         isLoading.value = false;
         toast.add({
             color: "green",
+            icon: "i-heroicons-check",
             title: "Success",
             description: "You are now logged in",
         });

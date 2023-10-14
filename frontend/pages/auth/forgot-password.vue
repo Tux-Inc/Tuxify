@@ -6,6 +6,8 @@ definePageMeta({
 })
 
 const i18n = useI18n();
+const toast = useToast();
+const runtimeConfig = useRuntimeConfig();
 
 import { ref } from 'vue'
 import type { FormError, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types'
@@ -21,7 +23,29 @@ const validate = (state: any): FormError[] => {
 }
 const router = useRouter()
 async function submit (event: FormSubmitEvent<any>) {
-    router.push('/app')
+    const { data, pending, error } = await useAsyncData("user", () =>
+        $fetch(
+            `${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/forgot-password`,
+            {
+                method: "POST",
+                body: JSON.stringify(event.data),
+            }
+        )
+    );
+    if (error.value) {
+        toast.add({
+            color: "red",
+            title: `Error ${error.value.statusCode}`,
+            description: error.value.data.message,
+        });
+    } else {
+        toast.add({
+            icon: "i-heroicons-envelope",
+            title: "Email sent",
+            description: "An email has been sent to your email address to reset your password.",
+        });
+        await router.push("/auth/sign-in");
+    }
 }
 </script>
 
