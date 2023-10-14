@@ -4,8 +4,8 @@ import { existsSync, readFileSync } from "node:fs";
 export default defineNuxtConfig({
     runtimeConfig: {
         public: {
-            API_BASE_URL: process.env.API_BASE_URL || "http://localhost:3000",
-            API_AUTH_BASE_URL: process.env.API_AUTH_BASE_URL || "http://localhost:3010",
+            API_BASE_URL: process.env.API_BASE_URL || "https://api.tuxify.fr",
+            API_AUTH_BASE_URL: process.env.API_AUTH_BASE_URL || "https://auth.api.tuxify.fr",
         }
     },
     build: {
