@@ -8,37 +8,64 @@ definePageMeta({
 })
 
 const i18n = useI18n();
+const toast = useToast();
+const runtimeConfig = useRuntimeConfig();
+const resetToken = useRoute().query.token;
 
 const state = ref({
-    email: "",
-    password: "",
-    check_password: "",
+    password1: "",
+    password2: "",
 })
 
 const isLoading = ref(false);
 
 const validate = (state: any): FormError[] => {
     const errors = [];
-    if (!state.password) errors.push({ path: "password", message: "Required" });
-    if (!state.check_password) errors.push({ path: "check_password", message: "Required" });
-    if (state.password != state.check_password) errors.push({ path: "check_password", message: "Shoudld be same Password" });
+    if (!state.password1) errors.push({ path: "password", message: "Required" });
+    if (!state.password2) errors.push({ path: "password2", message: "Required" });
+    if (state.password1 != state.password2) errors.push({ path: "password2", message: "Should be same Password" });
     return errors;
 }
 
 const router = useRouter();
 
 async function submit (event: FormSubmitEvent<any>) {
-    router.push('/app')
+    const { data, pending, error } = await useAsyncData("user", () =>
+        $fetch(`${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/reset-password`, {
+            method: "POST",
+            body: JSON.stringify({
+                password1: event.data.password1,
+                password2: event.data.password2,
+                resetToken: resetToken,
+            }),
+        })
+    );
+    if (error.value) {
+        toast.add({
+            color: "red",
+            icon: "i-heroicons-exclamation-triangle",
+            title: `Error ${error.value.statusCode}`,
+            description: error.value.message,
+        });
+    } else {
+        toast.add({
+            color: "green",
+            icon: "i-heroicons-check",
+            title: "Success",
+            description: "Password successfully changed, you can now login",
+        });
+        await router.push("/auth/sign-in");
+    }
 }
 
 const isVisible = ref({
-    password: false,
-    check_password: false,
+    password1: false,
+    password2: false,
 });
 
-const setVisiblePassword = () => isVisible.value.password = !isVisible.value.password;
+const setVisiblePassword = () => isVisible.value.password1 = !isVisible.value.password1;
 
-const setVisibleCheckPassworad = () => isVisible.value.check_password = !isVisible.value.check_password;
+const setVisibleCheckPassworad = () => isVisible.value.password2 = !isVisible.value.password2;
 
 </script>
 
@@ -60,14 +87,15 @@ const setVisibleCheckPassworad = () => isVisible.value.check_password = !isVisib
             >
                 <UFormGroup
                     :label="i18n.t('auth.password.new')"
-                    name="password"
+                    name="password1"
+                    v-slot="{ error }"
                     required
                 >
                     <div class="p-4">
                         <UInput
-                            v-model="state.password"
+                            v-model="state.password1"
                             :trailing-icon="error && 'i-heroicons-exclamation-triangle-20-solid'"
-                            :type="`${isVisible.password ? 'text' : 'password'}`"
+                            :type="`${isVisible.password1 ? 'text' : 'password'}`"
                             :ui="{ icon: { trailing: { pointer: ''}}}"
                             :placeholder="i18n.t('auth.password.new')"
                             required
@@ -87,14 +115,14 @@ const setVisibleCheckPassworad = () => isVisible.value.check_password = !isVisib
                 <UFormGroup
                     v-slot="{ error }"
                     :label="i18n.t('auth.form.confirmNewPassword')"
-                    name="check_password"
+                    name="password2"
                     required
                 >
                     <div class="p-4">
                         <UInput
-                            v-model="state.check_password"
+                            v-model="state.password2"
                             :trailing-icon="error && 'i-heroicons-exclamation-triangle-20-solid'"
-                            :type="`${isVisible.check_password ? 'text' : 'password'}`"
+                            :type="`${isVisible.password2 ? 'text' : 'password'}`"
                             :ui="{ icon: { trailing: { pointer: ''}}}"
                             :placeholder="i18n.t('auth.form.confirmNewPassword')"
                             required
@@ -111,7 +139,7 @@ const setVisibleCheckPassworad = () => isVisible.value.check_password = !isVisib
                         </UInput>
                     </div>
                 </UFormGroup>
-                <div class="p-4">
+                <div class="p-4 flex flex-col gap-2">
                     <UButton
                         :label="i18n.t('auth.button.resetPassword')"
                         :loading="isLoading" block
