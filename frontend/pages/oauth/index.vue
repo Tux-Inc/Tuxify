@@ -1,12 +1,16 @@
 <script setup lang="ts">
+import { IUserCookie } from "~/types/IUserCookie";
+import { User } from "~/types/IUser";
+
 const runtimeConfig = useRuntimeConfig();
 const router = useRouter();
 const toast = useToast();
 const userCookie = useCookie("user");
-const token = useRoute().query.access_token;
+const accessToken = useRoute().query.access_token as string;
+const refreshToken = useRoute().query.refresh_token as string;
 
 async function getUser() {
-    const { data, error } = await useFetch(`${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/me`, { headers: { Authorization: `Bearer ${token}`, }, });
+    const { data, error } = await useFetch(`${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/me`, { headers: { Authorization: `Bearer ${accessToken}`, }, });
     if (error.value) {
         toast.add({
             color: "red",
@@ -19,10 +23,11 @@ async function getUser() {
             title: "Success",
             description: "You are now logged in",
         });
-        const user = Object.assign({}, data.value);
-        const userObject = {
+        const user: User = Object.assign({}, data.value) as User;
+        const userObject: IUserCookie = {
             user,
-            access_token: token,
+            accessToken: accessToken,
+            refreshToken: refreshToken,
         };
         userCookie.value = JSON.stringify(userObject);
         await router.push("/app");

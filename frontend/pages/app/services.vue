@@ -1,37 +1,16 @@
 <script setup lang="ts">
 import { IServiceDisplay } from "~/types/IServiceDisplay";
-const userCookie = useCookie("user");
-const runtimeConfig = useRuntimeConfig();
-const toast = useToast();
+import request from "~/utilities/apiRequest";
 
 definePageMeta({
     layout: "app-navigation",
 });
 
-async function getProviders(): Promise<IServiceDisplay[]> {
-    const { data, pending, error } = await useAsyncData("user", () =>
-        $fetch(`${runtimeConfig.public.API_BASE_URL}/providers`, {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${toRaw(userCookie.value)?.access_token}`,
-            },
-        }),
-    );
-    if (error.value) {
-        toast.add({
-            color: "red",
-            title: `Error ${error.value.statusCode}`,
-            description: error.value.data.message,
-        });
-        return [];
-    } else {
-        return data.value as IServiceDisplay[];
-    }
-}
+const servicesDisplay = ref<IServiceDisplay[]>([]);
 
-const services = ref<IServiceDisplay[]>([]);
 onMounted(async () => {
-    services.value = await getProviders();
+    const res = await request<IServiceDisplay[]>('/providers');
+    servicesDisplay.value = res._data as IServiceDisplay[];
 });
 
 
@@ -42,7 +21,7 @@ onMounted(async () => {
         <h1 class="text-4xl font-bold text-dark dark:text-light hidden sm:block">Services</h1>
         <div class="container mx-auto my-auto grid md:grid-cols-3 sm:grid-cols-1 gap-8 text-center">
             <ServiceDisplay
-                v-for="(service) in services"
+                v-for="(service) in servicesDisplay"
                 :image="service.image"
                 :name="service.name"
                 :title="service.title"

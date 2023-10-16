@@ -211,12 +211,12 @@ export class Oauth2Controller {
     return res
       .cookie(this.cookieName, refreshToken, {
         secure: !this.testing,
-        httpOnly: true,
-        signed: true,
+        httpOnly: false,
+        signed: false,
         path: this.cookiePath,
         expires: new Date(Date.now() + this.refreshTime * 1000),
       })
       .status(HttpStatus.PERMANENT_REDIRECT)
-      .redirect(`${this.url}/oauth/?access_token=${accessToken}`);
+      .redirect(`${this.url}/oauth/?access_token=${accessToken}&refresh_token=${refreshToken}`);
   }
 }

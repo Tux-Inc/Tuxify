@@ -2,6 +2,7 @@
 import {useI18n} from "vue-i18n";
 import { ref } from 'vue'
 import type { FormError, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types'
+import { IUserCookie } from "~/types/IUserCookie";
 const runtimeConfig = useRuntimeConfig();
 const userCookie = useCookie("user");
 const router = useRouter();
@@ -44,9 +45,10 @@ async function submit (event: FormSubmitEvent<any>) {
             description: "You are now logged in",
         });
         const userAuth = Object.assign({} as any, data.value);
-        const userObject = {
+        const userObject: IUserCookie = {
             user: userAuth.user,
-            access_token: userAuth.accessToken,
+            accessToken: userAuth.accessToken,
+            refreshToken: userAuth.refreshToken,
         };
         userCookie.value = JSON.stringify(userObject);
         await router.push("/app");
