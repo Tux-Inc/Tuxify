@@ -2,15 +2,17 @@
 import {useI18n} from "vue-i18n";
 import { ref } from 'vue'
 import type { FormError, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types'
+import { IUserCookie } from "~/types/IUserCookie";
 const runtimeConfig = useRuntimeConfig();
 const userCookie = useCookie("user");
+const router = useRouter();
+const toast = useToast();
+const i18n = useI18n();
 
 definePageMeta({
     layout: 'default',
 })
 
-const toast = useToast()
-const i18n = useI18n();
 const state = ref({
     emailOrUsername: undefined,
     password: undefined
@@ -23,18 +25,9 @@ const validate = (state: any): FormError[] => {
     if (!state.password) errors.push({ path: 'password', message: 'Required' })
     return errors
 }
-const router = useRouter()
 async function submit (event: FormSubmitEvent<any>) {
     isLoading.value = true;
-    const { data, pending, error } = await useAsyncData("user", () =>
-        $fetch(
-            `${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/sign-in`,
-            {
-                method: "POST",
-                body: JSON.stringify(event.data),
-            }
-        )
-    );
+    const { data, error } = await useFetch(`${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/sign-in`, {method: "POST", body: JSON.stringify(event.data)});
     if (error.value) {
         isLoading.value = false;
         toast.add({
@@ -52,9 +45,10 @@ async function submit (event: FormSubmitEvent<any>) {
             description: "You are now logged in",
         });
         const userAuth = Object.assign({} as any, data.value);
-        const userObject = {
+        const userObject: IUserCookie = {
             user: userAuth.user,
-            access_token: userAuth.accessToken,
+            accessToken: userAuth.accessToken,
+            refreshToken: userAuth.refreshToken,
         };
         userCookie.value = JSON.stringify(userObject);
         await router.push("/app");

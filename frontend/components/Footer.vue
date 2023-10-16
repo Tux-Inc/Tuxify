@@ -8,7 +8,7 @@ const currentYear = new Date().getFullYear();
 <template>
     <div>
         <div class="w-full h-px bg-gray-200 dark:bg-gray-800 flex items-center justify-center">
-            <div class="bg-base-light dark:bg-gray-900 px-2">
+            <div class="bg-gray-50 dark:bg-gray-900 px-2">
                 <svg class="h-8 w-8 fill-primary dark:fill-base-light" width="500" height="500" viewBox="0 0 1000 1000"
                      xmlns="http://www.w3.org/2000/svg">
                     <path

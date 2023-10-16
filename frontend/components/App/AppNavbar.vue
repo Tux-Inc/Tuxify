@@ -65,7 +65,7 @@ const items = [
 </script>
 
 <template>
-    <header class="fixed w-full top-0 z-50 border-b border-gray-200 dark:border-gray-800 bg-base-light/75 dark:bg-base-dark/75 dark:bg-opacity-60 backdrop-blur">
+    <header class="fixed w-full top-0 z-50 border-b border-gray-200 dark:border-gray-800 bg-gray-50/75 dark:bg-base-dark/75 dark:bg-opacity-60 backdrop-blur">
         <div class="flex items-center justify-between gap-3 h-[--header-height] px-6">
             <div class="flex items-center justify-start gap-4">
                 <NuxtLink to="/app">
