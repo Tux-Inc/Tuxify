@@ -38,9 +38,9 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="flex flex-wrap gap-x-6 gap-y-10 justify-center max text-center">
+    <div class="flex flex-col gap-x-6 gap-y-10 justify-center max">
         <h1 class="text-4xl font-bold text-dark dark:text-light hidden sm:block">Services</h1>
-        <div class="container mx-auto my-auto grid md:grid-cols-3 sm:grid-cols-1 gap-8">
+        <div class="container mx-auto my-auto grid md:grid-cols-3 sm:grid-cols-1 gap-8 text-center">
             <ServiceDisplay
                 v-for="(service) in services"
                 :image="service.image"
