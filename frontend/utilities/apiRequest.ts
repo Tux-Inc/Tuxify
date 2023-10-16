@@ -23,7 +23,7 @@ const fetcher = ofetch.create({
         }
     },
     async onResponse({ response }) {
-        if (response.status === 401 && useCookie<IUserCookie>("user").value.refreshToken) {
+        if (response.status === 403 && useCookie<IUserCookie>("user").value.refreshToken) {
             const { accessToken } = await ofetch("/auth/refresh-access", {
                 baseURL: useRuntimeConfig().public.API_AUTH_BASE_URL + "/api",
                 method: "POST",
@@ -50,7 +50,7 @@ export default async <T>(request: FetchRequest, options?: FetchOptions) => {
         const response = await fetcher.raw(request, options);
         return response as FetchResponse<T>;
     } catch (error: any) {
-        if (error.response?.status === 401 && useCookie<IUserCookie>("user").value.refreshToken) {
+        if (error.response?.status === 403 && useCookie<IUserCookie>("user").value.refreshToken) {
             const response = await fetcher.raw(request, options);
             return response as FetchResponse<T>;
         }

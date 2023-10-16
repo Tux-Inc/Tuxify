@@ -139,7 +139,7 @@ const getHeaderTitle = (routeName: string): string => {
 </script>
 
 <template>
-    <div class="antialiased min-h-screen bg-base-light dark:bg-base-dark">
+    <div class="antialiased min-h-screen bg-gray-50 dark:bg-base-dark">
         <div class="md:hidden">
             <MobileHeaderBar :title="getHeaderTitle(String(route.name))" />
             <div class="p-4 my-[calc((var(--mobile-menu-height)))]">
