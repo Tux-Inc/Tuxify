@@ -31,6 +31,15 @@ const fetcher = ofetch.create({
                     Authorization: `Bearer ${useCookie<IUserCookie>("user").value.refreshToken}`,
                 },
             });
+            if (!accessToken) {
+                await useRouter().push("/auth/sign-in");
+                useToast().add({
+                    color: "red",
+                    icon: "i-heroicons-exclamation-triangle",
+                    title: "Session expired",
+                    description: "Your session has expired. Please log in again.",
+                });
+            }
             useCookie<IUserCookie>("user").value.accessToken = accessToken;
         }
     },
