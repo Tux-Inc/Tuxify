@@ -41,8 +41,9 @@ async function disconnect() {
 
 <template>
     <UCard>
-        <img :src="image" class="w-10 h-10 mx-auto text-primary" />
-        <span class="text-4xl text-center font-bold text-primary">{{ title }}</span>
+        <UTooltip :text="title">
+            <img :src="image" class="w-10 h-10 mx-auto text-primary" />
+        </UTooltip>
         <div class="flex flex-col gap-2 mt-2">
             <div class="flex flex-col">
                 <span class="text-2xl text-center font-bold">Actions</span>
@@ -53,7 +54,7 @@ async function disconnect() {
                 <span v-for="reaction in reactions" class="text-center"> - {{ reaction.name }}</span>
             </div>
         </div>
-        <div class="mx-auto my-auto p-8">
+        <div class="mx-auto my-auto mt-5">
             <UButton @click.prevent="disconnect" v-if="isConnected" color="gray" label="Se Déconnecter" />
             <UButton @click.prevent="connect" v-if="!isConnected" label="Se Connecter" />
         </div>

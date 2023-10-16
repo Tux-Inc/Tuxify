@@ -34,7 +34,7 @@ for (const locale of availableLocales.value) {
 
 <template>
     <header
-        class="sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800 bg-base-light/75 dark:bg-base-dark/75 dark:bg-opacity-60 backdrop-blur">
+        class="fixed w-full top-0 z-50 border-b border-gray-200 dark:border-gray-800 bg-gray-50/75 dark:bg-base-dark/75 dark:bg-opacity-60 backdrop-blur">
         <div class="flex items-center gap-3 h-[--header-height] mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
             <div class="flex gap-4">
                 <UButton
@@ -92,7 +92,7 @@ for (const locale of availableLocales.value) {
         leave-from-class="opacity-100 translate-x-0"
         leave-to-class="opacity-0 translate-x-[-100%]"
     >
-        <div v-show="props.isOpen" class="absolute w-full z-40 bg-base-light dark:bg-base-dark inset-0 overflow-hidden">
+        <div v-show="props.isOpen" class="absolute w-full z-40 bg-gray-50 dark:bg-base-dark inset-0 overflow-hidden">
             <div class="overflow-y-auto relative py-24 grid grid-cols-1 px-8 justify-center items-center center">
                 <UButton
                     class="my-5 justify-center" color="gray" icon="i-heroicons-home" size="xl" to="/"

@@ -32,7 +32,7 @@
 }
 
 html {
-    background-color: #e9f3ff;
+    background-color: rgb(var(--color-gray-50)/1);
 }
 
 html.dark {

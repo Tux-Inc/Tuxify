@@ -8,9 +8,20 @@ definePageMeta({
 })
 
 const i18n = useI18n();
+const router = useRouter();
 const toast = useToast();
 const runtimeConfig = useRuntimeConfig();
 const resetToken = useRoute().query.token;
+
+if(!resetToken) {
+    toast.add({
+        color: "red",
+        icon: "i-heroicons-exclamation-triangle",
+        title: `Error`,
+        description: "No reset token provided",
+    });
+    router.push("/auth/sign-in");
+}
 
 const state = ref({
     password1: "",
@@ -26,8 +37,6 @@ const validate = (state: any): FormError[] => {
     if (state.password1 != state.password2) errors.push({ path: "password2", message: "Should be same Password" });
     return errors;
 }
-
-const router = useRouter();
 
 async function submit (event: FormSubmitEvent<any>) {
     const { data, pending, error } = await useAsyncData("user", () =>
@@ -91,7 +100,7 @@ const setVisibleCheckPassworad = () => isVisible.value.password2 = !isVisible.va
                     v-slot="{ error }"
                     required
                 >
-                    <div class="p-4">
+                    <div>
                         <UInput
                             v-model="state.password1"
                             :trailing-icon="error && 'i-heroicons-exclamation-triangle-20-solid'"
@@ -118,7 +127,7 @@ const setVisibleCheckPassworad = () => isVisible.value.password2 = !isVisible.va
                     name="password2"
                     required
                 >
-                    <div class="p-4">
+                    <div>
                         <UInput
                             v-model="state.password2"
                             :trailing-icon="error && 'i-heroicons-exclamation-triangle-20-solid'"
@@ -139,7 +148,7 @@ const setVisibleCheckPassworad = () => isVisible.value.password2 = !isVisible.va
                         </UInput>
                     </div>
                 </UFormGroup>
-                <div class="p-4 flex flex-col gap-2">
+                <div class="flex flex-col gap-2">
                     <UButton
                         :label="i18n.t('auth.button.resetPassword')"
                         :loading="isLoading" block

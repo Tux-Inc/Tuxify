@@ -17,7 +17,15 @@ export class AuthResponseMapper implements IAuthResponse {
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
     type: String,
   })
+
   public readonly accessToken: string;
+  @ApiProperty({
+    description: 'Refresh token',
+    example:
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
+    type: String,
+  })
+  public readonly refreshToken: string;
 
   constructor(values: IAuthResponse) {
     Object.assign(this, values);
@@ -27,6 +35,7 @@ export class AuthResponseMapper implements IAuthResponse {
     return new AuthResponseMapper({
       user: AuthResponseUserMapper.map(result.user),
       accessToken: result.accessToken,
+      refreshToken: result.refreshToken,
     });
   }
 }

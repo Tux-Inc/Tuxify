@@ -105,7 +105,7 @@ export class AuthController {
     @Body() singInDto: SignInDto,
   ): Promise<void> {
     const result = await this.authService.signIn(singInDto, origin);
-    this.saveRefreshCookie(res, result.refreshToken)
+    res
       .status(HttpStatus.OK)
       .send(AuthResponseMapper.map(result));
   }
@@ -132,7 +132,7 @@ export class AuthController {
       token,
       req.headers.origin,
     );
-    this.saveRefreshCookie(res, result.refreshToken)
+    res
       .status(HttpStatus.OK)
       .send(AuthResponseMapper.map(result));
   }
@@ -155,7 +155,6 @@ export class AuthController {
     const token = this.refreshTokenFromReq(req);
     const message = await this.authService.logout(token);
     res
-      .clearCookie(this.cookieName, { path: this.cookiePath })
       .header('Content-Type', 'application/json')
       .status(HttpStatus.OK)
       .send(message);
@@ -180,7 +179,7 @@ export class AuthController {
     @Res() res: FastifyReply,
   ): Promise<void> {
     const result = await this.authService.confirmEmail(confirmEmailDto);
-    this.saveRefreshCookie(res, result.refreshToken)
+    res
       .status(HttpStatus.OK)
       .send(AuthResponseMapper.map(result));
   }
@@ -236,7 +235,7 @@ export class AuthController {
       changePasswordDto,
       origin,
     );
-    this.saveRefreshCookie(res, result.refreshToken)
+    res
       .status(HttpStatus.OK)
       .send(AuthResponseMapper.map(result));
   }
@@ -270,19 +269,13 @@ export class AuthController {
   }
 
   private refreshTokenFromReq(req: FastifyRequest): string {
-    const token: string | undefined = req.cookies[this.cookieName];
+    const token: string | undefined = req.headers.authorization?.split(' ')[1];
 
     if (isUndefined(token) || isNull(token)) {
       throw new UnauthorizedException();
     }
 
-    const { valid, value } = req.unsignCookie(token);
-
-    if (!valid) {
-      throw new UnauthorizedException();
-    }
-
-    return value;
+    return token;
   }
 
   private saveRefreshCookie(

@@ -9,14 +9,7 @@ const router = useRouter();
 const toast = useToast();
 
 async function confirmEmail() {
-    const { data, pending, error } = await useAsyncData("user", () =>
-        $fetch(`${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/confirm-email`, {
-            method: "POST",
-            body: {
-                confirmationToken,
-            }
-        })
-    );
+    const { error } = await useFetch(`${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/confirm-email`, { method: "POST", body: { confirmationToken, } });
     if (error.value) {
         toast.add({
             color: "red",

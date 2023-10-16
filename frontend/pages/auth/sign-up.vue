@@ -33,15 +33,7 @@ const runtimeConfig = useRuntimeConfig();
 
 async function submit(event: FormSubmitEvent<any>) {
     isLoading.value = true;
-    const { data, pending, error } = await useAsyncData("user", () =>
-        $fetch(
-            `${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/sign-up`,
-            {
-                method: "POST",
-                body: JSON.stringify(event.data),
-            },
-        ),
-    );
+    const { error } = await useFetch(`${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/sign-up`, { method: "POST", body: JSON.stringify(event.data) });
     if (error.value) {
         isLoading.value = false;
         toast.add({
