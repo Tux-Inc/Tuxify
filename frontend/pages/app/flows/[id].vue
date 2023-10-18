@@ -118,7 +118,7 @@ onBeforeUnmount(async () => {
 
 <template>
     <div>
-        <div class="flex items-start justify-between gap-4">
+        <div class="flex items-start justify-between gap-4 flex-wrap md:flex-nowrap">
             <div class="flex flex-col gap-2">
                 <div class="flex flex-col">
                     <div v-if="!editingName" @click="editingName = true" class="flex items-center cursor-pointer">
@@ -138,7 +138,7 @@ onBeforeUnmount(async () => {
                 <div class="flex flex-col">
                     <label class="text-sm text-gray-500 dark:text-gray-400">Description</label>
                     <div v-if="!editingDescription" @click="editingDescription = true" class="flex items-center cursor-pointer">
-                        <span class="text-sm text-dark dark:text-light">{{ currentFlow.description ? currentFlow.description : 'Empty' }}</span>
+                        <span class="text-sm text-dark dark:text-light text-justify">{{ currentFlow.description ? currentFlow.description : 'Empty' }}</span>
                         <UIcon name="i-heroicons-pencil-solid" class="ml-2" />
                     </div>
                     <UTextarea v-else autofocus v-model="currentFlow.description" class="border rounded text-dark dark:text-light w-full" @blur="editingDescription = false"></UTextarea>
@@ -149,7 +149,7 @@ onBeforeUnmount(async () => {
                     <span class="text-sm text-dark dark:text-light">{{ currentFlow.lastRun ? currentFlow.lastRun : 'Never' }}</span>
                 </div>
             </div>
-            <div class="flex gap-2 flex-wrap">
+            <div class="flex gap-2 flex-nowrap">
                 <UButton @click.prevent="updateFlow" size="md" color="primary" label="Save" icon="i-heroicons-folder-arrow-down" :loading="isSaving" />
                 <UDropdown :items="contextualItems" :popper="{ placement: 'bottom-start' }">
                     <UButton size="md" color="white" trailing-icon="i-heroicons-ellipsis-vertical" />
