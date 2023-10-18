@@ -16,7 +16,15 @@ async function redirectToFlow() {
 <template>
     <div @click.prevent="redirectToFlow" class="flex justify-between items-center p-4 border border-gray-300 dark:border-gray-700 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800">
         <div class="flex flex-col gap-2">
-            <span class="text-2xl font-bold">{{ flow.name }}</span>
+            <div class="flex gap-2 items-center">
+                <span class="text-2xl font-bold">{{ flow.name }}</span>
+                <UTooltip v-if="flow.enabled" text="Flow enabled">
+                    <UIcon name="i-heroicons-check-circle-solid" class="text-green-500 dark:text-green-400" />
+                </UTooltip>
+                <UTooltip v-else text="Flow disabled">
+                    <UIcon name="i-heroicons-x-circle-solid" class="text-red-500 dark:text-red-400" />
+                </UTooltip>
+            </div>
             <span class="text-center truncate">{{ flow.description }}</span>
         </div>
         <div>
