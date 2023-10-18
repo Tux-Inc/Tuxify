@@ -31,6 +31,10 @@ $listen("app:newFlow", () => {
     isNewFlowModalOpen.value = !isNewFlowModalOpen.value;
 });
 
+$listen("app:flowCreated", () => {
+    isNewFlowModalOpen.value = false;
+});
+
 $listen("app:commandPalette", () => {
     isCommandPaletteOpen.value = !isCommandPaletteOpen.value;
 });

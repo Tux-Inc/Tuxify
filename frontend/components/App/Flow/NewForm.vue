@@ -4,6 +4,7 @@ import { FormError, FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
 import { IFlow } from "~/types/IFlow";
 
 const toast = useToast();
+const { $event } = useNuxtApp();
 
 const state = ref({
     name: undefined,
@@ -22,6 +23,7 @@ async function submit(event: FormSubmitEvent<IFlow>) {
             method: 'POST',
             body: JSON.stringify(event.data),
         });
+        $event('app:flowCreated', res._data?._id);
         navigateTo(`/app/flows/${res._data?._id}`);
     } catch (e: any) {
         toast.add({
