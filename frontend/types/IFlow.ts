@@ -5,7 +5,8 @@ export interface IFlow {
     data?: any;
     userId?: number;
     enabled?: boolean;
-    isValidate?: boolean;
+    isValid?: boolean;
+    lastRun?: Date;
     createdAt?: Date;
     updatedAt?: Date;
 }

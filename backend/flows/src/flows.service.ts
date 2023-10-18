@@ -26,6 +26,14 @@ export class FlowsService {
         });
     }
 
+    async updateFlow(flow: Flow): Promise<Flow> {
+        this.logger.log(`Updating flow ${flow._id} for user ${flow.userId}`);
+        return this.flowModel.findOneAndUpdate({
+            _id: flow._id,
+            userId: flow.userId,
+        }, flow);
+    }
+
     async handleActions(flowActionData: FlowActionData): Promise<void> {
         this.logger.log(`Received flow trigger ${flowActionData.actionName} for user ${flowActionData.userId}`);
         const flows: Flow[] = await this.flowModel.find({
@@ -53,6 +61,8 @@ export class FlowsService {
             for (const edge of edges)
                 await this.executeNode(edge.target, flowActionData);
         }
+        flow.lastRun = new Date();
+        await this.flowModel.updateOne({_id: flow._id}, flow);
     }
 
     private async executeNode(node: any, flowActionData: FlowActionData): Promise<void> {

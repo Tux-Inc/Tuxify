@@ -22,6 +22,8 @@ export class Flow {
     enabled?: boolean;
     @Prop({default: false})
     isValid?: boolean;
+    @Prop({required: false})
+    lastRun?: Date;
     @Prop({default: Date.now})
     createdAt?: Date;
     @Prop({default: Date.now})

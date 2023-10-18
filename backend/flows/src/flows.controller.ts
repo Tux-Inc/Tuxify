@@ -21,6 +21,11 @@ export class FlowsController {
       return this.flowsService.getFlow(getFlow);
   }
 
+  @MessagePattern('flows.update')
+  async updateFlow(@Payload() flow: Flow): Promise<Flow> {
+      return this.flowsService.updateFlow(flow);
+  }
+
   @EventPattern('flows.actions.*')
   async handleActions(@Payload() flowActionData: FlowActionData) {
     await this.flowsService.handleActions(flowActionData);
