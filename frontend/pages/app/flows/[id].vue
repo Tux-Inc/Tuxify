@@ -4,11 +4,25 @@ import { IFlow } from "~/types/IFlow";
 definePageMeta({
     layout: 'app-navigation'
 })
-const toast = useToast()
+const toast = useToast();
 
-const flowId = useRoute().params.id
+const flowId = useRoute().params.id;
 
 const currentFlow = ref<IFlow>({} as IFlow);
+
+const deleted = ref(false);
+
+const contextualItems = [
+   [{
+        label: 'Delete',
+        icon: 'i-heroicons-trash',
+        click: async () => {
+            await deleteFlow();
+            deleted.value = true;
+            navigateTo('/app/flows');
+        }
+    }]
+]
 
 async function getFlow(): Promise<IFlow | undefined> {
     try {
@@ -60,11 +74,38 @@ async function updateFlow(): Promise<IFlow | undefined> {
         });
     }
 }
+
+async function deleteFlow(): Promise<IFlow | undefined> {
+    try {
+        const res = await request<IFlow>(`/flows/${flowId}`, {
+            method: 'DELETE',
+        });
+        if (!res._data) {
+            toast.add({
+                color: 'red',
+                icon: 'i-heroicons-exclamation-circle',
+                title: `Error`,
+                description: `Flow not found`,
+            });
+        } else {
+            return res._data;
+        }
+    } catch (e: any) {
+        toast.add({
+            color: 'red',
+            icon: 'i-heroicons-exclamation-circle',
+            title: `Error ${e.response?.status}`,
+            description: e.response?.statusText,
+        });
+    }
+}
 onMounted(async () => {
     currentFlow.value = await getFlow() as IFlow;
 });
 onBeforeUnmount(() => {
-    updateFlow();
+    if (!deleted.value) {
+        updateFlow();
+    }
 });
 </script>
 
@@ -77,7 +118,6 @@ onBeforeUnmount(() => {
                     <span class="text-sm text-gray-500 dark:text-gray-400">ID: {{ currentFlow._id }}</span>
                 </div>
                 <div class="flex flex-col mt-2">
-                    <label class="text-sm text-gray-500 dark:text-gray-400">Enabled</label>
                     <div class="flex gap-2">
                         <UToggle v-model="currentFlow.enabled" />
                         <span class="text-sm text-dark dark:text-light">{{ currentFlow.enabled ? 'Enabled' : 'Disabled' }}</span>
@@ -92,7 +132,12 @@ onBeforeUnmount(() => {
                     <span class="text-sm text-dark dark:text-light">{{ currentFlow.lastRun ? currentFlow.lastRun : 'Never' }}</span>
                 </div>
             </div>
-            <UButton @click.prevent="updateFlow" size="md" color="primary" label="Save" icon="i-heroicons-folder-arrow-down" />
+            <div class="flex gap-2 flex-wrap">
+                <UButton @click.prevent="updateFlow" size="md" color="primary" label="Save" icon="i-heroicons-folder-arrow-down" />
+                <UDropdown :items="contextualItems" :popper="{ placement: 'bottom-start' }">
+                    <UButton size="md" color="white" trailing-icon="i-heroicons-ellipsis-vertical" />
+                </UDropdown>
+            </div>
         </div>
         <div class="w-full mt-4">
             <Graph />

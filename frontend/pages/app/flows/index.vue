@@ -1,15 +1,46 @@
 <script setup lang="ts">
 import {useI18n} from "vue-i18n";
+import request from "~/utilities/apiRequest";
+import { IFlow } from "~/types/IFlow";
 
 definePageMeta({
     layout: 'app-navigation'
-})
+});
 
 const i18n = useI18n();
-const { metaSymbol } = useShortcuts()
-const { $event } = useNuxtApp()
+const { metaSymbol } = useShortcuts();
+const { $event } = useNuxtApp();
+const toast = useToast();
 
-const sendEvent = (event: string) => $event(event)
+const sendEvent = (event: string) => $event(event);
+
+const flows = ref<IFlow[]>([]);
+
+async function getFlows() {
+    try {
+        const res = await request<IFlow[]>('/flows');
+        if (!res._data) {
+            toast.add({
+                color: 'red',
+                icon: 'i-heroicons-exclamation-circle',
+                title: `Error`,
+                description: `Flows not found`,
+            });
+        } else {
+            return res._data;
+        }
+    } catch (e: any) {
+        toast.add({
+            color: 'red',
+            icon: 'i-heroicons-exclamation-circle',
+            title: `Error ${e.response?.status}`,
+            description: e.response?.statusText,
+        });
+    }
+}
+onMounted(async () => {
+    flows.value = await getFlows() ?? [];
+});
 </script>
 
 <template>
@@ -21,14 +52,12 @@ const sendEvent = (event: string) => $event(event)
           </UTooltip>
       </div>
       <div class="w-full mt-4">
-          <div class="flex flex-col w-full items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-8">
-              <div class="flex flex-col items-center justify-center">
-                  <UIcon name="i-heroicons-archive-box" class="text-base-dark dark:text-base-light font-bold text-6xl" />
-                  <span class="text-base-dark dark:text-base-light font-bold text-2xl mt-2">Uh oh, you don't have any flows yet!</span>
-                  <span class="text-gray-500 dark:text-gray-400 text-lg">Create a new flow to get started</span>
-              </div>
-              <div class="mt-4">
-                  <UButton size="xl" icon="i-heroicons-plus" @click="sendEvent('app:newFlow')" color="primary" variant="solid">New flow</UButton>
+          <div v-if="flows.length === 0">
+            <AppFlowEmptyList  />
+          </div>
+          <div v-else>
+              <div class="flex flex-col gap-4">
+                  <AppFlowCard v-for="flow in flows" :key="flow._id" :flow="flow" />
               </div>
           </div>
       </div>

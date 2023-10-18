@@ -12,6 +12,13 @@ export class FlowsService {
         @InjectModel(Flow.name) private readonly flowModel: Model<Flow>,
     ) {}
 
+    async getFlows(userId: number): Promise<Flow[]> {
+        this.logger.log(`Getting flows for user ${userId}`);
+        return this.flowModel.find({
+            userId,
+        });
+    }
+
     async createFlow(flow: Flow): Promise<Flow> {
         this.logger.log(`Creating flow ${flow.name} for user ${flow.userId}`);
         const createdFlow = new this.flowModel(flow);
@@ -32,6 +39,14 @@ export class FlowsService {
             _id: flow._id,
             userId: flow.userId,
         }, flow);
+    }
+
+    async deleteFlow(getFlow: GetFlow): Promise<Flow> {
+        this.logger.log(`Deleting flow ${getFlow.id} for user ${getFlow.userId}`);
+        return this.flowModel.findOneAndDelete({
+            _id: getFlow.id,
+            userId: getFlow.userId,
+        });
     }
 
     async handleActions(flowActionData: FlowActionData): Promise<void> {

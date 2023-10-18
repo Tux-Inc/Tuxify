@@ -11,19 +11,29 @@ export class FlowsController {
       private readonly flowsService: FlowsService
   ) {}
 
-  @MessagePattern('flows.create')
+  @MessagePattern('flows.get')
+  async getFlows(@Payload() userId: number): Promise<Flow[]> {
+      return this.flowsService.getFlows(userId);
+  }
+
+  @MessagePattern('flow.create')
   async createFlow(@Payload() flow: Flow): Promise<Flow> {
     return this.flowsService.createFlow(flow);
   }
 
-  @MessagePattern('flows.get')
+  @MessagePattern('flow.get')
   async getFlow(@Payload() getFlow: GetFlow): Promise<Flow> {
       return this.flowsService.getFlow(getFlow);
   }
 
-  @MessagePattern('flows.update')
+  @MessagePattern('flow.update')
   async updateFlow(@Payload() flow: Flow): Promise<Flow> {
       return this.flowsService.updateFlow(flow);
+  }
+
+  @MessagePattern('flow.delete')
+  async deleteFlow(@Payload() getFlow: GetFlow): Promise<Flow> {
+      return this.flowsService.deleteFlow(getFlow);
   }
 
   @EventPattern('flows.actions.*')
