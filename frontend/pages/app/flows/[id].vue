@@ -9,8 +9,8 @@ const toast = useToast();
 const flowId = useRoute().params.id;
 
 const currentFlow = ref<IFlow>({} as IFlow);
-
 const deleted = ref(false);
+const isSaving = ref(false);
 
 const contextualItems = [
    [{
@@ -51,11 +51,13 @@ async function getFlow(): Promise<IFlow | undefined> {
 
 async function updateFlow(): Promise<IFlow | undefined> {
     try {
+        isSaving.value = true;
         const res = await request<IFlow>(`/flows/${flowId}`, {
             method: 'PUT',
             body: JSON.stringify(currentFlow.value),
         });
         if (!res._data) {
+            isSaving.value = false;
             toast.add({
                 color: 'red',
                 icon: 'i-heroicons-exclamation-circle',
@@ -63,9 +65,11 @@ async function updateFlow(): Promise<IFlow | undefined> {
                 description: `Flow not found`,
             });
         } else {
+            isSaving.value = false;
             return res._data;
         }
     } catch (e: any) {
+        isSaving.value = false;
         toast.add({
             color: 'red',
             icon: 'i-heroicons-exclamation-circle',
@@ -133,7 +137,7 @@ onBeforeUnmount(() => {
                 </div>
             </div>
             <div class="flex gap-2 flex-wrap">
-                <UButton @click.prevent="updateFlow" size="md" color="primary" label="Save" icon="i-heroicons-folder-arrow-down" />
+                <UButton @click.prevent="updateFlow" size="md" color="primary" label="Save" icon="i-heroicons-folder-arrow-down" :loading="isSaving" />
                 <UDropdown :items="contextualItems" :popper="{ placement: 'bottom-start' }">
                     <UButton size="md" color="white" trailing-icon="i-heroicons-ellipsis-vertical" />
                 </UDropdown>
