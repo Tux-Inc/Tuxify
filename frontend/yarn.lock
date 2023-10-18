@@ -1678,6 +1678,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nuxtjs/device@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "@nuxtjs/device@npm:3.1.1"
+  dependencies:
+    "@nuxt/kit": ^3.7.3
+    defu: ^6.1.2
+  checksum: d91eabfac05e02f6bd1f9dcd75badba439aed06d75eead2c39404cf04481d1b1a6c967c86f4cb6eddd19726d1bb422c6bde32ef4c06435adc8a5a1ae385daf90
+  languageName: node
+  linkType: hard
+
 "@nuxtjs/tailwindcss@npm:^6.8.0":
   version: 6.8.0
   resolution: "@nuxtjs/tailwindcss@npm:6.8.0"
@@ -7531,6 +7541,7 @@ __metadata:
     "@nuxt/devtools": latest
     "@nuxt/image": rc
     "@nuxt/ui": ^2.8.1
+    "@nuxtjs/device": ^3.1.1
     "@types/js-cookie": ^3.0.4
     "@types/md5": ^2.3.3
     "@vue-flow/background": ^1.2.0

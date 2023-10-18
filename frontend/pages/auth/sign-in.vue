@@ -40,7 +40,7 @@ async function submit (event: FormSubmitEvent<any>) {
         isLoading.value = false;
         toast.add({
             color: "green",
-            icon: "i-heroicons-check",
+            icon: "i-heroicons-check-circle",
             title: "Success",
             description: "You are now logged in",
         });

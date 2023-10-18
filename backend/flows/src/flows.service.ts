@@ -3,6 +3,7 @@ import {Flow} from "./schemas/flow.schema";
 import {InjectModel} from "@nestjs/mongoose";
 import {Model} from "mongoose";
 import { FlowActionData } from "./events/FlowActionData.event";
+import { GetFlow } from "./events/GetFlow.event";
 
 @Injectable()
 export class FlowsService {
@@ -11,16 +12,49 @@ export class FlowsService {
         @InjectModel(Flow.name) private readonly flowModel: Model<Flow>,
     ) {}
 
+    async getFlows(userId: number): Promise<Flow[]> {
+        this.logger.log(`Getting flows for user ${userId}`);
+        return this.flowModel.find({
+            userId,
+        });
+    }
+
     async createFlow(flow: Flow): Promise<Flow> {
-        this.logger.log('Creating flow');
+        this.logger.log(`Creating flow ${flow.name} for user ${flow.userId}`);
         const createdFlow = new this.flowModel(flow);
         return await createdFlow.save();
+    }
+
+    async getFlow(getFlow: GetFlow): Promise<Flow> {
+        this.logger.log(`Getting flow ${getFlow.id} for user ${getFlow.userId}`);
+        return this.flowModel.findOne({
+            _id: getFlow.id,
+            userId: getFlow.userId,
+        });
+    }
+
+    async updateFlow(flow: Flow): Promise<Flow> {
+        this.logger.log(`Updating flow ${flow._id} for user ${flow.userId}`);
+        return this.flowModel.findOneAndUpdate({
+            _id: flow._id,
+            userId: flow.userId,
+        }, flow);
+    }
+
+    async deleteFlow(getFlow: GetFlow): Promise<Flow> {
+        this.logger.log(`Deleting flow ${getFlow.id} for user ${getFlow.userId}`);
+        return this.flowModel.findOneAndDelete({
+            _id: getFlow.id,
+            userId: getFlow.userId,
+        });
     }
 
     async handleActions(flowActionData: FlowActionData): Promise<void> {
         this.logger.log(`Received flow trigger ${flowActionData.actionName} for user ${flowActionData.userId}`);
         const flows: Flow[] = await this.flowModel.find({
             userId: flowActionData.userId,
+            enabled: true,
+            isValid: true,
             'data.nodes': {
                 $elemMatch: {
                     name: flowActionData.actionName,
@@ -42,6 +76,8 @@ export class FlowsService {
             for (const edge of edges)
                 await this.executeNode(edge.target, flowActionData);
         }
+        flow.lastRun = new Date();
+        await this.flowModel.updateOne({_id: flow._id}, flow);
     }
 
     private async executeNode(node: any, flowActionData: FlowActionData): Promise<void> {
