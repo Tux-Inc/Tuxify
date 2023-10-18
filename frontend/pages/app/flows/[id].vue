@@ -138,7 +138,7 @@ onBeforeUnmount(async () => {
                 <div class="flex flex-col">
                     <label class="text-sm text-gray-500 dark:text-gray-400">Description</label>
                     <div v-if="!editingDescription" @click="editingDescription = true" class="flex items-center cursor-pointer">
-                        <span class="text-sm text-dark dark:text-light text-justify">{{ currentFlow.description ? currentFlow.description : 'Empty' }}</span>
+                        <span class="text-sm text-dark dark:text-light text-justify">{{ currentFlow.description ? currentFlow.description : 'No description' }}</span>
                         <UIcon name="i-heroicons-pencil-solid" class="ml-2" />
                     </div>
                     <UTextarea v-else autofocus v-model="currentFlow.description" class="border rounded text-dark dark:text-light w-full" @blur="editingDescription = false"></UTextarea>

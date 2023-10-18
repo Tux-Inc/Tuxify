@@ -39,7 +39,11 @@ async function getFlows() {
     }
 }
 onMounted(async () => {
-    flows.value = await getFlows() ?? [];
+    const rawFlows: IFlow[] = await getFlows() ?? [];
+    rawFlows.sort((a, b) => {
+        return new Date(b.updatedAt as Date).getTime() - new Date(a.updatedAt as Date).getTime();
+    });
+    flows.value = rawFlows;
 });
 </script>
 
