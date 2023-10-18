@@ -11,6 +11,9 @@ const flowId = useRoute().params.id;
 const currentFlow = ref<IFlow>({} as IFlow);
 const deleted = ref(false);
 const isSaving = ref(false);
+const editingName = ref(false);
+const editingDescription = ref(false);
+
 
 const contextualItems = [
    [{
@@ -106,9 +109,9 @@ async function deleteFlow(): Promise<IFlow | undefined> {
 onMounted(async () => {
     currentFlow.value = await getFlow() as IFlow;
 });
-onBeforeUnmount(() => {
+onBeforeUnmount(async () => {
     if (!deleted.value) {
-        updateFlow();
+        await updateFlow();
     }
 });
 </script>
@@ -118,9 +121,14 @@ onBeforeUnmount(() => {
         <div class="flex items-start justify-between gap-4">
             <div class="flex flex-col gap-2">
                 <div class="flex flex-col">
-                    <h1 class="text-4xl font-bold text-dark dark:text-light">{{ currentFlow.name }}</h1>
+                    <div v-if="!editingName" @click="editingName = true" class="flex items-center cursor-pointer">
+                        <h1 class="text-4xl font-bold text-dark dark:text-light">{{ currentFlow.name }}</h1>
+                        <UIcon name="i-heroicons-pencil-solid" class="ml-2" />
+                    </div>
+                    <UInput v-else autofocus v-model="currentFlow.name" class="text-4xl font-bold text-dark dark:text-light border rounded" @blur="editingName = false" />
                     <span class="text-sm text-gray-500 dark:text-gray-400">ID: {{ currentFlow._id }}</span>
                 </div>
+
                 <div class="flex flex-col mt-2">
                     <div class="flex gap-2">
                         <UToggle v-model="currentFlow.enabled" />
@@ -129,8 +137,13 @@ onBeforeUnmount(() => {
                 </div>
                 <div class="flex flex-col">
                     <label class="text-sm text-gray-500 dark:text-gray-400">Description</label>
-                    <span class="text-sm text-dark dark:text-light">{{ currentFlow.description ? currentFlow.description : 'Empty' }}</span>
+                    <div v-if="!editingDescription" @click="editingDescription = true" class="flex items-center cursor-pointer">
+                        <span class="text-sm text-dark dark:text-light">{{ currentFlow.description ? currentFlow.description : 'Empty' }}</span>
+                        <UIcon name="i-heroicons-pencil-solid" class="ml-2" />
+                    </div>
+                    <UTextarea v-else autofocus v-model="currentFlow.description" class="border rounded text-dark dark:text-light w-full" @blur="editingDescription = false"></UTextarea>
                 </div>
+
                 <div class="flex flex-col">
                     <label class="text-sm text-gray-500 dark:text-gray-400">Last run</label>
                     <span class="text-sm text-dark dark:text-light">{{ currentFlow.lastRun ? currentFlow.lastRun : 'Never' }}</span>
