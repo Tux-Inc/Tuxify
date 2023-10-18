@@ -140,14 +140,14 @@ const getHeaderTitle = (routeName: string): string => {
 
 <template>
     <div class="antialiased min-h-screen bg-gray-50 dark:bg-base-dark">
-        <div class="md:hidden">
+        <div v-if="$device.isMobile">
             <MobileHeaderBar :title="getHeaderTitle(String(route.name))" />
             <div class="p-4 my-[calc((var(--mobile-menu-height)))]">
                 <slot />
             </div>
             <MobileNavigator />
         </div>
-        <div class="hidden md:block">
+        <div v-else>
             <AppNavbar />
             <div class="flex flex-row items-start justify-start">
                 <AppSidebar />

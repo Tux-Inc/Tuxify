@@ -3,6 +3,7 @@ import { FlowsService } from './flows.service';
 import { Ctx, EventPattern, MessagePattern, Payload } from "@nestjs/microservices";
 import {Flow} from "./schemas/flow.schema";
 import { FlowActionData } from "./events/FlowActionData.event";
+import { GetFlow } from "./events/GetFlow.event";
 
 @Controller()
 export class FlowsController {
@@ -15,8 +16,13 @@ export class FlowsController {
     return this.flowsService.createFlow(flow);
   }
 
+  @MessagePattern('flows.get')
+  async getFlow(@Payload() getFlow: GetFlow): Promise<Flow> {
+      return this.flowsService.getFlow(getFlow);
+  }
+
   @EventPattern('flows.actions.*')
   async handleActions(@Payload() flowActionData: FlowActionData) {
-    this.flowsService.handleActions(flowActionData);
+    await this.flowsService.handleActions(flowActionData);
   }
 }

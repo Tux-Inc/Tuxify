@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Post, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Inject, Param, Post, Req, UseGuards } from "@nestjs/common";
 import {ClientProxy} from "@nestjs/microservices";
 import { AuthGuard } from "../guards/auth.guard";
 
@@ -10,13 +10,14 @@ export class FlowsController {
 
     @UseGuards(AuthGuard)
     @Post()
-    async createFlow(@Req() req: any, @Body() body: any): Promise<any> {
-        const flow = {
-            userId: req.user.userId,
-            data: body.data,
-            name: body.name,
-            description: body.description,
-        }
+    async createFlow(@Req() req: any, @Body() flow: any): Promise<any> {
+        flow.userId = req.user;
         return this.natsClient.send('flows.create' , flow);
+    }
+
+    @UseGuards(AuthGuard)
+    @Get(':id')
+    async getFlow(@Param('id') id: string, @Req() req: any): Promise<any> {
+        return this.natsClient.send('flows.get' , {id, userId: req.user});
     }
 }

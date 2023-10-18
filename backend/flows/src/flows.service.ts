@@ -3,6 +3,7 @@ import {Flow} from "./schemas/flow.schema";
 import {InjectModel} from "@nestjs/mongoose";
 import {Model} from "mongoose";
 import { FlowActionData } from "./events/FlowActionData.event";
+import { GetFlow } from "./events/GetFlow.event";
 
 @Injectable()
 export class FlowsService {
@@ -12,15 +13,25 @@ export class FlowsService {
     ) {}
 
     async createFlow(flow: Flow): Promise<Flow> {
-        this.logger.log('Creating flow');
+        this.logger.log(`Creating flow ${flow.name} for user ${flow.userId}`);
         const createdFlow = new this.flowModel(flow);
         return await createdFlow.save();
+    }
+
+    async getFlow(getFlow: GetFlow): Promise<Flow> {
+        this.logger.log(`Getting flow ${getFlow.id} for user ${getFlow.userId}`);
+        return this.flowModel.findOne({
+            _id: getFlow.id,
+            userId: getFlow.userId,
+        });
     }
 
     async handleActions(flowActionData: FlowActionData): Promise<void> {
         this.logger.log(`Received flow trigger ${flowActionData.actionName} for user ${flowActionData.userId}`);
         const flows: Flow[] = await this.flowModel.find({
             userId: flowActionData.userId,
+            enabled: true,
+            isValid: true,
             'data.nodes': {
                 $elemMatch: {
                     name: flowActionData.actionName,
