@@ -9,15 +9,21 @@ export class Flow {
     @Prop({ type: String, default: function genUUID() {
             return uuidv4()
         }})
-    _id: string;
+    _id?: string;
     @Prop({required: true})
     name: string;
     @Prop({default: ''})
     description?: string;
-    @Prop({required: true, type: Object})
-    data: any;
+    @Prop({required: false, type: Object})
+    data?: any;
     @Prop({required: true})
     userId?: number;
+    @Prop({default: false})
+    enabled?: boolean;
+    @Prop({default: false})
+    isValid?: boolean;
+    @Prop({required: false})
+    lastRun?: Date;
     @Prop({default: Date.now})
     createdAt?: Date;
     @Prop({default: Date.now})

@@ -16,7 +16,7 @@ function signOut() {
     userCookie.value = null;
     toast.add({
         color: "green",
-        icon: "i-heroicons-check",
+        icon: "i-heroicons-check-circle",
         title: "Success",
         description: "You are now logged out",
     });

@@ -54,7 +54,6 @@ export default async <T>(request: FetchRequest, options?: FetchOptions) => {
             const response = await fetcher.raw(request, options);
             return response as FetchResponse<T>;
         }
-
-        return error.response as FetchResponse<T>;
+        throw error;
     }
 };

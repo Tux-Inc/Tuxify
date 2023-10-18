@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Post, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Inject, Param, Post, Put, Req, UseGuards } from "@nestjs/common";
 import {ClientProxy} from "@nestjs/microservices";
 import { AuthGuard } from "../guards/auth.guard";
 
@@ -9,14 +9,35 @@ export class FlowsController {
     ) {}
 
     @UseGuards(AuthGuard)
+    @Get()
+    async getFlows(@Req() req: any): Promise<any> {
+        return this.natsClient.send('flows.get' , req.user);
+    }
+
+    @UseGuards(AuthGuard)
     @Post()
-    async createFlow(@Req() req: any, @Body() body: any): Promise<any> {
-        const flow = {
-            userId: req.user.userId,
-            data: body.data,
-            name: body.name,
-            description: body.description,
-        }
-        return this.natsClient.send('flows.create' , flow);
+    async createFlow(@Req() req: any, @Body() flow: any): Promise<any> {
+        flow.userId = req.user;
+        return this.natsClient.send('flow.create' , flow);
+    }
+
+    @UseGuards(AuthGuard)
+    @Get(':id')
+    async getFlow(@Param('id') id: string, @Req() req: any): Promise<any> {
+        return this.natsClient.send('flow.get' , {id, userId: req.user});
+    }
+
+    @UseGuards(AuthGuard)
+    @Put(':id')
+    async updateFlow(@Param('id') id: string, @Req() req: any, @Body() flow: any): Promise<any> {
+        flow.userId = req.user;
+        flow._id = id;
+        return this.natsClient.send('flow.update' , flow);
+    }
+
+    @UseGuards(AuthGuard)
+    @Delete(':id')
+    async deleteFlow(@Param('id') id: string, @Req() req: any): Promise<any> {
+        return this.natsClient.send('flow.delete' , {id, userId: req.user});
     }
 }

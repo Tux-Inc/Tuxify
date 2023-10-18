@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { IServiceDisplay } from "~/types/IServiceDisplay";
+import request from "~/utilities/apiRequest";
 
-const runtimeConfig = useRuntimeConfig();
 const toast = useToast();
-const userCookie = useCookie("user");
 
 const props = withDefaults(defineProps<IServiceDisplay>(), {
     image: "",
@@ -14,27 +13,38 @@ const props = withDefaults(defineProps<IServiceDisplay>(), {
 });
 
 async function connect() {
-    const { data, pending, error } = await useAsyncData("user", () =>
-        $fetch(`${runtimeConfig.public.API_BASE_URL}/providers/${props.name}/add`, {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${toRaw(userCookie.value)?.access_token}`,
-            },
-        }),
-    );
-    if (error.value) {
+    try {
+        const res = await request<string>(`/providers/${props.name}/add`);
+        navigateTo(res._data as string, { external: true });
+    } catch (e: any) {
         toast.add({
             color: "red",
-            title: `Error ${error.value.statusCode}`,
-            description: error.value.data.message,
+            icon: "i-heroicons-exclamation-circle",
+            title: `Error ${e.response?.status}`,
+            description: e.response?.statusText,
         });
-    } else {
-        navigateTo(data.value as string, { external: true });
+        return;
     }
 }
 
 async function disconnect() {
-    navigateTo(`${runtimeConfig.public.API_BASE_URL}/providers/${props.name}/remove`, { external: true });
+    try {
+        const res = await request<string>(`/providers/${props.name}/remove`);
+        toast.add({
+            color: "green",
+            icon: "i-heroicons-check-circle",
+            title: "Success",
+            description: res._data as string,
+        });
+    } catch (e: any) {
+        toast.add({
+            color: "red",
+            icon: "i-heroicons-exclamation-circle",
+            title: `Error ${e.response?.status}`,
+            description: e.response?.statusText,
+        });
+        return;
+    }
 }
 
 </script>
@@ -55,8 +65,8 @@ async function disconnect() {
             </div>
         </div>
         <div class="mx-auto my-auto mt-5">
-            <UButton @click.prevent="disconnect" v-if="isConnected" color="gray" label="Se Déconnecter" />
-            <UButton @click.prevent="connect" v-if="!isConnected" label="Se Connecter" />
+            <UButton @click.prevent="disconnect" v-if="isConnected" color="gray" label="Disconnect service" />
+            <UButton @click.prevent="connect" v-if="!isConnected" label="Link account" />
         </div>
     </UCard>
 </template>
