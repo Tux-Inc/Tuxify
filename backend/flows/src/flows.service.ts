@@ -51,50 +51,98 @@ export class FlowsService {
 
     async handleActions(flowActionData: FlowActionData): Promise<void> {
         this.logger.log(`Received flow trigger ${flowActionData.actionName} for user ${flowActionData.userId}`);
-        const flows: Flow[] = await this.flowModel.find({
-            userId: flowActionData.userId,
-            enabled: true,
-            isValid: true,
-            'data.nodes': {
-                $elemMatch: {
-                    name: flowActionData.actionName,
-                }
-            }
-        });
+        const flows: Flow[] = await this.findFlowsForUserAction(flowActionData.userId, flowActionData.actionName);
         this.logger.log(`Found ${flows.length} flows`);
         for (const flow of flows)
             await this.executeFlow(flow, flowActionData);
     }
 
+    private createDependencyMapping(edges: any[]): Map<string, string[]> {
+        const dependenciesMap: Map<string, string[]> = new Map<string, string[]>();
+
+        for (const edge of edges) {
+            const targetNode = edge.target;  // the node that depends on another
+            const sourceNode = edge.source;  // the node that is being depended upon
+
+            if (dependenciesMap.has(targetNode)) {
+                dependenciesMap.get(targetNode)!.push(sourceNode);
+            } else {
+                dependenciesMap.set(targetNode, [sourceNode]);
+            }
+        }
+
+        return dependenciesMap;
+    }
+
+    private nodeOutputs: Map<string, any> = new Map();
+
     private async executeFlow(flow: Flow, flowActionData: FlowActionData): Promise<void> {
         this.logger.log(`Executing flow ${flow._id}`);
-        const nodes = flow.data.nodes.filter(node => node.name === flowActionData.actionName);
-        this.logger.log(`Found ${nodes.length} nodes`);
-        for (const node of nodes) {
-            const edges = flow.data.edges.filter(edge => edge.source === node.id);
-            this.logger.log(`Found ${edges.length} edges`);
-            for (const edge of edges)
-                await this.executeNode(edge.target, flowActionData);
-        }
         flow.lastRun = new Date();
         await this.flowModel.updateOne({_id: flow._id}, flow);
-    }
+        const flowData = flow.data;
 
-    private async executeNode(node: any, flowActionData: FlowActionData): Promise<void> {
-        this.logger.log(`Executing node ${node._id}`);
-        const actions = node.name;
-        this.logger.log(`Found ${actions.length} actions`);
-        for (const action of actions) {
-            this.logger.log(`Executing action ${action._id}`);
-            await this.executeAction(action, flowActionData);
+        const dependenciesMap: Map<string, string[]> = this.createDependencyMapping(flowData.edges);
+        console.log(dependenciesMap);
+
+        const executedNodes: any[] = [];
+        const nodesQueue: any[] = [...flowData.nodes];
+
+        while (nodesQueue.length > 0) {
+            const node = nodesQueue.shift();
+            if (this.canExecuteNode(node, executedNodes, dependenciesMap)) {
+                const inputData = this.gatherNodeInputs(node, dependenciesMap);
+                const nodeOutput = await this.executeNode(node, inputData, flowActionData);
+                this.nodeOutputs.set(node.id, nodeOutput);
+                executedNodes.push(node.id);
+            } else {
+                nodesQueue.push(node);
+            }
         }
+        delete this.nodeOutputs;
     }
 
-    private async executeAction(action: any, flowActionData: FlowActionData): Promise<void> {
-        this.logger.log(`Executing action ${action._id}`);
-        const provider = action.provider;
-        const actionName = action.name;
-        const data = action.data;
-        this.logger.log(`Emitting action ${action._id}`);
+    private canExecuteNode(node: any, executedNodes: any[], dependenciesMap: Map<string, string[]>): boolean {
+        const nodeId = node.id;
+        const nodeDependencies: string[] = dependenciesMap.get(nodeId) || [];
+
+        for (const dependentNodeId of nodeDependencies) {
+            if (!executedNodes.includes(dependentNodeId)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private gatherNodeInputs(node: any, dependenciesMap: Map<string, string[]>): any {
+        const nodeId = node.id;
+        const nodeDependencies: string[] = dependenciesMap.get(nodeId) || [];
+        const inputData: {} = {};
+
+        for (const dependentNodeId of nodeDependencies) {
+            inputData[dependentNodeId] = this.nodeOutputs.get(dependentNodeId);
+        }
+
+        return inputData;
+    }
+
+    private async executeNode(node: any, inputData: any, flowActionData: FlowActionData): Promise<any> {
+        console.log('flowActionData', flowActionData);
+        console.log('node', node);
+        console.log('inputData', inputData);
+    }
+
+    private async findFlowsForUserAction(userId: number, actionName: string): Promise<Flow[]> {
+        this.logger.log(`Finding flows for user ${userId} and action ${actionName}`);
+        return this.flowModel.find({
+            userId,
+            enabled: true,
+            isValid: true,
+            'data.nodes': {
+                $elemMatch: {
+                    name: actionName,
+                }
+            }
+        });
     }
 }
