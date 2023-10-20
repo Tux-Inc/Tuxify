@@ -32,7 +32,7 @@ function signOut() {
         <div class="flex flex-col gap-4 mt-10">
             <span class="text-dark dark:text-light font-bold text-2xl">My account</span>
             <div class="flex items-center gap-2">
-                <img :src="`https://www.gravatar.com/avatar/${md5(user.email.trim().toLowerCase())}`" class="w-16 h-16 rounded-full" />
+                <NuxtImg :src="`https://www.gravatar.com/avatar/${md5(user.email.trim().toLowerCase())}`" class="w-16 h-16 rounded-full" />
                 <div class="flex flex-col">
                     <span class="text-dark dark:text-light font-bold text-xl">{{ user.name }}</span>
                     <span class="text-dark dark:text-light">{{ user.email }}</span>

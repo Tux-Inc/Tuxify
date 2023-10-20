@@ -40,7 +40,7 @@ const i18n = useI18n();
                     <UCard
                         class="hover:bg-gray-50 dark:hover:bg-gray-800 hover:outline-primary hover:outline transition duration-150 ease-in-out">
                         <div class="flex flex-row gap-4 flex-nowrap items-center justify-start">
-                            <img class="h-24" alt="ai" src="/landing/ai.png" />
+                            <NuxtImg alt="ai" class="h-24" src="/landing/ai.png" />
                             <div>
                                 <span
                                     class="text-lg font-bold tracking-tight text-gray-900 dark:text-white sm:text-xl lg:text-2xl text-center">
@@ -55,7 +55,7 @@ const i18n = useI18n();
                     <UCard
                         class="hover:bg-gray-50 dark:hover:bg-gray-800 hover:outline-blue-300 hover:outline transition duration-150 ease-in-out">
                         <div class="flex flex-row gap-4 flex-nowrap items-center justify-start">
-                            <img class="h-24" alt="graph" src="/landing/graph.png" />
+                            <NuxtImg alt="graph" class="h-24" src="/landing/graph.png" />
                             <div>
                                 <span
                                     class="text-lg font-bold tracking-tight text-gray-900 dark:text-white sm:text-xl lg:text-2xl text-center">
@@ -70,7 +70,7 @@ const i18n = useI18n();
                     <UCard
                         class="hover:bg-gray-50 dark:hover:bg-gray-800 hover:outline-green-300 hover:outline transition duration-150 ease-in-out">
                         <div class="flex flex-row gap-4 flex-nowrap items-center justify-start">
-                            <img class="h-24" alt="graph" src="/landing/services.png" />
+                            <NuxtImg alt="graph" class="h-24" src="/landing/services.png" />
                             <div>
                                 <span
                                     class="text-lg font-bold tracking-tight text-gray-900 dark:text-white sm:text-xl lg:text-2xl text-center">
