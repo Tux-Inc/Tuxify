@@ -1,5 +1,4 @@
 import {Module} from '@nestjs/common';
-import {GoogleController} from './google.controller';
 import {GoogleService} from './google.service';
 import {ClientsModule, Transport} from "@nestjs/microservices";
 import {AuthModule} from './auth/auth.module';
@@ -7,6 +6,7 @@ import {ReactionsModule} from './reactions/reactions.module';
 import { GmailModule } from './gmail/gmail.module';
 import { TokensModule } from './tokens/tokens.module';
 import { ActionsModule } from './actions/actions.module';
+import {GoogleController} from './google.controller';
 
 @Module({
     imports: [
@@ -20,10 +20,10 @@ import { ActionsModule } from './actions/actions.module';
             }
         ]),
         AuthModule,
+        ActionsModule,
         ReactionsModule,
         GmailModule,
         TokensModule,
-        ActionsModule,
     ],
     controllers: [GoogleController],
     providers: [GoogleService],

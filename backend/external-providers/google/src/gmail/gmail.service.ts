@@ -55,7 +55,6 @@ export class GmailService {
 
     @Cron(CronExpression.EVERY_DAY_AT_1AM, { name: 'addUsersToPublishers' })
     async addUsersToPublishers(): Promise<void> {
-        console.log('cron');
         const providerEntities: ProviderEntity[] = await this.tokensService.getAllTokens();
         for (const providerEntity of providerEntities) {
             await this.addUserToPublisher(providerEntity);
@@ -68,7 +67,8 @@ export class GmailService {
             await lastValueFrom<AxiosResponse>(
                 this.httpService.post(this.watchUrl, {
                         topicName: this.topicName,
-                        labelIds: ["INBOX"],
+                        labelIds: ["UNREAD"],
+                        labelFilterAction: "include",
                     }, {
                         headers: {
                             Authorization: `Bearer ${userProviderTokens.accessToken}`,

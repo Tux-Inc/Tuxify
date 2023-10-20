@@ -1,21 +1,22 @@
 import {
     BadGatewayException,
-    BadRequestException,
     Controller,
     Get,
-    Inject, Logger,
-    Param, Post,
+    Inject,
+    Logger,
+    Param,
+    Post,
     Query,
     Req,
     Res,
     UseGuards,
 } from "@nestjs/common";
-import {ClientProxy} from "@nestjs/microservices";
-import {CallbackQueryDto} from "./dto/callback-query.dto";
-import {AddProviderCallback} from "./dto/add-provider-callback.dto";
-import {AuthGuard} from "../guards/auth.guard";
-import {firstValueFrom, lastValueFrom} from "rxjs";
-import {AddProvider} from "./dto/add-provider.dto";
+import { ClientProxy } from "@nestjs/microservices";
+import { CallbackQueryDto } from "./dto/callback-query.dto";
+import { AddProviderCallback } from "./dto/add-provider-callback.dto";
+import { AuthGuard } from "../guards/auth.guard";
+import { firstValueFrom, lastValueFrom } from "rxjs";
+import { AddProvider } from "./dto/add-provider.dto";
 import { ProviderInfos } from "./dto/provider-infos.dto";
 
 @Controller('providers')
@@ -76,8 +77,8 @@ export class ProvidersController {
     @Post(':provider/action/:scope')
     async action(@Param('provider') provider: string, @Query() query: any, @Req() req: any): Promise<any> {
         try {
-            const data = await firstValueFrom(this.natsClient.send(`providers.${provider}.action`, {}))
-            return data;
+            await firstValueFrom(this.natsClient.send(`providers.${provider}.action`, {}));
+            return;
         } catch (e) {
             throw new BadGatewayException(e.message);
         }

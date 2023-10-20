@@ -1,7 +1,6 @@
 import { Controller } from "@nestjs/common";
 import { ProvidersService } from "./providers.service";
 import { EventPattern, MessagePattern, Payload, RpcException } from "@nestjs/microservices";
-import { LocalUserProviderTokens } from "./events/local-user-provider-tokens.event";
 import { AddProviderCallback } from "./dtos/add-provider-callback.dto";
 import { AddProvider } from "./dtos/add-provider.dto";
 import { UserProviderTokens } from "./dtos/user-provider-tokens.dto";
@@ -9,26 +8,42 @@ import { ProviderRequestTokens } from "./dtos/provider-request-tokens.dto";
 import { ProviderInfos } from "./dtos/provider-infos.dto";
 import { ProviderEntity } from "./entities/provider.entity";
 import { ProviderInfosUser } from "./dtos/provider-infos-user.dtos";
+// import { LocalUserProviderTokens } from "./events/local-user-provider-tokens.event";
 
 @Controller()
 export class ProvidersController {
+    public availableProviders: ProviderInfos[] = [];
     constructor(private readonly providersService: ProvidersService) {
     }
 
-    @EventPattern("oauth2.user.connected")
-    async findOneOrCreate(@Payload() localUserProviderTokens: LocalUserProviderTokens): Promise<void> {
-        return await this.providersService.updateOrCreate(localUserProviderTokens);
+    // While we still use the OAuth2 module from auth,
+    // we don't automatically assign the newly connected user as a liked user of the provider (e.g. Google)
+    // because, auth & provider can have different scopes
+    // (e.g. Google has a scope for Gmail and a scope for Google Calendar, but auth only has a scope for profiles information).
+    // TODO: Make OAuth2 communicate with providers to add the newly connected user as a liked user of the provider.
+
+    // @EventPattern("oauth2.user.connected")
+    // async findOneOrCreate(@Payload() localUserProviderTokens: LocalUserProviderTokens): Promise<void> {
+    //     return await this.providersService.updateOrCreate(localUserProviderTokens);
+    // }
+
+    @EventPattern("heartbeat.providers.*")
+    setProvidersInfos(@Payload() providerInfos: ProviderInfos): void {
+        const providerName: string = providerInfos.name;
+        this.availableProviders = this.availableProviders.filter(availableProvider => availableProvider.name !== providerName);
+        this.availableProviders.push(providerInfos);
     }
 
+
     @MessagePattern("infos.providers")
-    async getAllAvailableProviders(): Promise<ProviderInfos[]> {
-        return await this.providersService.getAllAvailableProviders();
+    getAllAvailableProviders(): ProviderInfos[] {
+        return this.availableProviders;
     }
 
     @MessagePattern("providers")
     async getProvidersForUser(@Payload() userId: number): Promise<ProviderInfosUser[]> {
         try {
-            return await this.providersService.getProvidersForUser(userId);
+            return await this.providersService.getProvidersForUser(userId, this.availableProviders);
         } catch (e) {
             throw new RpcException(e);
         }

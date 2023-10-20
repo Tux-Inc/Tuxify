@@ -6,7 +6,7 @@ import { Repository } from "typeorm";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
 import { AddedProvider } from "./dtos/added-provider.dto";
 import { AddProviderCallback } from "./dtos/add-provider-callback.dto";
-import { lastValueFrom, Observable, toArray } from "rxjs";
+import { lastValueFrom, Observable, subscribeOn, takeUntil, timer, toArray } from "rxjs";
 import { AddProvider } from "./dtos/add-provider.dto";
 import { ProviderRequestTokens } from "./dtos/provider-request-tokens.dto";
 import { ProviderInfos } from "./dtos/provider-infos.dto";
@@ -23,20 +23,26 @@ export class ProvidersService {
     }
 
     async getAllAvailableProviders(): Promise<ProviderInfos[]> {
-        const providersObservable: Observable<any> = this.natsClient.send('provider.infos', {});
+        const providersObservable: Observable<ProviderInfos> = this.natsClient.send('provider.infos', {});
+
+        // Create a notifier that will emit a value after 5 seconds
+        const timeoutNotifier = timer(1000000); // adjust the duration as needed
+
         try {
-            const providers: ProviderInfos[] = await providersObservable.pipe(
+            const providersArray = providersObservable.pipe(
+                takeUntil(timeoutNotifier),
                 toArray()
             ).toPromise();
-            this.logger.log(`Available providers: ${providers.map(provider => provider.name)}`);
-            return providers;
+            console.log(providersArray);
+
+            return providersArray;
         } catch (err) {
+            this.logger.error(`Error fetching providers: ${err.message}`);
             throw new RpcException(err);
         }
     }
 
-    async getProvidersForUser(userId: number): Promise<ProviderInfosUser[]> {
-        const availableProviders: ProviderInfos[] = await this.getAllAvailableProviders();
+    async getProvidersForUser(userId: number, availableProviders: ProviderInfos[]): Promise<ProviderInfosUser[]> {
         const userProviders: ProviderEntity[] = await this.providersRepository.find({where: {userId}});
         const userProvidersInfos: ProviderInfosUser[] = [];
         for (const availableProvider of availableProviders) {

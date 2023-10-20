@@ -49,6 +49,7 @@ export default async <T>(request: FetchRequest, options?: FetchOptions) => {
     try {
         const response = await fetcher.raw(request, options);
         return response as FetchResponse<T>;
+        console.log(response);
     } catch (error: any) {
         if (error.response?.status === 403 && useCookie<IUserCookie>("user").value.refreshToken) {
             const response = await fetcher.raw(request, options);
