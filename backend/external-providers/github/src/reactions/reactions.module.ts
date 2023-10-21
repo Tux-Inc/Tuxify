@@ -3,6 +3,7 @@ import { ReactionsService } from './reactions.service';
 import { ReactionsController } from './reactions.controller';
 import { HttpModule } from "@nestjs/axios";
 import { ClientsModule, Transport } from "@nestjs/microservices";
+import { TokensService } from "../tokens/tokens.service";
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
     ]),
     HttpModule,
   ],
-  providers: [ReactionsService],
+  providers: [ReactionsService, TokensService],
   controllers: [ReactionsController]
 })
 export class ReactionsModule {}
