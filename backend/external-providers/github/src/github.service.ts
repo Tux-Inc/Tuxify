@@ -1,8 +1,8 @@
 import { Inject, Injectable, Logger } from "@nestjs/common";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
-import { ProviderInfos } from "../dtos/provider-infos.dto";
-import { ReactionInfos } from "../dtos/reaction-infos.dto";
-import { ActionInfos } from "../dtos/action-infos.dto";
+import { ProviderInfos } from "./dtos/provider-infos.dto";
+import { ReactionInfos } from "./dtos/reaction-infos.dto";
+import { ActionInfos } from "./dtos/action-infos.dto";
 import { catchError, lastValueFrom, Observable, of, timeout, toArray } from "rxjs";
 
 @Injectable()
