@@ -139,7 +139,9 @@ jobs:
         run: npm i
 
       - name: Create Build Folder
-        run: npm run generate
+        run: |
+          echo "NUXT_IS_CAPACITOR="true"" >> .env.capacitor
+          npm run generate --dotenv .env.capacitor
 
       - name: Add android folder if not present
         run: if [ ! -d "./android" ]; then npx cap add android; fi
@@ -147,7 +149,6 @@ jobs:
       - name: Capacitor copy
         run: npx cap copy
 
-      # TODO: Check for folder structure in README for generating splash screen
       - name: Generate icons and splash screen to android folder
         run: if [ -d "./resources" ]; then npm install @capacitor/assets --save-dev && npx capacitor-assets generate --android; fi
 
