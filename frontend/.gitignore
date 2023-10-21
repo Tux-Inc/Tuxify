@@ -27,6 +27,7 @@ logs
 
 # Local env files
 .env
+.env.capacitor
 .env.*
 !.env.example
 
