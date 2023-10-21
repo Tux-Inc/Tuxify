@@ -5,13 +5,13 @@ export default defineNuxtConfig({
     runtimeConfig: {
         public: {
             API_BASE_URL: process.env.API_BASE_URL || "https://api.tuxify.fr",
-            API_AUTH_BASE_URL: process.env.API_AUTH_BASE_URL || "https://auth.api.tuxify.fr",
-        }
+            API_AUTH_BASE_URL:
+                process.env.API_AUTH_BASE_URL || "https://auth.api.tuxify.fr",
+            NUXT_IS_CAPACITOR: process.env.NUXT_IS_CAPACITOR || "false",
+        },
     },
     build: {
-        transpile: [
-            "vue-flow-chart",
-        ],
+        transpile: ["vue-flow-chart"],
     },
     app: {
         pageTransition: { name: "page", mode: "out-in" },
@@ -19,14 +19,11 @@ export default defineNuxtConfig({
             htmlAttrs: {
                 lang: "en",
             },
-            viewport: "width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=5",
+            viewport:
+                "width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=5",
         },
     },
-    modules: [
-        "@nuxt/ui",
-        "@nuxt/image",
-        '@nuxtjs/device',
-    ],
+    modules: ["@nuxt/ui", "@nuxt/image", "@nuxtjs/device"],
     ui: {
         icons: ["heroicons", "mdi"],
     },
