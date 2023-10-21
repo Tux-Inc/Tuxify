@@ -117,6 +117,8 @@ jobs:
   build_android:
     name: Build APK
     runs-on: ubuntu-latest
+    env:
+      NUXT_IS_CAPACITOR: true
     defaults:
       run:
         working-directory: ./frontend
@@ -139,9 +141,7 @@ jobs:
         run: npm i
 
       - name: Create Build Folder
-        run: |
-          echo "NUXT_IS_CAPACITOR="true"" >> .env.capacitor
-          npm run generate --dotenv .env.capacitor
+        run: npm run generate
 
       - name: Add android folder if not present
         run: if [ ! -d "./android" ]; then npx cap add android; fi
