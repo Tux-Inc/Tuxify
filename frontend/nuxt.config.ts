@@ -46,7 +46,6 @@ export default defineNuxtConfig({
     devServer: {
         port: 8080,
     },
-    ssr: false,
     postcss: {
         plugins: {
             tailwindcss: {},
