@@ -10,7 +10,7 @@ const accessToken = useRoute().query.access_token as string;
 const refreshToken = useRoute().query.refresh_token as string;
 
 async function getUser() {
-    const { data, error } = await useFetch(`${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/me`, { headers: { Authorization: `Bearer ${accessToken}`, }, });
+    const { data, error } = await useFetch(`${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/me`, { headers: { Authorization: `Bearer ${accessToken}`, }, server: false, lazy: true });
     if (error.value) {
         toast.add({
             color: "red",
