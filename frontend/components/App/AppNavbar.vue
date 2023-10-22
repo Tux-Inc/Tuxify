@@ -113,7 +113,7 @@ const items = [
             class="flex items-center justify-between gap-3 h-[--header-height] px-6"
         >
             <div class="flex items-center justify-start gap-4">
-                <NuxtLink to="/app">
+                <NuxtLink to="/app" aria-label="Go back to home page">
                     <svg
                         class="h-8 fill-primary dark:fill-base-light"
                         viewBox="0 0 2262 782"
@@ -137,9 +137,10 @@ const items = [
                     @click="sendEvent('app:commandPalette')"
                     color="gray"
                     variant="ghost"
-                    aria-label="Command palette"
-                    >Open palette
-                    <UKbd>{{ metaSymbol }}</UKbd>
+                    aria-label="Open palette shortcut ({{ metaSymbol }} + K)"
+                >
+                    Open palette
+                    <UKbd> {{ metaSymbol }}</UKbd>
                     <UKbd>K</UKbd>
                 </UButton>
                 <ClientOnly>
@@ -177,6 +178,7 @@ const items = [
                             :src="`https://www.gravatar.com/avatar/${md5(
                                 user.email.trim().toLowerCase(),
                             )}`"
+                            :alt="user.name + ' avatar'"
                             class="flex-shrink-0 h-8 w-8 bg-base-dark dark:bg-base-light"
                         />
                         <template #account="{ item }">

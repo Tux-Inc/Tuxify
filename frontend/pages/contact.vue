@@ -89,6 +89,10 @@ const i18n = useI18n();
 
 <template>
     <div>
+        <Head>
+            <Title>Tuxify Contact</Title>
+            <Meta name="description" content="Put your description here." />
+        </Head>
         <div class="py-24 sm:py-32 md:py-40 relative">
             <div
                 class="mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl md:mb-[calc(var(--header-height))]"
