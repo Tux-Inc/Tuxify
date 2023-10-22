@@ -51,7 +51,7 @@ const { isMobile } = useDevice();
             src="/hero-dark.webp"
             class="hidden dark:block sm:w-screen md:w-[calc(100vh-var(--header-weight))] md:mx-auto inset-0 h-[20rem] left-0 overflow-hidden absolute object-fit"
         />
-        <div v-if="isMobile">
+        <div v-if="!isMobile">
             <Navbar :isOpen="isOpen" @setOpened="setOpened" />
         </div>
         <div v-else>
