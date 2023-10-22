@@ -1,28 +1,33 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+/*
+File Name: useApiRequest.client.ts
+Author: Gwenaël Hubler, Stephane Fievez, Roman Lopez, Alexandre Kévin De Freitas Martins, Bouna Diallo
+Creation Date: 2023
+Description: This is the nuxt configuration file : https://nuxt.com/docs/api/configuration/nuxt-config
+
+Copyright (c) 2023 Tux Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
 import { existsSync, readFileSync } from "node:fs";
 
 export default defineNuxtConfig({
-    // nitro: {
-    //     prerender: {
-    //         routes: [
-    //             "/_ipx/s_250x250/landing/contributors/alexandre-kevin_de_freitas_martins.jpg",
-    //             "/_ipx/s_250x250/landing/contributors/gwenael_hubler.jpg",
-    //             "/_ipx/s_250x250/landing/contributors/stephane_fievez.jpg",
-    //             "/_ipx/s_250x250/landing/contributors/roman_lopes.jpg",
-    //             "/_ipx/s_250x250/landing/contributors/bouna_diallo.jpg",
-    //             "/_ipx/_/landing/ai.png",
-    //             "/_ipx/_/landing/services.png",
-    //             "/_ipx/_/landing/graph.png",
-    //             "/_ipx/_/landing/integration_icons/gmail.svg",
-    //             "/_ipx/_/landing/integration_icons/google-calendar.svg",
-    //             "/_ipx/_/landing/integration_icons/google-sheets.svg",
-    //             "/_ipx/_/landing/integration_icons/google-docs.svg",
-    //             "/_ipx/_/landing/integration_icons/google-drive.svg",
-    //             "/_ipx/_/landing/integration_icons/linkedin.svg",
-    //             "/_ipx/_/landing/integration_icons/slack.svg",
-    //         ],
-    //     },
-    // },
     ssr: true,
     runtimeConfig: {
         public: {
