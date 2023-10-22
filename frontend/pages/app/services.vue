@@ -10,7 +10,6 @@ const servicesDisplay = ref<IServiceDisplay[]>([]);
 onMounted(async () => {
     const res = await useApiRequest<IServiceDisplay[]>('/providers');
     servicesDisplay.value = res._data as IServiceDisplay[];
-    servicesDisplay.value = [] as IServiceDisplay[];
 });
 
 
