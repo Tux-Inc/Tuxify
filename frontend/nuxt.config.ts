@@ -2,6 +2,28 @@
 import { existsSync, readFileSync } from "node:fs";
 
 export default defineNuxtConfig({
+    // nitro: {
+    //     prerender: {
+    //         routes: [
+    //             "/_ipx/s_250x250/landing/contributors/alexandre-kevin_de_freitas_martins.jpg",
+    //             "/_ipx/s_250x250/landing/contributors/gwenael_hubler.jpg",
+    //             "/_ipx/s_250x250/landing/contributors/stephane_fievez.jpg",
+    //             "/_ipx/s_250x250/landing/contributors/roman_lopes.jpg",
+    //             "/_ipx/s_250x250/landing/contributors/bouna_diallo.jpg",
+    //             "/_ipx/_/landing/ai.png",
+    //             "/_ipx/_/landing/services.png",
+    //             "/_ipx/_/landing/graph.png",
+    //             "/_ipx/_/landing/integration_icons/gmail.svg",
+    //             "/_ipx/_/landing/integration_icons/google-calendar.svg",
+    //             "/_ipx/_/landing/integration_icons/google-sheets.svg",
+    //             "/_ipx/_/landing/integration_icons/google-docs.svg",
+    //             "/_ipx/_/landing/integration_icons/google-drive.svg",
+    //             "/_ipx/_/landing/integration_icons/linkedin.svg",
+    //             "/_ipx/_/landing/integration_icons/slack.svg",
+    //         ],
+    //     },
+    // },
+    ssr: true,
     runtimeConfig: {
         public: {
             API_BASE_URL: process.env.API_BASE_URL || "https://api.tuxify.fr",

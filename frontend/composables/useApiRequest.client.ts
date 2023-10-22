@@ -37,7 +37,6 @@ import { IUserCookie } from "~/types/IUserCookie";
 
 
 export const useApiRequest = async <T>(request: FetchRequest, options?: FetchOptions) => {
-
     const fetcher = ofetch.create({
         baseURL: useRuntimeConfig().public.API_BASE_URL,
         async onRequest({ options }) {
