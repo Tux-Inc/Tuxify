@@ -150,7 +150,7 @@ jobs:
         run: npx cap copy
 
       - name: Generate icons and splash screen to android folder
-        run: if [ -d "./resources" ]; then npm install @capacitor/assets --save-dev && npx capacitor-assets generate --android; fi
+        run: if [ -d "./assets" ]; then npm install @capacitor/assets --save-dev && npx capacitor-assets generate --android; fi
 
       - name: Build app bundle
         run: cd android && ./gradlew bundle && ./gradlew assembleDebug
@@ -176,11 +176,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-
-
   deploy_frontend_to_kubernetes:
     name: Deploy Frontend to Kubernetes
-    needs: [ build_frontend ]
+    needs: [build_frontend]
     runs-on: ubuntu-latest
     environment:
       name: production
@@ -208,7 +206,7 @@ jobs:
 
   deploy_backend_to_kubernetes:
     name: Deploy Backend to Kubernetes
-    needs: [ build_api ]
+    needs: [build_api]
     runs-on: ubuntu-latest
     environment:
       name: production
@@ -230,13 +228,12 @@ jobs:
           manifests: |
             kubernetes/global-configmap.yaml
 
-
       - name: Create mailer secrets
         uses: Azure/k8s-create-secret@v1
         with:
           namespace: production
-          secret-type: 'generic'
-          secret-name: 'tuxify-api-mailer-secret'
+          secret-type: "generic"
+          secret-name: "tuxify-api-mailer-secret"
           arguments:
             --from-literal=NESTSV_MAILER_SMTP_HOST=${{ secrets.NESTSV_MAILER_SMTP_HOST }}
             --from-literal=NESTSV_MAILER_SMTP_PORT=${{ secrets.NESTSV_MAILER_SMTP_PORT }}
@@ -247,10 +244,9 @@ jobs:
         uses: Azure/k8s-create-secret@v1
         with:
           namespace: production
-          secret-type: 'generic'
-          secret-name: 'tuxify-api-auth-secret'
-          arguments:
-            --from-literal=COOKIE_SECRET=${{ secrets.COOKIE_SECRET }}
+          secret-type: "generic"
+          secret-name: "tuxify-api-auth-secret"
+          arguments: --from-literal=COOKIE_SECRET=${{ secrets.COOKIE_SECRET }}
             --from-literal=FACEBOOK_CLIENT_ID=${{ secrets.FACEBOOK_CLIENT_ID }}
             --from-literal=FACEBOOK_CLIENT_SECRET=${{ secrets.FACEBOOK_CLIENT_SECRET }}
             --from-literal=GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
@@ -269,19 +265,17 @@ jobs:
         uses: Azure/k8s-create-secret@v1
         with:
           namespace: production
-          secret-type: 'generic'
-          secret-name: 'tuxify-api-flows-secret'
-          arguments:
-            --from-literal=NESTSV_FLOWS_MONGO_PASSWORD=${{ secrets.NESTSV_FLOWS_MONGO_PASSWORD }}
+          secret-type: "generic"
+          secret-name: "tuxify-api-flows-secret"
+          arguments: --from-literal=NESTSV_FLOWS_MONGO_PASSWORD=${{ secrets.NESTSV_FLOWS_MONGO_PASSWORD }}
 
       - name: Create providers secrets
         uses: Azure/k8s-create-secret@v1
         with:
           namespace: production
-          secret-type: 'generic'
-          secret-name: 'tuxify-api-providers-secret'
-          arguments:
-            --from-literal=NESTSV_PROVIDERS_POSTGRES_PASSWORD=${{ secrets.NESTSV_PROVIDERS_POSTGRES_PASSWORD }}
+          secret-type: "generic"
+          secret-name: "tuxify-api-providers-secret"
+          arguments: --from-literal=NESTSV_PROVIDERS_POSTGRES_PASSWORD=${{ secrets.NESTSV_PROVIDERS_POSTGRES_PASSWORD }}
 
       - name: Checkout source code
         uses: actions/checkout@v4
@@ -327,7 +321,12 @@ jobs:
 
   mirror:
     name: Mirror repository
-    needs: [ deploy_frontend_to_kubernetes, deploy_backend_to_kubernetes, build_android ]
+    needs:
+      [
+        deploy_frontend_to_kubernetes,
+        deploy_backend_to_kubernetes,
+        build_android,
+      ]
     permissions:
       contents: read
     runs-on: ubuntu-latest
@@ -341,7 +340,5 @@ jobs:
       - name: Mirror repository
         uses: pixta-dev/repository-mirroring-action@v1
         with:
-          target_repo_url:
-            ${{ env.MIRROR_URL }}
-          ssh_private_key:
-            ${{ secrets.GIT_SSH_PRIVATE_KEY }}
+          target_repo_url: ${{ env.MIRROR_URL }}
+          ssh_private_key: ${{ secrets.GIT_SSH_PRIVATE_KEY }}
