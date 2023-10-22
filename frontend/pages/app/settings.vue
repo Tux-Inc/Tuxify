@@ -32,6 +32,7 @@ import { User } from "~/types/IUser";
 definePageMeta({
     layout: "app-navigation",
 });
+
 let isLoading = ref(false);
 const router = useRouter();
 const toast = useToast();
