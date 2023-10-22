@@ -1,3 +1,30 @@
+<!--
+File Name: index.client.vue
+Author: Gwenaël Hubler, Stephane Fievez, Roman Lopez, Alexandre Kévin De Freitas Martins, Bouna Diallo
+Creation Date: 2023
+Description: This file is the oauth page
+
+Copyright (c) 2023 Tux Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+
 <script setup lang="ts">
 const toast = useToast();
 const router = useRouter();
@@ -87,17 +114,23 @@ const actions = [
 ];
 
 const groups = computed(() =>
-    [commandPaletteRef.value?.query ? {
-        key: "users",
-        commands: users,
-    } : {
-        key: "recent",
-        label: "Recent searches",
-        commands: users.slice(0, 1),
-    }, {
-        key: "actions",
-        commands: actions,
-    }].filter(Boolean));
+    [
+        commandPaletteRef.value?.query
+            ? {
+                  key: "users",
+                  commands: users,
+              }
+            : {
+                  key: "recent",
+                  label: "Recent searches",
+                  commands: users.slice(0, 1),
+              },
+        {
+            key: "actions",
+            commands: actions,
+        },
+    ].filter(Boolean),
+);
 
 function onSelect(option: any) {
     if (option.click) {
@@ -132,7 +165,7 @@ const pages = [
 
 const getHeaderTitle = (routeName: string): string => {
     let title = "Home";
-    pages.forEach(page => {
+    pages.forEach((page) => {
         if (page.path === routeName) {
             title = page.name;
         }
@@ -140,11 +173,12 @@ const getHeaderTitle = (routeName: string): string => {
     return title;
 };
 
+const { isMobile } = useDevice();
 </script>
 
 <template>
     <div class="antialiased min-h-screen bg-gray-50 dark:bg-base-dark">
-        <div v-if="$device.isMobile">
+        <div v-if="isMobile">
             <MobileHeaderBar :title="getHeaderTitle(String(route.name))" />
             <div class="p-4 my-[calc((var(--mobile-menu-height)))]">
                 <slot />
@@ -155,13 +189,19 @@ const getHeaderTitle = (routeName: string): string => {
             <AppNavbar />
             <div class="flex flex-row items-start justify-start">
                 <AppSidebar />
-                <div class="w-full h-full overflow-y-auto ml-[--sidebar-width] mt-[--header-height] p-6">
+                <div
+                    class="w-full h-full overflow-y-auto ml-[--sidebar-width] mt-[--header-height] p-6"
+                >
                     <slot />
                 </div>
             </div>
         </div>
         <UModal v-model="isCommandPaletteOpen">
-            <UCommandPalette ref="commandPaletteRef" :groups="groups" @update:model-value="onSelect" />
+            <UCommandPalette
+                ref="commandPaletteRef"
+                :groups="groups"
+                @update:model-value="onSelect"
+            />
         </UModal>
         <UModal v-model="isNewFlowModalOpen">
             <AppFlowNewForm />
