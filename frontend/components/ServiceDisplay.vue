@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { IServiceDisplay } from "~/types/IServiceDisplay";
-import request from "~/utilities/apiRequest";
 
 const toast = useToast();
 
@@ -14,7 +13,7 @@ const props = withDefaults(defineProps<IServiceDisplay>(), {
 
 async function connect() {
     try {
-        const res = await request<string>(`/providers/${props.name}/add`);
+        const res = await useApiRequest<string>(`/providers/${props.name}/add`);
         navigateTo(res._data as string, { external: true });
     } catch (e: any) {
         toast.add({
@@ -29,7 +28,7 @@ async function connect() {
 
 async function disconnect() {
     try {
-        const res = await request<string>(`/providers/${props.name}/remove`);
+        const res = await useApiRequest<string>(`/providers/${props.name}/remove`);
         toast.add({
             color: "green",
             icon: "i-heroicons-check-circle",
@@ -52,7 +51,7 @@ async function disconnect() {
 <template>
     <UCard>
         <UTooltip :text="title">
-            <img :src="image" class="w-10 h-10 mx-auto text-primary" />
+            <NuxtImg src="image" class="w-10 h-10 mx-auto text-primary" />
         </UTooltip>
         <div class="flex flex-col gap-2 mt-2">
             <div class="flex flex-col">

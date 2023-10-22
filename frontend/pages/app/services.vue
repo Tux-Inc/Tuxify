@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { IServiceDisplay } from "~/types/IServiceDisplay";
-import request from "~/utilities/apiRequest";
 
 definePageMeta({
     layout: "app-navigation",
@@ -9,8 +8,9 @@ definePageMeta({
 const servicesDisplay = ref<IServiceDisplay[]>([]);
 
 onMounted(async () => {
-    const res = await request<IServiceDisplay[]>('/providers');
+    const res = await useApiRequest<IServiceDisplay[]>('/providers');
     servicesDisplay.value = res._data as IServiceDisplay[];
+    servicesDisplay.value = [] as IServiceDisplay[];
 });
 
 
