@@ -35,6 +35,7 @@ function removeActionReaction(uuid: string) {
     </UModal>
     <div class="flex flex-col">
         <div v-if="flowBlocks.length === 0" class="flex flex-col items-center justify-center gap-4 mt-4">
+            <UIcon name="i-heroicons-cube-transparent" class="text-4xl text-primary font-bold text-dark dark:text-light" />
             <span class="text-dark dark:text-light">No blocks added yet, start by adding a trigger.</span>
             <UButton size="md" @click="isAvailableListOpen = true" color="primary" icon="i-heroicons-plus" label="Add action" />
         </div>

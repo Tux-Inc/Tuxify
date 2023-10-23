@@ -60,7 +60,6 @@ const handleBlur = () => {
 };
 
 const selectSuggestion = (suggestion: string) => {
-    console.log(suggestion);
     userInput.value = suggestion;
     emit("flow-block-autocomplete", suggestion);
 };
@@ -75,12 +74,14 @@ const selectSuggestion = (suggestion: string) => {
             @focus="handleFocus"
             @blur="handleBlur"
         />
-        <div v-show="suggestions.length && isFocused" class="absolute z-50 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-800 rounded-lg p-4 w-full mt-2">
-            <ul class="flex flex-col gap-2">
-                <li v-for="suggestion in suggestions" @click.prevent="selectSuggestion(suggestion)" class="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 p-2 rounded-lg text-sm">
-                    {{ suggestion }}
-                </li>
-            </ul>
-        </div>
+        <Transition name="fade">
+            <div v-show="suggestions.length && isFocused" class="absolute z-50 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-800 rounded-lg p-4 w-full mt-2">
+                <ul class="flex flex-col gap-2">
+                    <li v-for="suggestion in suggestions" @click.prevent="selectSuggestion(suggestion)" class="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 p-2 rounded-lg text-sm">
+                        {{ suggestion }}
+                    </li>
+                </ul>
+            </div>
+        </Transition>
     </div>
 </template>
