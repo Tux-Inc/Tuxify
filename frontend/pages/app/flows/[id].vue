@@ -241,7 +241,8 @@ onBeforeUnmount(async () => {
             </div>
         </div>
         <div class="w-full mt-4">
-            <Graph />
+            <AppFlowBlockContainer />
+<!--            <Graph />-->
         </div>
     </div>
 </template>

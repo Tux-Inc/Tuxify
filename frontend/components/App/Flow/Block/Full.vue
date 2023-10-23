@@ -1,0 +1,95 @@
+<script setup lang="ts">
+import { IBlockFullProps } from "~/types/IBlockFullProps";
+import { PropType } from "@vue/runtime-core";
+
+const props = defineProps({
+    currentBlock: {
+        type: Object as PropType<IBlockFullProps>,
+        required: true,
+    },
+    flowBlocks: {
+        type: Array as PropType<IBlockFullProps[]>,
+        required: true,
+    },
+});
+
+const isValid = ref(false);
+const emit = defineEmits<{
+    (e: "flow-remove-block", uuid: string): void;
+}>();
+
+const localInputs = ref([...props.currentBlock.inputs]);
+
+watch(
+    () => localInputs.value,
+    (newVal) => {
+        for (let i = 0; i < newVal.length; i++) {
+            props.currentBlock.inputs[i].value = newVal[i].value;
+        }
+        isValid.value = validate();
+    },
+    { deep: true },
+);
+
+function validate() {
+    if (props.currentBlock.inputs) {
+        for (const input of props.currentBlock.inputs) {
+            if (!input.value && input.required) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+const contextualItems = [
+    [{
+        label: "Delete",
+        icon: "i-heroicons-trash",
+        click: async () => {
+            if (props.currentBlock.uuid != null) {
+                emit("flow-remove-block", props.currentBlock.uuid);
+            }
+        },
+    }],
+];
+</script>
+
+<template>
+    <div class="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-800 rounded-lg p-4">
+        <div class="flex justify-between flex-wrap md:flex-nowrap">
+            <div class="flex gap-2 items-center justify-start">
+                <UTooltip :text="props.currentBlock.service.title">
+                    <img :src="props.currentBlock.service.image" class="w-5 h-5 mx-auto text-primary" alt="icon" />
+                </UTooltip>
+                <span class="text-2xl font-bold text-dark dark:text-light">{{ props.currentBlock.title }}</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <div v-if="!isValid">
+                    <UTooltip text="Invalid block check required inputs and types">
+                        <UIcon name="i-heroicons-exclamation-circle" class="text-red-500" />
+                    </UTooltip>
+                </div>
+                <UDropdown :items="contextualItems" :popper="{ placement: 'bottom-start' }">
+                    <UButton size="md" color="white" trailing-icon="i-heroicons-ellipsis-vertical" />
+                </UDropdown>
+            </div>
+        </div>
+        <div class="flex flex-col">
+            <span class="text-sm text-gray-500 dark:text-gray-400">{{ props.currentBlock.name }}</span>
+            <span class="text-sm text-gray-500 dark:text-gray-400">{{ props.currentBlock.uuid }}</span>
+        </div>
+        <div class="flex flex-col gap-2 mt-4">
+            <span class="text-dark dark:text-light">{{ props.currentBlock.description }}</span>
+            <div v-for="(input, index) in localInputs" class="flex flex-col gap-2">
+                <label class="text-dark dark:text-light">{{ input.label }}</label>
+                <AppFlowBlockAutocomplete
+                    :input="input"
+                    :current-block="props.currentBlock"
+                    :flow-blocks="props.flowBlocks"
+                    @flow-block-autocomplete="localInputs[index].value = $event"
+                />
+            </div>
+        </div>
+    </div>
+</template>
