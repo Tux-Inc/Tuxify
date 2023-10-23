@@ -4,7 +4,7 @@ import { IBlockInputAutocompleteProps } from "~/types/IBlockInputAutocompletePro
 const props: IBlockInputAutocompleteProps = defineProps<IBlockInputAutocompleteProps>();
 
 const emit = defineEmits<{
-    (e: "flow-block-autocomplete", query: string): void;
+    (e: "flow-block-autocomplete", value: string): void;
 }>()
 
 const userInput = ref(props.input.value);
@@ -63,6 +63,14 @@ const selectSuggestion = (suggestion: string) => {
     userInput.value = suggestion;
     emit("flow-block-autocomplete", suggestion);
 };
+
+watch(
+    () => userInput.value,
+    (newVal) => {
+        emit("flow-block-autocomplete", newVal);
+    },
+);
+
 </script>
 
 <template>

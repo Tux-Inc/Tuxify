@@ -13,7 +13,7 @@ const props = defineProps({
     },
 });
 
-const isValid = ref(false);
+const isValid = ref(true);
 const emit = defineEmits<{
     (e: "flow-remove-block", uuid: string): void;
 }>();
@@ -83,7 +83,7 @@ const contextualItems = [
             <span class="text-dark dark:text-light">{{ props.currentBlock.description }}</span>
             <div v-for="(input, index) in localInputs" class="flex flex-col gap-2">
                 <label class="text-dark dark:text-light">{{ input.label }}</label>
-                <AppFlowBlockAutocomplete
+                <AppFlowBlockAutocompleteInput
                     :input="input"
                     :current-block="props.currentBlock"
                     :flow-blocks="props.flowBlocks"

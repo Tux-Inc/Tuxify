@@ -11,56 +11,73 @@ defineEmits<{
 
 const sampleData: IBlockFullProps[] = [
     {
-        title: "Title",
-        name: "Name",
-        description: "Description",
+        title: "Receive email",
+        name: "provider.google.action.gmail.receive",
+        description: "Trigger when you receive an email in your Gmail account",
         service: {
-            title: "Service",
-            image: "https://via.placeholder.com/150",
+            title: "Google",
+            image: "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
             actions: [],
             reactions: [],
-            name: "",
+            name: "google",
             description: "",
-            isConnected: false,
+            isConnected: true,
         },
-        inputs: [
-            {
-                label: "Input",
-                placeholder: "Placeholder",
-                required: true,
-                value: "",
-            },
-        ],
+        inputs: [],
         outputs: [
             {
-                label: "Output",
+                label: "From",
+            },
+            {
+                label: "Subject",
+            },
+            {
+                label: "Body",
             },
         ],
     },
     {
-        title: "Title",
-        name: "Name",
-        description: "Description",
+        title: "Send email",
+        name: "provider.google.action.gmail.send",
+        description: "Send an email from your Gmail account",
         service: {
-            title: "Service",
-            image: "https://via.placeholder.com/150",
+            title: "Google",
+            image: "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
             actions: [],
             reactions: [],
-            name: "",
+            name: "google",
             description: "",
-            isConnected: false,
+            isConnected: true,
         },
         inputs: [
             {
-                label: "Input",
-                placeholder: "Placeholder",
+                label: "To",
+                placeholder: "john.doe@example.com",
+                required: true,
+                value: "",
+            },
+            {
+                label: "Subject",
+                placeholder: "Subject",
+                required: true,
+                value: "",
+            },
+            {
+                label: "Body",
+                placeholder: "Body",
                 required: true,
                 value: "",
             },
         ],
         outputs: [
             {
-                label: "Output",
+                label: "From",
+            },
+            {
+                label: "Subject",
+            },
+            {
+                label: "Body",
             },
         ],
     },
