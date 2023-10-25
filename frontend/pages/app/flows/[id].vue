@@ -1,8 +1,8 @@
 <!--
-File Name: index.client.vue
+File Name: [id].vue
 Author: Gwenaël Hubler, Stephane Fievez, Roman Lopez, Alexandre Kévin De Freitas Martins, Bouna Diallo
 Creation Date: 2023
-Description: This file is the oauth page
+Description: This file is flow slug page
 
 Copyright (c) 2023 Tux Inc.
 
@@ -27,6 +27,7 @@ THE SOFTWARE.
 
 <script setup lang="ts">
 import { IFlow } from "~/types/IFlow";
+import { IBlockFullProps } from "~/types/IBlockFullProps";
 definePageMeta({
     layout: "app-navigation",
 });
@@ -141,6 +142,10 @@ onBeforeUnmount(async () => {
         await updateFlow();
     }
 });
+
+function flowComponentUpdated(flowData: IBlockFullProps[]) {
+    currentFlow.value.data = flowData;
+}
 </script>
 
 <template>
@@ -240,9 +245,14 @@ onBeforeUnmount(async () => {
                 </UDropdown>
             </div>
         </div>
-        <div class="w-full mt-4">
-            <AppFlowBlockContainer />
-<!--            <Graph />-->
+        <div v-if="currentFlow.data" class="w-full mt-4">
+            <AppFlowBlockContainer
+                :flow-data="currentFlow.data"
+                @flow-update="flowComponentUpdated($event)"
+            />
+            <!-- TODO: Add a switcher to switch to graph mode
+            <Graph />
+            -->
         </div>
     </div>
 </template>
