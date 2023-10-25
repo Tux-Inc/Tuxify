@@ -150,6 +150,9 @@ function flowComponentUpdated(flowData: IBlockFullProps[]) {
 
 <template>
     <div>
+        <Head>
+            <Title>{{ currentFlow.name }} | Flows</Title>
+        </Head>
         <div
             class="flex items-start justify-between gap-4 flex-wrap md:flex-nowrap"
         >

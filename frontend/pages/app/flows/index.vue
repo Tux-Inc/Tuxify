@@ -78,6 +78,9 @@ onMounted(async () => {
 
 <template>
     <div class="flex flex-col gap-x-6 gap-y-10 justify-center max">
+      <Head>
+          <Title>Flows</Title>
+      </Head>
       <div class="flex items-center justify-between gap-4 flex-wrap md:flex-nowrap">
           <div>
               <h1 class="text-4xl font-bold text-dark dark:text-light">Flows</h1>

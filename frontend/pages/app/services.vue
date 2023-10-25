@@ -42,6 +42,9 @@ onMounted(async () => {
 
 <template>
     <div class="flex flex-col gap-x-6 gap-y-10 justify-center max">
+        <Head>
+            <Title>Services</Title>
+        </Head>
         <div>
             <h1 class="text-4xl font-bold text-dark dark:text-light hidden sm:block">Services</h1>
             <span class="text-dark dark:text-light">On this page you can connect your services to your account.</span>
