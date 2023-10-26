@@ -1,9 +1,9 @@
-import { IBlockInput } from "~/types/IBlockInput";
-import { IBlockOutput } from "~/types/IBlockOutput";
 import { IBlockPreviewProps } from "~/types/IBlockPreviewProps";
+import { IActionReactionInput } from "~/types/IActionReactionInput";
+import { IActionReactionOutput } from "~/types/IActionReactionOutput";
 
 export interface IBlockFullProps extends IBlockPreviewProps {
     uuid?: string;
-    inputs: IBlockInput[];
-    outputs: IBlockOutput[];
+    inputs: IActionReactionInput[];
+    outputs: IActionReactionOutput<unknown>[];
 }

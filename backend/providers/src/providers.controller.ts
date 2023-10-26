@@ -5,14 +5,15 @@ import { AddProviderCallback } from "./dtos/add-provider-callback.dto";
 import { AddProvider } from "./dtos/add-provider.dto";
 import { UserProviderTokens } from "./dtos/user-provider-tokens.dto";
 import { ProviderRequestTokens } from "./dtos/provider-request-tokens.dto";
-import { ProviderInfos } from "./dtos/provider-infos.dto";
 import { ProviderEntity } from "./entities/provider.entity";
-import { ProviderInfosUser } from "./dtos/provider-infos-user.dtos";
+import { ActionReactionService } from "./dtos/action-reaction-service.dto";
+
 // import { LocalUserProviderTokens } from "./events/local-user-provider-tokens.event";
 
 @Controller()
 export class ProvidersController {
-    public availableProviders: ProviderInfos[] = [];
+    public availableProviders: ActionReactionService[] = [];
+
     constructor(private readonly providersService: ProvidersService) {
     }
 
@@ -28,7 +29,7 @@ export class ProvidersController {
     // }
 
     @EventPattern("heartbeat.providers.*")
-    setProvidersInfos(@Payload() providerInfos: ProviderInfos): void {
+    setProvidersInfos(@Payload() providerInfos: ActionReactionService): void {
         const providerName: string = providerInfos.name;
         this.availableProviders = this.availableProviders.filter(availableProvider => availableProvider.name !== providerName);
         this.availableProviders.push(providerInfos);
@@ -36,12 +37,12 @@ export class ProvidersController {
 
 
     @MessagePattern("infos.providers")
-    getAllAvailableProviders(): ProviderInfos[] {
+    getAllAvailableProviders(): ActionReactionService[] {
         return this.availableProviders;
     }
 
     @MessagePattern("providers")
-    async getProvidersForUser(@Payload() userId: number): Promise<ProviderInfosUser[]> {
+    async getProvidersForUser(@Payload() userId: number): Promise<ActionReactionService[]> {
         try {
             return await this.providersService.getProvidersForUser(userId, this.availableProviders);
         } catch (e) {

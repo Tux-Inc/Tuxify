@@ -28,304 +28,70 @@ THE SOFTWARE.
 <script setup lang="ts">
 import { IBlockFullProps } from "~/types/IBlockFullProps";
 import { IBlockAvailableProps } from "~/types/IBlockAvailableProps";
+import { IActionReactionService } from "~/types/IActionReactionService";
+import { IActionReaction } from "~/types/IActionReaction";
+
+const toast = useToast();
 
 const props: IBlockAvailableProps = defineProps<IBlockAvailableProps>();
-const search: string = ref("");
+const search = ref("");
+const availableActionsReactionsServices = ref<any[]>([]);
 
-defineEmits<{
+const emit = defineEmits<{
     (e: "flow-add-block", block: IBlockFullProps): void;
 }>();
 
-const sampleData: IBlockFullProps[] = [
-    {
-        title: "Receive email",
-        name: "provider.google.action.gmail.receive",
-        description: "Trigger when you receive an email in your Gmail account",
+
+async function getAvailableBlocks() {
+    try {
+        const res = await useApiRequest<IActionReactionService[]>(`/providers`);
+        if (!res._data) {
+            toast.add({
+                color: "red",
+                icon: "i-heroicons-exclamation-circle",
+                title: "Error",
+                description: "Error while getting available blocks",
+            });
+        } else {
+            console.log(res._data);
+            availableActionsReactionsServices.value = res._data;
+        }
+    } catch (e: any) {
+        toast.add({
+            color: "red",
+            icon: "i-heroicons-exclamation-circle",
+            title: `Error ${e.response?.status}`,
+            description: e.response?.statusText,
+        });
+    }
+}
+
+function addBlock(actionReaction: IActionReaction, service: IActionReactionService) {
+    const newBlock: IBlockFullProps = {
+        name: actionReaction.name,
+        title: actionReaction.title,
+        description: actionReaction.description,
+        inputs: actionReaction.inputs,
+        outputs: actionReaction.outputs,
         service: {
-            title: "Google",
-            image: "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
-            actions: [],
-            reactions: [],
-            name: "google",
-            description: "",
-            isConnected: true,
+            name: service.name,
+            image: service.image,
+            title: service.title,
+            description: service.description,
+            isConnected: service.isConnected ?? false,
+            actions: service.actions,
+            reactions: service.reactions,
         },
-        inputs: [],
-        outputs: [
-            {
-                label: "From",
-            },
-            {
-                label: "Subject",
-            },
-            {
-                label: "Body",
-            },
-        ],
-    },
-    {
-        title: "Send email",
-        name: "provider.google.action.gmail.send",
-        description: "Send an email from your Gmail account",
-        service: {
-            title: "Google",
-            image: "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
-            actions: [],
-            reactions: [],
-            name: "google",
-            description: "",
-            isConnected: true,
-        },
-        inputs: [
-            {
-                label: "To",
-                placeholder: "john.doe@example.com",
-                required: true,
-                value: "",
-            },
-            {
-                label: "Subject",
-                placeholder: "Subject",
-                required: true,
-                value: "",
-            },
-            {
-                label: "Body",
-                placeholder: "Body",
-                required: true,
-                value: "",
-            },
-        ],
-        outputs: [
-            {
-                label: "From",
-            },
-            {
-                label: "Subject",
-            },
-            {
-                label: "Body",
-            },
-        ],
-    },
-    {
-        title: "Title",
-        name: "Name",
-        description: "Description",
-        service: {
-            title: "Service",
-            image: "https://via.placeholder.com/150",
-            actions: [],
-            reactions: [],
-            name: "",
-            description: "",
-            isConnected: false,
-        },
-        inputs: [
-            {
-                label: "Input",
-                placeholder: "Placeholder",
-                required: true,
-                value: "",
-            },
-        ],
-        outputs: [
-            {
-                label: "Output",
-                value: "",
-            },
-        ],
-    },
-    {
-        title: "Title",
-        name: "Name",
-        description: "Description",
-        service: {
-            title: "Service",
-            image: "https://via.placeholder.com/150",
-            actions: [],
-            reactions: [],
-            name: "",
-            description: "",
-            isConnected: false,
-        },
-        inputs: [
-            {
-                label: "Input",
-                placeholder: "Placeholder",
-                required: true,
-                value: "",
-            },
-        ],
-        outputs: [
-            {
-                label: "Output",
-            },
-        ],
-    },
-    {
-        title: "Title",
-        name: "Name",
-        description: "Description",
-        service: {
-            title: "Service",
-            image: "https://via.placeholder.com/150",
-            actions: [],
-            reactions: [],
-            name: "",
-            description: "",
-            isConnected: false,
-        },
-        inputs: [
-            {
-                label: "Input",
-                placeholder: "Placeholder",
-                required: true,
-                value: "",
-            },
-        ],
-        outputs: [
-            {
-                label: "Output",
-            },
-        ],
-    },
-    {
-        title: "Title",
-        name: "Name",
-        description: "Description",
-        service: {
-            title: "Service",
-            image: "https://via.placeholder.com/150",
-            actions: [],
-            reactions: [],
-            name: "",
-            description: "",
-            isConnected: false,
-        },
-        inputs: [
-            {
-                label: "Input",
-                placeholder: "Placeholder",
-                required: true,
-                value: "",
-            },
-        ],
-        outputs: [
-            {
-                label: "Output",
-            },
-        ],
-    },
-    {
-        title: "Title",
-        name: "Name",
-        description: "Description",
-        service: {
-            title: "Service",
-            image: "https://via.placeholder.com/150",
-            actions: [],
-            reactions: [],
-            name: "",
-            description: "",
-            isConnected: false,
-        },
-        inputs: [
-            {
-                label: "Input",
-                placeholder: "Placeholder",
-                required: true,
-                value: "",
-            },
-        ],
-        outputs: [
-            {
-                label: "Output",
-            },
-        ],
-    },
-    {
-        title: "Title",
-        name: "Name",
-        description: "Description",
-        service: {
-            title: "Service",
-            image: "https://via.placeholder.com/150",
-            actions: [],
-            reactions: [],
-            name: "",
-            description: "",
-            isConnected: false,
-        },
-        inputs: [
-            {
-                label: "Input",
-                placeholder: "Placeholder",
-                required: true,
-                value: "",
-            },
-        ],
-        outputs: [
-            {
-                label: "Output",
-            },
-        ],
-    },
-    {
-        title: "Title",
-        name: "Name",
-        description: "Description",
-        service: {
-            title: "Service",
-            image: "https://via.placeholder.com/150",
-            actions: [],
-            reactions: [],
-            name: "",
-            description: "",
-            isConnected: false,
-        },
-        inputs: [
-            {
-                label: "Input",
-                placeholder: "Placeholder",
-                required: true,
-                value: "",
-            },
-        ],
-        outputs: [
-            {
-                label: "Output",
-            },
-        ],
-    },
-    {
-        title: "Title",
-        name: "Name",
-        description: "Description",
-        service: {
-            title: "Service",
-            image: "https://via.placeholder.com/150",
-            actions: [],
-            reactions: [],
-            name: "",
-            description: "",
-            isConnected: false,
-        },
-        inputs: [
-            {
-                label: "Input",
-                placeholder: "Placeholder",
-                required: true,
-                value: "",
-            },
-        ],
-        outputs: [
-            {
-                label: "Output",
-            },
-        ],
-    },
-];
+    };
+    newBlock.inputs.forEach((input) => {
+        input.value = "";
+    });
+    emit("flow-add-block", newBlock);
+}
+
+onMounted(() => {
+    getAvailableBlocks();
+});
 </script>
 
 <template>
@@ -336,8 +102,11 @@ const sampleData: IBlockFullProps[] = [
         </div>
         <div class="flex flex-col overflow-y-auto max-h-96 gap-2 mt-4 p-2">
             <UInput v-model="search" icon="i-heroicons-magnifying-glass" placeholder="Search" />
-            <div v-for="(block, index) in sampleData" :key="index">
-                <AppFlowBlockPreview @click="$emit('flow-add-block', block)" :name="block.name" :title="block.title" :description="block.description" :service="block.service" />
+            <div v-for="(service, index) in availableActionsReactionsServices" :key="index">
+                <div class="flex flex-col gap-2">
+                    <AppFlowBlockPreview v-if="props.type === 'action'" v-for="(actionReaction, index) in service.actions" :key="index" @click="addBlock(actionReaction, service)" :name="actionReaction.name" :title="actionReaction.title" :description="actionReaction.description" :service="service" />
+                    <AppFlowBlockPreview v-if="props.type === 'reaction'" v-for="(actionReaction, index) in service.reactions" :key="index" @click="addBlock(actionReaction, service)" :name="actionReaction.name" :title="actionReaction.title" :description="actionReaction.description" :service="service" />
+                </div>
             </div>
         </div>
     </div>

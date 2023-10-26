@@ -1,38 +1,38 @@
-import { Controller, Get, Inject, Logger } from "@nestjs/common";
+import { Controller, Inject, Logger } from "@nestjs/common";
 import { GithubService } from './github.service';
 import { ClientProxy, EventPattern, Payload } from "@nestjs/microservices";
-import { ProviderInfos } from "./dtos/provider-infos.dto";
-import { ActionInfos } from "./dtos/action-infos.dto";
-import { ReactionInfos } from "./dtos/reaction-infos.dto";
+import { ActionReactionService } from "./dtos/action-reaction-service.dto";
+import { ActionReaction } from "./dtos/action-reaction.dto";
 
 @Controller()
 export class GithubController {
   public readonly logger: Logger = new Logger(GithubController.name);
-  public availableActions: ActionInfos[] = [];
-  public availableReactions: ReactionInfos[] = [];
+  public availableActions: ActionReaction[] = [];
+  public availableReactions: ActionReaction[] = [];
   constructor(
       private readonly githubService: GithubService,
       @Inject('NATS_CLIENT') private readonly natsClient: ClientProxy,
   ) {
     setInterval(() => {
-      const providerInfos: ProviderInfos = {
+      const providerInfos: ActionReactionService = {
         name: "github",
-        title: "Github",
         image: "https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg",
+        title: "Github",
+        description: "Github is a place for developer to share and discover code",
         actions: this.availableActions,
         reactions: this.availableReactions,
       };
-      this.natsClient.emit<ProviderInfos>('heartbeat.providers.github', providerInfos);
+      this.natsClient.emit<ActionReactionService>('heartbeat.providers.github', providerInfos);
     }, 5000);
   }
 
   @EventPattern('heartbeat.providers.github.actions')
-  setActionsInfos(@Payload() data: ActionInfos[]): void {
+  setActionsInfos(@Payload() data: ActionReaction[]): void {
     this.availableActions = data;
   }
 
   @EventPattern('heartbeat.providers.github.reactions')
-  setReactionsInfos(@Payload() data: ReactionInfos[]): void {
+  setReactionsInfos(@Payload() data: ActionReaction[]): void {
     this.availableReactions = data;
   }
 }

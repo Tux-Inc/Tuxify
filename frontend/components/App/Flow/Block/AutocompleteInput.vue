@@ -48,7 +48,7 @@ const suggestions = computed(() => {
         if (!match) {
             return props.flowBlocks
                 .filter((flow, index) => index < currentBlockIndex && flow.uuid !== props.currentBlock.uuid) // Exclude blocks after the current block and the current block itself
-                .flatMap(flow => flow.outputs.map(output => `{{ flow.step.${flow.uuid}.${output.label} }}`));
+                .flatMap(flow => flow.outputs.map(output => `{{ flow.step.${flow.uuid}.${output.name} }}`));
         }
 
         const [_, uuid, outputname] = match;
@@ -56,15 +56,15 @@ const suggestions = computed(() => {
         if (uuid && !outputname) {
             return props.flowBlocks
                 .filter((flow, index) => index < currentBlockIndex && flow.uuid?.startsWith(uuid) && flow.uuid !== props.currentBlock.uuid) // Exclude blocks after the current block and the current block itself
-                .flatMap(flow => flow.outputs.map(output => `{{ flow.step.${uuid}.${output.label} }}`));
+                .flatMap(flow => flow.outputs.map(output => `{{ flow.step.${uuid}.${output.name} }}`));
         }
 
         if (uuid && outputname) {
             return props.flowBlocks
                 .filter((flow, index) => index < currentBlockIndex && flow.uuid === uuid)
                 .flatMap(flow => flow.outputs)
-                .filter(output => output.label.startsWith(outputname))
-                .map(output => `{{ flow.step.${uuid}.${output.label} }}`);
+                .filter(output => output.name.startsWith(outputname))
+                .map(output => `{{ flow.step.${uuid}.${output.name} }}`);
         }
     }
 

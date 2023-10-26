@@ -64,6 +64,7 @@ watch(
 )
 
 function addActionReaction(block: IBlockFullProps) {
+    console.log("add action reaction", block);
     isAvailableListOpen.value = false;
     block.uuid = randomUUID();
     flowBlocks.value.push(block);
