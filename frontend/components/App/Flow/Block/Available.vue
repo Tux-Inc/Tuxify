@@ -53,7 +53,7 @@ async function getAvailableBlocks() {
                 description: "Error while getting available blocks",
             });
         } else {
-            console.log(res._data);
+            res._data = res._data.filter((service) => service.isConnected);
             availableActionsReactionsServices.value = res._data;
         }
     } catch (e: any) {
