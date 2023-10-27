@@ -33,8 +33,6 @@ const props = defineProps<{
     flowData: IBlockFullProps[];
 }>();
 
-console.log("currentFlow props", props.flowData);
-
 const emit = defineEmits<{
     (e: "flow-update", blocks: IBlockFullProps[]): void;
 }>();
@@ -64,7 +62,6 @@ watch(
 )
 
 function addActionReaction(block: IBlockFullProps) {
-    console.log("add action reaction", block);
     isAvailableListOpen.value = false;
     block.uuid = randomUUID();
     flowBlocks.value.push(block);
