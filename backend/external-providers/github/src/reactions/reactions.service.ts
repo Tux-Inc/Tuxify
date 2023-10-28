@@ -1,9 +1,8 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { CommonReactionInput } from "../dtos/common-reaction-input.dto";
 import { IssueInput } from "../dtos/issue-input.dto";
 import { HttpService } from "@nestjs/axios";
 import { IssueOutput } from "../dtos/issue-output.dto";
-import { UserProviderTokens } from "../tokens/dtos/user-provider-tokens.dto";
 import { TokensService } from "../tokens/tokens.service";
 import { from, map, mergeMap, Observable } from "rxjs";
 import { IssueCommentInput } from "../dtos/issue-comment-input.dto";
@@ -25,14 +24,19 @@ export class ReactionsService {
                     title,
                     body,
                 };
-
-                return this.httpService.post<IssueOutput>(`https://api.github.com/repos/${input.input.owner}/${input.input.repo}/issues`, payload, {
+                return this.httpService.post<IssueOutput>(`https://api.github.com/repos/${input.input.owner}/${input.input.repository}/issues`, payload, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
+                        Accept: 'application/vnd.github+json',
                     },
                 });
             }),
-            map(response => response.data)
+            map(response => response.data),
+            map((data): IssueOutput => ({
+                id: data.id,
+                number: data.number,
+                html_url: data.html_url,
+            }))
         );
     }
 
@@ -45,13 +49,18 @@ export class ReactionsService {
                     body,
                 };
 
-                return this.httpService.post<IssueCommentOutput>(`https://api.github.com/repos/${input.input.owner}/${input.input.repo}/issues/${input.input.issue_number}/comments`, payload, {
+                return this.httpService.post<IssueCommentOutput>(`https://api.github.com/repos/${input.input.owner}/${input.input.repository}/issues/${input.input.issue_number}/comments`, payload, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
+                        Accept: 'application/vnd.github+json',
                     },
                 });
             }),
-            map(response => response.data)
+            map(response => response.data),
+            map((data): IssueCommentOutput => ({
+                id: data.id,
+                html_url: data.html_url,
+            }))
         );
     }
 }

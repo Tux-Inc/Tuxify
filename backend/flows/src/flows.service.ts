@@ -1,15 +1,18 @@
-import {Injectable, Logger} from '@nestjs/common';
-import {Flow} from "./schemas/flow.schema";
-import {InjectModel} from "@nestjs/mongoose";
-import {Model} from "mongoose";
+import { Inject, Injectable, Logger } from "@nestjs/common";
+import { Flow } from "./schemas/flow.schema";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
 import { FlowActionData } from "./events/FlowActionData.event";
 import { GetFlow } from "./events/GetFlow.event";
+import { ClientProxy } from "@nestjs/microservices";
+import { lastValueFrom } from "rxjs";
 
 @Injectable()
 export class FlowsService {
     private readonly logger = new Logger(FlowsService.name);
     constructor(
         @InjectModel(Flow.name) private readonly flowModel: Model<Flow>,
+        @Inject('NATS_CLIENT') private readonly natsClient: ClientProxy,
     ) {}
 
     async getFlows(userId: number): Promise<Flow[]> {
@@ -49,87 +52,64 @@ export class FlowsService {
         });
     }
 
-    async handleActions(flowActionData: FlowActionData): Promise<void> {
+    async handleActions(flowActionData: FlowActionData): Promise<string> {
         this.logger.log(`Received flow trigger ${flowActionData.actionName} for user ${flowActionData.userId}`);
         const flows: Flow[] = await this.findFlowsForUserAction(flowActionData.userId, flowActionData.actionName);
         this.logger.log(`Found ${flows.length} flows`);
         for (const flow of flows)
             await this.executeFlow(flow, flowActionData);
+        return "👍";
     }
 
-    private createDependencyMapping(edges: any[]): Map<string, string[]> {
-        const dependenciesMap: Map<string, string[]> = new Map<string, string[]>();
+    async executeFlow(flow: Flow, flowActionData: FlowActionData): Promise<void> {
+        this.logger.log(`Executing flow ${flow._id} for user ${flow.userId}`);
 
-        for (const edge of edges) {
-            const targetNode = edge.target;  // the node that depends on another
-            const sourceNode = edge.source;  // the node that is being depended upon
+        const stepResults = {};
+        for (const step of flow.data) {
+            this.logger.log(`Executing step ${step.uuid}`);
+            if (step.type === 'action') {
+                if (step.name !== flowActionData.actionName) {
+                    this.logger.log(`Skipping step ${step.uuid} because it is not the action that triggered this flow`);
+                    continue;
+                } else {
+                    this.logger.log(`Step ${step.uuid} is the action that triggered this flow`);
+                    stepResults[step.uuid] = flowActionData.data;
+                    continue;
+                }
+            }
+            try {
+                const resolvedInputs = this.resolveStepInputs(stepResults, step.inputs);
+                stepResults[step.uuid] = await this.executeStep(step, resolvedInputs, flow.userId);
+            } catch (error) {
+                this.logger.error(`Error executing step ${step.uuid}: ${error.message}`);
+                return;
+            }
+        }
 
-            if (dependenciesMap.has(targetNode)) {
-                dependenciesMap.get(targetNode)!.push(sourceNode);
+        await this.updateFlow({...flow, lastRun: new Date()});
+        this.logger.log(`Flow ${flow._id} executed successfully.`);
+    }
+
+    private resolveStepInputs(stepResults: any, inputs: any): any {
+        const resolvedInputs = {};
+        for (const input of inputs) {
+            if (input.value && typeof input.value === 'string' && input.value.startsWith('{{') && input.value.endsWith('}}')) {
+                const [stepUuid, outputName] = input.value.slice(2, -3).split('.').slice(-2);
+                if (stepResults[stepUuid] && stepResults[stepUuid][outputName] !== undefined) {
+                    resolvedInputs[input.name] = stepResults[stepUuid][outputName];
+                } else {
+                    throw new Error(`Missing required input ${input.name} for step ${stepUuid}`);
+                }
             } else {
-                dependenciesMap.set(targetNode, [sourceNode]);
+                resolvedInputs[input.name] = input.value;
             }
         }
-
-        return dependenciesMap;
+        return resolvedInputs;
     }
 
-    private nodeOutputs: Map<string, any> = new Map();
-
-    private async executeFlow(flow: Flow, flowActionData: FlowActionData): Promise<void> {
-        this.logger.log(`Executing flow ${flow._id}`);
-        flow.lastRun = new Date();
-        await this.flowModel.updateOne({_id: flow._id}, flow);
-        const flowData = flow.data;
-
-        const dependenciesMap: Map<string, string[]> = this.createDependencyMapping(flowData.edges);
-        console.log(dependenciesMap);
-
-        const executedNodes: any[] = [];
-        const nodesQueue: any[] = [...flowData.nodes];
-
-        while (nodesQueue.length > 0) {
-            const node = nodesQueue.shift();
-            if (this.canExecuteNode(node, executedNodes, dependenciesMap)) {
-                const inputData = this.gatherNodeInputs(node, dependenciesMap);
-                const nodeOutput = await this.executeNode(node, inputData, flowActionData);
-                this.nodeOutputs.set(node.id, nodeOutput);
-                executedNodes.push(node.id);
-            } else {
-                nodesQueue.push(node);
-            }
-        }
-        delete this.nodeOutputs;
-    }
-
-    private canExecuteNode(node: any, executedNodes: any[], dependenciesMap: Map<string, string[]>): boolean {
-        const nodeId = node.id;
-        const nodeDependencies: string[] = dependenciesMap.get(nodeId) || [];
-
-        for (const dependentNodeId of nodeDependencies) {
-            if (!executedNodes.includes(dependentNodeId)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private gatherNodeInputs(node: any, dependenciesMap: Map<string, string[]>): any {
-        const nodeId = node.id;
-        const nodeDependencies: string[] = dependenciesMap.get(nodeId) || [];
-        const inputData: {} = {};
-
-        for (const dependentNodeId of nodeDependencies) {
-            inputData[dependentNodeId] = this.nodeOutputs.get(dependentNodeId);
-        }
-
-        return inputData;
-    }
-
-    private async executeNode(node: any, inputData: any, flowActionData: FlowActionData): Promise<any> {
-        console.log('flowActionData', flowActionData);
-        console.log('node', node);
-        console.log('inputData', inputData);
+    private async executeStep(step: any, inputs: any, userId: number): Promise<unknown> {
+        this.logger.log(`Executing step ${step.uuid}`);
+        return lastValueFrom(this.natsClient.send<any, any>(step.name, {userId, input: inputs}));
     }
 
     private async findFlowsForUserAction(userId: number, actionName: string): Promise<Flow[]> {
@@ -137,8 +117,7 @@ export class FlowsService {
         return this.flowModel.find({
             userId,
             enabled: true,
-            isValid: true,
-            'data.nodes': {
+            'data': {
                 $elemMatch: {
                     name: actionName,
                 }

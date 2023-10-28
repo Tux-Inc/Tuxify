@@ -1,12 +1,11 @@
-import { Inject, Injectable, Logger } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { SendEmailInput } from "./dtos/send-email-input.dto";
 import { CommonReactionInput } from "../dtos/common-reaction-input.dto";
 import { TokensService } from "../tokens/tokens.service";
 import { UserProviderTokens } from "../tokens/dtos/user-provider-tokens.dto";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { HttpService } from "@nestjs/axios";
-import { ClientProxy, Payload } from "@nestjs/microservices";
-import { AddedProvider } from "../auth/dtos/added-provider.dto";
+import { Payload } from "@nestjs/microservices";
 import { lastValueFrom } from "rxjs";
 import { AxiosResponse } from "axios";
 import { ProviderEntity } from "../auth/dtos/provider.dto";
@@ -40,13 +39,14 @@ export class GmailService {
             raw: encodedMessage,
         }
         try {
-            await lastValueFrom<AxiosResponse>(
+            const res = await lastValueFrom<AxiosResponse>(
                 this.httpService.post(this.sendUrl, payload, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 }),
             );
+            console.log(res);
         } catch (e) {
             this.logger.error(e);
             throw e;

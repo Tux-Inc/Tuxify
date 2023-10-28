@@ -92,21 +92,7 @@ export class OAuthClass {
         };
     }
 
-    private async checkIfTokenExpired(providerEntity: ProviderEntity): Promise<boolean> {
-        const response = await this.httpService.get(this.infoTokensPath, {
-            params: {
-                access_token: providerEntity.accessToken,
-            },
-        }).toPromise();
-        return response.data.expires_in < 10;
-    }
-
     public async refreshTokens(providerEntity: ProviderEntity): Promise<ProviderEntity> {
-        this.logger.log('Refreshing token from Google');
-        if (!await this.checkIfTokenExpired(providerEntity)) {
-            this.logger.log('Tokens is not expired');
-            return providerEntity;
-        }
         const response = await this.httpService.post(this.refreshTokensPath, {
             client_id: process.env.GOOGLE_CLIENT_ID,
             client_secret: process.env.GOOGLE_CLIENT_SECRET,
@@ -115,7 +101,6 @@ export class OAuthClass {
         }).toPromise();
 
         providerEntity.accessToken = response.data.access_token;
-        this.logger.log(`Tokens refreshed from Google for user ${providerEntity.userId}`);
         return providerEntity;
     }
     private getUserIdFromState(state: string): number {

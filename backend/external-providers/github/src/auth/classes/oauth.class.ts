@@ -9,6 +9,7 @@ import { HttpService } from "@nestjs/axios";
 import { ProviderEntity } from "../dtos/provider.dto";
 import { Logger } from "@nestjs/common";
 import * as process from "process";
+import { RpcException } from "@nestjs/microservices";
 
 export class OAuthClass {
     public readonly logger: Logger = new Logger(OAuthClass.name);
@@ -85,28 +86,18 @@ export class OAuthClass {
         };
     }
 
-    private async checkIfTokenExpired(providerEntity: ProviderEntity): Promise<boolean> {
-        const response = await this.httpService.get(this.infoTokensPath, {
-            headers: {
-                Authorization: `token ${providerEntity.accessToken}`,
-            }
-        }).toPromise();
-        return response.status === 401;
-    }
-
     public async refreshTokens(providerEntity: ProviderEntity): Promise<ProviderEntity> {
-        this.logger.log('Refreshing token from Github');
-        if (!await this.checkIfTokenExpired(providerEntity)) {
-            this.logger.log('Tokens is not expired');
-            return providerEntity;
-        }
         const response = await this.httpService.post(
             `${this.refreshTokensPath}?client_id=${process.env.GH_CLIENT_ID}&client_secret=${process.env.GH_CLIENT_SECRET}&refresh_token=${providerEntity.refreshToken}&grant_type=refresh_token`,
         ).toPromise();
-
-        providerEntity.accessToken = response.data.access_token;
-        providerEntity.refreshToken = response.data.refresh_token;
-        this.logger.log(`Tokens refreshed from Github for user ${providerEntity.userId}`);
+        if (response.data.includes('error')) {
+            return null;
+        }
+        const responseArray: string[] = response.data.split('&');
+        const accessToken: string = responseArray[0].split('=')[1];
+        const refreshToken: string = responseArray[2].split('=')[1];
+        providerEntity.accessToken = accessToken;
+        providerEntity.refreshToken = refreshToken;
         return providerEntity;
     }
     private getUserIdFromState(state: string): number {

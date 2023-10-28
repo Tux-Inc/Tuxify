@@ -109,7 +109,7 @@ const contextualItems = [
         <div class="flex flex-col gap-2 mt-4">
             <span class="text-dark dark:text-light">{{ props.currentBlock.description }}</span>
             <div v-for="(input, index) in localInputs" class="flex flex-col gap-2">
-                <label class="text-dark dark:text-light">{{ input.label }}</label>
+                <label class="text-dark dark:text-light">{{ input.title }}</label>
                 <AppFlowBlockAutocompleteInput
                     :input="input"
                     :current-block="props.currentBlock"

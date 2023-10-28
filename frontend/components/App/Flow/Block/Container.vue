@@ -38,20 +38,7 @@ const emit = defineEmits<{
 }>();
 
 const isAvailableListOpen = ref(false);
-const availableListType = ref<"action" | "reaction">("action");
 const flowBlocks = ref<IBlockFullProps[]>(props.flowData);
-
-
-watch(
-    () => flowBlocks.value.length,
-    (newVal) => {
-        if (newVal > 0) {
-            availableListType.value = "reaction";
-        } else {
-            availableListType.value = "action";
-        }
-    }
-);
 
 watch(
     () => flowBlocks.value,
@@ -74,7 +61,7 @@ function removeActionReaction(uuid: string) {
 
 <template>
     <UModal v-model="isAvailableListOpen">
-        <AppFlowBlockAvailable :type="availableListType" @flow-add-block="addActionReaction" />
+        <AppFlowBlockAvailable :type="flowBlocks.length === 0 ? 'action' : 'reaction'" @flow-add-block="addActionReaction" />
     </UModal>
     <div class="flex flex-col">
         <div v-if="flowBlocks.length === 0" class="flex flex-col items-center justify-center gap-4 mt-4">

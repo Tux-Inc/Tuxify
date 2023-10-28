@@ -1,6 +1,6 @@
 export interface IssueInput {
     owner: string;
-    repo: string;
+    repository: string;
     title: string;
     body: string;
 }

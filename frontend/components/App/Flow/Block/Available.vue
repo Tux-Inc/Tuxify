@@ -73,14 +73,15 @@ function addBlock(actionReaction: IActionReaction, service: IActionReactionServi
         description: actionReaction.description,
         inputs: actionReaction.inputs,
         outputs: actionReaction.outputs,
+        type: actionReaction.type,
         service: {
             name: service.name,
             image: service.image,
             title: service.title,
             description: service.description,
             isConnected: service.isConnected ?? false,
-            actions: service.actions,
-            reactions: service.reactions,
+            actions: [],
+            reactions: [],
         },
     };
     newBlock.inputs.forEach((input) => {

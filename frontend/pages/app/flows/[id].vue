@@ -67,6 +67,7 @@ async function getFlow(): Promise<IFlow | undefined> {
                 description: `Flow not found`,
             });
         } else {
+            console.log(res._data);
             return res._data;
         }
     } catch (e: any) {

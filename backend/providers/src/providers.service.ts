@@ -69,6 +69,10 @@ export class ProvidersService {
     async getTokens(providerRequestedTokens: ProviderRequestTokens): Promise<ProviderEntity> {
         const { provider, userId } = providerRequestedTokens;
         const tokens: ProviderEntity = await this.providersRepository.findOne({ where: { provider, userId } });
+        if (!tokens) {
+            this.logger.error(`No tokens found for provider ${provider} and user ${userId}`);
+            throw new RpcException(`No tokens found for provider ${provider} and user ${userId}`);
+        }
         return await this.refreshTokens(tokens);
     }
 
@@ -85,7 +89,15 @@ export class ProvidersService {
     }
 
     private async refreshTokens(providerEntity: ProviderEntity): Promise<ProviderEntity> {
+        this.logger.log(`Refreshing tokens for provider ${providerEntity.provider} and user ${providerEntity.userId}`);
         const newEntity = await lastValueFrom(this.natsClient.send(`provider.${providerEntity.provider}.refresh`, providerEntity));
+        if (!newEntity || !newEntity.accessToken || !newEntity.refreshToken) {
+            this.logger.error(`Error while refreshing tokens for provider ${providerEntity.provider} and user ${providerEntity.userId}`);
+            this.logger.log(`Removing provider ${providerEntity.provider} for user ${providerEntity.userId}`);
+            await this.providersRepository.delete({ id: providerEntity.id });
+            throw new RpcException(`Error while refreshing tokens for provider ${providerEntity.provider} and user ${providerEntity.userId}`);
+        }
+        this.logger.log(`Tokens refreshed for provider ${providerEntity.provider} and user ${providerEntity.userId}`);
         return await this.providersRepository.save(newEntity);
     }
 

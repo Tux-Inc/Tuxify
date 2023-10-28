@@ -1,6 +1,6 @@
 export interface IssueCommentInput {
     owner: string;
-    repo: string;
+    repository: string;
     issue_number: number;
     body: string;
 }

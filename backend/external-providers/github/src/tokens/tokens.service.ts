@@ -16,7 +16,7 @@ export class TokensService {
     public async getTokens(userId: number): Promise<UserProviderTokens> {
         try {
             const providerRequestTokens: ProviderRequestTokens = {
-                provider: 'google',
+                provider: 'github',
                 userId,
             }
             return lastValueFrom<UserProviderTokens>(this.natsClient.send('providers.github.getTokens', providerRequestTokens));
