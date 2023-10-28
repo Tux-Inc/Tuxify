@@ -249,14 +249,19 @@ function flowComponentUpdated(flowData: IBlockFullProps[]) {
                 </UDropdown>
             </div>
         </div>
-        <div v-if="currentFlow.data" class="w-full mt-4">
-            <AppFlowBlockContainer
-                :flow-data="currentFlow.data"
-                @flow-update="flowComponentUpdated($event)"
-            />
-            <!-- TODO: Add a switcher to switch to graph mode
-            <Graph />
-            -->
+        <div v-if="currentFlow.data">
+            <div class="mt-2">
+                <AppFlowTrace />
+            </div>
+            <div class="w-full mt-4">
+                <AppFlowBlockContainer
+                    :flow-data="currentFlow.data"
+                    @flow-update="flowComponentUpdated($event)"
+                />
+            </div>
         </div>
+        <!-- TODO: Add a switcher to switch to graph mode
+        <Graph />
+        -->
     </div>
 </template>

@@ -66,7 +66,6 @@ export class FlowsService {
 
         const stepResults = {};
         for (const step of flow.data) {
-            this.logger.log(`Executing step ${step.uuid}`);
             if (step.type === 'action') {
                 if (step.name !== flowActionData.actionName) {
                     this.logger.log(`Skipping step ${step.uuid} because it is not the action that triggered this flow`);
@@ -78,6 +77,7 @@ export class FlowsService {
                 }
             }
             try {
+                this.logger.log(`Executing step ${step.uuid}`);
                 const resolvedInputs = this.resolveStepInputs(stepResults, step.inputs);
                 stepResults[step.uuid] = await this.executeStep(step, resolvedInputs, flow.userId);
             } catch (error) {
