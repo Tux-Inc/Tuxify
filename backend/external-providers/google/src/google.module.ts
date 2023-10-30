@@ -7,6 +7,7 @@ import { GmailModule } from './gmail/gmail.module';
 import { TokensModule } from './tokens/tokens.module';
 import { ActionsModule } from './actions/actions.module';
 import {GoogleController} from './google.controller';
+import { CalendarModule } from './calendar/calendar.module';
 
 @Module({
     imports: [
@@ -24,6 +25,7 @@ import {GoogleController} from './google.controller';
         ReactionsModule,
         GmailModule,
         TokensModule,
+        CalendarModule,
     ],
     controllers: [GoogleController],
     providers: [GoogleService],

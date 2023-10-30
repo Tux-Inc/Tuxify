@@ -29,6 +29,8 @@ export class OAuthClass {
         'https://www.googleapis.com/auth/gmail.metadata',
         'https://www.googleapis.com/auth/gmail.insert',
         'https://www.googleapis.com/auth/gmail.labels',
+        'https://www.googleapis.com/auth/calendar',
+        'https://www.googleapis.com/auth/calendar.events',
     ];
 
     private readonly refreshTokensPath: string = 'https://oauth2.googleapis.com/token';
