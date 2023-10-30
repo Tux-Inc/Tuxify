@@ -23,6 +23,12 @@ export class ReactionsController {
                     description: "Send a new email from your Gmail account",
                     inputs: [
                         {
+                            name: "from",
+                            title: "From",
+                            placeholder: "john.doe@example.com",
+                            required: true,
+                        },
+                        {
                             name: "to",
                             title: "To",
                             placeholder: "john.doe@example.com",

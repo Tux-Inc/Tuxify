@@ -9,12 +9,13 @@ import { Payload } from "@nestjs/microservices";
 import { lastValueFrom } from "rxjs";
 import { AxiosResponse } from "axios";
 import { ProviderEntity } from "../auth/dtos/provider.dto";
+import { google } from "googleapis";
+const MailComposer = require("nodemailer/lib/mail-composer");
 
 @Injectable()
 export class GmailService {
     public readonly topicName: string = 'projects/tuxinc-tuxify/topics/gmail';
     public readonly watchUrl: string = 'https://www.googleapis.com/gmail/v1/users/me/watch';
-    public readonly sendUrl: string = 'https://www.googleapis.com/gmail/v1/users/me/messages/send';
     public readonly logger: Logger = new Logger(GmailService.name);
 
     constructor(
@@ -25,28 +26,29 @@ export class GmailService {
 
     async sendEmail(commonReactionInput: CommonReactionInput<SendEmailInput>): Promise<any> {
         const userProviderTokens: UserProviderTokens = await this.tokensService.getTokens(commonReactionInput.userId);
-        const {accessToken} = userProviderTokens;
-        const {to, subject, body} = commonReactionInput.input;
-        const message: string = `From: "Tuxify" <
-        To: ${to}
-        Subject: ${subject}
-        Content-Type: text/html; charset=utf-8
-        MIME-Version: 1.0
-        ${body}
-        `;
-        const encodedMessage: string = Buffer.from(message).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-        const payload: any = {
-            raw: encodedMessage,
-        }
+        const {accessToken, refreshToken} = userProviderTokens;
+        const {to, from, subject, body} = commonReactionInput.input;
+        const oauth2Client = new google.auth.OAuth2();
+        oauth2Client.setCredentials({
+            refresh_token: refreshToken,
+            access_token: accessToken,
+        });
+        const gmail = google.gmail({version: 'v1', auth: oauth2Client});
+        const mailComposer = new MailComposer({
+            to,
+            subject,
+            text: body,
+            from
+        });
+        const message = await mailComposer.compile().build();
+        const rawMessage: string = Buffer.from(message).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
         try {
-            const res = await lastValueFrom<AxiosResponse>(
-                this.httpService.post(this.sendUrl, payload, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                }),
-            );
-            console.log(res);
+            return await gmail.users.messages.send({
+                userId: 'me',
+                requestBody: {
+                    raw: rawMessage,
+                },
+            });
         } catch (e) {
             this.logger.error(e);
             throw e;

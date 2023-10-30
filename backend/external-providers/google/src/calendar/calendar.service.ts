@@ -43,7 +43,7 @@ export class CalendarService {
                 requestBody: resource,
             });
         } catch (e) {
-            console.log(e.response.data.error);
+            this.logger.error(e.response.data.error);
             throw e;
         }
     }
