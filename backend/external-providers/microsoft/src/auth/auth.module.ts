@@ -1,5 +1,5 @@
 /*
- * File Name: microsoft.module.ts
+ * File Name: auth.module.ts
  * Author: neptos
  * Creation Date: 2023
  *
@@ -24,27 +24,26 @@
  * THE SOFTWARE.
  */
 
-import { Module } from "@nestjs/common";
-import { MicrosoftController } from "./microsoft.controller";
-import { MicrosoftService } from "./microsoft.service";
-import { AuthModule } from "./auth/auth.module";
+import { Module } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { AuthController } from './auth.controller';
 import { ClientsModule, Transport } from "@nestjs/microservices";
+import { HttpModule } from "@nestjs/axios";
 
 @Module({
-    imports: [
-        ClientsModule.register([
-            {
-                name: "NATS_CLIENT",
-                transport: Transport.NATS,
-                options: {
-                    servers: [process.env.NATS_SERVER_URL || "nats://localhost:4222"],
-                },
-            },
-        ]),
-        AuthModule,
-    ],
-    controllers: [MicrosoftController],
-    providers: [MicrosoftService],
+  imports: [
+    ClientsModule.register([
+      {
+        name: 'NATS_CLIENT',
+        transport: Transport.NATS,
+        options: {
+          servers: [process.env.NATS_SERVER_URL || 'nats://localhost:4222'],
+        }
+      }
+    ]),
+    HttpModule,
+  ],
+  providers: [AuthService],
+  controllers: [AuthController]
 })
-export class MicrosoftModule {
-}
+export class AuthModule {}

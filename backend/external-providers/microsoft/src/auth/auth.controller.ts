@@ -24,22 +24,22 @@
  * THE SOFTWARE.
  */
 
-import { Controller } from "@nestjs/common";
+import { Controller } from '@nestjs/common';
+import { AuthService } from "./auth.service";
 import { MessagePattern, Payload, RpcException } from "@nestjs/microservices";
 import { AddProvider } from "./dtos/add-provider.dto";
 import { AddProviderCallback } from "./dtos/add-provider-callback.dto";
 import { AddedProvider } from "./dtos/added-provider.dto";
-import { AuthService } from "./auth.service";
 import { ProviderEntity } from "./dtos/provider.dto";
 
-@Controller("auth")
+@Controller('auth')
 export class AuthController {
     constructor(
         private readonly authService: AuthService,
     ) {
     }
 
-    @MessagePattern("provider.google.add")
+    @MessagePattern('provider.microsoft.add')
     async addProvider(@Payload() addProvider: AddProvider): Promise<string | void> {
         try {
             return await this.authService.addProvider(addProvider);
@@ -48,8 +48,8 @@ export class AuthController {
         }
     }
 
-    @MessagePattern("provider.google.add.callback")
-    async addProviderCallback(addProviderCallback: AddProviderCallback): Promise<AddedProvider> {
+    @MessagePattern('provider.microsoft.add.callback')
+    async addProviderCallback(@Payload() addProviderCallback: AddProviderCallback): Promise<AddedProvider> {
         try {
             return await this.authService.addProviderCallback(addProviderCallback);
         } catch (e) {
@@ -57,7 +57,7 @@ export class AuthController {
         }
     }
 
-    @MessagePattern("provider.google.refresh")
+    @MessagePattern('provider.microsoft.refresh')
     async refreshTokens(@Payload() providerEntity: ProviderEntity): Promise<ProviderEntity> {
         try {
             return await this.authService.refreshTokens(providerEntity);

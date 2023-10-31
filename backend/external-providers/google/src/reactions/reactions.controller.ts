@@ -50,7 +50,7 @@ export class ReactionsController {
                     outputs: [],
                 },
                 {
-                    name: "provider.google.calendar.event.add",
+                    name: "provider.google.reaction.calendar.event.add",
                     type: "reaction",
                     title: "Add an event",
                     description: "Add an event to your Google Calendar",
@@ -98,7 +98,7 @@ export class ReactionsController {
         return await this.gmailService.sendEmail(commonReactionInput);
     }
 
-    @MessagePattern('provider.google.calendar.event.add')
+    @MessagePattern('provider.google.reaction.calendar.event.add')
     async addEvent(@Payload() commonReactionInput: CommonReactionInput<AddEventInput>): Promise<void> {
         return await this.calendarService.addEvent(commonReactionInput);
     }

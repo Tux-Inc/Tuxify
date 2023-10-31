@@ -24,10 +24,41 @@
  * THE SOFTWARE.
  */
 
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Inject, Logger } from "@nestjs/common";
 import { MicrosoftService } from './microsoft.service';
+import { ClientProxy, EventPattern } from "@nestjs/microservices";
+import { ActionReaction } from "./dtos/action-reaction.dto";
+import { ActionReactionService } from "./dtos/action-reaction-service.dto";
 
 @Controller()
 export class MicrosoftController {
-  constructor(private readonly microsoftService: MicrosoftService) {}
+  private readonly logger: Logger = new Logger(MicrosoftController.name);
+  private availableActions: ActionReaction[] = [];
+  private availableReactions: ActionReaction[] = [];
+  constructor(
+      private readonly microsoftService: MicrosoftService,
+      @Inject('NATS_CLIENT') private readonly natsClient: ClientProxy,
+  ) {
+    setInterval(() => {
+      const providerInfos: ActionReactionService = {
+        name: "microsoft",
+        image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/1024px-Microsoft_logo.svg.png",
+        title: "Microsoft",
+        description: "Microsoft is a service that provides a lot of services like Office 365, Azure, etc.",
+        actions: this.availableActions,
+        reactions: this.availableReactions,
+      };
+      this.natsClient.emit<ActionReactionService>('heartbeat.providers.microsoft', providerInfos);
+    }, 5000);
+  }
+
+  @EventPattern('heartbeat.providers.microsoft.actions')
+  setActionsInfos(data: ActionReaction[]): void {
+      this.availableActions = data;
+  }
+
+  @EventPattern('heartbeat.providers.microsoft.reactions')
+  setReactionsInfos(data: ActionReaction[]): void {
+    this.availableReactions = data;
+  }
 }
