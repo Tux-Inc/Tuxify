@@ -233,3 +233,36 @@ spec:
                 name: tuxify-api-auth-secret
       imagePullSecrets:
         - name: github-container-registry
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tuxify-api-microsoft
+  labels:
+      app: tuxify-api-microsoft
+      environment: production
+
+spec:
+    selector:
+      matchLabels:
+        app: tuxify-api-microsoft
+    replicas: 1
+    revisionHistoryLimit: 3
+    template:
+      metadata:
+        labels:
+            app: tuxify-api-microsoft
+            environment: production
+      spec:
+        containers:
+          - name: tuxify-api-microsoft
+            image: ghcr.io/tux-inc/tuxify-api-microsoft:latest
+            resources: {}
+            envFrom:
+              - configMapRef:
+                  name: tuxify-global-configmap
+              - secretRef:
+                  name: tuxify-api-auth-secret
+        imagePullSecrets:
+          - name: github-container-registry
