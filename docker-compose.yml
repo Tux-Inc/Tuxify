@@ -193,6 +193,48 @@ services:
     env_file:
       - .env
 
+  # Github provider
+  api_github:
+    container_name: tuxify-api-github
+    build:
+      context: ./backend/external-providers/github
+      dockerfile: Dockerfile.dev
+    restart: always
+    command: npm run start:dev --watch-preserve-output
+    working_dir: /usr/src/app
+    ports:
+      - ${NESTSV_GITHUB_PORT}:${NESTSV_GITHUB_PORT}
+    volumes:
+      - ./backend/external-providers/github:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - api_providers
+    networks:
+      - tuxify-network
+    env_file:
+      - .env
+
+  # Microsoft provider
+  api_microsoft:
+      container_name: tuxify-api-microsoft
+      build:
+        context: ./backend/external-providers/microsoft
+        dockerfile: Dockerfile.dev
+      restart: always
+      command: npm run start:dev --watch-preserve-output
+      working_dir: /usr/src/app
+      ports:
+      - ${NESTSV_MICROSOFT_PORT}:${NESTSV_MICROSOFT_PORT}
+      volumes:
+      - ./backend/external-providers/microsoft:/usr/src/app
+      - /usr/src/app/node_modules
+      depends_on:
+      - api_providers
+      networks:
+      - tuxify-network
+      env_file:
+      - .env
+
   # Nuxt Frontend
   frontend:
       container_name: tuxify-frontend

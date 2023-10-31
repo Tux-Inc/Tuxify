@@ -37,10 +37,6 @@ const { isMobile } = useDevice();
 
 <template>
     <div class="antialiased relative min-h-screen bg-gray-50 dark:bg-base-dark">
-        <Head>
-            <Title>Tuxify Main Page</Title>
-            <Meta name="description" content="Put your description here." />
-        </Head>
         <NuxtImg
             alt="hero"
             src="/hero.webp"

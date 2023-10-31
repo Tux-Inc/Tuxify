@@ -1,8 +1,10 @@
+import { IBlockFullProps } from "~/types/IBlockFullProps";
+
 export interface IFlow {
     _id?: string;
     name: string;
     description?: string;
-    data?: any;
+    data: IBlockFullProps[];
     userId?: number;
     enabled?: boolean;
     isValid?: boolean;

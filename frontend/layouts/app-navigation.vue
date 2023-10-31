@@ -189,9 +189,7 @@ const { isMobile } = useDevice();
             <AppNavbar />
             <div class="flex flex-row items-start justify-start">
                 <AppSidebar />
-                <div
-                    class="w-full h-full overflow-y-auto ml-[--sidebar-width] mt-[--header-height] p-6"
-                >
+                <div class="w-full h-full ml-[--sidebar-width] mt-[--header-height] p-6">
                     <slot />
                 </div>
             </div>

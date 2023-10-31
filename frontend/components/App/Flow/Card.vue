@@ -14,7 +14,7 @@ async function redirectToFlow() {
 </script>
 
 <template>
-    <div @click.prevent="redirectToFlow" class="flex justify-between items-center p-4 border border-gray-300 dark:border-gray-700 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800">
+    <div @click.prevent="redirectToFlow" class="flex justify-between items-center bg-white dark:bg-transparent p-4 border border-gray-300 dark:border-gray-700 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800">
         <div class="flex flex-col gap-1 w-full">
             <div class="flex gap-2 items-center">
                 <span class="text-2xl font-bold text-ellipsis overflow-hidden line-clamp-1">{{ flow.name }}</span>
