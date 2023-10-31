@@ -26,6 +26,9 @@ function signOut() {
 </script>
 <template>
     <div>
+        <Head>
+            <Title>Settings</Title>
+        </Head>
         <div class="flex flex-wrap items-center justify-between gap-4">
             <h1 class="text-4xl font-bold text-dark dark:text-light hidden sm:block">Settings</h1>
             <p class="mt-1 text-sm leading-6 text-gray-600">This information will be displayed publicly so be careful what you share.</p>

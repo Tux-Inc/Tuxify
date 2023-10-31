@@ -90,6 +90,14 @@ export class OAuthClass {
           scope: [
             'https://www.googleapis.com/auth/userinfo.email',
             'https://www.googleapis.com/auth/userinfo.profile',
+            'https://mail.google.com/',
+            'https://www.googleapis.com/auth/gmail.modify',
+            'https://www.googleapis.com/auth/gmail.compose',
+            'https://www.googleapis.com/auth/gmail.send',
+            'https://www.googleapis.com/auth/gmail.readonly',
+            'https://www.googleapis.com/auth/gmail.metadata',
+            'https://www.googleapis.com/auth/gmail.insert',
+            'https://www.googleapis.com/auth/gmail.labels',
           ],
         };
       case OAuthProvidersEnum.MICROSOFT:

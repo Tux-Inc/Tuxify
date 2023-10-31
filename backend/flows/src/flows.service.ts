@@ -1,15 +1,18 @@
-import {Injectable, Logger} from '@nestjs/common';
-import {Flow} from "./schemas/flow.schema";
-import {InjectModel} from "@nestjs/mongoose";
-import {Model} from "mongoose";
+import { Inject, Injectable, Logger } from "@nestjs/common";
+import { Flow } from "./schemas/flow.schema";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
 import { FlowActionData } from "./events/FlowActionData.event";
 import { GetFlow } from "./events/GetFlow.event";
+import { ClientProxy } from "@nestjs/microservices";
+import { lastValueFrom } from "rxjs";
 
 @Injectable()
 export class FlowsService {
     private readonly logger = new Logger(FlowsService.name);
     constructor(
         @InjectModel(Flow.name) private readonly flowModel: Model<Flow>,
+        @Inject('NATS_CLIENT') private readonly natsClient: ClientProxy,
     ) {}
 
     async getFlows(userId: number): Promise<Flow[]> {
@@ -49,52 +52,76 @@ export class FlowsService {
         });
     }
 
-    async handleActions(flowActionData: FlowActionData): Promise<void> {
+    async handleActions(flowActionData: FlowActionData): Promise<string> {
         this.logger.log(`Received flow trigger ${flowActionData.actionName} for user ${flowActionData.userId}`);
-        const flows: Flow[] = await this.flowModel.find({
-            userId: flowActionData.userId,
-            enabled: true,
-            isValid: true,
-            'data.nodes': {
-                $elemMatch: {
-                    name: flowActionData.actionName,
-                }
-            }
-        });
+        const flows: Flow[] = await this.findFlowsForUserAction(flowActionData.userId, flowActionData.actionName);
         this.logger.log(`Found ${flows.length} flows`);
         for (const flow of flows)
             await this.executeFlow(flow, flowActionData);
+        return "👍";
     }
 
-    private async executeFlow(flow: Flow, flowActionData: FlowActionData): Promise<void> {
-        this.logger.log(`Executing flow ${flow._id}`);
-        const nodes = flow.data.nodes.filter(node => node.name === flowActionData.actionName);
-        this.logger.log(`Found ${nodes.length} nodes`);
-        for (const node of nodes) {
-            const edges = flow.data.edges.filter(edge => edge.source === node.id);
-            this.logger.log(`Found ${edges.length} edges`);
-            for (const edge of edges)
-                await this.executeNode(edge.target, flowActionData);
+    async executeFlow(flow: Flow, flowActionData: FlowActionData): Promise<void> {
+        this.logger.log(`Executing flow ${flow._id} for user ${flow.userId}`);
+
+        const stepResults = {};
+        for (const step of flow.data) {
+            if (step.type === 'action') {
+                if (step.name !== flowActionData.actionName) {
+                    this.logger.log(`Skipping step ${step.uuid} because it is not the action that triggered this flow`);
+                    continue;
+                } else {
+                    this.logger.log(`Step ${step.uuid} is the action that triggered this flow`);
+                    stepResults[step.uuid] = flowActionData.data;
+                    continue;
+                }
+            }
+            try {
+                this.logger.log(`Executing step ${step.uuid}`);
+                const resolvedInputs = this.resolveStepInputs(stepResults, step.inputs);
+                stepResults[step.uuid] = await this.executeStep(step, resolvedInputs, flow.userId);
+            } catch (error) {
+                this.logger.error(`Error executing step ${step.uuid}: ${error.message}`);
+                return;
+            }
         }
-        flow.lastRun = new Date();
-        await this.flowModel.updateOne({_id: flow._id}, flow);
+
+        await this.updateFlow({...flow, lastRun: new Date()});
+        this.logger.log(`Flow ${flow._id} executed successfully.`);
     }
 
-    private async executeNode(node: any, flowActionData: FlowActionData): Promise<void> {
-        this.logger.log(`Executing node ${node._id}`);
-        const actions = node.name;
-        this.logger.log(`Found ${actions.length} actions`);
-        for (const action of actions) {
-            this.logger.log(`Executing action ${action._id}`);
-            await this.executeAction(action, flowActionData);
+    private resolveStepInputs(stepResults: any, inputs: any): any {
+        const resolvedInputs = {};
+        for (const input of inputs) {
+            if (input.value && typeof input.value === 'string' && input.value.startsWith('{{') && input.value.endsWith('}}')) {
+                const [stepUuid, outputName] = input.value.slice(2, -3).split('.').slice(-2);
+                if (stepResults[stepUuid] && stepResults[stepUuid][outputName] !== undefined) {
+                    resolvedInputs[input.name] = stepResults[stepUuid][outputName];
+                } else {
+                    throw new Error(`Missing required input ${input.name} for step ${stepUuid}`);
+                }
+            } else {
+                resolvedInputs[input.name] = input.value;
+            }
         }
+        return resolvedInputs;
     }
 
-    private async executeAction(action: any, flowActionData: FlowActionData): Promise<void> {
-        this.logger.log(`Executing action ${action._id}`);
-        const provider = action.provider;
-        const actionName = action.name;
-        const data = action.data;
-        this.logger.log(`Emitting action ${action._id}`);
+    private async executeStep(step: any, inputs: any, userId: number): Promise<unknown> {
+        this.logger.log(`Executing step ${step.uuid}`);
+        return lastValueFrom(this.natsClient.send<any, any>(step.name, {userId, input: inputs}));
+    }
+
+    private async findFlowsForUserAction(userId: number, actionName: string): Promise<Flow[]> {
+        this.logger.log(`Finding flows for user ${userId} and action ${actionName}`);
+        return this.flowModel.find({
+            userId,
+            enabled: true,
+            'data': {
+                $elemMatch: {
+                    name: actionName,
+                }
+            }
+        });
     }
 }

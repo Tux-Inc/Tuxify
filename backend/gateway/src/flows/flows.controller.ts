@@ -40,4 +40,10 @@ export class FlowsController {
     async deleteFlow(@Param('id') id: string, @Req() req: any): Promise<any> {
         return this.natsClient.send('flow.delete' , {id, userId: req.user});
     }
+
+    @UseGuards(AuthGuard)
+    @Post('actions/:actionName')
+    async triggerAction(@Param('actionName') actionName: string, @Req() req: any, @Body() data: any): Promise<any> {
+        return this.natsClient.send(`flows.actions.${actionName}` , {userId: req.user, actionName, data});
+    }
 }

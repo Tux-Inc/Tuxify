@@ -85,6 +85,26 @@ jobs:
             ghcr.io/tux-inc/tuxify-api-google:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+      - name: Build and push github image
+        uses: docker/build-push-action@v2
+        with:
+          context: "./backend/external-providers/github"
+          push: true
+          tags: |
+            ghcr.io/tux-inc/tuxify-api-github:latest
+            ghcr.io/tux-inc/tuxify-api-github:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Build and push microsoft image
+        uses: docker/build-push-action@v2
+        with:
+          context: "./backend/external-providers/microsoft"
+          push: true
+          tags: |
+            ghcr.io/tux-inc/tuxify-api-microsoft:latest
+            ghcr.io/tux-inc/tuxify-api-microsoft:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
   build_frontend:
     name: Build and push frontend image
@@ -255,6 +275,8 @@ jobs:
             --from-literal=GH_CLIENT_SECRET=${{ secrets.GH_CLIENT_SECRET }}
             --from-literal=MICROSOFT_CLIENT_ID=${{ secrets.MICROSOFT_CLIENT_ID }}
             --from-literal=MICROSOFT_CLIENT_SECRET=${{ secrets.MICROSOFT_CLIENT_SECRET }}
+            --from-literal=DISCORD_CLIENT_ID=${{ secrets.DISCORD_CLIENT_ID }}
+            --from-literal=DISCORD_CLIENT_SECRET=${{ secrets.DISCORD_CLIENT_SECRET }}
             --from-literal=JWT_SECRET=${{ secrets.JWT_SECRET }}
             --from-literal=JWT_REFRESH_SECRET=${{ secrets.JWT_REFRESH_SECRET }}
             --from-literal=JWT_RESET_PASSWORD_SECRET=${{ secrets.JWT_RESET_PASSWORD_SECRET }}
@@ -318,6 +340,8 @@ jobs:
             ghcr.io/tux-inc/tuxify-api-flows:${{ github.sha }}
             ghcr.io/tux-inc/tuxify-api-providers:${{ github.sha }}
             ghcr.io/tux-inc/tuxify-api-google:${{ github.sha }}
+            ghcr.io/tux-inc/tuxify-api-github:${{ github.sha }}
+            ghcr.io/tux-inc/tuxify-api-microsoft:${{ github.sha }}
 
   mirror:
     name: Mirror repository

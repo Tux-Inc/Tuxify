@@ -93,6 +93,8 @@ const items = [
         {
             label: "Status",
             icon: "i-heroicons-signal",
+            to: "https://stats.uptimerobot.com/pPJ16SQOWq",
+            target: "_blank",
         },
     ],
     [

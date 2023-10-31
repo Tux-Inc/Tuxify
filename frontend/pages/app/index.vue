@@ -39,7 +39,7 @@ function setLoading() {
 <template>
     <div class="flex flex-wrap items-center justify-between gap-4">
         <Head>
-            <Title>Tuxify App Home</Title>
+            <Title>Home</Title>
             <Meta name="description" content="Put your description here." />
         </Head>
         <h1 class="text-4xl font-bold text-dark dark:text-light">Home</h1>

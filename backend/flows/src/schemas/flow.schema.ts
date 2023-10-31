@@ -14,8 +14,8 @@ export class Flow {
     name: string;
     @Prop({default: ''})
     description?: string;
-    @Prop({required: false, type: Object})
-    data?: any;
+    @Prop({default: [], type: Array})
+    data: any;
     @Prop({required: true})
     userId?: number;
     @Prop({default: false})

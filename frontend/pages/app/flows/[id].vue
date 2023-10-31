@@ -1,8 +1,8 @@
 <!--
-File Name: index.client.vue
+File Name: [id].vue
 Author: Gwenaël Hubler, Stephane Fievez, Roman Lopez, Alexandre Kévin De Freitas Martins, Bouna Diallo
 Creation Date: 2023
-Description: This file is the oauth page
+Description: This file is flow slug page
 
 Copyright (c) 2023 Tux Inc.
 
@@ -27,6 +27,7 @@ THE SOFTWARE.
 
 <script setup lang="ts">
 import { IFlow } from "~/types/IFlow";
+import { IBlockFullProps } from "~/types/IBlockFullProps";
 definePageMeta({
     layout: "app-navigation",
 });
@@ -66,6 +67,7 @@ async function getFlow(): Promise<IFlow | undefined> {
                 description: `Flow not found`,
             });
         } else {
+            console.log(res._data);
             return res._data;
         }
     } catch (e: any) {
@@ -141,10 +143,17 @@ onBeforeUnmount(async () => {
         await updateFlow();
     }
 });
+
+function flowComponentUpdated(flowData: IBlockFullProps[]) {
+    currentFlow.value.data = flowData;
+}
 </script>
 
 <template>
     <div>
+        <Head>
+            <Title>{{ currentFlow.name }} | Flows</Title>
+        </Head>
         <div
             class="flex items-start justify-between gap-4 flex-wrap md:flex-nowrap"
         >
@@ -240,8 +249,19 @@ onBeforeUnmount(async () => {
                 </UDropdown>
             </div>
         </div>
-        <div class="w-full mt-4">
-            <Graph />
+        <div v-if="currentFlow.data">
+            <div class="mt-2">
+                <AppFlowTrace />
+            </div>
+            <div class="w-full mt-4">
+                <AppFlowBlockContainer
+                    :flow-data="currentFlow.data"
+                    @flow-update="flowComponentUpdated($event)"
+                />
+            </div>
         </div>
+        <!-- TODO: Add a switcher to switch to graph mode
+        <Graph />
+        -->
     </div>
 </template>

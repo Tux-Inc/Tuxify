@@ -77,35 +77,28 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div>
-        <div class="flex items-center justify-between gap-4">
-            <h1 class="text-4xl font-bold text-dark dark:text-light">Flows</h1>
-            <UTooltip
-                text="Create a new flow"
-                :shortcuts="[metaSymbol, 'shift', 'F']"
-            >
-                <UButton
-                    icon="i-heroicons-plus"
-                    @click="sendEvent('app:newFlow')"
-                    color="primary"
-                    variant="solid"
-                    >New flow</UButton
-                >
-            </UTooltip>
-        </div>
-        <div class="w-full mt-4">
-            <div v-if="flows.length === 0">
-                <AppFlowEmptyList />
-            </div>
-            <div v-else>
-                <div class="flex flex-col gap-4">
-                    <AppFlowCard
-                        v-for="flow in flows"
-                        :key="flow._id"
-                        :flow="flow"
-                    />
-                </div>
-            </div>
-        </div>
+    <div class="flex flex-col gap-x-6 gap-y-10 justify-center max">
+      <Head>
+          <Title>Flows</Title>
+      </Head>
+      <div class="flex items-center justify-between gap-4 flex-wrap md:flex-nowrap">
+          <div>
+              <h1 class="text-4xl font-bold text-dark dark:text-light">Flows</h1>
+              <span class="text-dark dark:text-light">On this page you can manage your flows, flows are used to automate your tasks.</span>
+          </div>
+          <UTooltip text="Create a new flow" :shortcuts="[metaSymbol, 'shift', 'F']">
+            <UButton icon="i-heroicons-plus" @click="sendEvent('app:newFlow')" color="primary" variant="solid">New flow</UButton>
+          </UTooltip>
+      </div>
+      <div class="w-full mt-4">
+          <div v-if="flows.length === 0">
+            <AppFlowEmptyList  />
+          </div>
+          <div v-else>
+              <div class="flex flex-col gap-4">
+                  <AppFlowCard v-for="flow in flows" :key="flow._id" :flow="flow" />
+              </div>
+          </div>
+      </div>
     </div>
 </template>
