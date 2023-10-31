@@ -1,13 +1,41 @@
+/*
+ * File Name: reactions.controller.ts
+ * Author: neptos
+ * Creation Date: 2023
+ *
+ * Copyright (c) 2023 Tux Inc. (backend)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 import { Controller, Inject } from "@nestjs/common";
 import { ReactionsService } from "./reactions.service";
 import { ClientProxy, MessagePattern, Payload } from "@nestjs/microservices";
 import { CommonReactionInput } from "../dtos/common-reaction-input.dto";
 import { IssueInput } from "../dtos/issue-input.dto";
 import { IssueOutput } from "../dtos/issue-output.dto";
-import { Observable, lastValueFrom } from "rxjs";
+import { Observable } from "rxjs";
 import { IssueCommentInput } from "../dtos/issue-comment-input.dto";
 import { IssueCommentOutput } from "../dtos/issue-comment-output.dto";
 import { ActionReaction } from "../dtos/action-reaction.dto";
+import { IssueCloseInput } from "../dtos/issue-close-input.dto";
+import { IssueOpenInput } from "../dtos/issue-open-input.dto";
 
 @Controller("reactions")
 export class ReactionsController {
@@ -105,6 +133,60 @@ export class ReactionsController {
                         }
                     ],
                 },
+                {
+                    name: "provider.github.reaction.issue.close",
+                    type: "reaction",
+                    title: "Close an issue",
+                    description: "Close specified issue",
+                    inputs: [
+                        {
+                            name: "owner",
+                            title: "Owner",
+                            placeholder: "owner",
+                            required: true,
+                        },
+                        {
+                            name: "repo",
+                            title: "Repository",
+                            placeholder: "repository",
+                            required: true,
+                        },
+                        {
+                            name: "issue_number",
+                            title: "Issue number",
+                            placeholder: "1",
+                            required: true,
+                        },
+                    ],
+                    outputs: [],
+                },
+                {
+                    name: "provider.github.reaction.issue.open",
+                    type: "reaction",
+                    title: "Open issue",
+                    description: "Open an closed specified issue",
+                    inputs: [
+                        {
+                            name: "owner",
+                            title: "Owner",
+                            placeholder: "owner",
+                            required: true,
+                        },
+                        {
+                            name: "repo",
+                            title: "Repository",
+                            placeholder: "repository",
+                            required: true,
+                        },
+                        {
+                            name: "issue_number",
+                            title: "Issue number",
+                            placeholder: "1",
+                            required: true,
+                        },
+                    ],
+                    outputs: [],
+                }
             ];
             this.natsClient.emit<ActionReaction[]>("heartbeat.providers.github.reactions", availableReactions);
         }, 5000);
@@ -118,5 +200,15 @@ export class ReactionsController {
     @MessagePattern("provider.github.reaction.issue.comment.create")
     createIssueComment(@Payload() input: CommonReactionInput<IssueCommentInput>): Observable<IssueCommentOutput> {
         return this.reactionsService.createIssueComment(input);
+    }
+
+    @MessagePattern("provider.github.reaction.issue.close")
+    closeIssue(@Payload() input: CommonReactionInput<IssueCloseInput>): Observable<any> {
+        return this.reactionsService.closeIssue(input);
+    }
+
+    @MessagePattern("provider.github.reaction.issue.open")
+    openIssue(@Payload() input: CommonReactionInput<IssueOpenInput>): Observable<any> {
+        return this.reactionsService.openIssue(input);
     }
 }
