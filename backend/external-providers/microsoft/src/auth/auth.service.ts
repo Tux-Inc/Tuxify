@@ -80,10 +80,10 @@ export class AuthService {
         if (!nonce || !userId)
             throw new RpcException('Invalid state received from Microsoft');
         const params = {
-            client_id: process.env.MISCROSOFT_CLIENT_ID,
-            client_secret: process.env.MISCROSOFT_CLIENT_SECRET,
+            client_id: process.env.MICROSOFT_CLIENT_ID,
+            client_secret: process.env.MICROSOFT_CLIENT_SECRET,
             code,
-            redirect_uri: `${process.env.API_BASE_URL}/auth/provider/microsoft/callback`,
+            redirect_uri: `${process.env.API_BASE_URL}/providers/microsoft/callback`,
             grant_type: 'authorization_code',
         };
         const headers = {

@@ -106,14 +106,14 @@ async function disconnect() {
                 <UButton
                     @click.prevent="disconnect"
                     v-if="isConnected"
-                    icon="i-heroicons-link-broken"
+                    icon="i-heroicons-arrow-left-on-rectangle"
                     color="gray"
                     label="Disconnect service"
                 />
                 <UButton
                     @click.prevent="connect"
                     v-if="!isConnected"
-                    icon="i-heroicons-link"
+                    icon="i-heroicons-arrow-right-on-rectangle"
                     label="Link account"
                 />
             </div>
