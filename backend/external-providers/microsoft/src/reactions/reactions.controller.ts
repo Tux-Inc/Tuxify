@@ -32,6 +32,7 @@ import { CommonReactionInput } from "../dtos/common-reaction-input.dto";
 import { OneNotePageInput } from "../dtos/onenote-page-input.dto";
 import { Observable } from "rxjs";
 import { OneNotePageOutput } from "../dtos/onenote-page-output.dto";
+import { OutlookSendEmailInput } from "../dtos/outlook-send-email-input.dto";
 
 @Controller('reactions')
 export class ReactionsController {
@@ -67,6 +68,39 @@ export class ReactionsController {
                         },
                     ],
                 },
+                {
+                    name: "provider.microsoft.reaction.outlook.send",
+                    type: "reaction",
+                    title: "Send an email",
+                    description: "Send an email to a recipient",
+                    inputs: [
+                        {
+                            name: "from",
+                            title: "From",
+                            placeholder: "john.doe@example.com",
+                            required: true,
+                        },
+                        {
+                            name: "to",
+                            title: "To",
+                            placeholder: "john.doe@example.com",
+                            required: true,
+                        },
+                        {
+                            name: "subject",
+                            title: "Subject",
+                            placeholder: "Example subject",
+                            required: true
+                        },
+                        {
+                            name: "body",
+                            title: "Body",
+                            placeholder: "Example email body...",
+                            required: true
+                        }
+                    ],
+                    outputs: [],
+                }
             ];
             this.natsClient.emit<ActionReaction[]>("heartbeat.providers.microsoft.reactions", availableReactions);
         }, 5000);
@@ -75,6 +109,11 @@ export class ReactionsController {
     @MessagePattern('provider.microsoft.reaction.onenote.create')
     createOneNotePage(@Payload() commonReactionInput: CommonReactionInput<OneNotePageInput>): Observable<OneNotePageOutput> {
         return this.reactionsService.createOneNotePage(commonReactionInput);
+    }
+
+    @MessagePattern('provider.microsoft.reaction.outlook.send')
+    sendEmail(@Payload() commonReactionInput: CommonReactionInput<OutlookSendEmailInput>): Observable<any> {
+        return this.reactionsService.sendEmail(commonReactionInput);
     }
 
 }

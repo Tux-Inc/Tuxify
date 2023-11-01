@@ -31,6 +31,7 @@ import { from, map, mergeMap, Observable } from "rxjs";
 import { CommonReactionInput } from "../dtos/common-reaction-input.dto";
 import { OneNotePageInput } from "../dtos/onenote-page-input.dto";
 import { OneNotePageOutput } from "../dtos/onenote-page-output.dto";
+import { OutlookSendEmailInput } from "../dtos/outlook-send-email-input.dto";
 
 @Injectable()
 export class ReactionsService {
@@ -72,6 +73,43 @@ export class ReactionsService {
                 oneNoteWebUrl: data.links.oneNoteWebUrl.href,
                 oneNoteClientUrl: data.links.oneNoteClientUrl.href,
             })),
+        );
+    }
+
+    sendEmail(cri: CommonReactionInput<OutlookSendEmailInput>): Observable<any> {
+        return from(this.tokensService.getTokens(cri.userId)).pipe(
+            mergeMap(async (userProviderTokens) => {
+                const { accessToken } = userProviderTokens;
+                const { to, subject, body } = cri.input;
+                try {
+                    return this.httpService.post<any>("https://graph.microsoft.com/v1.0/me/sendMail", {
+                        message: {
+                            subject,
+                            body: {
+                                contentType: "Text",
+                                content: body,
+                            },
+                            toRecipients: [
+                                {
+                                    emailAddress: {
+                                        address: to,
+                                    },
+                                },
+                            ],
+                        },
+                    }, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                            Accept: "application/json",
+                            "Content-Type": "application/json",
+                        },
+                    });
+                } catch (e) {
+                    console.log(e.response.data);
+                    this.logger.error(e);
+                    throw e;
+                }
+            }),
         );
     }
 
