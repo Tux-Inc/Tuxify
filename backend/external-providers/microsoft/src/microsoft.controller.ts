@@ -26,7 +26,7 @@
 
 import { Controller, Get, Inject, Logger } from "@nestjs/common";
 import { MicrosoftService } from './microsoft.service';
-import { ClientProxy, EventPattern } from "@nestjs/microservices";
+import { ClientProxy, EventPattern, Payload } from "@nestjs/microservices";
 import { ActionReaction } from "./dtos/action-reaction.dto";
 import { ActionReactionService } from "./dtos/action-reaction-service.dto";
 
@@ -53,12 +53,12 @@ export class MicrosoftController {
   }
 
   @EventPattern('heartbeat.providers.microsoft.actions')
-  setActionsInfos(data: ActionReaction[]): void {
+  setActionsInfos(@Payload() data: ActionReaction[]): void {
       this.availableActions = data;
   }
 
   @EventPattern('heartbeat.providers.microsoft.reactions')
-  setReactionsInfos(data: ActionReaction[]): void {
+  setReactionsInfos(@Payload() data: ActionReaction[]): void {
     this.availableReactions = data;
   }
 }
