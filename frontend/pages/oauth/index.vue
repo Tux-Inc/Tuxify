@@ -36,6 +36,8 @@ const userCookie = useCookie("user");
 const accessToken = useRoute().query.access_token as string;
 const refreshToken = useRoute().query.refresh_token as string;
 
+const { isMobile } = useDevice();
+
 async function getUser() {
     await useFetch(`${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/me`, {
         headers: { Authorization: `Bearer ${accessToken}` },
@@ -62,7 +64,11 @@ async function getUser() {
                     refreshToken: refreshToken,
                 };
                 userCookie.value = JSON.stringify(userObject);
-                router.push("/app");
+                if (isMobile) {
+                    navigateTo("com.tuxinc.tuxify:/");
+                } else {
+                    router.push("/app");
+                }
             }
         },
     });

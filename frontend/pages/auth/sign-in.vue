@@ -28,8 +28,10 @@ THE SOFTWARE.
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
 import { ref } from "vue";
-import type { FormError, FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
+import { Browser } from "@capacitor/browser";
 import { IUserCookie } from "~/types/IUserCookie";
+import type { FormError, FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
+
 const runtimeConfig = useRuntimeConfig();
 const userCookie = useCookie("user");
 const router = useRouter();
@@ -53,6 +55,7 @@ const validate = (state: any): FormError[] => {
     if (!state.password) errors.push({ path: "password", message: "Required" });
     return errors;
 };
+
 async function submit(event: FormSubmitEvent<any>) {
     isLoading.value = true;
     const { data, error } = await useFetch(
@@ -86,11 +89,24 @@ async function submit(event: FormSubmitEvent<any>) {
     }
 }
 
+const { isMobile } = useDevice();
+
 async function ssoSignIn(provider: string) {
-    navigateTo(
-        `${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/ext/${provider}`,
-        { external: true },
-    );
+    if (isMobile) {
+        Browser.addListener("browserPageLoaded", () => {
+            if (isMobile) {
+                Browser.close();
+            }
+        });
+        await Browser.open({
+            url: `${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/ext/${provider}`,
+        });
+    } else {
+        navigateTo(
+            `${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/ext/${provider}`,
+            { external: true },
+        );
+    }
 }
 </script>
 

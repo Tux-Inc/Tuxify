@@ -34,6 +34,9 @@ export default defineNuxtConfig({
             API_BASE_URL: process.env.API_BASE_URL || "https://api.tuxify.fr",
             API_AUTH_BASE_URL:
                 process.env.API_AUTH_BASE_URL || "https://auth.api.tuxify.fr",
+            FRONTEND_BASE_URL:
+                process.env.FRONTEND_BASE_URL || "https://tuxify.fr",
+            GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID || "",
             NUXT_IS_CAPACITOR: process.env.NUXT_IS_CAPACITOR || "false",
         },
     },
