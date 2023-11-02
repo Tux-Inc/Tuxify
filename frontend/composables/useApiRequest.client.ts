@@ -1,6 +1,6 @@
 /*
 File Name: useApiRequest.client.ts
-Author: Gwenaël Hubler, Stephane Fievez, Roman Lopez, Alexandre Kévin De Freitas Martins, Bouna Diallo
+Author: Gwenaël Hubler, Stephane Fievez, Roman Lopes, Alexandre Kévin De Freitas Martins, Bouna Diallo
 Creation Date: 2023
 Description: Brief description of the contents of this file.
 
