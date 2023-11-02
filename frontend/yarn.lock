@@ -2524,29 +2524,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue-flow/background@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "@vue-flow/background@npm:1.2.0"
-  peerDependencies:
-    "@vue-flow/core": ^1.12.2
-  checksum: dcea960d146ae24f253f4b23ef9d5a2181e000a30ada5fb5c901a5eae75c47d3c3b9918a50791d7795006594c712f38d87b412d784d42f19269d5b34805eb8fd
-  languageName: node
-  linkType: hard
-
-"@vue-flow/core@npm:^1.22.3":
-  version: 1.22.3
-  resolution: "@vue-flow/core@npm:1.22.3"
-  dependencies:
-    "@vueuse/core": ^10.1.2
-    d3-drag: ^3.0.0
-    d3-selection: ^3.0.0
-    d3-zoom: ^3.0.0
-  peerDependencies:
-    vue: ^3.2.25
-  checksum: 15fb0dd4f839babb1b8c96c80adc41a1090a6756ac5959edfa18196cbaf8a06cb2edebd8ea3d1f5e35b34381f96128f167a5f6b3ca9da6c934e9bf779e736c77
-  languageName: node
-  linkType: hard
-
 "@vue-macros/common@npm:^1.3.1":
   version: 1.8.0
   resolution: "@vue-macros/common@npm:1.8.0"
@@ -2711,7 +2688,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vueuse/core@npm:10.4.1, @vueuse/core@npm:^10.1.2, @vueuse/core@npm:^10.4.1":
+"@vueuse/core@npm:10.4.1, @vueuse/core@npm:^10.4.1":
   version: 10.4.1
   resolution: "@vueuse/core@npm:10.4.1"
   dependencies:
@@ -4482,88 +4459,6 @@ __metadata:
   version: 0.2.2
   resolution: "cuint@npm:0.2.2"
   checksum: b8127a93a7f16ce120ffcb22108014327c9808b258ee20e7dbb4c6740d7cb0f0c12d18a054eb716b0f2470090666abaae8a082d3cd5ef0e94fa447dd155842c4
-  languageName: node
-  linkType: hard
-
-"d3-color@npm:1 - 3":
-  version: 3.1.0
-  resolution: "d3-color@npm:3.1.0"
-  checksum: 4931fbfda5d7c4b5cfa283a13c91a954f86e3b69d75ce588d06cde6c3628cebfc3af2069ccf225e982e8987c612aa7948b3932163ce15eb3c11cd7c003f3ee3b
-  languageName: node
-  linkType: hard
-
-"d3-dispatch@npm:1 - 3":
-  version: 3.0.1
-  resolution: "d3-dispatch@npm:3.0.1"
-  checksum: fdfd4a230f46463e28e5b22a45dd76d03be9345b605e1b5dc7d18bd7ebf504e6c00ae123fd6d03e23d9e2711e01f0e14ea89cd0632545b9f0c00b924ba4be223
-  languageName: node
-  linkType: hard
-
-"d3-drag@npm:2 - 3, d3-drag@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "d3-drag@npm:3.0.0"
-  dependencies:
-    d3-dispatch: 1 - 3
-    d3-selection: 3
-  checksum: d297231e60ecd633b0d076a63b4052b436ddeb48b5a3a11ff68c7e41a6774565473a6b064c5e9256e88eca6439a917ab9cea76032c52d944ddbf4fd289e31111
-  languageName: node
-  linkType: hard
-
-"d3-ease@npm:1 - 3":
-  version: 3.0.1
-  resolution: "d3-ease@npm:3.0.1"
-  checksum: 06e2ee5326d1e3545eab4e2c0f84046a123dcd3b612e68858219aa034da1160333d9ce3da20a1d3486d98cb5c2a06f7d233eee1bc19ce42d1533458bd85dedcd
-  languageName: node
-  linkType: hard
-
-"d3-interpolate@npm:1 - 3":
-  version: 3.0.1
-  resolution: "d3-interpolate@npm:3.0.1"
-  dependencies:
-    d3-color: 1 - 3
-  checksum: a42ba314e295e95e5365eff0f604834e67e4a3b3c7102458781c477bd67e9b24b6bb9d8e41ff5521050a3f2c7c0c4bbbb6e187fd586daa3980943095b267e78b
-  languageName: node
-  linkType: hard
-
-"d3-selection@npm:2 - 3, d3-selection@npm:3, d3-selection@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "d3-selection@npm:3.0.0"
-  checksum: f4e60e133309115b99f5b36a79ae0a19d71ee6e2d5e3c7216ef3e75ebd2cb1e778c2ed2fa4c01bef35e0dcbd96c5428f5bd6ca2184fe2957ed582fde6841cbc5
-  languageName: node
-  linkType: hard
-
-"d3-timer@npm:1 - 3":
-  version: 3.0.1
-  resolution: "d3-timer@npm:3.0.1"
-  checksum: 1cfddf86d7bca22f73f2c427f52dfa35c49f50d64e187eb788dcad6e927625c636aa18ae4edd44d084eb9d1f81d8ca4ec305dae7f733c15846a824575b789d73
-  languageName: node
-  linkType: hard
-
-"d3-transition@npm:2 - 3":
-  version: 3.0.1
-  resolution: "d3-transition@npm:3.0.1"
-  dependencies:
-    d3-color: 1 - 3
-    d3-dispatch: 1 - 3
-    d3-ease: 1 - 3
-    d3-interpolate: 1 - 3
-    d3-timer: 1 - 3
-  peerDependencies:
-    d3-selection: 2 - 3
-  checksum: cb1e6e018c3abf0502fe9ff7b631ad058efb197b5e14b973a410d3935aead6e3c07c67d726cfab258e4936ef2667c2c3d1cd2037feb0765f0b4e1d3b8788c0ea
-  languageName: node
-  linkType: hard
-
-"d3-zoom@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "d3-zoom@npm:3.0.0"
-  dependencies:
-    d3-dispatch: 1 - 3
-    d3-drag: 2 - 3
-    d3-interpolate: 1 - 3
-    d3-selection: 2 - 3
-    d3-transition: 2 - 3
-  checksum: 8056e3527281cfd1ccbcbc458408f86973b0583e9dac00e51204026d1d36803ca437f970b5736f02fafed9f2b78f145f72a5dbc66397e02d4d95d4c594b8ff54
   languageName: node
   linkType: hard
 
@@ -8634,8 +8529,6 @@ __metadata:
     "@types/js-cookie": ^3.0.4
     "@types/md5": ^2.3.3
     "@types/uuid": ^9.0.6
-    "@vue-flow/background": ^1.2.0
-    "@vue-flow/core": ^1.22.3
     autoprefixer: ^10.4.15
     boxicons: ^2.1.4
     md5: ^2.3.0
