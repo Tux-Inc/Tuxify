@@ -32,8 +32,6 @@
     "@iconify-json/mdi": "^1.1.54",
     "@nuxt/image": "rc",
     "@nuxt/ui": "^2.8.1",
-    "@vue-flow/background": "^1.2.0",
-    "@vue-flow/core": "^1.22.3",
     "boxicons": "^2.1.4",
     "mitt": "^3.0.1",
     "uuid": "^9.0.1"
