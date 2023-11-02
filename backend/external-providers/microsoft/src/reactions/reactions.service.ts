@@ -37,6 +37,7 @@ import { TasksTodoOutput } from "../dtos/tasks-todo-output.dto";
 import { TasksListInput } from "../dtos/tasks-list-input.dto";
 import { TasksListOutput } from "../dtos/tasks-list-output.dto";
 import { TasksTodoDeleteInput } from "../dtos/tasks-todo-delete-input.dto";
+import { TasksListDeleteInput } from "../dtos/tasks-list-delete-input.dto";
 
 @Injectable()
 export class ReactionsService {
@@ -118,7 +119,6 @@ export class ReactionsService {
         );
     }
 
-    // @ts-ignore
     createTaskList(cri: CommonReactionInput<TasksListInput>): Observable<TasksListOutput> {
         return from(this.tokensService.getTokens(cri.userId)).pipe(
             mergeMap( (userProviderTokens) => {
@@ -128,6 +128,31 @@ export class ReactionsService {
                     return this.httpService.post<any>("https://graph.microsoft.com/v1.0/me/todo/lists", {
                         displayName,
                     }, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                            Accept: "application/json",
+                            "Content-Type": "application/json",
+                        },
+                    });
+                } catch (e) {
+                    this.logger.error(e);
+                    throw e;
+                }
+            }),
+            map(response => response.data),
+            map((data: any): TasksListOutput => ({
+                listId: data.id,
+            })),
+        );
+    }
+
+    deleteTaskList(cri: CommonReactionInput<TasksListDeleteInput>): Observable<any> {
+        return from(this.tokensService.getTokens(cri.userId)).pipe(
+            mergeMap( (userProviderTokens) => {
+                const { accessToken } = userProviderTokens;
+                const { listId } = cri.input;
+                try {
+                    return this.httpService.delete<any>(`https://graph.microsoft.com/v1.0/me/todo/lists/${listId}`, {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                             Accept: "application/json",

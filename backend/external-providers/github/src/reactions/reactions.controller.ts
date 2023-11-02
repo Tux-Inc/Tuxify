@@ -36,6 +36,7 @@ import { IssueCommentOutput } from "../dtos/issue-comment-output.dto";
 import { ActionReaction } from "../dtos/action-reaction.dto";
 import { IssueCloseInput } from "../dtos/issue-close-input.dto";
 import { IssueOpenInput } from "../dtos/issue-open-input.dto";
+import { IssueCommentReactionInput } from "../dtos/issue-comment-reaction-input.dto";
 
 @Controller("reactions")
 export class ReactionsController {
@@ -82,7 +83,7 @@ export class ReactionsController {
                             title: "Issue ID",
                         },
                         {
-                            name: "number",
+                            name: "issue_number",
                             title: "Issue number",
                         },
                         {
@@ -124,7 +125,7 @@ export class ReactionsController {
                     ],
                     outputs: [
                         {
-                            name: "id",
+                            name: "comment_id",
                             title: "Comment ID",
                         },
                         {
@@ -186,6 +187,39 @@ export class ReactionsController {
                         },
                     ],
                     outputs: [],
+                },
+                {
+                    name: "provider.github.reaction.issue.comment.reaction.create",
+                    type: "reaction",
+                    title: "Create an issue comment reaction",
+                    description: "Create a new reaction on specified issue comment",
+                    inputs: [
+                        {
+                            name: "owner",
+                            title: "Owner",
+                            placeholder: "owner",
+                            required: true,
+                        },
+                        {
+                            name: "repo",
+                            title: "Repository",
+                            placeholder: "repository",
+                            required: true,
+                        },
+                        {
+                            name: "comment_id",
+                            title: "Comment ID",
+                            placeholder: "1",
+                            required: true,
+                        },
+                        {
+                            name: "content",
+                            title: "Reaction",
+                            placeholder: "+1/-1/laugh/confused/heart/hooray/rocket/eyes",
+                            required: true,
+                        },
+                    ],
+                    outputs: [],
                 }
             ];
             this.natsClient.emit<ActionReaction[]>("heartbeat.providers.github.reactions", availableReactions);
@@ -210,5 +244,10 @@ export class ReactionsController {
     @MessagePattern("provider.github.reaction.issue.open")
     openIssue(@Payload() input: CommonReactionInput<IssueOpenInput>): Observable<any> {
         return this.reactionsService.openIssue(input);
+    }
+
+    @MessagePattern("provider.github.reaction.issue.comment.reaction.create")
+    createIssueCommentReaction(@Payload() input: CommonReactionInput<IssueCommentReactionInput>): Observable<any> {
+        return this.reactionsService.createIssueCommentReaction(input);
     }
 }

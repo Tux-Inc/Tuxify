@@ -1,4 +1,4 @@
 export interface IssueCommentOutput {
-    id: number;
+    comment_id: number;
     html_url: string;
 }

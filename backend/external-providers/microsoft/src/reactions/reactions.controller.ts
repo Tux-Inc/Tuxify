@@ -38,6 +38,7 @@ import { TasksTodoOutput } from "../dtos/tasks-todo-output.dto";
 import { TasksListInput } from "../dtos/tasks-list-input.dto";
 import { TasksListOutput } from "../dtos/tasks-list-output.dto";
 import { TasksTodoDeleteInput } from "../dtos/tasks-todo-delete-input.dto";
+import { TasksListDeleteInput } from "../dtos/tasks-list-delete-input.dto";
 
 @Controller('reactions')
 export class ReactionsController {
@@ -107,7 +108,7 @@ export class ReactionsController {
                     outputs: [],
                 },
                 {
-                  name: "provider.microsoft.reaction.tasks.list.create",
+                    name: "provider.microsoft.reaction.tasks.list.create",
                     type: "reaction",
                     title: "Create a new list",
                     description: "Create a new list in Microsoft To Do",
@@ -125,6 +126,21 @@ export class ReactionsController {
                             title: "List ID",
                         },
                     ],
+                },
+                {
+                    name: "provider.microsoft.reaction.tasks.list.delete",
+                    type: "reaction",
+                    title: "Delete a list",
+                    description: "Delete a list in Microsoft To Do",
+                    inputs: [
+                        {
+                            name: "listId",
+                            title: "List ID",
+                            placeholder: "list id",
+                            required: true,
+                        },
+                    ],
+                    outputs: [],
                 },
                 {
                     name: "provider.microsoft.reaction.tasks.todo.create",
@@ -197,6 +213,11 @@ export class ReactionsController {
     @MessagePattern('provider.microsoft.reaction.tasks.list.create')
     createList(@Payload() commonReactionInput: CommonReactionInput<TasksListInput>): Observable<TasksListOutput> {
         return this.reactionsService.createTaskList(commonReactionInput);
+    }
+
+    @MessagePattern('provider.microsoft.reaction.tasks.list.delete')
+    deleteList(@Payload() commonReactionInput: CommonReactionInput<TasksListDeleteInput>): Observable<any> {
+        return this.reactionsService.deleteTaskList(commonReactionInput);
     }
 
     @MessagePattern('provider.microsoft.reaction.tasks.todo.create')

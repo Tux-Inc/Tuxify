@@ -35,6 +35,7 @@ import { IssueCommentInput } from "../dtos/issue-comment-input.dto";
 import { IssueCommentOutput } from "../dtos/issue-comment-output.dto";
 import { IssueCloseInput } from "../dtos/issue-close-input.dto";
 import { IssueOpenInput } from "../dtos/issue-open-input.dto";
+import { IssueCommentReactionInput } from "../dtos/issue-comment-reaction-input.dto";
 
 @Injectable()
 export class ReactionsService {
@@ -60,9 +61,9 @@ export class ReactionsService {
                 });
             }),
             map(response => response.data),
-            map((data): IssueOutput => ({
+            map((data: any): IssueOutput => ({
                 id: data.id,
-                number: data.number,
+                issue_number: data.number,
                 html_url: data.html_url,
             }))
         );
@@ -85,8 +86,8 @@ export class ReactionsService {
                 });
             }),
             map(response => response.data),
-            map((data): IssueCommentOutput => ({
-                id: data.id,
+            map((data: any): IssueCommentOutput => ({
+                comment_id: data.id,
                 html_url: data.html_url,
             }))
         );
@@ -125,6 +126,24 @@ export class ReactionsService {
                         Authorization: `Bearer ${accessToken}`,
                         Accept: 'application/vnd.github+json',
                     },
+                });
+            }),
+            map(response => response.data),
+        );
+    }
+
+    createIssueCommentReaction(cri: CommonReactionInput<IssueCommentReactionInput>): Observable<any> {
+        return from(this.tokensService.getTokens(cri.userId)).pipe(
+            mergeMap(userProviderTokens => {
+                const { accessToken } = userProviderTokens;
+                const payload: any = {
+                    content: cri.input.content,
+                }
+                return this.httpService.post<void>(`https://api.github.com/repos/${cri.input.owner}/${cri.input.repo}/issues/comments/${cri.input.comment_id}/reactions`, payload, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        Accept: 'application/vnd.github+json'
+                    }
                 });
             }),
             map(response => response.data),

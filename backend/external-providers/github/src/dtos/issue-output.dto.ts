@@ -1,5 +1,5 @@
 export interface IssueOutput {
     id: number;
-    number: number;
+    issue_number: number;
     html_url: string;
 }
