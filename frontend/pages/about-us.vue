@@ -1,8 +1,8 @@
 <!--
-File Name: index.client.vue
+File Name: about-us.vue
 Author: Gwenaël Hubler, Stephane Fievez, Roman Lopez, Alexandre Kévin De Freitas Martins, Bouna Diallo
 Creation Date: 2023
-Description: This file is the oauth page
+Description: This file is the about us page
 
 Copyright (c) 2023 Tux Inc.
 
