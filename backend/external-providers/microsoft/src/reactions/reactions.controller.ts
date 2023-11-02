@@ -37,6 +37,7 @@ import { TasksTodoInput } from "../dtos/tasks-todo-input.dto";
 import { TasksTodoOutput } from "../dtos/tasks-todo-output.dto";
 import { TasksListInput } from "../dtos/tasks-list-input.dto";
 import { TasksListOutput } from "../dtos/tasks-list-output.dto";
+import { TasksTodoDeleteInput } from "../dtos/tasks-todo-delete-input.dto";
 
 @Controller('reactions')
 export class ReactionsController {
@@ -156,6 +157,27 @@ export class ReactionsController {
                             title: "Task ID",
                         },
                     ],
+                },
+                {
+                    name: "provider.microsoft.reaction.tasks.todo.delete",
+                    type: "reaction",
+                    title: "Delete a task",
+                    description: "Delete a task in Microsoft To Do",
+                    inputs: [
+                        {
+                            name: "listId",
+                            title: "List ID",
+                            placeholder: "list id",
+                            required: true,
+                        },
+                        {
+                            name: "taskId",
+                            title: "Task ID",
+                            placeholder: "task id",
+                            required: true,
+                        },
+                    ],
+                    outputs: [],
                 }
             ];
             this.natsClient.emit<ActionReaction[]>("heartbeat.providers.microsoft.reactions", availableReactions);
@@ -180,6 +202,11 @@ export class ReactionsController {
     @MessagePattern('provider.microsoft.reaction.tasks.todo.create')
     createTask(@Payload() commonReactionInput: CommonReactionInput<TasksTodoInput>): Observable<TasksTodoOutput> {
         return this.reactionsService.createTask(commonReactionInput);
+    }
+
+    @MessagePattern('provider.microsoft.reaction.tasks.todo.delete')
+    deleteTask(@Payload() commonReactionInput: CommonReactionInput<TasksTodoDeleteInput>): Observable<any> {
+        return this.reactionsService.deleteTask(commonReactionInput);
     }
 
 }

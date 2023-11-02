@@ -1,5 +1,5 @@
 /*
- * File Name: tasks-todo-output.dto.ts
+ * File Name: tasks-todo-delete-input.dto.ts
  * Author: neptos
  * Creation Date: 2023
  *
@@ -24,6 +24,7 @@
  * THE SOFTWARE.
  */
 
-export class TasksTodoOutput {
+export interface TasksTodoDeleteInput {
+    listId: string;
     taskId: string;
 }

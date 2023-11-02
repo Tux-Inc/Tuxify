@@ -36,6 +36,7 @@ import { TasksTodoInput } from "../dtos/tasks-todo-input.dto";
 import { TasksTodoOutput } from "../dtos/tasks-todo-output.dto";
 import { TasksListInput } from "../dtos/tasks-list-input.dto";
 import { TasksListOutput } from "../dtos/tasks-list-output.dto";
+import { TasksTodoDeleteInput } from "../dtos/tasks-todo-delete-input.dto";
 
 @Injectable()
 export class ReactionsService {
@@ -171,7 +172,32 @@ export class ReactionsService {
             }),
             map(response => response.data),
             map((data: any): TasksTodoOutput => ({
-                id: data.id,
+                taskId: data.id,
+            })),
+        );
+    }
+
+    deleteTask(cri: CommonReactionInput<TasksTodoDeleteInput>): Observable<any> {
+        return from(this.tokensService.getTokens(cri.userId)).pipe(
+            mergeMap( (userProviderTokens) => {
+                const { accessToken } = userProviderTokens;
+                const { listId, taskId } = cri.input;
+                try {
+                    return this.httpService.delete<any>(`https://graph.microsoft.com/v1.0/me/todo/lists/${listId}/tasks/${taskId}`, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                            Accept: "application/json",
+                            "Content-Type": "application/json",
+                        },
+                    });
+                } catch (e) {
+                    this.logger.error(e);
+                    throw e;
+                }
+            }),
+            map(response => response.data),
+            map((data: any): TasksTodoOutput => ({
+                taskId: data.id,
             })),
         );
     }
