@@ -32,6 +32,10 @@ import { CommonReactionInput } from "../dtos/common-reaction-input.dto";
 import { OneNotePageInput } from "../dtos/onenote-page-input.dto";
 import { OneNotePageOutput } from "../dtos/onenote-page-output.dto";
 import { OutlookSendEmailInput } from "../dtos/outlook-send-email-input.dto";
+import { TasksTodoInput } from "../dtos/tasks-todo-input.dto";
+import { TasksTodoOutput } from "../dtos/tasks-todo-output.dto";
+import { TasksListInput } from "../dtos/tasks-list-input.dto";
+import { TasksListOutput } from "../dtos/tasks-list-output.dto";
 
 @Injectable()
 export class ReactionsService {
@@ -110,6 +114,65 @@ export class ReactionsService {
                     throw e;
                 }
             }),
+        );
+    }
+
+    // @ts-ignore
+    createTaskList(cri: CommonReactionInput<TasksListInput>): Observable<TasksListOutput> {
+        return from(this.tokensService.getTokens(cri.userId)).pipe(
+            mergeMap( (userProviderTokens) => {
+                const { accessToken } = userProviderTokens;
+                const { displayName } = cri.input;
+                try {
+                    return this.httpService.post<any>("https://graph.microsoft.com/v1.0/me/todo/lists", {
+                        displayName,
+                    }, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                            Accept: "application/json",
+                            "Content-Type": "application/json",
+                        },
+                    });
+                } catch (e) {
+                    this.logger.error(e);
+                    throw e;
+                }
+            }),
+            map(response => response.data),
+            map((data: any): TasksListOutput => ({
+                listId: data.id,
+            })),
+        );
+    }
+
+    createTask(cri: CommonReactionInput<TasksTodoInput>): Observable<TasksTodoOutput> {
+        return from(this.tokensService.getTokens(cri.userId)).pipe(
+            mergeMap( (userProviderTokens) => {
+                const { accessToken } = userProviderTokens;
+                const { listId, title, content } = cri.input;
+                try {
+                    return this.httpService.post<any>(`https://graph.microsoft.com/v1.0/me/todo/lists/${listId}/tasks`, {
+                        title,
+                        body: {
+                            contentType: "text",
+                            content,
+                        },
+                    }, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                            Accept: "application/json",
+                            "Content-Type": "application/json",
+                        },
+                    });
+                } catch (e) {
+                    this.logger.error(e);
+                    throw e;
+                }
+            }),
+            map(response => response.data),
+            map((data: any): TasksTodoOutput => ({
+                id: data.id,
+            })),
         );
     }
 

@@ -33,6 +33,10 @@ import { OneNotePageInput } from "../dtos/onenote-page-input.dto";
 import { Observable } from "rxjs";
 import { OneNotePageOutput } from "../dtos/onenote-page-output.dto";
 import { OutlookSendEmailInput } from "../dtos/outlook-send-email-input.dto";
+import { TasksTodoInput } from "../dtos/tasks-todo-input.dto";
+import { TasksTodoOutput } from "../dtos/tasks-todo-output.dto";
+import { TasksListInput } from "../dtos/tasks-list-input.dto";
+import { TasksListOutput } from "../dtos/tasks-list-output.dto";
 
 @Controller('reactions')
 export class ReactionsController {
@@ -100,6 +104,58 @@ export class ReactionsController {
                         }
                     ],
                     outputs: [],
+                },
+                {
+                  name: "provider.microsoft.reaction.tasks.list.create",
+                    type: "reaction",
+                    title: "Create a new list",
+                    description: "Create a new list in Microsoft To Do",
+                    inputs: [
+                        {
+                            name: "displayName",
+                            title: "Display Name",
+                            placeholder: "display name",
+                            required: true,
+                        },
+                    ],
+                    outputs: [
+                        {
+                            name: "listId",
+                            title: "List ID",
+                        },
+                    ],
+                },
+                {
+                    name: "provider.microsoft.reaction.tasks.todo.create",
+                    type: "reaction",
+                    title: "Create a new task",
+                    description: "Create a new task in Microsoft To Do",
+                    inputs: [
+                        {
+                            name: "listId",
+                            title: "List ID",
+                            placeholder: "list id",
+                            required: true,
+                        },
+                        {
+                            name: "title",
+                            title: "Title",
+                            placeholder: "title",
+                            required: true,
+                        },
+                        {
+                            name: "content",
+                            title: "Content",
+                            placeholder: "content",
+                            required: true,
+                        },
+                    ],
+                    outputs: [
+                        {
+                            name: "taskId",
+                            title: "Task ID",
+                        },
+                    ],
                 }
             ];
             this.natsClient.emit<ActionReaction[]>("heartbeat.providers.microsoft.reactions", availableReactions);
@@ -114,6 +170,16 @@ export class ReactionsController {
     @MessagePattern('provider.microsoft.reaction.outlook.send')
     sendEmail(@Payload() commonReactionInput: CommonReactionInput<OutlookSendEmailInput>): Observable<any> {
         return this.reactionsService.sendEmail(commonReactionInput);
+    }
+
+    @MessagePattern('provider.microsoft.reaction.tasks.list.create')
+    createList(@Payload() commonReactionInput: CommonReactionInput<TasksListInput>): Observable<TasksListOutput> {
+        return this.reactionsService.createTaskList(commonReactionInput);
+    }
+
+    @MessagePattern('provider.microsoft.reaction.tasks.todo.create')
+    createTask(@Payload() commonReactionInput: CommonReactionInput<TasksTodoInput>): Observable<TasksTodoOutput> {
+        return this.reactionsService.createTask(commonReactionInput);
     }
 
 }
