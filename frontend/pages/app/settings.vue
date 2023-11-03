@@ -72,7 +72,7 @@ function signOut() {
             <DebitCard />
             <UserPreferences />
         </div>
-        <div class="flex items-center justify-between">
+        <div class="mt-10 flex items-center justify-between">
             <UButton
                 icon="i-heroicons-arrow-left-on-rectangle"
                 color="red"
@@ -81,16 +81,8 @@ function signOut() {
                 :loading="isLoading"
                 label="Sign Out"
             />
-            <UButton
-                type="button"
-                class="text-sm font-semibold leading-6 text-gray-900"
-                label="Cancel"
-            />
-            <UButton
-                type="submit"
-                class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                label="Save"
-            />
+            <UButton type="button" label="Cancel" />
+            <UButton type="submit" label="Save" />
         </div>
     </div>
 </template>
