@@ -26,10 +26,10 @@ THE SOFTWARE.
 -->
 
 <script setup lang="ts">
-import { useColorMode } from "@vueuse/core";
-import { useI18n } from "vue-i18n";
-import { User } from "~/types/IUser";
 import md5 from "md5";
+import { useI18n } from "vue-i18n";
+import { useColorMode } from "@vueuse/core";
+import { IUserCookie } from "~/types/IUserCookie";
 
 const i18n = useI18n();
 const { metaSymbol } = useShortcuts();
@@ -37,11 +37,8 @@ const { $event } = useNuxtApp();
 const colorMode = useColorMode();
 const availableLocales = computed(() => i18n.availableLocales);
 const localesItems: any = [];
-const userCookie = useCookie("user");
-
+const userCookie = useCookie<IUserCookie>("user");
 const sendEvent = (event: string) => $event(event);
-
-const user: User = toRaw(userCookie.value?.user);
 
 const isDark = computed({
     get() {
@@ -65,7 +62,7 @@ for (const locale of availableLocales.value) {
 const items = [
     [
         {
-            label: user?.email,
+            label: userCookie.value.user.name,
             slot: "account",
             disabled: true,
         },
@@ -105,6 +102,24 @@ const items = [
         },
     ],
 ];
+
+function getUserImage() {
+    try {
+        return `https://www.gravatar.com/avatar/${md5(
+            userCookie.value.user.email.trim().toLowerCase(),
+        )}`;
+    } catch (error) {
+        return "https://www.gravatar.com/avatar/feur";
+    }
+}
+
+function getUserAlt() {
+    try {
+        return userCookie.value.user.name + " avatar";
+    } catch (error) {
+        return "User";
+    }
+}
 </script>
 
 <template>
@@ -177,10 +192,8 @@ const items = [
                         :popper="{ placement: 'bottom-start' }"
                     >
                         <UAvatar
-                            :src="`https://www.gravatar.com/avatar/${md5(
-                                user.email.trim().toLowerCase(),
-                            )}`"
-                            :alt="user.name + ' avatar'"
+                            :src="getUserImage()"
+                            :alt="getUserAlt()"
                             class="flex-shrink-0 h-8 w-8 bg-base-dark dark:bg-base-light"
                         />
                         <template #account="{ item }">

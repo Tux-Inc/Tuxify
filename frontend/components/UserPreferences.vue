@@ -1,8 +1,36 @@
+<!--
+/**
+File Name: useApiRequest.client.ts
+Author: Gwenaël Hubler, Stephane Fievez, Roman Lopes, Alexandre Kévin De Freitas Martins, Bouna Diallo
+Creation Date: 2023
+Description: Brief description of the contents of this file.
+
+Copyright (c) 2023 Tux Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the 'Software'), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+-->
+
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
-import { ILanguageSelectProps } from "~/types/ILanguageSelectProps";
-import { ISelectOptionsProps, ISelectProps } from "~/types/ISelectProps";
 import { useColorMode } from "@vueuse/core";
+import { ISelectOptionsProps, ISelectProps } from "~/types/ISelectProps";
 
 const i18n = useI18n();
 const colorMode = useColorMode();
@@ -10,25 +38,28 @@ const isDark = computed({
     get: () => colorMode.value === "dark",
     set: (value) => (colorMode.value = value ? "dark" : "light"),
 });
-const localesItems: ILanguageSelectProps[][] = [];
+const localesItems: ISelectOptionsProps[][] = [];
 let availableLocales = computed(() => i18n.availableLocales);
 
 for (const locale of availableLocales.value) {
     localesItems.push([
         {
+            name: locale,
             label: i18n.t(`locales.${locale}`),
+            value: locale,
             icon: "i-heroicons-globe-alt",
             click: () => (i18n.locale.value = locale),
         },
     ]);
 }
 
-// const languagesSelector = ref<ISelectProps>({
-//     label: "Language",
-//     name: "language",
-//     id: "language",
-//     "option-attribute": "label",
-// });
+const languagesSelector = ref<ISelectProps>({
+    label: "Language",
+    name: "language",
+    id: "language",
+    options: localesItems.flat(),
+    "option-attribute": "label",
+});
 
 const themesSelector = ref<ISelectProps>({
     label: "Theme",
@@ -65,11 +96,17 @@ const themeSelected = ref<ISelectOptionsProps>(
     <p class="text-sm leading-6 text-gray-600">
         {{ i18n.t("app.settings.preferences.description") }}
     </p>
-
-    <div class="sm:col-span-4">
-        <USelect id="language" name="language" :options="localesItems" />
-    </div>
-    <div class="sm:col-span-4">
+    <div
+        class="grid md:grid-cols-4 gap-8 justify-center items-center text-center"
+    >
+        <USelect
+            id="language"
+            name="language"
+            :options="languagesSelector.options"
+            v-model="languagesSelector.value"
+            @click="languagesSelector.click"
+            option-attribute="label"
+        />
         <USelect
             :id="themesSelector.id"
             :name="themesSelector.name"

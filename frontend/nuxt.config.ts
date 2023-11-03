@@ -62,7 +62,7 @@ export default defineNuxtConfig({
                 "width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=5",
         },
     },
-    modules: ["@nuxt/ui", "@nuxt/image", "@nuxtjs/device", "nuxt-security"],
+    modules: ["@nuxt/ui", "@nuxt/image", "@nuxtjs/device"],
     ui: {
         icons: ["heroicons", "mdi"],
     },

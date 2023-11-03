@@ -28,50 +28,72 @@ THE SOFTWARE.
 <script setup lang="ts">
 import { IBlockInputAutocompleteProps } from "~/types/IBlockInputAutocompleteProps";
 
-const props: IBlockInputAutocompleteProps = defineProps<IBlockInputAutocompleteProps>();
+const props: IBlockInputAutocompleteProps =
+    defineProps<IBlockInputAutocompleteProps>();
 
 const emit = defineEmits<{
     (e: "flow-block-autocomplete", value: string): void;
-}>()
+}>();
 
 const userInput = ref(props.input.value);
 const isFocused = ref(false);
 const hideTimeout = ref<NodeJS.Timeout | null>(null);
 
 const suggestions = computed(() => {
-    if (userInput.value.includes('{{')) {
+    if (userInput.value.includes("{{")) {
         const pattern = /{{\s*flow.step.(\w+)?\.?(\w+)?\s*}}?/g;
         const match = pattern.exec(userInput.value);
 
-        const currentBlockIndex = props.flowBlocks.findIndex(flow => flow.uuid === props.currentBlock.uuid);
+        const currentBlockIndex = props.flowBlocks.findIndex(
+            (flow) => flow.uuid === props.currentBlock.uuid,
+        );
 
         if (!match) {
             return props.flowBlocks
-                .filter((flow, index) => index < currentBlockIndex && flow.uuid !== props.currentBlock.uuid) // Exclude blocks after the current block and the current block itself
-                .flatMap(flow => flow.outputs.map(output => `{{ flow.step.${flow.uuid}.${output.name} }}`));
+                .filter(
+                    (flow, index) =>
+                        index < currentBlockIndex &&
+                        flow.uuid !== props.currentBlock.uuid,
+                ) // Exclude blocks after the current block and the current block itself
+                .flatMap((flow) =>
+                    flow.outputs.map(
+                        (output) =>
+                            `{{ flow.step.${flow.uuid}.${output.name} }}`,
+                    ),
+                );
         }
 
         const [_, uuid, outputname] = match;
 
         if (uuid && !outputname) {
             return props.flowBlocks
-                .filter((flow, index) => index < currentBlockIndex && flow.uuid?.startsWith(uuid) && flow.uuid !== props.currentBlock.uuid) // Exclude blocks after the current block and the current block itself
-                .flatMap(flow => flow.outputs.map(output => `{{ flow.step.${uuid}.${output.name} }}`));
+                .filter(
+                    (flow, index) =>
+                        index < currentBlockIndex &&
+                        flow.uuid?.startsWith(uuid) &&
+                        flow.uuid !== props.currentBlock.uuid,
+                ) // Exclude blocks after the current block and the current block itself
+                .flatMap((flow) =>
+                    flow.outputs.map(
+                        (output) => `{{ flow.step.${uuid}.${output.name} }}`,
+                    ),
+                );
         }
 
         if (uuid && outputname) {
             return props.flowBlocks
-                .filter((flow, index) => index < currentBlockIndex && flow.uuid === uuid)
-                .flatMap(flow => flow.outputs)
-                .filter(output => output.name.startsWith(outputname))
-                .map(output => `{{ flow.step.${uuid}.${output.name} }}`);
+                .filter(
+                    (flow, index) =>
+                        index < currentBlockIndex && flow.uuid === uuid,
+                )
+                .flatMap((flow) => flow.outputs)
+                .filter((output) => output.name.startsWith(outputname))
+                .map((output) => `{{ flow.step.${uuid}.${output.name} }}`);
         }
     }
 
     return [];
 });
-
-
 
 const handleFocus = () => {
     isFocused.value = true;
@@ -97,7 +119,6 @@ watch(
         emit("flow-block-autocomplete", newVal);
     },
 );
-
 </script>
 
 <template>
@@ -110,9 +131,16 @@ watch(
             @blur="handleBlur"
         />
         <Transition name="fade">
-            <div v-show="suggestions.length && isFocused" class="absolute z-50 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-800 rounded-lg p-4 w-full mt-2">
+            <div
+                v-show="suggestions.length && isFocused"
+                class="absolute z-50 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-800 rounded-lg p-4 w-full mt-2"
+            >
                 <ul class="flex flex-col gap-2">
-                    <li v-for="suggestion in suggestions" @click.prevent="selectSuggestion(suggestion)" class="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 p-2 rounded-lg text-sm">
+                    <li
+                        v-for="suggestion in suggestions"
+                        @click.prevent="selectSuggestion(suggestion)"
+                        class="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 p-2 rounded-lg text-sm"
+                    >
                         {{ suggestion }}
                     </li>
                 </ul>

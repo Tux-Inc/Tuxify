@@ -33,7 +33,6 @@
     "@nuxt/image": "rc",
     "@nuxt/ui": "^2.8.1",
     "mitt": "^3.0.1",
-    "nuxt-security": "^1.0.0-rc.3",
     "uuid": "^9.0.1"
   },
   "packageManager": "yarn@3.6.3"
