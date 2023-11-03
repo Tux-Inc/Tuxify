@@ -1,6 +1,6 @@
 <!--
 File Name: settings.vue
-Author: Gwenaël Hubler, Stephane Fievez, Roman Lopez, Alexandre Kévin De Freitas Martins, Bouna Diallo
+Author: Gwenaël Hubler, Stephane Fievez, Roman Lopes, Alexandre Kévin De Freitas Martins, Bouna Diallo
 Creation Date: 2023
 Description: This file is the settings page
 
@@ -51,6 +51,7 @@ function signOut() {
     isLoading.value = false;
 }
 </script>
+
 <template>
     <div>
         <Head>

@@ -41,7 +41,6 @@ const emit = defineEmits<{
     (e: "flow-add-block", block: IBlockFullProps): void;
 }>();
 
-
 async function getAvailableBlocks() {
     try {
         const res = await useApiRequest<IActionReactionService[]>(`/providers`);
@@ -66,7 +65,10 @@ async function getAvailableBlocks() {
     }
 }
 
-function addBlock(actionReaction: IActionReaction, service: IActionReactionService) {
+function addBlock(
+    actionReaction: IActionReaction,
+    service: IActionReactionService,
+) {
     const newBlock: IBlockFullProps = {
         name: actionReaction.name,
         title: actionReaction.title,
@@ -98,15 +100,47 @@ onMounted(() => {
 <template>
     <div class="p-4">
         <div class="flex flex-row items-center justify-start gap-2">
-            <UIcon name="i-heroicons-link" class="text-sm text-primary font-bold text-dark dark:text-light" />
-            <h1 class="text-sm text-primary font-bold text-dark dark:text-light">Add action/reaction {{props.type}}</h1>
+            <UIcon
+                name="i-heroicons-link"
+                class="text-sm text-primary font-bold text-dark dark:text-light"
+            />
+            <h1
+                class="text-sm text-primary font-bold text-dark dark:text-light"
+            >
+                Add action/reaction {{ props.type }}
+            </h1>
         </div>
         <div class="flex flex-col overflow-y-auto max-h-96 gap-2 mt-4 p-2">
-            <UInput v-model="search" icon="i-heroicons-magnifying-glass" placeholder="Search" />
-            <div v-for="(service, index) in availableActionsReactionsServices" :key="index">
+            <UInput
+                v-model="search"
+                icon="i-heroicons-magnifying-glass"
+                placeholder="Search"
+            />
+            <div
+                v-for="(service, index) in availableActionsReactionsServices"
+                :key="index"
+            >
                 <div class="flex flex-col gap-2">
-                    <AppFlowBlockPreview v-if="props.type === 'action'" v-for="(actionReaction, index) in service.actions" :key="index" @click="addBlock(actionReaction, service)" :name="actionReaction.name" :title="actionReaction.title" :description="actionReaction.description" :service="service" />
-                    <AppFlowBlockPreview v-if="props.type === 'reaction'" v-for="(actionReaction, index) in service.reactions" :key="index" @click="addBlock(actionReaction, service)" :name="actionReaction.name" :title="actionReaction.title" :description="actionReaction.description" :service="service" />
+                    <AppFlowBlockPreview
+                        v-if="props.type === 'action'"
+                        v-for="(actionReaction, index) in service.actions"
+                        :key="index"
+                        @click="addBlock(actionReaction, service)"
+                        :name="actionReaction.name"
+                        :title="actionReaction.title"
+                        :description="actionReaction.description"
+                        :service="service"
+                    />
+                    <AppFlowBlockPreview
+                        v-if="props.type === 'reaction'"
+                        v-for="(actionReaction, index) in service.reactions"
+                        :key="index"
+                        @click="addBlock(actionReaction, service)"
+                        :name="actionReaction.name"
+                        :title="actionReaction.title"
+                        :description="actionReaction.description"
+                        :service="service"
+                    />
                 </div>
             </div>
         </div>

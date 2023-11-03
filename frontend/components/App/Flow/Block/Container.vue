@@ -46,7 +46,7 @@ watch(
         emit("flow-update", newVal);
     },
     { deep: true },
-)
+);
 
 function addActionReaction(block: IBlockFullProps) {
     isAvailableListOpen.value = false;
@@ -61,13 +61,30 @@ function removeActionReaction(uuid: string) {
 
 <template>
     <UModal v-model="isAvailableListOpen">
-        <AppFlowBlockAvailable :type="flowBlocks.length === 0 ? 'action' : 'reaction'" @flow-add-block="addActionReaction" />
+        <AppFlowBlockAvailable
+            :type="flowBlocks.length === 0 ? 'action' : 'reaction'"
+            @flow-add-block="addActionReaction"
+        />
     </UModal>
     <div class="flex flex-col">
-        <div v-if="flowBlocks.length === 0" class="flex flex-col items-center justify-center gap-4 mt-4">
-            <UIcon name="i-heroicons-cube-transparent" class="text-4xl text-primary font-bold text-dark dark:text-light" />
-            <span class="text-dark dark:text-light">No blocks added yet, start by adding a trigger.</span>
-            <UButton size="md" @click="isAvailableListOpen = true" color="primary" icon="i-heroicons-plus" label="Add action" />
+        <div
+            v-if="flowBlocks.length === 0"
+            class="flex flex-col items-center justify-center gap-4 mt-4"
+        >
+            <UIcon
+                name="i-heroicons-cube-transparent"
+                class="text-4xl text-primary font-bold text-dark dark:text-light"
+            />
+            <span class="text-dark dark:text-light"
+                >No blocks added yet, start by adding a trigger.</span
+            >
+            <UButton
+                size="md"
+                @click="isAvailableListOpen = true"
+                color="primary"
+                icon="i-heroicons-plus"
+                label="Add action"
+            />
         </div>
         <div v-else v-for="(actionReaction, index) in flowBlocks" :key="index">
             <AppFlowBlockFull
@@ -75,11 +92,23 @@ function removeActionReaction(uuid: string) {
                 :flow-blocks="flowBlocks"
                 @flow-remove-block="removeActionReaction"
             />
-            <div v-if="index !== flowBlocks.length - 1" class="flex justify-center">
+            <div
+                v-if="index !== flowBlocks.length - 1"
+                class="flex justify-center"
+            >
                 <div class="bg-gray-300 dark:bg-gray-700 w-0.5 h-9"></div>
             </div>
-            <div v-else class="flex flex-row items-center justify-center gap-4 mt-4">
-                <UButton size="md" @click="isAvailableListOpen = true" color="primary" icon="i-heroicons-plus" label="Add reaction" />
+            <div
+                v-else
+                class="flex flex-row items-center justify-center gap-4 mt-4"
+            >
+                <UButton
+                    size="md"
+                    @click="isAvailableListOpen = true"
+                    color="primary"
+                    icon="i-heroicons-plus"
+                    label="Add reaction"
+                />
             </div>
         </div>
     </div>
