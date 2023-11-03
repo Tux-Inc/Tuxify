@@ -2,7 +2,7 @@
 File Name: index.client.vue
 Author: Gwenaël Hubler, Stephane Fievez, Roman Lopes, Alexandre Kévin De Freitas Martins, Bouna Diallo
 Creation Date: 2023
-Description: This file is the oauth page
+Description: This file is the index page of the website.
 
 Copyright (c) 2023 Tux Inc.
 
@@ -105,7 +105,7 @@ const i18n = useI18n();
                             <NuxtImg
                                 alt="ai"
                                 class="h-24"
-                                src="/landing/ai.png"
+                                src="/landing/main/ai.png"
                             />
                             <div>
                                 <span
@@ -136,7 +136,9 @@ const i18n = useI18n();
                             <NuxtImg
                                 alt="graph"
                                 class="h-24"
-                                src="/landing/graph.png"
+                                format="png"
+                                quality="100"
+                                src="/landing/main/graph.png"
                             />
                             <div>
                                 <span
@@ -169,7 +171,9 @@ const i18n = useI18n();
                             <NuxtImg
                                 alt="graph"
                                 class="h-24"
-                                src="/landing/services.png"
+                                format="png"
+                                quality="100"
+                                src="/landing/main/services.png"
                             />
                             <div>
                                 <span

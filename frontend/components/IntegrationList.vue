@@ -41,13 +41,13 @@ const props = withDefaults(defineProps<IIntegrationList>(), {
         <div class="my-4">
             <NuxtImg
                 :src="icon"
-                class="w-10 h-10 mx-auto text-primary"
                 :alt="alt"
+                class="w-10 h-10 mx-auto text-primary"
             />
         </div>
-        <span class="text-4xl text-center font-bold text-primary">{{
-            title
-        }}</span>
+        <span class="text-4xl text-center font-bold text-primary">
+            {{ title }}
+        </span>
 
         <p
             class="mt-2 text-lg text-center tracking-tight text-gray-600 dark:text-gray-300"

@@ -2,7 +2,7 @@
 File Name: index.client.vue
 Author: Gwenaël Hubler, Stephane Fievez, Roman Lopes, Alexandre Kévin De Freitas Martins, Bouna Diallo
 Creation Date: 2023
-Description: This file is the oauth page
+Description: This file is the about us page
 
 Copyright (c) 2023 Tux Inc.
 
