@@ -381,6 +381,90 @@
       "flows": "Flows",
       "services": "Services",
       "settings": "Settings"
+    },
+    "settings": {
+      "title": "Settings",
+      "description": "Manage your account settings.",
+      "profile": {
+        "title": "Profile",
+        "description": "Manage your profile information.",
+        "labels": {
+          "name": "Name",
+          "email": "Email",
+          "avatar": "Avatar"
+        },
+        "placeholders": {
+          "name": "Name",
+          "email": "Email",
+          "avatar": "Avatar"
+        },
+        "messages": {
+          "success": "Your profile has been updated successfully.",
+          "error": "An error occurred while updating your profile. Please try again later."
+        }
+      },
+      "account": {
+        "title": "Account",
+        "description": "Manage your account information.",
+        "labels": {
+          "name": "Name",
+          "email": "Email",
+          "password": "Password",
+          "newPassword": "New Password",
+          "confirmNewPassword": "Confirm new Password"
+        },
+        "placeholders": {
+          "name": "John Doe",
+          "email": "john.doe@tuxify.fr",
+          "password": "Password",
+          "newPassword": "New Password",
+          "confirmNewPassword": "Confirm new Password"
+        },
+        "messages": {
+          "success": "Your account has been updated successfully.",
+          "error": "An error occurred while updating your account. Please try again later."
+        }
+      },
+      "billing": {
+        "title": "Billing",
+        "description": "Manage your billing information.",
+        "labels": {
+          "card": "Card",
+          "cardName": "Card Name",
+          "cardNumber": "Card Number",
+          "cardExpiry": "Card Expiry",
+          "cardCvc": "Card CVC",
+          "cardPostalCode": "Card Postal Code"
+        },
+        "placeholders": {
+          "card": "Card",
+          "cardName": "Card Name",
+          "cardNumber": "Card Number",
+          "cardExpiry": "Card Expiry",
+          "cardCvc": "Card CVC",
+          "cardPostalCode": "Card Postal Code"
+        },
+        "messages": {
+          "success": "Your billing information has been updated successfully.",
+          "error": "An error occurred while updating your billing information. Please try again later."
+        }
+      },
+      "preferences": {
+        "title": "Preferences",
+        "description": "Manage your preferences.",
+        "labels": {
+          "language": "Language",
+          "darkMode": "Dark Mode"
+        },
+        "placeholders": {
+          "language": "Language",
+          "darkMode": "Dark Mode"
+        },
+        "messages": {
+          "success": "Your preferences have been updated successfully.",
+          "error": "An error occurred while updating your preferences. Please try again later."
+        }
+      }
     }
   }
 }
