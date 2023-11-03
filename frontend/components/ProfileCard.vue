@@ -10,12 +10,12 @@ const i18n = useI18n();
 </script>
 
 <template>
-    <div>
-        <span class="text-dark dark:text-light font-bold text-2xl">
-            {{ i18n.t("app.settings.profile.title") }}
-        </span>
-        <div class="flex justify-center items-center gap-2">
-            <div>
+    <span class="text-dark dark:text-light font-bold text-2xl">
+        {{ i18n.t("app.settings.profile.title") }}
+    </span>
+    <div class="justify-center items-center">
+        <div class="grid grid-cols-1">
+            <div class="justify-center items-center">
                 <NuxtImg
                     quality="100"
                     format="png"
