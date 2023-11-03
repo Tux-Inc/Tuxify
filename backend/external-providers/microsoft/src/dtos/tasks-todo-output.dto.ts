@@ -1,5 +1,5 @@
 /*
- * File Name: microsoft.module.ts
+ * File Name: tasks-todo-output.dto.ts
  * Author: neptos
  * Creation Date: 2023
  *
@@ -24,33 +24,6 @@
  * THE SOFTWARE.
  */
 
-import { Module } from "@nestjs/common";
-import { MicrosoftController } from "./microsoft.controller";
-import { MicrosoftService } from "./microsoft.service";
-import { AuthModule } from "./auth/auth.module";
-import { ClientsModule, Transport } from "@nestjs/microservices";
-import { ReactionsModule } from './reactions/reactions.module';
-import { ActionsModule } from './actions/actions.module';
-import { TokensModule } from './tokens/tokens.module';
-
-@Module({
-    imports: [
-        ClientsModule.register([
-            {
-                name: "NATS_CLIENT",
-                transport: Transport.NATS,
-                options: {
-                    servers: [process.env.NATS_SERVER_URL || "nats://localhost:4222"],
-                },
-            },
-        ]),
-        AuthModule,
-        ReactionsModule,
-        ActionsModule,
-        TokensModule,
-    ],
-    controllers: [MicrosoftController],
-    providers: [MicrosoftService],
-})
-export class MicrosoftModule {
+export class TasksTodoOutput {
+    taskId: string;
 }

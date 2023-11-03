@@ -33,7 +33,6 @@ export class AuthService {
     }
 
     async refreshTokens(providerEntity: ProviderEntity): Promise<ProviderEntity> {
-
         const { refreshToken } = providerEntity;
         this.google = AuthService.setOAuthClass(process.env.API_BASE_URL, providerEntity.userId, this.httpService);
         return await this.google.refreshTokens(providerEntity);

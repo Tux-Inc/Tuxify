@@ -1,5 +1,5 @@
 /*
- * File Name: microsoft.module.ts
+ * File Name: actions.module.ts
  * Author: neptos
  * Creation Date: 2023
  *
@@ -24,33 +24,28 @@
  * THE SOFTWARE.
  */
 
-import { Module } from "@nestjs/common";
-import { MicrosoftController } from "./microsoft.controller";
-import { MicrosoftService } from "./microsoft.service";
-import { AuthModule } from "./auth/auth.module";
+import { Module } from '@nestjs/common';
+import { ActionsController } from './actions.controller';
+import { ActionsService } from './actions.service';
+import { HttpModule } from "@nestjs/axios";
 import { ClientsModule, Transport } from "@nestjs/microservices";
-import { ReactionsModule } from './reactions/reactions.module';
-import { ActionsModule } from './actions/actions.module';
-import { TokensModule } from './tokens/tokens.module';
+import { ReactionsService } from "../reactions/reactions.service";
+import { TokensService } from "../tokens/tokens.service";
 
 @Module({
-    imports: [
-        ClientsModule.register([
-            {
-                name: "NATS_CLIENT",
-                transport: Transport.NATS,
-                options: {
-                    servers: [process.env.NATS_SERVER_URL || "nats://localhost:4222"],
-                },
-            },
-        ]),
-        AuthModule,
-        ReactionsModule,
-        ActionsModule,
-        TokensModule,
-    ],
-    controllers: [MicrosoftController],
-    providers: [MicrosoftService],
+  imports: [
+    ClientsModule.register([
+      {
+        name: 'NATS_CLIENT',
+        transport: Transport.NATS,
+        options: {
+          servers: [process.env.NATS_SERVER_URL || 'nats://localhost:4222'],
+        }
+      }
+    ]),
+    HttpModule,
+  ],
+  controllers: [ActionsController],
+  providers: [ActionsService, ReactionsService, TokensService],
 })
-export class MicrosoftModule {
-}
+export class ActionsModule {}

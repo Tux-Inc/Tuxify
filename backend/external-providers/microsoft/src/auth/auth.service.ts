@@ -73,37 +73,37 @@ export class AuthService {
         return `${randomBytes(16).toString('hex')}.${userId}`;
     }
 
-    private getTokens(code: string, state: string): Promise<AddedProvider> {
+    private async getTokens(code: string, state: string): Promise<AddedProvider> {
         if (!code || !state)
-            throw new RpcException('Invalid code or state received from Microsoft')
-        const [nonce, userId] = state.split('.');
+            throw new RpcException("Invalid code or state received from Microsoft");
+        const [nonce, userId] = state.split(".");
         if (!nonce || !userId)
-            throw new RpcException('Invalid state received from Microsoft');
+            throw new RpcException("Invalid state received from Microsoft");
         const params = {
             client_id: process.env.MICROSOFT_CLIENT_ID,
             client_secret: process.env.MICROSOFT_CLIENT_SECRET,
             code,
             redirect_uri: `${process.env.API_BASE_URL}/providers/microsoft/callback`,
-            grant_type: 'authorization_code',
+            grant_type: "authorization_code",
         };
         const headers = {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            "Content-Type": "application/x-www-form-urlencoded",
         };
         const body = new URLSearchParams(params).toString();
-        return this.httpService.post(
-            `${AuthService.authProviderEndpoints.tokenHost}${AuthService.authProviderEndpoints.tokenPath}`,
-            body,
-            { headers },
-        ).toPromise().then(({ data }) => {
+        try {
+            const { data } = await this.httpService.post(
+                `${AuthService.authProviderEndpoints.tokenHost}${AuthService.authProviderEndpoints.tokenPath}`,
+                body,
+                { headers }).toPromise();
             const { access_token, refresh_token } = data;
             return {
                 userId: parseInt(userId),
                 accessToken: access_token,
                 refreshToken: refresh_token,
             };
-        }).catch(e => {
+        } catch (e) {
             throw new RpcException(e.message);
-        });
+        }
     }
 
     async addProvider(addProvider: AddProvider): Promise<string> {
@@ -130,8 +130,8 @@ export class AuthService {
 
     async refreshTokens(providerEntity: ProviderEntity): Promise<ProviderEntity> {
         const params = {
-            client_id: process.env.MISCROSOFT_CLIENT_ID,
-            client_secret: process.env.MISCROSOFT_CLIENT_SECRET,
+            client_id: process.env.MICROSOFT_CLIENT_ID,
+            client_secret: process.env.MICROSOFT_CLIENT_SECRET,
             refresh_token: providerEntity.refreshToken,
             grant_type: 'refresh_token',
         };
