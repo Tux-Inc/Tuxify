@@ -36,7 +36,7 @@ export class FlowsController {
       return this.flowsService.deleteFlow(getFlow);
   }
 
-  @EventPattern('flows.actions.>')
+  @EventPattern('flows.actions')
   async handleActions(@Payload() flowActionData: FlowActionData): Promise<string> {
     return this.flowsService.handleActions(flowActionData);
   }

@@ -38,6 +38,9 @@ import { TasksListInput } from "../dtos/tasks-list-input.dto";
 import { TasksListOutput } from "../dtos/tasks-list-output.dto";
 import { TasksTodoDeleteInput } from "../dtos/tasks-todo-delete-input.dto";
 import { TasksListDeleteInput } from "../dtos/tasks-list-delete-input.dto";
+import { UserProviderTokens } from "../tokens/dtos/user-provider-tokens.dto";
+import { OutlookGetEmailInput } from "../dtos/outlook-get-email-input.dto";
+import { OutlookGetEmailOutput } from "../dtos/outlook-get-email-output.dto";
 
 @Injectable()
 export class ReactionsService {
@@ -49,9 +52,31 @@ export class ReactionsService {
     ) {
     }
 
+    getEmail(cri: CommonReactionInput<OutlookGetEmailInput>): Observable<OutlookGetEmailOutput> {
+        return from(this.tokensService.getTokens(cri.userId)).pipe(
+            mergeMap((userProviderTokens: UserProviderTokens) => {
+                const { accessToken } = userProviderTokens;
+                const { messageId } = cri.input;
+                return this.httpService.get<any>(`https://graph.microsoft.com/v1.0/me/messages/${messageId}`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                    },
+                });
+            }),
+            map(response => response.data),
+            map((data: any): OutlookGetEmailOutput => ({
+                from: data.from.emailAddress.address,
+                subject: data.subject,
+                body: data.body.content,
+            })),
+        );
+    }
+
     createOneNotePage(cri: CommonReactionInput<OneNotePageInput>): Observable<OneNotePageOutput> {
         return from(this.tokensService.getTokens(cri.userId)).pipe(
-            mergeMap(userProviderTokens => {
+            mergeMap((userProviderTokens: UserProviderTokens) => {
                 const { accessToken } = userProviderTokens;
                 const { title, content } = cri.input;
                 const htmlContent = `
@@ -84,7 +109,7 @@ export class ReactionsService {
 
     sendEmail(cri: CommonReactionInput<OutlookSendEmailInput>): Observable<any> {
         return from(this.tokensService.getTokens(cri.userId)).pipe(
-            mergeMap(async (userProviderTokens) => {
+            mergeMap(async (userProviderTokens: UserProviderTokens) => {
                 const { accessToken } = userProviderTokens;
                 const { to, subject, body } = cri.input;
                 try {
@@ -121,7 +146,7 @@ export class ReactionsService {
 
     createTaskList(cri: CommonReactionInput<TasksListInput>): Observable<TasksListOutput> {
         return from(this.tokensService.getTokens(cri.userId)).pipe(
-            mergeMap( (userProviderTokens) => {
+            mergeMap( (userProviderTokens: UserProviderTokens) => {
                 const { accessToken } = userProviderTokens;
                 const { displayName } = cri.input;
                 try {
@@ -148,7 +173,7 @@ export class ReactionsService {
 
     deleteTaskList(cri: CommonReactionInput<TasksListDeleteInput>): Observable<any> {
         return from(this.tokensService.getTokens(cri.userId)).pipe(
-            mergeMap( (userProviderTokens) => {
+            mergeMap( (userProviderTokens: UserProviderTokens) => {
                 const { accessToken } = userProviderTokens;
                 const { listId } = cri.input;
                 try {
@@ -173,7 +198,7 @@ export class ReactionsService {
 
     createTask(cri: CommonReactionInput<TasksTodoInput>): Observable<TasksTodoOutput> {
         return from(this.tokensService.getTokens(cri.userId)).pipe(
-            mergeMap( (userProviderTokens) => {
+            mergeMap( (userProviderTokens: UserProviderTokens) => {
                 const { accessToken } = userProviderTokens;
                 const { listId, title, content } = cri.input;
                 try {
@@ -204,7 +229,7 @@ export class ReactionsService {
 
     deleteTask(cri: CommonReactionInput<TasksTodoDeleteInput>): Observable<any> {
         return from(this.tokensService.getTokens(cri.userId)).pipe(
-            mergeMap( (userProviderTokens) => {
+            mergeMap( (userProviderTokens: UserProviderTokens) => {
                 const { accessToken } = userProviderTokens;
                 const { listId, taskId } = cri.input;
                 try {

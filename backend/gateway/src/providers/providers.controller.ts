@@ -1,5 +1,5 @@
 import {
-    BadGatewayException,
+    BadGatewayException, Body,
     Controller,
     Get,
     Inject,
@@ -75,9 +75,9 @@ export class ProvidersController {
     }
 
     @Post(':provider/action/:scope')
-    async action(@Param('provider') provider: string, @Query() query: any, @Req() req: any): Promise<any> {
+    async action(@Param('provider') provider: string, @Query() query: any, @Body() body: any): Promise<void> {
         try {
-            await firstValueFrom(this.natsClient.send(`providers.${provider}.action`, {}));
+            await firstValueFrom(this.natsClient.send(`providers.${provider}.action.${query.scope}`, body));
             return;
         } catch (e) {
             throw new BadGatewayException(e.message);
