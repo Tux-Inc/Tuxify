@@ -44,6 +44,6 @@ export class FlowsController {
     @UseGuards(AuthGuard)
     @Post('actions/:actionName')
     async triggerAction(@Param('actionName') actionName: string, @Req() req: any, @Body() data: any): Promise<any> {
-        return this.natsClient.send(`flows.actions.${actionName}` , {userId: req.user, actionName, data});
+        return this.natsClient.send(`flows.actions` , {userId: req.user, actionName, data});
     }
 }

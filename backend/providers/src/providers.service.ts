@@ -115,14 +115,14 @@ export class ProvidersService {
     async addProviderCallback(addProviderCallback: AddProviderCallback): Promise<string> {
         const newProviderObservable: Observable<any> = this.natsClient.send(`provider.${addProviderCallback.provider}.add.callback`, addProviderCallback);
         newProviderObservable.subscribe({
-            next: (addedProvider: AddedProvider) => {
+            next: async (addedProvider: AddedProvider) => {
                 const localUserProviderTokens: LocalUserProviderTokens = {
                     provider: addProviderCallback.provider,
                     userId: addedProvider.userId,
                     accessToken: addedProvider.accessToken,
                     refreshToken: addedProvider.refreshToken,
                 };
-                this.updateOrCreate(localUserProviderTokens);
+                await this.updateOrCreate(localUserProviderTokens);
                 this.logger.log(`Provider ${addProviderCallback.provider} added for user ${addedProvider.userId}`);
                 this.logger.log(`Sending success callback to ${addProviderCallback.provider} provider`);
                 this.natsClient.emit(`provider.${addProviderCallback.provider}.add.callback.success`, addedProvider);
