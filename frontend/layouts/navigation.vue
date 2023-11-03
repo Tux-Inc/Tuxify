@@ -39,12 +39,16 @@ const { isMobile } = useDevice();
     <div class="antialiased relative min-h-screen bg-gray-50 dark:bg-base-dark">
         <NuxtImg
             alt="hero"
-            src="/hero.webp"
+            format="webp"
+            quality="100"
+            src="/landing/main/hero.webp"
             class="dark:hidden sm:w-screen md:w-[calc(100vh-var(--header-weight))] md:mx-auto inset-0 h-[20rem] left-0 overflow-hidden absolute object-fit"
         />
         <NuxtImg
             alt="hero"
-            src="/hero-dark.webp"
+            format="webp"
+            quality="100"
+            src="/landing/main/hero-dark.webp"
             class="hidden dark:block sm:w-screen md:w-[calc(100vh-var(--header-weight))] md:mx-auto inset-0 h-[20rem] left-0 overflow-hidden absolute object-fit"
         />
         <div v-if="!isMobile">

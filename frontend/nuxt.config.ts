@@ -29,6 +29,21 @@ import { existsSync, readFileSync } from "node:fs";
 
 export default defineNuxtConfig({
     ssr: true,
+    // routeRules: {
+    //     "/_nuxt/**": {
+    //         cache: {
+    //             maxAge: 60 * 60 * 24 * 30 * 12,
+    //         },
+    //     },
+    //     "/_ipx/**": {
+    //         cache: {
+    //             maxAge: 60 * 60 * 24 * 30 * 12,
+    //         },
+    //     },
+    // },
+    nitro: {
+        compressPublicAssets: true,
+    },
     runtimeConfig: {
         public: {
             API_BASE_URL: process.env.API_BASE_URL || "https://api.tuxify.fr",
@@ -36,9 +51,6 @@ export default defineNuxtConfig({
                 process.env.API_AUTH_BASE_URL || "https://auth.api.tuxify.fr",
             NUXT_IS_CAPACITOR: process.env.NUXT_IS_CAPACITOR || "false",
         },
-    },
-    build: {
-        transpile: ["vue-flow-chart"],
     },
     app: {
         pageTransition: { name: "page", mode: "out-in" },
@@ -50,22 +62,13 @@ export default defineNuxtConfig({
                 "width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=5",
         },
     },
-    modules: ["@nuxt/ui", "@nuxt/image", "@nuxtjs/device"],
+    modules: ["@nuxt/ui", "@nuxt/image", "@nuxtjs/device", "nuxt-security"],
     ui: {
         icons: ["heroicons", "mdi"],
     },
-    css: [
-        "boxicons/css/boxicons.min.css",
-        "@vue-flow/core/dist/style.css",
-        "@vue-flow/core/dist/theme-default.css",
-        "~/assets/css/main.css",
-    ],
+    css: ["~/assets/css/main.css"],
     devtools: {
-        enabled: true,
-
-        timeline: {
-            enabled: true,
-        },
+        enabled: false,
     },
     devServer: {
         port: 8080,
