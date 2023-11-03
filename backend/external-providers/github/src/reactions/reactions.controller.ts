@@ -37,6 +37,9 @@ import { ActionReaction } from "../dtos/action-reaction.dto";
 import { IssueCloseInput } from "../dtos/issue-close-input.dto";
 import { IssueOpenInput } from "../dtos/issue-open-input.dto";
 import { IssueCommentReactionInput } from "../dtos/issue-comment-reaction-input.dto";
+import { IssueCommentReactionDeleteInput } from "../dtos/issue-comment-reaction-delete-input.dto";
+import { BranchMergeInput } from "../dtos/branch-merge-input.dto";
+import { BranchMergeOutput } from "../dtos/branch-merge-output.dto";
 
 @Controller("reactions")
 export class ReactionsController {
@@ -89,7 +92,7 @@ export class ReactionsController {
                         {
                             name: "html_url",
                             title: "Issue URL",
-                        }
+                        },
                     ],
                 },
                 {
@@ -131,7 +134,7 @@ export class ReactionsController {
                         {
                             name: "html_url",
                             title: "Comment URL",
-                        }
+                        },
                     ],
                 },
                 {
@@ -219,8 +222,94 @@ export class ReactionsController {
                             required: true,
                         },
                     ],
+                    outputs: [
+                        {
+                            name: "reaction_id",
+                            title: "Reaction ID",
+                        },
+                    ],
+                },
+                {
+                    name: "provider.github.reaction.issue.comment.reaction.delete",
+                    type: "reaction",
+                    title: "Delete an issue comment reaction",
+                    description: "Delete specified reaction on specified issue comment",
+                    inputs: [
+                        {
+                            name: "owner",
+                            title: "Owner",
+                            placeholder: "owner",
+                            required: true,
+                        },
+                        {
+                            name: "repo",
+                            title: "Repository",
+                            placeholder: "repository",
+                            required: true,
+                        },
+                        {
+                            name: "comment_id",
+                            title: "Comment ID",
+                            placeholder: "1",
+                            required: true,
+                        },
+                        {
+                            name: "reaction_id",
+                            title: "Reaction ID",
+                            placeholder: "1",
+                            required: true,
+                        },
+                    ],
                     outputs: [],
-                }
+                },
+                {
+                    name: "provider.github.reaction.branch.merge",
+                    type: "reaction",
+                    title: "Merge branch",
+                    description: "Merge specified branch into specified branch",
+                    inputs: [
+                        {
+                            name: "owner",
+                            title: "Owner",
+                            placeholder: "owner",
+                            required: true,
+                        },
+                        {
+                            name: "repo",
+                            title: "Repository",
+                            placeholder: "repository",
+                            required: true,
+                        },
+                        {
+                            name: "base",
+                            title: "Base branch",
+                            placeholder: "master",
+                            required: true,
+                        },
+                        {
+                            name: "head",
+                            title: "Head branch",
+                            placeholder: "develop",
+                            required: true,
+                        },
+                        {
+                            name: "commit_message",
+                            title: "Commit message",
+                            placeholder: "Merge branch 'develop' into 'master'",
+                            required: false,
+                        }
+                    ],
+                    outputs: [
+                        {
+                            name: "sha",
+                            title: "SHA",
+                        },
+                        {
+                            name: "html_url",
+                            title: "Merge URL",
+                        },
+                    ],
+                },
             ];
             this.natsClient.emit<ActionReaction[]>("heartbeat.providers.github.reactions", availableReactions);
         }, 5000);
@@ -249,5 +338,15 @@ export class ReactionsController {
     @MessagePattern("provider.github.reaction.issue.comment.reaction.create")
     createIssueCommentReaction(@Payload() input: CommonReactionInput<IssueCommentReactionInput>): Observable<any> {
         return this.reactionsService.createIssueCommentReaction(input);
+    }
+
+    @MessagePattern("provider.github.reaction.issue.comment.reaction.delete")
+    deleteIssueCommentReaction(@Payload() input: CommonReactionInput<IssueCommentReactionDeleteInput>): Observable<any> {
+        return this.reactionsService.deleteIssueCommentReaction(input);
+    }
+
+    @MessagePattern("provider.github.reaction.branch.merge")
+    mergeBranch(@Payload() input: CommonReactionInput<BranchMergeInput>): Observable<BranchMergeOutput> {
+        return this.reactionsService.mergeBranch(input);
     }
 }

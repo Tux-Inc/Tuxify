@@ -36,6 +36,10 @@ import { IssueCommentOutput } from "../dtos/issue-comment-output.dto";
 import { IssueCloseInput } from "../dtos/issue-close-input.dto";
 import { IssueOpenInput } from "../dtos/issue-open-input.dto";
 import { IssueCommentReactionInput } from "../dtos/issue-comment-reaction-input.dto";
+import { IssueCommentReactionOutput } from "../dtos/issue-comment-reaction-output.dto";
+import { IssueCommentReactionDeleteInput } from "../dtos/issue-comment-reaction-delete-input.dto";
+import { BranchMergeInput } from "../dtos/branch-merge-input.dto";
+import { BranchMergeOutput } from "../dtos/branch-merge-output.dto";
 
 @Injectable()
 export class ReactionsService {
@@ -101,6 +105,7 @@ export class ReactionsService {
                     state: 'closed',
                     state_reason: 'completed',
                 }
+                console.log(`https://api.github.com/repos/${cri.input.owner}/${cri.input.repo}/issues/${cri.input.issue_number}`);
                 return this.httpService.patch<void>(`https://api.github.com/repos/${cri.input.owner}/${cri.input.repo}/issues/${cri.input.issue_number}`, payload, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
@@ -132,7 +137,7 @@ export class ReactionsService {
         );
     }
 
-    createIssueCommentReaction(cri: CommonReactionInput<IssueCommentReactionInput>): Observable<any> {
+    createIssueCommentReaction(cri: CommonReactionInput<IssueCommentReactionInput>): Observable<IssueCommentReactionOutput> {
         return from(this.tokensService.getTokens(cri.userId)).pipe(
             mergeMap(userProviderTokens => {
                 const { accessToken } = userProviderTokens;
@@ -147,6 +152,48 @@ export class ReactionsService {
                 });
             }),
             map(response => response.data),
+            map((data: any): IssueCommentReactionOutput => ({
+                reaction_id: data.id,
+            }))
+        );
+    }
+
+    deleteIssueCommentReaction(cri: CommonReactionInput<IssueCommentReactionDeleteInput>): Observable<any> {
+        return from(this.tokensService.getTokens(cri.userId)).pipe(
+            mergeMap(userProviderTokens => {
+                const { accessToken } = userProviderTokens;
+                return this.httpService.delete<void>(`https://api.github.com/repos/${cri.input.owner}/${cri.input.repo}/issues/comments/${cri.input.comment_id}/reactions/${cri.input.reaction_id}`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        Accept: 'application/vnd.github+json'
+                    }
+                });
+            }),
+            map(response => response.data),
+        );
+    }
+
+    mergeBranch(cri: CommonReactionInput<BranchMergeInput>): Observable<BranchMergeOutput> {
+        return from(this.tokensService.getTokens(cri.userId)).pipe(
+            mergeMap(userProviderTokens => {
+                const { accessToken } = userProviderTokens;
+                const payload: any = {
+                    base: cri.input.base,
+                    head: cri.input.head,
+                    commit_message: cri.input.commit_message ?? 'Merged by Tuxify',
+                }
+                return this.httpService.post<void>(`https://api.github.com/repos/${cri.input.owner}/${cri.input.repo}/merges`, payload, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        Accept: 'application/vnd.github+json'
+                    }
+                });
+            }),
+            map(response => response.data),
+            map((data: any): BranchMergeOutput => ({
+                sha: data.sha,
+                html_url: data.html_url,
+            }))
         );
     }
 }
