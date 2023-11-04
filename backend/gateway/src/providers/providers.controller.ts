@@ -77,12 +77,22 @@ export class ProvidersController {
 
     @Post(':provider/action/:scope')
     @HttpCode(200)
-    async action(@Param('provider') provider: string, @Param('scope') scope: string, @Body() body: any): Promise<void> {
+    async action(@Param('provider') provider: string, @Param('scope') scope: string, @Body() body: any, @Req() req: any, @Res() res: any): Promise<void> {
         try {
             await firstValueFrom(this.natsClient.send(`provider.${provider}.action.${scope}`, body));
-            return;
+            if (req.query && req.query.validationToken) {
+                res.set('Content-Type', 'text/plain');
+                res.send(req.query.validationToken);
+            } else {
+                res.send();
+            }
         } catch (e) {
-            return;
+            if (req.query && req.query.validationToken) {
+                res.set('Content-Type', 'text/plain');
+                res.send(req.query.validationToken);
+            } else {
+                res.send();
+            }
         }
     }
 }
