@@ -26,7 +26,6 @@ THE SOFTWARE.
 -->
 
 <script setup lang="ts">
-import { PropType } from "@vue/runtime-core";
 import { IFounderCardProps, ISocialProps } from "~/types/IFounderCardProps";
 
 const props = withDefaults(defineProps<IFounderCardProps>(), {
@@ -35,10 +34,7 @@ const props = withDefaults(defineProps<IFounderCardProps>(), {
     name: "",
     job: "",
     description: "",
-    socials: {
-        type: Array as PropType<ISocialProps[]>,
-        default: () => [],
-    },
+    socials: () => [],
 });
 </script>
 

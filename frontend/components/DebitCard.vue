@@ -89,7 +89,7 @@ const cardTypes: IRadioProps[] = [
 ];
 
 const cardSelected = ref<IRadioProps>(
-    cardTypes.find((card) => card.value === "visa"),
+    cardTypes.find((card) => card.value === "visa") ?? cardTypes[0],
 );
 </script>
 
