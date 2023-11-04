@@ -25,42 +25,39 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -->
 
-<script lang="ts" setup xmlns="http://www.w3.org/1999/html">
+<script lang="ts" setup>
 import { useI18n } from "vue-i18n";
-import { IIntegrationList } from "~/types/IIntegrationList";
+import { IServiceDisplay } from "~/types/IServiceDisplay";
 
 definePageMeta({
     layout: "navigation",
 });
 
 const i18n = useI18n();
-let integrations = ref<IIntegrationList[]>(
-    i18n.tm("landing.integration.services") as IIntegrationList[],
-);
-onUpdated(() => {
-    integrations.value = i18n.tm(
-        "landing.integration.services",
-    ) as IIntegrationList[];
+
+const servicesDisplay = ref<IServiceDisplay[]>([]);
+
+onMounted(async () => {
+    try {
+        const res = await useApiRequest<IServiceDisplay[]>("/providers/infos");
+        servicesDisplay.value = res._data as IServiceDisplay[];
+    } catch (e: any) {
+        console.log(e);
+    }
 });
 
-function checkIntegration(integration: IIntegrationList[], index: number) {
-    if (index === integration.length - 1 && integration.length % 3 === 0) {
+function checkIntegration(service: IServiceDisplay[], index: number) {
+    if (index === service.length - 1 && service.length % 3 === 0) {
         return "";
     } else if (
-        index === integration.length - 2 &&
-        integration.length % 2 === 0 &&
-        integration.length % 3 !== 0
+        index === service.length - 2 &&
+        service.length % 2 === 0 &&
+        service.length % 3 !== 0
     ) {
         return "md:col-start-2";
-    } else if (
-        index === integration.length - 1 &&
-        integration.length % 3 === 0
-    ) {
+    } else if (index === service.length - 1 && service.length % 3 === 0) {
         return "md:col-start-2";
-    } else if (
-        index === integration.length - 1 &&
-        (integration.length + 1) % 3 !== 0
-    ) {
+    } else if (index === service.length - 1 && (service.length + 1) % 3 !== 0) {
         return "md:col-start-3";
     }
 }
@@ -91,12 +88,12 @@ function checkIntegration(integration: IIntegrationList[], index: number) {
             class="mt-10 flex flex-wrap justify-centermax text-center mx-auto my-auto grid sm:grid-cols-1 gap-8 md:grid-cols-6 text-5xl md:text-6xl"
         >
             <IntegrationList
-                v-for="(integration, index) in integrations"
-                :class="`${checkIntegration(integrations, index)}`"
-                :description="integration.description"
-                :icon="integration.icon"
-                :title="integration.title"
-                :alt="integration.alt"
+                v-for="(service, index) in servicesDisplay"
+                :class="`${checkIntegration(servicesDisplay, index)}`"
+                :description="service.description"
+                :icon="service.image"
+                :title="service.title"
+                :alt="service.name"
                 class="md:col-span-2 flex flex-col justify-center"
             />
         </div>
