@@ -25,6 +25,6 @@
  */
 
 export interface BranchMergeOutput {
-    sha: string;
-    html_url: string;
+  sha: string;
+  html_url: string;
 }
