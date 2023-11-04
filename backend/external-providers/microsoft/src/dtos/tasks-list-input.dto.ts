@@ -24,6 +24,10 @@
  * THE SOFTWARE.
  */
 
+/* The code is defining an interface named `TasksListInput` with a single property
+`displayName` of type `string`. The `export` keyword makes the interface
+accessible outside of the file it is defined in, allowing other modules to
+import and use it. */
 export interface TasksListInput {
     displayName: string;
 }

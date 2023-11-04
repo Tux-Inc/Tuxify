@@ -24,6 +24,11 @@
  * THE SOFTWARE.
  */
 
+/* The code is defining an interface named `OneNotePageInput` in TypeScript. An
+interface is a way to define the structure of an object. In this case, the
+`OneNotePageInput` interface has two properties: `title` and `content`, both of
+which are of type `string`. This interface can be used as a type for objects
+that represent input data for creating a OneNote page. */
 export interface OneNotePageInput {
     title: string;
     content: string;

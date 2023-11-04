@@ -24,6 +24,10 @@
  * THE SOFTWARE.
  */
 
+/* The code is defining an interface named `OutlookGetEmailOutput`. This interface
+has three properties: `from`, `subject`, and `body`, all of which are of type
+`string`. This interface is used to define the structure of the output data
+when retrieving an email from Outlook. */
 export interface OutlookGetEmailOutput {
     from: string;
     subject: string;

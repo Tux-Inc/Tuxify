@@ -24,8 +24,8 @@
  * THE SOFTWARE.
  */
 
-import { Injectable } from '@nestjs/common';
+import { Injectable } from "@nestjs/common";
 
 @Injectable()
-export class MicrosoftService {
-}
+/* The MicrosoftService class is exported in TypeScript. */
+export class MicrosoftService {}

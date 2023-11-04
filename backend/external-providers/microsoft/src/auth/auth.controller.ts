@@ -24,23 +24,37 @@
  * THE SOFTWARE.
  */
 
-import { Controller } from '@nestjs/common';
+import { Controller } from "@nestjs/common";
 import { AuthService } from "./auth.service";
-import { MessagePattern, Payload, RpcException } from "@nestjs/microservices";
-import { AddProvider } from "./dtos/add-provider.dto";
-import { AddProviderCallback } from "./dtos/add-provider-callback.dto";
-import { AddedProvider } from "./dtos/added-provider.dto";
 import { ProviderEntity } from "./dtos/provider.dto";
+import { AddProvider } from "./dtos/add-provider.dto";
+import { AddedProvider } from "./dtos/added-provider.dto";
+import { AddProviderCallback } from "./dtos/add-provider-callback.dto";
+import { MessagePattern, Payload, RpcException } from "@nestjs/microservices";
 
-@Controller('auth')
+/* The AuthController class handles authentication-related requests and
+communicates with the AuthService to perform the necessary operations. */
+@Controller("auth")
 export class AuthController {
-    constructor(
-        private readonly authService: AuthService,
-    ) {
-    }
+    /**
+     * The constructor function takes an instance of the AuthService class as a
+     * parameter and assigns it to the private readonly authService property.
+     * @param {AuthService} authService - The `authService` parameter is of type
+     * `AuthService` and is marked as `private` and `readonly`. This means that it
+     * is a private property of the class and cannot be modified once it is
+     * assigned a value. The `AuthService` is likely a service or class that
+     * handles authentication-related functionality
+     */
+    constructor(private readonly authService: AuthService) {}
 
-    @MessagePattern('provider.microsoft.add')
-    async addProvider(@Payload() addProvider: AddProvider): Promise<string | void> {
+    /* The `@MessagePattern("provider.microsoft.add")` decorator is used to define
+    a message pattern for the method `addProvider()` in the `AuthController`
+    class. This pattern is used by the NestJS microservices framework to route
+    incoming messages to the appropriate method. */
+    @MessagePattern("provider.microsoft.add")
+    async addProvider(
+        @Payload() addProvider: AddProvider,
+    ): Promise<string | void> {
         try {
             return await this.authService.addProvider(addProvider);
         } catch (e) {
@@ -48,17 +62,33 @@ export class AuthController {
         }
     }
 
-    @MessagePattern('provider.microsoft.add.callback')
-    async addProviderCallback(@Payload() addProviderCallback: AddProviderCallback): Promise<AddedProvider> {
+    /* The `@MessagePattern("provider.microsoft.add.callback")` decorator is used
+    to define a message pattern for the method `addProviderCallback()` in the
+    `AuthController` class. This pattern is used by the NestJS microservices
+    framework to route incoming messages with the specified pattern to this
+    method. */
+    @MessagePattern("provider.microsoft.add.callback")
+    async addProviderCallback(
+        @Payload() addProviderCallback: AddProviderCallback,
+    ): Promise<AddedProvider> {
         try {
-            return await this.authService.addProviderCallback(addProviderCallback);
+            return await this.authService.addProviderCallback(
+                addProviderCallback,
+            );
         } catch (e) {
             throw new RpcException(e.message);
         }
     }
 
-    @MessagePattern('provider.microsoft.refresh')
-    async refreshTokens(@Payload() providerEntity: ProviderEntity): Promise<ProviderEntity> {
+    /* The `@MessagePattern("provider.microsoft.refresh")` decorator is used to
+    define a message pattern for the `refreshTokens()` method in the
+    `AuthController` class. This pattern is used by the NestJS microservices
+    framework to route incoming messages with the specified pattern to this
+    method. */
+    @MessagePattern("provider.microsoft.refresh")
+    async refreshTokens(
+        @Payload() providerEntity: ProviderEntity,
+    ): Promise<ProviderEntity> {
         try {
             return await this.authService.refreshTokens(providerEntity);
         } catch (e) {
