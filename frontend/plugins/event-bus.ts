@@ -1,8 +1,8 @@
 /*
-File Name: useApiRequest.client.ts
+File Name: event-bus.ts
 Author: Gwenaël Hubler, Stephane Fievez, Roman Lopes, Alexandre Kévin De Freitas Martins, Bouna Diallo
 Creation Date: 2023
-Description: Brief description of the contents of this file.
+Description: Event bus plugin for NuxtJS
 
 Copyright (c) 2023 Tux Inc.
 
@@ -25,15 +25,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-import mitt from 'mitt'
+import mitt from "mitt";
 
 export default defineNuxtPlugin((nuxtApp) => {
-  const emitter = mitt()
+    const emitter = mitt();
 
     return {
-      provide: {
-        event: emitter.emit,
-        listen: emitter.on,
-      }
-    }
-})
+        provide: {
+            event: emitter.emit,
+            listen: emitter.on,
+        },
+    };
+});

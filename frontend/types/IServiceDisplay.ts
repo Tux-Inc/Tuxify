@@ -1,8 +1,8 @@
 /*
-File Name: useApiRequest.client.ts
+File Name: IServiceDisplay.ts
 Author: Gwenaël Hubler, Stephane Fievez, Roman Lopes, Alexandre Kévin De Freitas Martins, Bouna Diallo
 Creation Date: 2023
-Description: Brief description of the contents of this file.
+Description: Interface for the service display component
 
 Copyright (c) 2023 Tux Inc.
 
@@ -29,11 +29,11 @@ import { IActionDisplay } from "~/types/IActionDisplay";
 import { IReactionDisplay } from "~/types/IReactionDisplay";
 
 export interface IServiceDisplay {
-    image: string,
-    name: string,
-    title: string,
-    description: string,
-    isConnected: boolean,
-    actions: IActionDisplay[],
-    reactions: IReactionDisplay[],
+    image: string;
+    name: string;
+    title: string;
+    description: string;
+    isConnected: boolean;
+    actions: IActionDisplay[];
+    reactions: IReactionDisplay[];
 }

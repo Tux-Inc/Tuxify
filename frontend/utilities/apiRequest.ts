@@ -1,8 +1,8 @@
 /*
-File Name: useApiRequest.client.ts
+File Name: apiRequest.ts
 Author: Gwenaël Hubler, Stephane Fievez, Roman Lopes, Alexandre Kévin De Freitas Martins, Bouna Diallo
 Creation Date: 2023
-Description: Brief description of the contents of this file.
+Description: Custom fetcher to handle token refresh
 
 Copyright (c) 2023 Tux Inc.
 
@@ -30,10 +30,10 @@ import { ofetch } from "ofetch";
 import { IUserCookie } from "~/types/IUserCookie";
 
 /* Custom fetcher to handle token refresh
-* Nuxt 3 useFetch() wrapper seems to not
-* handle multiple fetch requests used for
-* token refreshing. See https://github.com/unjs/ofetch/issues/79
-* for further infos. Gwenaël HUBLER */
+ * Nuxt 3 useFetch() wrapper seems to not
+ * handle multiple fetch requests used for
+ * token refreshing. See https://github.com/unjs/ofetch/issues/79
+ * for further infos. Gwenaël HUBLER */
 
 const fetcher = ofetch.create({
     baseURL: useRuntimeConfig().public.API_BASE_URL,
@@ -50,12 +50,17 @@ const fetcher = ofetch.create({
         }
     },
     async onResponse({ response }) {
-        if (response.status === 403 && useCookie<IUserCookie>("user").value.refreshToken) {
+        if (
+            response.status === 403 &&
+            useCookie<IUserCookie>("user").value.refreshToken
+        ) {
             const { accessToken } = await ofetch("/auth/refresh-access", {
                 baseURL: useRuntimeConfig().public.API_AUTH_BASE_URL + "/api",
                 method: "POST",
                 headers: {
-                    Authorization: `Bearer ${useCookie<IUserCookie>("user").value.refreshToken}`,
+                    Authorization: `Bearer ${
+                        useCookie<IUserCookie>("user").value.refreshToken
+                    }`,
                 },
             });
             if (!accessToken) {
@@ -64,7 +69,8 @@ const fetcher = ofetch.create({
                     color: "red",
                     icon: "i-heroicons-exclamation-triangle",
                     title: "Session expired",
-                    description: "Your session has expired. Please log in again.",
+                    description:
+                        "Your session has expired. Please log in again.",
                 });
             }
             useCookie<IUserCookie>("user").value.accessToken = accessToken;
@@ -77,7 +83,10 @@ export default async <T>(request: FetchRequest, options?: FetchOptions) => {
         const response = await fetcher.raw(request, options);
         return response as FetchResponse<T>;
     } catch (error: any) {
-        if (error.response?.status === 403 && useCookie<IUserCookie>("user").value.refreshToken) {
+        if (
+            error.response?.status === 403 &&
+            useCookie<IUserCookie>("user").value.refreshToken
+        ) {
             const response = await fetcher.raw(request, options);
             return response as FetchResponse<T>;
         }

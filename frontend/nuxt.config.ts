@@ -1,5 +1,5 @@
 /*
-File Name: useApiRequest.client.ts
+File Name: nuxt.config.ts
 Author: Gwenaël Hubler, Stephane Fievez, Roman Lopes, Alexandre Kévin De Freitas Martins, Bouna Diallo
 Creation Date: 2023
 Description: This is the nuxt configuration file : https://nuxt.com/docs/api/configuration/nuxt-config

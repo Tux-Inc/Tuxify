@@ -1,8 +1,8 @@
 /*
-File Name: useApiRequest.client.ts
+File Name: INodeListElement.ts
 Author: Gwenaël Hubler, Stephane Fievez, Roman Lopes, Alexandre Kévin De Freitas Martins, Bouna Diallo
 Creation Date: 2023
-Description: Brief description of the contents of this file.
+Description: Interface for the node list element component
 
 Copyright (c) 2023 Tux Inc.
 
@@ -25,6 +25,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-import {INodeType} from "~/types/INodeType";
+import { INodeType } from "~/types/INodeType";
 
-export type INodeListElement = Omit<INodeType, 'component'>
+export type INodeListElement = Omit<INodeType, "component">;

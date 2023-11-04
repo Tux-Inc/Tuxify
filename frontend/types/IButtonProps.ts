@@ -1,8 +1,8 @@
 /*
-File Name: useApiRequest.client.ts
+File Name: IButtonProps.ts
 Author: Gwenaël Hubler, Stephane Fievez, Roman Lopes, Alexandre Kévin De Freitas Martins, Bouna Diallo
 Creation Date: 2023
-Description: Brief description of the contents of this file.
+Description: Interface for the button props component
 
 Copyright (c) 2023 Tux Inc.
 
@@ -27,13 +27,13 @@ THE SOFTWARE.
 
 export interface IButtonProps {
     text: string;
-    type: 'primary' | 'secondary' | 'danger' | 'warning' | 'success' | 'info',
-    outlined?: boolean,
-    size?: 'small' | 'medium' | 'large',
-    state?: 'idle' | 'loading' | 'disabled',
-    icon?: string,
-    iconPosition?: 'left' | 'right',
-    tooltip?: string,
-    customClass?: string,
-    onClick?: () => void
+    type: "primary" | "secondary" | "danger" | "warning" | "success" | "info";
+    outlined?: boolean;
+    size?: "small" | "medium" | "large";
+    state?: "idle" | "loading" | "disabled";
+    icon?: string;
+    iconPosition?: "left" | "right";
+    tooltip?: string;
+    customClass?: string;
+    onClick?: () => void;
 }

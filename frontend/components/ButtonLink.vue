@@ -1,9 +1,8 @@
 <!--
-/**
-File Name: useApiRequest.client.ts
+File Name: ButtonLink.vue
 Author: Gwenaël Hubler, Stephane Fievez, Roman Lopes, Alexandre Kévin De Freitas Martins, Bouna Diallo
 Creation Date: 2023
-Description: Brief description of the contents of this file.
+Description: Component for button link
 
 Copyright (c) 2023 Tux Inc.
 
@@ -24,24 +23,24 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-*/
 -->
 
 <script setup lang="ts">
-import {IButtonLinkProps} from "../types/IButtonLinkProps";
+import { IButtonLinkProps } from "../types/IButtonLinkProps";
+
 const props = withDefaults(defineProps<IButtonLinkProps>(), {
-    text: '',
-    iconPosition: 'left',
-    size: 'medium',
-    tooltip: '',
-    onClick: () => console.log('Default link click handler'),
+    text: "",
+    iconPosition: "left",
+    size: "medium",
+    tooltip: "",
+    onClick: () => console.log("Default link click handler"),
 });
 
 const buttonSizeStyleMap = {
-    small: 'px-2 py-1 text-sm',
-    medium: 'px-4 py-2 text-md',
-    large: 'px-6 py-3 text-lg',
-}
+    small: "px-2 py-1 text-sm",
+    medium: "px-4 py-2 text-md",
+    large: "px-6 py-3 text-lg",
+};
 let isHovering = ref(false);
 </script>
 

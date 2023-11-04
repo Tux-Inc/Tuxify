@@ -88,6 +88,7 @@ async function disconnect() {
                     <UTooltip :text="title">
                         <NuxtImg
                             :src="image"
+                            :alt="name"
                             class="w-10 h-10 mx-auto text-primary"
                             format="svg"
                             quality="100"
