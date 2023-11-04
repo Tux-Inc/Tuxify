@@ -37,6 +37,12 @@ import { OutlookGetEmailOutput } from "../dtos/outlook-get-email-output.dto";
 import { HttpService } from "@nestjs/axios";
 import { TokensService } from "../tokens/tokens.service";
 import { UserProviderTokens } from "../tokens/dtos/user-provider-tokens.dto";
+import { SubscribeOutlookInput } from "./dtos/subscribe-outlook-input.dto";
+import { SubscribeTodoInput } from "./dtos/subscribe-todo-input.dto";
+import { CommonSubscribeInput } from "./dtos/common-subscribe-input.dto";
+import { TodoNotification } from "./dtos/todo-notification.dto";
+import { TasksTodoGetInput } from "src/dtos/tasks-todo-get-input.dto";
+import { TasksTodoGetOutput } from "src/dtos/tasks-todo-get-output.dto";
 
 @Injectable()
 export class ActionsService {
@@ -68,15 +74,44 @@ export class ActionsService {
         }
     }
 
-    public async subscribeToReceiveEmail(userId: number): Promise<any> {
-        return from(this.tokensService.getTokens(userId)).pipe(
+    public async subscribeToOutlook(csi: CommonSubscribeInput<SubscribeOutlookInput>): Promise<any> {
+        this.logger.log(`Subscribing to Outlook for user ${csi.userId}`);
+        return from(this.tokensService.getTokens(csi.userId)).pipe(
             mergeMap((userProviderTokens: UserProviderTokens) => {
                 const { accessToken } = userProviderTokens;
-                const state = this.genState(userId);
+                const state = this.genState(csi.userId);
                 const payload = {
                     changeType: "created",
                     notificationUrl: `${process.env.API_BASE_URL}/providers/microsoft/action/outlook`,
                     resource: "me/mailFolders('Inbox')/messages",
+                    expirationDateTime: new Date(Date.now() + 86400000).toISOString(),
+                    clientState: state,
+                }
+                try {
+                    return this.httpService.post("https://graph.microsoft.com/v1.0/subscriptions", payload, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    });
+                } catch (e) {
+                    this.logger.error(e);
+                    throw e;
+                }
+            }),
+            map(response => response.data),
+        );
+    }
+
+    public async subscribeToTodo(csi: CommonSubscribeInput<SubscribeTodoInput>): Promise<any> {
+        this.logger.log(`Subscribing to Todo for user ${csi.userId}`);
+        return from(this.tokensService.getTokens(csi.userId)).pipe(
+            mergeMap((userProviderTokens: UserProviderTokens) => {
+                const { accessToken } = userProviderTokens;
+                const state = this.genState(csi.userId);
+                const payload = {
+                    changeType: "created",
+                    notificationUrl: `${process.env.API_BASE_URL}/providers/microsoft/action/todo`,
+                    resource: `me/todo/lists/${csi.input.todoTaskListId}/tasks`,
                     expirationDateTime: new Date(Date.now() + 86400000).toISOString(),
                     clientState: state,
                 }
@@ -106,8 +141,26 @@ export class ActionsService {
         const emailData: OutlookGetEmailOutput = await lastValueFrom<OutlookGetEmailOutput>(this.reactionService.getEmail(actionReactionInput));
         const flowActionData: FlowActionData = {
             userId: actionReactionInput.userId,
-            actionName: "provider.microsoft.action.outlook.message",
+            actionName: "provider.microsoft.action.outlook",
             data: emailData,
+        }
+        this.natsClient.emit("flows.actions", flowActionData);
+    }
+
+    public async receiveTodo(data: TodoNotification): Promise<void> {
+        this.logger.debug("Received todo from Todo");
+        const actionReactionInput: CommonReactionInput<TasksTodoGetInput> = {
+            userId: this.parseState(data.clientState).userId,
+            input: {
+                listId: data.resourceData.id,
+                taskId: data.resourceData.id,
+            },
+        }
+        const todoData: TasksTodoGetOutput = await lastValueFrom<TasksTodoGetOutput>(this.reactionService.getTask(actionReactionInput));
+        const flowActionData: FlowActionData = {
+            userId: actionReactionInput.userId,
+            actionName: "provider.microsoft.action.todo",
+            data: todoData,
         }
         this.natsClient.emit("flows.actions", flowActionData);
     }

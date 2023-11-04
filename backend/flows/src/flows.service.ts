@@ -25,6 +25,7 @@ export class FlowsService {
     async createFlow(flow: Flow): Promise<Flow> {
         this.logger.log(`Creating flow ${flow.name} for user ${flow.userId}`);
         const createdFlow = new this.flowModel(flow);
+        this.subscribeIfNeeded(createdFlow);
         return await createdFlow.save();
     }
 
@@ -38,6 +39,7 @@ export class FlowsService {
 
     async updateFlow(flow: Flow): Promise<Flow> {
         this.logger.log(`Updating flow ${flow._id} for user ${flow.userId}`);
+        this.subscribeIfNeeded(flow);
         return this.flowModel.findOneAndUpdate({
             _id: flow._id,
             userId: flow.userId,
@@ -50,6 +52,34 @@ export class FlowsService {
             _id: getFlow.id,
             userId: getFlow.userId,
         });
+    }
+
+    private async subscribeIfNeeded(flow: Flow): Promise<void> {
+        try {
+            if (!flow.data)
+                return;
+            const actions = flow.data.filter(step => step.type === 'action');
+            if (actions.length === 0)
+                return;
+            for (const action of actions) {
+                try {
+                    this.logger.log(`Subscribing to action ${action.name}`);
+                    const subscribeActionName = action.name.replace('action', 'subscribe');
+                    const subscribeActionInput = {};
+                    for (const input of action.inputs) {
+                        subscribeActionInput[input.name] = input.value;
+                    }
+                    this.natsClient.emit(subscribeActionName, {
+                        userId: flow.userId,
+                        input: subscribeActionInput,
+                    });
+                } catch (error) {
+                    this.logger.error(`Error subscribing to action ${action.name}: ${error.message}`);
+                }
+            }
+        } catch (error) {
+            this.logger.error(`Error subscribing to flow ${flow._id}: ${error.message}`);
+        }
     }
 
     async handleActions(flowActionData: FlowActionData): Promise<string> {

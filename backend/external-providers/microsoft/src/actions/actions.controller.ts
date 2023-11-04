@@ -30,6 +30,9 @@ import { ClientProxy, EventPattern, MessagePattern, Payload } from "@nestjs/micr
 import { ActionReaction } from "../dtos/action-reaction.dto";
 import { OutlookMessageNotification } from "./dtos/outlook-message-notification.dto";
 import { AddedProvider } from "./dtos/added-provider.dto";
+import { SubscribeOutlookInput } from "./dtos/subscribe-outlook-input.dto";
+import { SubscribeTodoInput } from "./dtos/subscribe-todo-input.dto";
+import { CommonSubscribeInput } from "./dtos/common-subscribe-input.dto";
 
 @Controller("actions")
 export class ActionsController {
@@ -40,7 +43,7 @@ export class ActionsController {
         setInterval(() => {
             const availableActions: ActionReaction[] = [
                 {
-                    name: "provider.microsoft.action.outlook.message",
+                    name: "provider.microsoft.action.outlook",
                     type: "action",
                     title: "New email",
                     description: "Trigger when a new email arrives",
@@ -60,17 +63,46 @@ export class ActionsController {
                         },
                     ],
                 },
+                {
+                    name: "provider.microsoft.action.todo",
+                    type: "action",
+                    title: "New task",
+                    description: "Trigger when a new task is created",
+                    inputs: [
+                        {
+                            name: "taskListId",
+                            title: "Task list ID",
+                            placeholder: "Enter the task list ID",
+                            required: true,
+                        },
+                    ],
+                    outputs: [
+                        {
+                            name: "title",
+                            title: "Title",
+                        },
+                        {
+                            name: "body",
+                            title: "Body",
+                        },
+                    ],
+                },
             ];
             this.natsClient.emit<ActionReaction>("heartbeat.providers.microsoft.actions", availableActions);
         }, 5000);
     }
 
-    @EventPattern("provider.microsoft.add.callback.success")
-    async subscribeToActions(@Payload() addedProvider: AddedProvider): Promise<void> {
-        return await this.actionsService.subscribeToReceiveEmail(addedProvider.userId);
+    @EventPattern("provider.microsoft.subscribe.outlook")
+    async subscribeToOutlook(@Payload() csi: CommonSubscribeInput<SubscribeOutlookInput>): Promise<void> {
+        return await this.actionsService.subscribeToOutlook(csi);
     }
 
-    @EventPattern("provider.microsoft.action.outlook.message")
+    @EventPattern("provider.microsoft.subscribe.todo")
+    async subscribeToTodo(@Payload() csi: CommonSubscribeInput<SubscribeTodoInput>): Promise<void> {
+        return await this.actionsService.subscribeToTodo(csi);
+    }
+
+    @EventPattern("provider.microsoft.action.outlook")
     async receiveEmail(@Payload() data: OutlookMessageNotification): Promise<void> {
         await this.actionsService.receiveEmail(data);
     }

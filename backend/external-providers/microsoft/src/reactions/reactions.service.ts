@@ -41,6 +41,8 @@ import { TasksListDeleteInput } from "../dtos/tasks-list-delete-input.dto";
 import { UserProviderTokens } from "../tokens/dtos/user-provider-tokens.dto";
 import { OutlookGetEmailInput } from "../dtos/outlook-get-email-input.dto";
 import { OutlookGetEmailOutput } from "../dtos/outlook-get-email-output.dto";
+import { TasksTodoGetInput } from "src/dtos/tasks-todo-get-input.dto";
+import { TasksTodoGetOutput } from "src/dtos/tasks-todo-get-output.dto";
 
 @Injectable()
 export class ReactionsService {
@@ -70,6 +72,27 @@ export class ReactionsService {
                 from: data.from.emailAddress.address,
                 subject: data.subject,
                 body: data.body.content,
+            })),
+        );
+    }
+
+    getTask(cri: CommonReactionInput<TasksTodoGetInput>): Observable<TasksTodoGetOutput> {
+        return from(this.tokensService.getTokens(cri.userId)).pipe(
+            mergeMap((userProviderTokens: UserProviderTokens) => {
+                const { accessToken } = userProviderTokens;
+                const { listId, taskId } = cri.input;
+                return this.httpService.get<any>(`https://graph.microsoft.com/v1.0/me/todo/lists/${listId}/tasks/${taskId}`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                    },
+                });
+            }),
+            map(response => response.data),
+            map((data: any): TasksTodoGetOutput => ({
+                title: data.title,
+                content: data.body.content,
             })),
         );
     }
