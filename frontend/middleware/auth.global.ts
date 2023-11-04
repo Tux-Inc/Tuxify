@@ -1,8 +1,8 @@
 /*
-File Name: useApiRequest.client.ts
+File Name: 02.auth.global.ts
 Author: Gwenaël Hubler, Stephane Fievez, Roman Lopes, Alexandre Kévin De Freitas Martins, Bouna Diallo
 Creation Date: 2023
-Description: Brief description of the contents of this file.
+Description: Middleware to redirect to /auth/sign-in if the user is not logged in
 
 Copyright (c) 2023 Tux Inc.
 

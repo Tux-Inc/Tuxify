@@ -1,9 +1,8 @@
 <!--
-/**
-File Name: useApiRequest.client.ts
+File Name: Trace.vue
 Author: Gwenaël Hubler, Stephane Fievez, Roman Lopes, Alexandre Kévin De Freitas Martins, Bouna Diallo
 Creation Date: 2023
-Description: Brief description of the contents of this file.
+Description: Component for trace
 
 Copyright (c) 2023 Tux Inc.
 
@@ -24,31 +23,35 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-*/
 -->
 
 <script setup lang="ts">
-const items = [{
-    label: "Last execution stack backtrace",
-    icon: "i-heroicons-code-bracket-square",
-    defaultOpen: false,
-    slot: "stack-backtrace",
-    color: "primary",
-}]
+const items = [
+    {
+        label: "Last execution stack backtrace",
+        icon: "i-heroicons-code-bracket-square",
+        defaultOpen: false,
+        slot: "stack-backtrace",
+        color: "primary",
+    },
+];
 
 const sampleTrace = `
 Traceback (most recent call last):\n
   File "main.py", line 1, in <module>\n
     print("Hello, World!")\n
     Traceback (most recent call last):\n
-`
-
+`;
 </script>
 <template>
     <UAccordion :items="items">
         <template #stack-backtrace>
-            <div class="flex flex-col bg-gray-100 dark:bg-gray-900 rounded-lg p-4 max-h-48 overflow-y-auto">
-                <span class="text-sm font-bold text-dark dark:text-light">Live trace</span>
+            <div
+                class="flex flex-col bg-gray-100 dark:bg-gray-900 rounded-lg p-4 max-h-48 overflow-y-auto"
+            >
+                <span class="text-sm font-bold text-dark dark:text-light"
+                    >Live trace</span
+                >
                 <code class="text-xs text-gray-500 dark:text-gray-400">
                     {{ sampleTrace }}
                 </code>

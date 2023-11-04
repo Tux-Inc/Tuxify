@@ -1,8 +1,8 @@
 /*
-File Name: useApiRequest.client.ts
+File Name: app.config.ts
 Author: Gwenaël Hubler, Stephane Fievez, Roman Lopes, Alexandre Kévin De Freitas Martins, Bouna Diallo
 Creation Date: 2023
-Description: Brief description of the contents of this file.
+Description: Configuration file for the frontend
 
 Copyright (c) 2023 Tux Inc.
 
@@ -27,6 +27,6 @@ THE SOFTWARE.
 
 export default defineAppConfig({
     ui: {
-        primary: 'purple',
-    }
-})
+        primary: "purple",
+    },
+});

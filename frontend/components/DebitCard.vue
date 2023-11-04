@@ -1,9 +1,8 @@
 <!--
-/**
-File Name: useApiRequest.client.ts
+File Name: DebitCard.vue
 Author: Gwenaël Hubler, Stephane Fievez, Roman Lopes, Alexandre Kévin De Freitas Martins, Bouna Diallo
 Creation Date: 2023
-Description: Brief description of the contents of this file.
+Description: Component for debit card
 
 Copyright (c) 2023 Tux Inc.
 
@@ -24,14 +23,13 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-*/
 -->
 
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
+import { IRadioProps } from "~/types/IRadioProps";
 import { IDebitCardProps } from "~/types/IDebitCardProps";
 import { FormError, FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
-import { IRadioProps } from "~/types/IRadioProps";
 
 const state = ref<IDebitCardProps>({
     card: "visa",

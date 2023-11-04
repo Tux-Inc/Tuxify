@@ -1,8 +1,8 @@
 /*
-File Name: useApiRequest.client.ts
+File Name: IBlockInputAutocompleteProps.ts
 Author: Gwenaël Hubler, Stephane Fievez, Roman Lopes, Alexandre Kévin De Freitas Martins, Bouna Diallo
 Creation Date: 2023
-Description: Brief description of the contents of this file.
+Description: Interface for the block input autocomplete props component
 
 Copyright (c) 2023 Tux Inc.
 

@@ -1,8 +1,8 @@
 <!--
-File Name: index.client.vue
+File Name: app-navigation.vue
 Author: Gwenaël Hubler, Stephane Fievez, Roman Lopes, Alexandre Kévin De Freitas Martins, Bouna Diallo
 Creation Date: 2023
-Description: This file is the oauth page
+Description: This file is the app navigation layout
 
 Copyright (c) 2023 Tux Inc.
 
@@ -26,6 +26,8 @@ THE SOFTWARE.
 -->
 
 <script setup lang="ts">
+import { Command, Group } from "@nuxt/ui/dist/runtime/types";
+
 const toast = useToast();
 const router = useRouter();
 const commandPaletteRef = ref();
@@ -89,20 +91,21 @@ const users = [
         avatar: { src: "https://avatars.githubusercontent.com/u/7547335?v=4" },
     },
 ];
-const actions = [
+
+const actions: Command[] = [
     {
         id: "new-flow",
         label: "Create a new flow",
         icon: "i-heroicons-link",
         click: () => sendEvent("app:newFlow"),
-        shortcuts: [metaSymbol, "shift", "F"],
+        shortcuts: [metaSymbol.value, "shift", "F"],
     },
     {
         id: "new-team",
         label: "Create a new team",
         icon: "i-heroicons-user-group",
         click: () => toast.add({ title: "New team added!" }),
-        shortcuts: [metaSymbol, "shift", "T"],
+        shortcuts: [metaSymbol.value, "shift", "T"],
     },
     {
         id: "report",
@@ -113,24 +116,26 @@ const actions = [
     },
 ];
 
-const groups = computed(() =>
-    [
-        commandPaletteRef.value?.query
-            ? {
-                  key: "users",
-                  commands: users,
-              }
-            : {
-                  key: "recent",
-                  label: "Recent searches",
-                  commands: users.slice(0, 1),
-              },
-        {
-            key: "actions",
-            commands: actions,
-        },
-    ].filter(Boolean),
-);
+const groups = computed<Group[]>(() => {
+    const groups: Group[] = [];
+    if (commandPaletteRef.value?.query) {
+        groups.push({
+            key: "users",
+            commands: users,
+        });
+    } else {
+        groups.push({
+            key: "recent",
+            label: "Recent searches",
+            commands: users.slice(0, 1),
+        });
+    }
+    groups.push({
+        key: "actions",
+        commands: actions,
+    });
+    return groups.filter((group) => group.commands.length > 0);
+});
 
 function onSelect(option: any) {
     if (option.click) {

@@ -1,9 +1,8 @@
 <!--
-/**
-File Name: useApiRequest.client.ts
+File Name: new.vue
 Author: Gwenaël Hubler, Stephane Fievez, Roman Lopes, Alexandre Kévin De Freitas Martins, Bouna Diallo
 Creation Date: 2023
-Description: Brief description of the contents of this file.
+Description: This file is the new flow page
 
 Copyright (c) 2023 Tux Inc.
 
@@ -24,28 +23,34 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-*/
 -->
 
 <script setup lang="ts">
 definePageMeta({
-    layout: 'app-navigation'
-})
-let loading = ref(false)
+    layout: "app-navigation",
+});
+let loading = ref(false);
 function setLoading() {
-    loading.value = !loading.value
+    loading.value = !loading.value;
 }
 </script>
 
 <template>
     <div>
         <div class="flex items-center justify-between gap-4">
-            <h1 class="text-4xl font-bold text-dark dark:text-light">New Flow</h1>
-            <UButton @click="setLoading" :loading="loading" color="primary" variant="solid">Toggle loading</UButton>
+            <h1 class="text-4xl font-bold text-dark dark:text-light">
+                New Flow
+            </h1>
+            <UButton
+                @click="setLoading"
+                :loading="loading"
+                color="primary"
+                variant="solid"
+                >Toggle loading</UButton
+            >
         </div>
         <div class="w-full mt-4">
             <Graph />
         </div>
     </div>
 </template>
-

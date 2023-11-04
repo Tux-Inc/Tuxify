@@ -1,9 +1,8 @@
 <!--
-/**
-File Name: useApiRequest.client.ts
+File Name: confirm-email.vue
 Author: Gwenaël Hubler, Stephane Fievez, Roman Lopes, Alexandre Kévin De Freitas Martins, Bouna Diallo
 Creation Date: 2023
-Description: Brief description of the contents of this file.
+Description: This file is the confirm email page
 
 Copyright (c) 2023 Tux Inc.
 
@@ -24,11 +23,10 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-*/
 -->
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
+import { useI18n } from "vue-i18n";
 
 const i18n = useI18n();
 
@@ -38,7 +36,10 @@ const router = useRouter();
 const toast = useToast();
 
 async function confirmEmail() {
-    const { error } = await useFetch(`${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/confirm-email`, { method: "POST", body: { confirmationToken, } });
+    const { error } = await useFetch(
+        `${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/confirm-email`,
+        { method: "POST", body: { confirmationToken } },
+    );
     if (error.value) {
         toast.add({
             color: "red",
@@ -62,7 +63,8 @@ confirmEmail();
 <template>
     <div class="h-screen w-full flex flex-col items-center justify-center">
         <UIcon name="i-heroicons-arrow-path" class="w-12 h-12" />
-        <h1 class="text-3xl font-bold mt-2">Redirecting to the sign-in page...</h1>
+        <h1 class="text-3xl font-bold mt-2">
+            Redirecting to the sign-in page...
+        </h1>
     </div>
 </template>
-

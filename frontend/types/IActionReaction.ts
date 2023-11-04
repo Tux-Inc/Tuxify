@@ -1,8 +1,8 @@
 /*
-File Name: useApiRequest.client.ts
+File Name: IActionReaction.ts
 Author: Gwenaël Hubler, Stephane Fievez, Roman Lopes, Alexandre Kévin De Freitas Martins, Bouna Diallo
 Creation Date: 2023
-Description: Brief description of the contents of this file.
+Description: Interface for the action reaction component
 
 Copyright (c) 2023 Tux Inc.
 
@@ -29,11 +29,11 @@ import { IActionReactionInput } from "~/types/IActionReactionInput";
 import { IActionReactionOutput } from "~/types/IActionReactionOutput";
 
 export interface IActionReaction {
-    name: string,
-    type: 'action' | 'reaction',
-    title: string,
-    description: string,
-    inputs: IActionReactionInput[],
-    outputs: IActionReactionOutput<unknown>[],
-    uuid?: string,
+    name: string;
+    type: "action" | "reaction";
+    title: string;
+    description: string;
+    inputs: IActionReactionInput[];
+    outputs: IActionReactionOutput<unknown>[];
+    uuid?: string;
 }

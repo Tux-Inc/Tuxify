@@ -1,8 +1,8 @@
 /*
-File Name: useApiRequest.client.ts
+File Name: ITooltipProps.ts
 Author: Gwenaël Hubler, Stephane Fievez, Roman Lopes, Alexandre Kévin De Freitas Martins, Bouna Diallo
 Creation Date: 2023
-Description: Brief description of the contents of this file.
+Description: Interface for the tooltip component
 
 Copyright (c) 2023 Tux Inc.
 
@@ -28,6 +28,6 @@ THE SOFTWARE.
 export type ITooltipProps = {
     text?: string;
     isVisible?: boolean;
-    position?: 'top' | 'bottom' | 'left' | 'right';
+    position?: "top" | "bottom" | "left" | "right";
     customClass?: string;
-}
+};

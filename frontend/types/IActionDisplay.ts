@@ -1,8 +1,8 @@
 /*
-File Name: useApiRequest.client.ts
+File Name: IActionDisplay.ts
 Author: Gwenaël Hubler, Stephane Fievez, Roman Lopes, Alexandre Kévin De Freitas Martins, Bouna Diallo
 Creation Date: 2023
-Description: Brief description of the contents of this file.
+Description: Interface for the action display component
 
 Copyright (c) 2023 Tux Inc.
 
@@ -26,5 +26,5 @@ THE SOFTWARE.
 */
 
 export interface IActionDisplay {
-    name: string,
+    name: string;
 }

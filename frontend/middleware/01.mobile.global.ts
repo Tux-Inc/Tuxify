@@ -1,8 +1,8 @@
 /*
-File Name: useApiRequest.client.ts
+File Name: 01.mobile.global.ts
 Author: Gwenaël Hubler, Stephane Fievez, Roman Lopes, Alexandre Kévin De Freitas Martins, Bouna Diallo
 Creation Date: 2023
-Description: Brief description of the contents of this file.
+Description: Middleware to redirect to /app if the app is running on a mobile device
 
 Copyright (c) 2023 Tux Inc.
 
@@ -24,7 +24,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-
 
 export default defineNuxtRouteMiddleware(async (context) => {
     const router = useRouter();
