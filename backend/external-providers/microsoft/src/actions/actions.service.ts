@@ -50,12 +50,22 @@ export class ActionsService {
     }
 
     private genState(userId: number): string {
-        return `${randomBytes(16).toString('hex')}.${userId}`;
+        try {
+            return `${randomBytes(16).toString('hex')}.${userId}`;
+        } catch (e) {
+            this.logger.error(e);
+            throw e;
+        }
     }
 
     private parseState(state: string): { nonce: string, userId: number } {
-        const [nonce, userId] = state.split('.');
-        return { nonce, userId: Number(userId) };
+        try {
+            const [nonce, userId] = state.split('.');
+            return { nonce, userId: Number(userId) };
+        } catch (e) {
+            this.logger.error(e);
+            throw e;
+        }
     }
 
     public async subscribeToReceiveEmail(userId: number): Promise<any> {
@@ -65,7 +75,7 @@ export class ActionsService {
                 const state = this.genState(userId);
                 const payload = {
                     changeType: "created",
-                    notificationUrl: `${process.env.API_BASE_URL}/webhooks/microsoft/outlook`,
+                    notificationUrl: `${process.env.API_BASE_URL}/providers/microsoft/action/outlook`,
                     resource: "me/mailFolders('Inbox')/messages",
                     expirationDateTime: new Date(Date.now() + 86400000).toISOString(),
                     clientState: state,
