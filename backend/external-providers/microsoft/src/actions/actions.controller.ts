@@ -33,6 +33,7 @@ import { AddedProvider } from "./dtos/added-provider.dto";
 import { SubscribeOutlookInput } from "./dtos/subscribe-outlook-input.dto";
 import { SubscribeTodoInput } from "./dtos/subscribe-todo-input.dto";
 import { CommonSubscribeInput } from "./dtos/common-subscribe-input.dto";
+import {TodoNotification} from "./dtos/todo-notification.dto";
 
 @Controller("actions")
 export class ActionsController {
@@ -105,5 +106,10 @@ export class ActionsController {
     @EventPattern("provider.microsoft.action.outlook")
     async receiveEmail(@Payload() data: OutlookMessageNotification): Promise<void> {
         await this.actionsService.receiveEmail(data);
+    }
+
+    @EventPattern("provider.microsoft.action.todo")
+    async receiveTodoTask(@Payload() data: TodoNotification): Promise<void> {
+        await this.actionsService.receiveTodo(data);
     }
 }

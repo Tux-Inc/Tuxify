@@ -64,10 +64,11 @@ export class ActionsService {
         }
     }
 
-    private parseState(state: string): { nonce: string, userId: number } {
+    private parseState(state: string): number {
         try {
-            const [nonce, userId] = state.split('.');
-            return { nonce, userId: Number(userId) };
+            this.logger.debug(`Parsing state ${state}`);
+            const decodedState: string[] = state.split('.');
+            return Number(decodedState[decodedState.length - 1]);
         } catch (e) {
             this.logger.error(e);
             throw e;
@@ -75,7 +76,7 @@ export class ActionsService {
     }
 
     public async subscribeToOutlook(csi: CommonSubscribeInput<SubscribeOutlookInput>): Promise<any> {
-        this.logger.log(`Subscribing to Outlook for user ${csi.userId}`);
+        this.logger.debug(`Subscribing to Outlook for user ${csi.userId}`);
         return from(this.tokensService.getTokens(csi.userId)).pipe(
             mergeMap((userProviderTokens: UserProviderTokens) => {
                 const { accessToken } = userProviderTokens;
@@ -103,7 +104,7 @@ export class ActionsService {
     }
 
     public async subscribeToTodo(csi: CommonSubscribeInput<SubscribeTodoInput>): Promise<any> {
-        this.logger.log(`Subscribing to Todo for user ${csi.userId}`);
+        this.logger.debug(`Subscribing to Todo for user ${csi.userId}`);
         return from(this.tokensService.getTokens(csi.userId)).pipe(
             mergeMap((userProviderTokens: UserProviderTokens) => {
                 const { accessToken } = userProviderTokens;
@@ -133,9 +134,9 @@ export class ActionsService {
     public async receiveEmail(data: OutlookMessageNotification): Promise<void> {
         this.logger.debug("Received email from Outlook");
         const actionReactionInput: CommonReactionInput<OutlookGetEmailInput> = {
-            userId: this.parseState(data.clientState).userId,
+            userId: this.parseState(data.value[0].clientState),
             input: {
-                messageId: data.resource,
+                messageId: data.value[0].resourceData.id,
             },
         }
         const emailData: OutlookGetEmailOutput = await lastValueFrom<OutlookGetEmailOutput>(this.reactionService.getEmail(actionReactionInput));
@@ -150,7 +151,7 @@ export class ActionsService {
     public async receiveTodo(data: TodoNotification): Promise<void> {
         this.logger.debug("Received todo from Todo");
         const actionReactionInput: CommonReactionInput<TasksTodoGetInput> = {
-            userId: this.parseState(data.clientState).userId,
+            userId: this.parseState(data.clientState),
             input: {
                 listId: data.resourceData.id,
                 taskId: data.resourceData.id,
