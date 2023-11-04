@@ -24,9 +24,12 @@
  * THE SOFTWARE.
  */
 
+/* The code is defining an interface named `IssueCommentReactionDeleteInput`. This
+interface specifies the structure of an object that is used as input for
+deleting a reaction on a comment in a GitHub repository. */
 export interface IssueCommentReactionDeleteInput {
-    owner: string;
-    repo: string;
-    comment_id: number;
-    reaction_id: number;
+  owner: string;
+  repo: string;
+  comment_id: number;
+  reaction_id: number;
 }

@@ -24,6 +24,10 @@
  * THE SOFTWARE.
  */
 
+/* The code is defining an interface named `IssueCommentReactionOutput`. This
+interface has a single property `reaction_id` of type `number`. The purpose of
+this interface is to define the structure of an object that represents the
+output of a reaction on an issue comment. */
 export interface IssueCommentReactionOutput {
-    reaction_id: number;
+  reaction_id: number;
 }
