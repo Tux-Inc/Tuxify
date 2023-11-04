@@ -2,6 +2,7 @@ import {
     BadGatewayException, Body,
     Controller,
     Get,
+    HttpCode,
     Inject,
     Logger,
     Param,
@@ -38,7 +39,7 @@ export class ProvidersController {
         try {
             return lastValueFrom(this.natsClient.send('providers', req.user))
         } catch (e) {
-            throw new BadGatewayException(e.message);
+            throw e;
         }
     }
 
@@ -54,7 +55,7 @@ export class ProvidersController {
                 res.send(data);
             })
         } catch (e) {
-            throw new BadGatewayException(e.message);
+            throw e;
         }
     }
 
@@ -70,17 +71,18 @@ export class ProvidersController {
                 res.redirect(data);
             })
         } catch (e) {
-            throw new BadGatewayException(e.message);
+            throw e;
         }
     }
 
     @Post(':provider/action/:scope')
-    async action(@Param('provider') provider: string, @Query() query: any, @Body() body: any): Promise<void> {
+    @HttpCode(200)
+    async action(@Param('provider') provider: string, @Param('scope') scope: string, @Body() body: any): Promise<void> {
         try {
-            await firstValueFrom(this.natsClient.send(`providers.${provider}.action.${query.scope}`, body));
+            await firstValueFrom(this.natsClient.send(`provider.${provider}.action.${scope}`, body));
             return;
         } catch (e) {
-            throw new BadGatewayException(e.message);
+            return;
         }
     }
 }
