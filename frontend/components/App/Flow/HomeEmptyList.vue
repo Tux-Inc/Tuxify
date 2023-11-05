@@ -1,8 +1,8 @@
 <!--
-File Name: MobileNavigator.vue
+File Name: HomeEmptyList.vue
 Author: Gwenaël Hubler, Stephane Fievez, Roman Lopes, Alexandre Kévin De Freitas Martins, Bouna Diallo
 Creation Date: 2023
-Description: This file is the mobile navigator component
+Description: Component for home empty list
 
 Copyright (c) 2023 Tux Inc.
 
@@ -26,44 +26,28 @@ THE SOFTWARE.
 -->
 
 <script setup lang="ts">
-const menus = [
-    {
-        name: "Home",
-        icon: "i-heroicons-home",
-        path: "/app",
-    },
-    {
-        name: "Flows",
-        icon: "i-heroicons-link",
-        path: "/app/flows",
-    },
-    {
-        name: "Services",
-        icon: "i-heroicons-server",
-        path: "/app/services",
-    },
-    {
-        name: "Settings",
-        icon: "i-heroicons-cog",
-        path: "/app/settings",
-    },
-];
+const { $event } = useNuxtApp();
+
+const sendEvent = (event: string) => $event(event);
 </script>
 
 <template>
-    <header
-        class="fixed w-screen bottom-0 z-50 border-t border-gray-200 dark:border-gray-800 bg-gray-50/75 dark:bg-base-dark/75 dark:bg-opacity-60 backdrop-blur"
+    <UContainer
+        class="flex flex-wrap w-full items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-8"
     >
-        <div
-            class="flex items-start justify-between min-h-[--mobile-menu-height] max-h-[--mobile-menu-height] py-2 px-4 bg-light dark:bg-dark"
-        >
-            <MobileNavigationButton
-                v-for="menu in menus"
-                :key="menu.name"
-                :text="menu.name"
-                :icon="menu.icon"
-                :onClick="() => navigateTo(menu.path)"
-            ></MobileNavigationButton>
+        <div class="flex flex-col items-center justify-center">
+            <UIcon
+                name="i-heroicons-archive-box"
+                class="text-base-dark dark:text-base-light font-bold text-6xl"
+            />
+            <span
+                class="text-base-dark dark:text-base-light font-bold text-2xl mt-2"
+            >
+                Uh oh, you don't have any flows yet !
+            </span>
+            <span class="text-gray-500 dark:text-gray-400 text-lg">
+                Create a new flow to get started
+            </span>
         </div>
-    </header>
+    </UContainer>
 </template>

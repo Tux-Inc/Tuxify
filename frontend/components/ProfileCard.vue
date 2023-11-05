@@ -30,6 +30,13 @@ import md5 from "md5";
 import { useI18n } from "vue-i18n";
 import { IUserCookie } from "~/types/IUserCookie";
 
+const props = defineProps({
+    displayTitle: {
+        type: Boolean,
+        default: false,
+    },
+});
+
 const userCookie = useCookie<IUserCookie>("user");
 
 const i18n = useI18n();
@@ -54,28 +61,36 @@ function getUserAlt() {
 </script>
 
 <template>
-    <span class="text-dark dark:text-light font-bold text-2xl">
+    <span
+        v-if="displayTitle"
+        class="text-dark dark:text-light font-bold text-2xl"
+    >
         {{ i18n.t("app.settings.profile.title") }}
     </span>
-    <div class="justify-center items-center">
-        <div class="grid grid-cols-1">
-            <div class="justify-center items-center">
-                <NuxtImg
-                    quality="100"
-                    format="png"
-                    :src="getUserImage()"
-                    :alt="getUserAlt()"
-                    class="w-16 h-16 rounded-full"
-                />
-            </div>
-            <div class="flex flex-col">
-                <span class="text-dark dark:text-light font-bold text-xl">
-                    {{ userCookie.user.name }}
-                </span>
-                <span class="text-dark dark:text-light">
-                    {{ userCookie.user.email }}
-                </span>
-            </div>
+    <h1
+        class="flex justify-center text-center p-5 text-dark dark:text-light font-bold text-2xl"
+    >
+        Welcome back {{ userCookie.user.name }}!
+    </h1>
+    <div class="flex justify-center items-center grid grid-cols-1 p-5">
+        <div class="flex justify-center items-center">
+            <NuxtImg
+                quality="100"
+                format="png"
+                :src="getUserImage()"
+                :alt="getUserAlt()"
+                class="w-16 h-16 rounded-full"
+            />
+        </div>
+        <div class="flex justify-center flex-col">
+            <span
+                class="flex justify-center text-dark dark:text-light font-bold text-xl"
+            >
+                {{ userCookie.user.name }}
+            </span>
+            <span class="flex justify-center text-dark dark:text-light">
+                {{ userCookie.user.email }}
+            </span>
         </div>
     </div>
 </template>
