@@ -24,18 +24,36 @@
  * THE SOFTWARE.
  */
 
-import { Controller, Inject } from "@nestjs/common";
 import { ActionsService } from "./actions.service";
-import { ClientProxy, EventPattern, MessagePattern, Payload } from "@nestjs/microservices";
-import { ActionReaction } from "../dtos/action-reaction.dto";
-import { OutlookMessageNotification } from "./dtos/outlook-message-notification.dto";
+import {
+    ClientProxy,
+    EventPattern,
+    MessagePattern,
+    Payload,
+} from "@nestjs/microservices";
+import { Controller, Inject } from "@nestjs/common";
 import { AddedProvider } from "./dtos/added-provider.dto";
-import { SubscribeOutlookInput } from "./dtos/subscribe-outlook-input.dto";
+import { ActionReaction } from "../dtos/action-reaction.dto";
+import { TodoNotification } from "./dtos/todo-notification.dto";
 import { SubscribeTodoInput } from "./dtos/subscribe-todo-input.dto";
 import { CommonSubscribeInput } from "./dtos/common-subscribe-input.dto";
+import { SubscribeOutlookInput } from "./dtos/subscribe-outlook-input.dto";
+import { OutlookMessageNotification } from "./dtos/outlook-message-notification.dto";
 
+/* The ActionsController class is responsible for handling actions and
+subscriptions related to Microsoft services such as Outlook and Todo. */
 @Controller("actions")
 export class ActionsController {
+    /**
+     * The constructor function periodically emits available actions to a NATS
+     * client.
+     * @param {ActionsService} actionsService - The `actionsService` parameter is
+     * of type `ActionsService`. It is a service that provides methods for
+     * performing actions related to the application's functionality.
+     * @param {ClientProxy} natsClient - The `natsClient` parameter is of type
+     * `ClientProxy` and is injected using the `@Inject` decorator. It is used to
+     * emit a heartbeat event to the NATS server with the available actions.
+     */
     constructor(
         public readonly actionsService: ActionsService,
         @Inject("NATS_CLIENT") private readonly natsClient: ClientProxy,
@@ -88,22 +106,71 @@ export class ActionsController {
                     ],
                 },
             ];
-            this.natsClient.emit<ActionReaction>("heartbeat.providers.microsoft.actions", availableActions);
+            this.natsClient.emit<ActionReaction>(
+                "heartbeat.providers.microsoft.actions",
+                availableActions,
+            );
         }, 5000);
     }
 
     @EventPattern("provider.microsoft.subscribe.outlook")
-    async subscribeToOutlook(@Payload() csi: CommonSubscribeInput<SubscribeOutlookInput>): Promise<void> {
+    /**
+     * The function `subscribeToOutlook` is an asynchronous function that takes a
+     * payload and subscribes to Outlook using the provided input.
+     * @param csi - The `csi` parameter is of type
+     * `CommonSubscribeInput<SubscribeOutlookInput>`. It is an input object that
+     * contains the necessary information for subscribing to Outlook. The
+     * `CommonSubscribeInput` is a generic type that takes `SubscribeOutlookInput`
+     * as its type argument.
+     * @returns a Promise that resolves to void.
+     */
+    async subscribeToOutlook(
+        @Payload() csi: CommonSubscribeInput<SubscribeOutlookInput>,
+    ): Promise<void> {
         return await this.actionsService.subscribeToOutlook(csi);
     }
 
     @EventPattern("provider.microsoft.subscribe.todo")
-    async subscribeToTodo(@Payload() csi: CommonSubscribeInput<SubscribeTodoInput>): Promise<void> {
+    /**
+     * The function "subscribeToTodo" is an asynchronous function that takes a
+     * payload and subscribes to a todo item.
+     * @param csi - The `csi` parameter is of type
+     * `CommonSubscribeInput<SubscribeTodoInput>`. It is an input object that
+     * contains the necessary information for subscribing to a todo.
+     * @returns a Promise that resolves to void.
+     */
+    async subscribeToTodo(
+        @Payload() csi: CommonSubscribeInput<SubscribeTodoInput>,
+    ): Promise<void> {
         return await this.actionsService.subscribeToTodo(csi);
     }
 
     @EventPattern("provider.microsoft.action.outlook")
-    async receiveEmail(@Payload() data: OutlookMessageNotification): Promise<void> {
+    /**
+     * The `receiveEmail` function is an asynchronous function that receives an
+     * Outlook message notification and passes it to the `receiveEmail` method of
+     * the `actionsService` object.
+     * @param {OutlookMessageNotification} data - The `data` parameter is of type
+     * `OutlookMessageNotification` and represents the payload of the email
+     * notification received.
+     */
+    async receiveEmail(
+        @Payload() data: OutlookMessageNotification,
+    ): Promise<void> {
         await this.actionsService.receiveEmail(data);
+    }
+
+    @EventPattern("provider.microsoft.action.todo")
+    /**
+     * The function "receiveTodoTask" receives a payload of data and calls the
+     * "receiveTodo" function from the "actionsService" asynchronously.
+     * @param {TodoNotification} data - The `data` parameter is of type
+     * `TodoNotification` and is decorated with `@Payload()`. This means that it
+     * is expected to receive the payload data from the incoming message. The
+     * `TodoNotification` type represents the structure of the data being
+     * received.
+     */
+    async receiveTodoTask(@Payload() data: TodoNotification): Promise<void> {
+        await this.actionsService.receiveTodo(data);
     }
 }

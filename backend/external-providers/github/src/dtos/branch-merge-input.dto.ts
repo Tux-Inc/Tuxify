@@ -24,10 +24,14 @@
  * THE SOFTWARE.
  */
 
+/* The `export interface BranchMergeInput` is defining a TypeScript interface
+called `BranchMergeInput`. An interface in TypeScript is a way to define the
+shape or structure of an object. In this case, the `BranchMergeInput` interface
+specifies the properties and their types that an object should have. */
 export interface BranchMergeInput {
-    owner: string;
-    repo: string;
-    base: string;
-    head: string;
-    commit_message: string;
+  owner: string;
+  repo: string;
+  base: string;
+  head: string;
+  commit_message: string;
 }

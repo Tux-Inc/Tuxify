@@ -24,17 +24,21 @@
  * THE SOFTWARE.
  */
 
+/* The `export interface OutlookMessageNotification` is defining a TypeScript
+interface named `OutlookMessageNotification`. */
 export interface OutlookMessageNotification {
-    subscriptionId: string;
-    subscriptionExpirationDateTime: string;
-    changeType: string;
-    resource: string;
-    resourceData: {
-        "@odata.type": string;
-        "@odata.id": string;
-        "@odata.etag": string;
-        id: string;
-    };
-    clientState: string;
-    tenantId: string;
+    value: {
+        subscriptionId: string;
+        subscriptionExpirationDateTime: string;
+        changeType: string;
+        resource: string;
+        resourceData: {
+            "@odata.type": string;
+            "@odata.id": string;
+            "@odata.etag": string;
+            id: string;
+        };
+        clientState: string;
+        tenantId: string;
+    }[];
 }

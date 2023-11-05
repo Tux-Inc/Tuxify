@@ -1,4 +1,28 @@
-version: '3'
+# File Name: docker-compose.yml
+# Author: Gwenaël Hubler, Stephane Fievez, Roman Lopes, Alexandre Kévin De Freitas Martins, Bouna Diallo
+# Creation Date: 2023
+# Description: Docker compose file for the Tuxify project
+# Copyright (c) 2023 Tux Inc.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the 'Software'), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
+version: "3"
 
 services:
   # PostgreSQL auth database
@@ -216,45 +240,44 @@ services:
 
   # Microsoft provider
   api_microsoft:
-      container_name: tuxify-api-microsoft
-      build:
-        context: ./backend/external-providers/microsoft
-        dockerfile: Dockerfile.dev
-      restart: always
-      command: npm run start:dev --watch-preserve-output
-      working_dir: /usr/src/app
-      ports:
+    container_name: tuxify-api-microsoft
+    build:
+      context: ./backend/external-providers/microsoft
+      dockerfile: Dockerfile.dev
+    restart: always
+    command: npm run start:dev --watch-preserve-output
+    working_dir: /usr/src/app
+    ports:
       - ${NESTSV_MICROSOFT_PORT}:${NESTSV_MICROSOFT_PORT}
-      volumes:
+    volumes:
       - ./backend/external-providers/microsoft:/usr/src/app
       - /usr/src/app/node_modules
-      depends_on:
+    depends_on:
       - api_providers
-      networks:
+    networks:
       - tuxify-network
-      env_file:
+    env_file:
       - .env
 
   # Nuxt Frontend
   frontend:
-      container_name: tuxify-frontend
-      image: node:latest
-      restart: always
-      command: yarn dev
-      working_dir: /usr/src/app
-      ports:
+    container_name: tuxify-frontend
+    image: node:latest
+    restart: always
+    command: yarn dev
+    working_dir: /usr/src/app
+    ports:
       - "8080:8080"
       - "24678:24678"
-      volumes:
-        - ./frontend:/usr/src/app
-        - ./frontend/node_modules:/usr/src/app/node_modules
-      depends_on:
-        - api_gateway
-      networks:
-        - tuxify-network
-      env_file:
-        - .env
-
+    volumes:
+      - ./frontend:/usr/src/app
+      - ./frontend/node_modules:/usr/src/app/node_modules
+    depends_on:
+      - api_gateway
+    networks:
+      - tuxify-network
+    env_file:
+      - .env
 
 networks:
   tuxify-network:

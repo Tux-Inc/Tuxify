@@ -24,9 +24,11 @@
  * THE SOFTWARE.
  */
 
+/* The code is defining an interface called `IssueCommentReactionInput`. An
+interface in TypeScript is a way to define the structure of an object. */
 export interface IssueCommentReactionInput {
-    owner: string;
-    repo: string;
-    comment_id: number;
-    content: string;
+  owner: string;
+  repo: string;
+  comment_id: number;
+  content: string;
 }

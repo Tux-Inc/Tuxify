@@ -24,6 +24,12 @@
  * THE SOFTWARE.
  */
 
+/* The code is defining an interface named `OneNotePageOutput`. An interface in
+TypeScript is a way to define the structure of an object. In this case, the
+`OneNotePageOutput` interface has three properties: `id`, `oneNoteClientUrl`,
+and `oneNoteWebUrl`, all of which are of type `string`. This interface can be
+used to define objects that have these properties and their corresponding
+types. */
 export interface OneNotePageOutput {
     id: string;
     oneNoteClientUrl: string;

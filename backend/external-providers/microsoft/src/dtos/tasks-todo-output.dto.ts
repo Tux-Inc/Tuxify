@@ -24,6 +24,8 @@
  * THE SOFTWARE.
  */
 
+/* The TasksTodoOutput class represents the output of a task to-do list, with a
+taskId property. */
 export class TasksTodoOutput {
     taskId: string;
 }

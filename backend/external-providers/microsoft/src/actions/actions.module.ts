@@ -24,28 +24,32 @@
  * THE SOFTWARE.
  */
 
-import { Module } from '@nestjs/common';
-import { ActionsController } from './actions.controller';
-import { ActionsService } from './actions.service';
+import { Module } from "@nestjs/common";
 import { HttpModule } from "@nestjs/axios";
+import { ActionsService } from "./actions.service";
+import { TokensService } from "../tokens/tokens.service";
+import { ActionsController } from "./actions.controller";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { ReactionsService } from "../reactions/reactions.service";
-import { TokensService } from "../tokens/tokens.service";
 
 @Module({
-  imports: [
-    ClientsModule.register([
-      {
-        name: 'NATS_CLIENT',
-        transport: Transport.NATS,
-        options: {
-          servers: [process.env.NATS_SERVER_URL || 'nats://localhost:4222'],
-        }
-      }
-    ]),
-    HttpModule,
-  ],
-  controllers: [ActionsController],
-  providers: [ActionsService, ReactionsService, TokensService],
+    imports: [
+        ClientsModule.register([
+            {
+                name: "NATS_CLIENT",
+                transport: Transport.NATS,
+                options: {
+                    servers: [
+                        process.env.NATS_SERVER_URL || "nats://localhost:4222",
+                    ],
+                },
+            },
+        ]),
+        HttpModule,
+    ],
+    controllers: [ActionsController],
+    providers: [ActionsService, ReactionsService, TokensService],
 })
+
+/* The ActionsModule class is exported for use in TypeScript. */
 export class ActionsModule {}

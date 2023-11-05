@@ -24,6 +24,10 @@
  * THE SOFTWARE.
  */
 
+/* The code is defining an interface named `TasksListDeleteInput`. This interface
+has a single property `listId` of type `string`. The purpose of this interface
+is to define the structure of the input data required for deleting a tasks
+list. */
 export interface TasksListDeleteInput {
     listId: string;
 }

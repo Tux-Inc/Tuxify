@@ -25,13 +25,13 @@
  */
 
 import { Module } from "@nestjs/common";
-import { MicrosoftController } from "./microsoft.controller";
-import { MicrosoftService } from "./microsoft.service";
 import { AuthModule } from "./auth/auth.module";
+import { TokensModule } from "./tokens/tokens.module";
+import { MicrosoftService } from "./microsoft.service";
+import { ActionsModule } from "./actions/actions.module";
+import { MicrosoftController } from "./microsoft.controller";
 import { ClientsModule, Transport } from "@nestjs/microservices";
-import { ReactionsModule } from './reactions/reactions.module';
-import { ActionsModule } from './actions/actions.module';
-import { TokensModule } from './tokens/tokens.module';
+import { ReactionsModule } from "./reactions/reactions.module";
 
 @Module({
     imports: [
@@ -40,7 +40,9 @@ import { TokensModule } from './tokens/tokens.module';
                 name: "NATS_CLIENT",
                 transport: Transport.NATS,
                 options: {
-                    servers: [process.env.NATS_SERVER_URL || "nats://localhost:4222"],
+                    servers: [
+                        process.env.NATS_SERVER_URL || "nats://localhost:4222",
+                    ],
                 },
             },
         ]),
@@ -52,5 +54,6 @@ import { TokensModule } from './tokens/tokens.module';
     controllers: [MicrosoftController],
     providers: [MicrosoftService],
 })
-export class MicrosoftModule {
-}
+
+/* The MicrosoftModule class is exported for use in TypeScript. */
+export class MicrosoftModule {}

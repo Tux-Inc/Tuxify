@@ -24,6 +24,12 @@
  * THE SOFTWARE.
  */
 
+/* The code is defining an interface named `TasksListOutput`. This interface has a
+single property `listId` of type `string`. The purpose of this interface is to
+define the structure of an object that represents the output of a tasks list.
+The `listId` property is used to store the unique identifier of the tasks list.
+By exporting this interface, it can be imported and used in other parts of the
+codebase. */
 export interface TasksListOutput {
     listId: string;
 }
