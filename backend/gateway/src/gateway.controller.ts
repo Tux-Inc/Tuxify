@@ -56,7 +56,7 @@ export class GatewayController {
                     req.connection.remoteAddress,
             },
             server: {
-                current_time: new Date().toISOString(),
+                current_time: Date.now(),
                 services: await lastValueFrom(
                     this.natsClient.send("infos.providers", {}),
                 ),
