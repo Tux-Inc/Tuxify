@@ -68,7 +68,7 @@ function signOut() {
             </p>
         </div>
         <div class="flex flex-col gap-4 mt-10">
-            <ProfileCard />
+            <ProfileCard :display-title="true" />
             <AccountSettings />
             <DebitCard />
             <UserPreferences />

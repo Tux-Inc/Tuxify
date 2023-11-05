@@ -64,6 +64,7 @@ async function getFlows() {
         });
     }
 }
+
 onMounted(async () => {
     const rawFlows: IFlow[] = (await getFlows()) ?? [];
     rawFlows.sort((a, b) => {

@@ -51,10 +51,9 @@ onMounted(async () => {
             >
                 Services
             </h1>
-            <span class="text-dark dark:text-light"
-                >On this page you can connect your services to your
-                account.</span
-            >
+            <span class="text-dark dark:text-light">
+                On this page you can connect your services to your account.
+            </span>
         </div>
         <div
             class="container mx-auto my-auto grid md:grid-cols-3 sm:grid-cols-1 gap-8 text-center"
