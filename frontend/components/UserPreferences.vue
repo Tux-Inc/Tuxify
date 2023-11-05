@@ -36,6 +36,7 @@ const isDark = computed({
     get: () => colorMode.value === "dark",
     set: (value) => (colorMode.value = value ? "dark" : "light"),
 });
+
 const localesItems: ISelectOptionsProps[][] = [];
 let availableLocales = computed(() => i18n.availableLocales);
 
@@ -123,6 +124,7 @@ const themeSelected = ref<ISelectOptionsProps>(
         />
         <UButton
             v-for="(theme, index) in themesSelector.options"
+            class="sm:grid sm:grid-cols-2 gap-4"
             @click="
                 () => {
                     themeSelected = theme;

@@ -102,7 +102,7 @@ const cardSelected = ref<IRadioProps>(
             class="flex justify-center items-center my-5 gap-1"
             :label="i18n.t('app.settings.billing.labels.card')"
         >
-            <div class="grid grid-cols-4 gap-4">
+            <div class="grid md:grid-cols-4 sm:grid-cols-2 gap-4">
                 <URadio
                     v-for="(card, index) in cardTypes"
                     v-model="cardSelected.value"

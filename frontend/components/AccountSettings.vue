@@ -60,9 +60,11 @@ async function submit(event: FormSubmitEvent<any>) {
         <p class="text-sm leading-6 text-gray-600">
             Customize your user informations.
         </p>
-        <div class="grid md:grid-cols-4 gap-8 justify-center items-center">
+        <div
+            class="grid md:grid-cols-4 sm:grid-cols-1 gap-2 sm:pa-2 justify-center items-center"
+        >
             <UFormGroup
-                class="col-start-2 col-span-1"
+                class="md:col-start-2 md:col-span-1"
                 :label="i18n.t('app.settings.account.title')"
             >
                 <UInput
@@ -73,7 +75,7 @@ async function submit(event: FormSubmitEvent<any>) {
                 />
             </UFormGroup>
             <UFormGroup
-                class="col-start-3 col-span-1"
+                class="md:col-start-3 md:col-span-1"
                 :label="i18n.t('app.settings.account.labels.email')"
             >
                 <UInput
@@ -84,7 +86,9 @@ async function submit(event: FormSubmitEvent<any>) {
                 />
             </UFormGroup>
         </div>
-        <div class="mt-5 grid md:grid-cols-3 gap-8 justify-center items-center">
+        <div
+            class="mt-5 grid md:grid-cols-3 sm:grid-cols-1 gap-8 justify-center items-center"
+        >
             <UFormGroup :label="i18n.t('app.settings.account.labels.password')">
                 <UInput
                     v-model="state.password"
