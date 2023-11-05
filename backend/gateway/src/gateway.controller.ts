@@ -24,9 +24,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+import { lastValueFrom } from "rxjs";
 import { GatewayService } from "./gateway.service";
 import { CreatedUserDto } from "./created-user.dto";
-import { Body, Controller, Post } from "@nestjs/common";
+import { ClientProxy } from "@nestjs/microservices";
+import { Body, Controller, Get, Inject, Post, Req } from "@nestjs/common";
 
 /* The GatewayController class is a TypeScript controller that handles sending
 emails using the GatewayService. */
@@ -40,7 +42,27 @@ export class GatewayController {
      * means that it can only be accessed within the class and its value cannot be
      * changed once it is assigned in the constructor.
      */
-    constructor(private readonly gatewayService: GatewayService) {}
+    constructor(
+        private readonly gatewayService: GatewayService,
+        @Inject("NATS_CLIENT") private readonly natsClient: ClientProxy,
+    ) {}
+
+    @Get("/about.json")
+    async sendAboutJson(@Req() req: any) {
+        return {
+            client: {
+                host:
+                    req.headers["x-forwarded-for"] ||
+                    req.connection.remoteAddress,
+            },
+            server: {
+                current_time: new Date().toISOString(),
+                services: await lastValueFrom(
+                    this.natsClient.send("infos.providers", {}),
+                ),
+            },
+        };
+    }
 
     @Post()
     /**
