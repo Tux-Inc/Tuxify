@@ -29,8 +29,11 @@ THE SOFTWARE.
 import { useI18n } from "vue-i18n";
 import { useColorMode } from "@vueuse/core";
 import { ISelectOptionsProps } from "~/types/ISelectProps";
+import { IUserCookie } from "~/types/IUserCookie";
 
+const i18n = useI18n();
 const colorMode = useColorMode();
+const userCookie = useCookie<IUserCookie>("user");
 
 const isDark = computed({
     get() {
@@ -41,10 +44,10 @@ const isDark = computed({
     },
 });
 
-const i18n = useI18n();
 let availableLocales = computed(() => i18n.availableLocales);
 
 const localesItems: ISelectOptionsProps[][] = [];
+
 for (const locale of availableLocales.value) {
     localesItems.push([
         {
@@ -55,6 +58,10 @@ for (const locale of availableLocales.value) {
             click: () => (i18n.locale.value = locale),
         },
     ]);
+}
+
+function isUserLoggedIn() {
+    return userCookie.value?.user !== null;
 }
 </script>
 
@@ -158,6 +165,16 @@ for (const locale of availableLocales.value) {
                     </UDropdown>
                 </ClientOnly>
                 <UButton
+                    v-if="isUserLoggedIn()"
+                    icon="i-heroicons-arrow-right-on-rectangle"
+                    to="/app"
+                    color="primary"
+                    variant="solid"
+                    :aria-label="i18n.t('auth.goToApp')"
+                    :label="i18n.t('auth.goToApp')"
+                />
+                <UButton
+                    v-else
                     icon="i-heroicons-arrow-right-on-rectangle"
                     to="/auth/sign-in"
                     color="primary"
