@@ -24,6 +24,10 @@
  * THE SOFTWARE.
  */
 
+/* The code is defining an interface named `TasksTodoDeleteInput`. This interface
+has two properties: `listId` and `taskId`, both of which are of type `string`.
+This interface is used to define the structure of the input object that is
+expected when deleting a task from a todo list. */
 export interface TasksTodoDeleteInput {
     listId: string;
     taskId: string;

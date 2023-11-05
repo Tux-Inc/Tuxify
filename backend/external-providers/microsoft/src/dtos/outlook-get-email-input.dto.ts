@@ -24,6 +24,11 @@
  * THE SOFTWARE.
  */
 
+/* The code is defining an interface called `OutlookGetEmailInput`. This interface
+has a single property called `messageId` of type `string`. The purpose of this
+interface is to define the structure of the input object that is expected when
+retrieving an email from Outlook. The `messageId` property represents the
+unique identifier of the email message that needs to be retrieved. */
 export interface OutlookGetEmailInput {
     messageId: string;
 }

@@ -24,41 +24,70 @@
  * THE SOFTWARE.
  */
 
-import { Controller, Get, Inject, Logger } from "@nestjs/common";
-import { MicrosoftService } from './microsoft.service';
-import { ClientProxy, EventPattern, Payload } from "@nestjs/microservices";
+import { MicrosoftService } from "./microsoft.service";
 import { ActionReaction } from "./dtos/action-reaction.dto";
+import { Controller, Get, Inject, Logger } from "@nestjs/common";
+import { ClientProxy, EventPattern, Payload } from "@nestjs/microservices";
 import { ActionReactionService } from "./dtos/action-reaction-service.dto";
 
+/* The MicrosoftController class is a TypeScript controller that handles actions
+and reactions for the Microsoft service. */
 @Controller()
 export class MicrosoftController {
-  private readonly logger: Logger = new Logger(MicrosoftController.name);
-  private availableActions: ActionReaction[] = [];
-  private availableReactions: ActionReaction[] = [];
-  constructor(
-      private readonly microsoftService: MicrosoftService,
-      @Inject('NATS_CLIENT') private readonly natsClient: ClientProxy,
-  ) {
-    setInterval(() => {
-      const providerInfos: ActionReactionService = {
-        name: "microsoft",
-        image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/1024px-Microsoft_logo.svg.png",
-        title: "Microsoft",
-        description: "Microsoft is a service that provides a lot of services like Office 365, Azure, etc.",
-        actions: this.availableActions,
-        reactions: this.availableReactions,
-      };
-      this.natsClient.emit<ActionReactionService>('heartbeat.providers.microsoft', providerInfos);
-    }, 5000);
-  }
+    private readonly logger: Logger = new Logger(MicrosoftController.name);
+    private availableActions: ActionReaction[] = [];
+    private availableReactions: ActionReaction[] = [];
 
-  @EventPattern('heartbeat.providers.microsoft.actions')
-  setActionsInfos(@Payload() data: ActionReaction[]): void {
-      this.availableActions = data;
-  }
+    /**
+     * The constructor function periodically emits a heartbeat message containing
+     * information about the Microsoft service to a NATS client.
+     * @param {MicrosoftService} microsoftService - The `microsoftService`
+     * parameter is of type `MicrosoftService`. It is a dependency that is
+     * injected into the constructor. It is used to interact with the Microsoft
+     * service and perform various operations.
+     * @param {ClientProxy} natsClient - The `natsClient` parameter is an instance
+     * of the `ClientProxy` class, which is used to communicate with a NATS
+     * server. It is injected into the constructor using the `@Inject` decorator.
+     */
+    constructor(
+        private readonly microsoftService: MicrosoftService,
+        @Inject("NATS_CLIENT") private readonly natsClient: ClientProxy,
+    ) {
+        setInterval(() => {
+            const providerInfos: ActionReactionService = {
+                name: "microsoft",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/1024px-Microsoft_logo.svg.png",
+                title: "Microsoft",
+                description:
+                    "Microsoft is a service that provides a lot of services like Office 365, Azure, etc.",
+                actions: this.availableActions,
+                reactions: this.availableReactions,
+            };
+            this.natsClient.emit<ActionReactionService>(
+                "heartbeat.providers.microsoft",
+                providerInfos,
+            );
+        }, 5000);
+    }
 
-  @EventPattern('heartbeat.providers.microsoft.reactions')
-  setReactionsInfos(@Payload() data: ActionReaction[]): void {
-    this.availableReactions = data;
-  }
+    @EventPattern("heartbeat.providers.microsoft.actions")
+    /**
+     * The function sets the available actions information based on the provided
+     * payload data.
+     * @param {ActionReaction[]} data - An array of objects of type
+     * ActionReaction.
+     */
+    setActionsInfos(@Payload() data: ActionReaction[]): void {
+        this.availableActions = data;
+    }
+
+    @EventPattern("heartbeat.providers.microsoft.reactions")
+    /**
+     * The function sets the available reactions based on the provided data.
+     * @param {ActionReaction[]} data - An array of objects of type
+     * ActionReaction.
+     */
+    setReactionsInfos(@Payload() data: ActionReaction[]): void {
+        this.availableReactions = data;
+    }
 }

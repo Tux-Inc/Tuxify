@@ -24,6 +24,8 @@
  * THE SOFTWARE.
  */
 
+/* The TasksTodoInput class is used to represent the input for creating a new task
+in a to-do list, including the list ID, title, and content of the task. */
 export class TasksTodoInput {
     listId: string;
     title: string;

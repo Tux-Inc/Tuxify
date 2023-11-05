@@ -1,22 +1,49 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { MicrosoftController } from './microsoft.controller';
-import { MicrosoftService } from './microsoft.service';
+/*
+File Name: microsoft.controller.spec.ts
+Author: Gwenaël Hubler, Stephane Fievez, Roman Lopes, Alexandre Kévin De Freitas Martins, Bouna Diallo
+Creation Date: 2023
+Description: Controller for microsoft
 
-describe('AppController', () => {
-  let appController: MicrosoftController;
+Copyright (c) 2023 Tux Inc.
 
-  beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
-      controllers: [MicrosoftController],
-      providers: [MicrosoftService],
-    }).compile();
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the 'Software'), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-    appController = app.get<MicrosoftController>(MicrosoftController);
-  });
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
 
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
+import { Test, TestingModule } from "@nestjs/testing";
+import { MicrosoftService } from "./microsoft.service";
+import { MicrosoftController } from "./microsoft.controller";
+
+describe("AppController", () => {
+    let appController: MicrosoftController;
+
+    beforeEach(async () => {
+        const app: TestingModule = await Test.createTestingModule({
+            controllers: [MicrosoftController],
+            providers: [MicrosoftService],
+        }).compile();
+
+        appController = app.get<MicrosoftController>(MicrosoftController);
     });
-  });
+
+    describe("root", () => {
+        it('should return "Hello World!"', () => {
+            expect(appController.getHello()).toBe("Hello World!");
+        });
+    });
 });
