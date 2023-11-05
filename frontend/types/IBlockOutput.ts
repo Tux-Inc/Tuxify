@@ -25,6 +25,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+/* The code is defining an interface called `IBlockOutput`. An interface in
+TypeScript is a way to define the structure of an object. In this case, the
+`IBlockOutput` interface has a single property called `label`, which is of type
+`string`. This means that any object that implements the `IBlockOutput`
+interface must have a `label` property of type `string`. The `export` keyword
+is used to make the interface accessible to other files or modules that import
+it. */
 export interface IBlockOutput {
     label: string;
 }

@@ -27,6 +27,25 @@ THE SOFTWARE.
 
 import { Raw } from "@vue/reactivity";
 
+/**
+ * The INodeType type represents a node with properties such as icon, name,
+ * description, type, and component.
+ * @property {string} icon - The `icon` property is a string that represents the
+ * icon associated with the node type. It can be used to visually identify the
+ * node type in a user interface or any other context where icons are used.
+ * @property {string} name - The name property is a string that represents the
+ * name of the node type.
+ * @property {string} description - The `description` property is a string that
+ * provides a brief explanation or summary of the node type. It can be used to
+ * provide additional information about the purpose or functionality of the node
+ * type.
+ * @property {string} type - The `type` property in the `INodeType` type
+ * represents the type of the node. It can be any string value that describes the
+ * type of the node.
+ * @property component - The `component` property is a reference to a React
+ * component. It is of type `Raw<unknown>`, which means it can accept any type of
+ * component as its value.
+ */
 export type INodeType = {
     icon: string;
     name: string;

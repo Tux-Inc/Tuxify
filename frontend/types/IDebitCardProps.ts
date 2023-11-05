@@ -25,6 +25,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+/* The code is defining an interface called `IDebitCardProps`. An interface in
+TypeScript is a way to define the structure of an object. In this case, the
+`IDebitCardProps` interface has five properties: `card`, `cardName`,
+`cardNumber`, `cardExpiry`, and `cardCvc`. Each property has a type of
+`string`. This interface can be used to define the expected shape of an object
+that represents debit card props in a TypeScript application. */
 export interface IDebitCardProps {
     card: string;
     cardName: string;

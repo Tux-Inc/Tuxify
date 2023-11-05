@@ -70,7 +70,7 @@ function getUserAlt() {
     <h1
         class="flex justify-center text-center p-5 text-dark dark:text-light font-bold text-2xl"
     >
-        Welcome back {{ userCookie.user.name }}!
+        Welcome back {{ userCookie.user.name }} !
     </h1>
     <div class="flex justify-center items-center grid grid-cols-1 p-5">
         <div class="flex justify-center items-center">

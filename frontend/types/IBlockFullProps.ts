@@ -29,6 +29,8 @@ import { IBlockPreviewProps } from "~/types/IBlockPreviewProps";
 import { IActionReactionInput } from "~/types/IActionReactionInput";
 import { IActionReactionOutput } from "~/types/IActionReactionOutput";
 
+/* The `export interface IBlockFullProps` is defining an interface in TypeScript.
+This interface extends another interface called `IBlockPreviewProps`. */
 export interface IBlockFullProps extends IBlockPreviewProps {
     uuid?: string;
     type: "action" | "reaction";

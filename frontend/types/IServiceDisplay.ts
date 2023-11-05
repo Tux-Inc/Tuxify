@@ -28,6 +28,9 @@ THE SOFTWARE.
 import { IActionDisplay } from "~/types/IActionDisplay";
 import { IReactionDisplay } from "~/types/IReactionDisplay";
 
+/* The `export interface IServiceDisplay` is defining an interface in TypeScript.
+An interface is a way to define the structure of an object. In this case, the
+`IServiceDisplay` interface has the following properties: */
 export interface IServiceDisplay {
     image: string;
     name: string;

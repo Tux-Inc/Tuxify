@@ -32,13 +32,13 @@ import { useColorMode } from "@vueuse/core";
 import { IUserCookie } from "~/types/IUserCookie";
 
 const i18n = useI18n();
-const { metaSymbol } = useShortcuts();
+const localesItems: any = [];
 const { $event } = useNuxtApp();
 const colorMode = useColorMode();
-const availableLocales = computed(() => i18n.availableLocales);
-const localesItems: any = [];
+const { metaSymbol } = useShortcuts();
 const userCookie = useCookie<IUserCookie>("user");
 const sendEvent = (event: string) => $event(event);
+const availableLocales = computed(() => i18n.availableLocales);
 
 const isDark = computed({
     get() {

@@ -25,11 +25,21 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+/* The `export interface ISocialProps` is defining another interface in
+TypeScript. This interface represents the structure of social media properties.
+It has three properties: `icon`, `name`, and `link`, all of which are of type
+string. This interface is used as a property in the `IFounderCardProps`
+interface to define the structure of social media links for a founder card
+component. */
 export interface ISocialProps {
     icon: string;
     name: string;
     link: string;
 }
+
+/* The `export interface IFounderCardProps` is defining an interface in
+TypeScript. An interface is a way to define the structure of an object. In this
+case, the `IFounderCardProps` interface has the following properties: */
 export interface IFounderCardProps {
     image: string;
     alt: string;

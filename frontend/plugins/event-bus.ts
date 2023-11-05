@@ -27,6 +27,7 @@ THE SOFTWARE.
 
 import mitt from "mitt";
 
+/* The code is exporting a default function that defines a NuxtJS plugin. */
 export default defineNuxtPlugin((nuxtApp) => {
     const emitter = mitt();
 

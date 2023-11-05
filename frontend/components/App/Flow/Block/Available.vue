@@ -27,15 +27,15 @@ THE SOFTWARE.
 
 <script setup lang="ts">
 import { IBlockFullProps } from "~/types/IBlockFullProps";
+import { IActionReaction } from "~/types/IActionReaction";
 import { IBlockAvailableProps } from "~/types/IBlockAvailableProps";
 import { IActionReactionService } from "~/types/IActionReactionService";
-import { IActionReaction } from "~/types/IActionReaction";
 
+const search = ref("");
 const toast = useToast();
 
-const props: IBlockAvailableProps = defineProps<IBlockAvailableProps>();
-const search = ref("");
 const availableActionsReactionsServices = ref<any[]>([]);
+const props: IBlockAvailableProps = defineProps<IBlockAvailableProps>();
 
 const emit = defineEmits<{
     (e: "flow-add-block", block: IBlockFullProps): void;
