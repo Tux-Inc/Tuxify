@@ -26,14 +26,56 @@ THE SOFTWARE.
 -->
 
 <script setup lang="ts">
+import { IFlow } from "~/types/IFlow";
+
+const toast = useToast();
+const { isMobile } = useDevice();
+
 definePageMeta({
     layout: "app-navigation",
 });
+
 let loading = ref(false);
 
 function setLoading() {
     loading.value = !loading.value;
 }
+
+const flows = ref<IFlow[]>([]);
+
+async function getFlows() {
+    try {
+        const res = await useApiRequest<IFlow[]>("/flows");
+        if (!res._data) {
+            toast.add({
+                color: "red",
+                icon: "i-heroicons-exclamation-circle",
+                title: `Error`,
+                description: `Flows not found`,
+            });
+        } else {
+            return res._data;
+        }
+    } catch (e: any) {
+        toast.add({
+            color: "red",
+            icon: "i-heroicons-exclamation-circle",
+            title: `Error ${e.response?.status}`,
+            description: e.response?.statusText,
+        });
+    }
+}
+
+onMounted(async () => {
+    const rawFlows: IFlow[] = (await getFlows()) ?? [];
+    rawFlows.sort((a, b) => {
+        return (
+            new Date(b.updatedAt as Date).getTime() -
+            new Date(a.updatedAt as Date).getTime()
+        );
+    });
+    flows.value = rawFlows;
+});
 </script>
 
 <template>
@@ -42,13 +84,26 @@ function setLoading() {
             <Title>Home</Title>
             <Meta name="description" content="Put your description here." />
         </Head>
-        <h1 class="text-4xl font-bold text-dark dark:text-light">Home</h1>
-        <UButton
-            @click="setLoading"
-            :loading="loading"
-            color="primary"
-            variant="solid"
-            >Toggle loading</UButton
+        <div v-if="!isMobile">
+            <h1 class="text-4xl font-bold text-dark dark:text-light">Home</h1>
+        </div>
+    </div>
+    <div class="gap-4 mt-10">
+        <UContainer
+            class="border-2 border-gray-300 dark:border-gray-700 rounded-lg"
         >
+            <ProfileCard />
+        </UContainer>
+    </div>
+    <div v-if="flows.length === 0">
+        <AppFlowHomeEmptyList
+            class="flex items-center justify-center gap-4 mt-10"
+        />
+    </div>
+    <div
+        class="flex grid md:grid-cols-2 grid-cols-1 items-center justify-between gap-4 mt-10"
+        v-else
+    >
+        <AppFlowHomeCard v-for="flow in flows" :key="flow._id" :flow="flow" />
     </div>
 </template>

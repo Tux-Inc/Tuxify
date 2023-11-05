@@ -1,8 +1,8 @@
 <!--
-File Name: index.client.vue
+File Name: about.json.vue
 Author: Gwenaël Hubler, Stephane Fievez, Roman Lopes, Alexandre Kévin De Freitas Martins, Bouna Diallo
 Creation Date: 2023
-Description: This file is the oauth page
+Description: This file is the about page
 
 Copyright (c) 2023 Tux Inc.
 
@@ -28,48 +28,32 @@ THE SOFTWARE.
 <script setup lang="ts">
 import { IServiceDisplay } from "~/types/IServiceDisplay";
 
-definePageMeta({
-    layout: "app-navigation",
-});
-
 const servicesDisplay = ref<IServiceDisplay[]>([]);
 
 onMounted(async () => {
     const res = await useApiRequest<IServiceDisplay[]>("/providers");
     servicesDisplay.value = res._data as IServiceDisplay[];
 });
+
+const aboutJSON = computed(() => {
+    return JSON.stringify({
+        name: "Tux",
+        version: "1.0.0",
+        description:
+            "Tux is a service that allows you to connect all your accounts to one place.",
+        client: {
+            host: "https://tux.gwenaelhubler.com",
+            port: 443,
+            protocol: "https",
+        },
+        server: {
+            current_time: new Date().toISOString(),
+            services: servicesDisplay.value,
+        },
+    });
+});
 </script>
 
 <template>
-    <div class="flex flex-col gap-x-6 gap-y-10 justify-center max">
-        <Head>
-            <Title>Services</Title>
-        </Head>
-        <div>
-            <h1
-                class="text-4xl font-bold text-dark dark:text-light hidden sm:block"
-            >
-                Services
-            </h1>
-            <span class="text-dark dark:text-light">
-                On this page you can connect your services to your account.
-            </span>
-        </div>
-        <div
-            class="container mx-auto my-auto grid md:grid-cols-3 sm:grid-cols-1 gap-8 text-center"
-        >
-            <ServiceDisplay
-                v-for="service in servicesDisplay"
-                :image="service.image"
-                :name="service.name"
-                :title="service.title"
-                :description="service.description"
-                :isConnected="service.isConnected"
-                :actions="service.actions"
-                :reactions="service.reactions"
-            />
-        </div>
-    </div>
+    {{ aboutJSON }}
 </template>
-
-<style scoped></style>
