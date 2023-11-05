@@ -8,6 +8,10 @@
     "auth": {
         "signIn": "Sign In",
         "signOut": "Sign Out",
+<<<<<<< HEAD
+=======
+        "goToApp": "Go to App",
+>>>>>>> 08a9f7d4d64f458c1424c038156811c8468b65e6
         "button": {
             "signIn": "Sign In",
             "signUp": "Sign up",

@@ -225,6 +225,14 @@ export class ProvidersService {
     return await this.providersRepository.save(newEntity);
   }
 
+  /**
+   * The function `addProvider` sends a request to add a provider and returns a
+   * promise that resolves to a string.
+   * @param {AddProvider} addProvider - The `addProvider` parameter is an object
+   * of type `AddProvider`. It contains the following properties:
+   * @returns The function `addProvider` returns a Promise that resolves to a
+   * string.
+   */
   async addProvider(addProvider: AddProvider): Promise<string> {
     this.logger.log(`Requesting adding ${addProvider.provider} provider`);
     try {
