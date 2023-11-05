@@ -98,24 +98,25 @@ const cardSelected = ref<IRadioProps>(
         <span class="text-center text-dark dark:text-light font-bold text-2xl">
             {{ i18n.t("app.settings.billing.title") }}
         </span>
-        <UFormGroup
-            class="flex justify-center items-center my-5 gap-1"
+        <div
+            class="grid sm:grid-cols-2 md:grid-cols-4 my-2"
             :label="i18n.t('app.settings.billing.labels.card')"
         >
-            <div class="grid md:grid-cols-4 sm:grid-cols-2 gap-4">
-                <URadio
-                    v-for="(card, index) in cardTypes"
-                    v-model="cardSelected.value"
-                    :key="index"
-                    :name="card.name"
-                    :label="card.label"
-                    :value="card.value"
-                />
-            </div>
-        </UFormGroup>
-        <div class="grid md:grid-cols-4 gap-8 justify-center items-center">
+            <URadio
+                v-for="(card, index) in cardTypes"
+                :class="`col-start-${index % 2 === 1 ? 2 : 1} md:col-start-${
+                    index % 2 === 1 ? 3 : 2
+                }`"
+                v-model="cardSelected.value"
+                :key="index"
+                :name="card.name"
+                :label="card.label"
+                :value="card.value"
+            />
+        </div>
+        <div class="md:grid md:grid-cols-4 gap-8">
             <UFormGroup
-                class="my-5"
+                class="my-5 md:col-start-2 md:col-span-1"
                 :label="i18n.t('app.settings.billing.labels.cardName')"
             >
                 <UInput
@@ -126,7 +127,7 @@ const cardSelected = ref<IRadioProps>(
                 />
             </UFormGroup>
             <UFormGroup
-                class="my-5"
+                class="my-5 md:col-start-3 md:col-span-1"
                 :label="i18n.t('app.settings.billing.labels.cardNumber')"
             >
                 <UInput
@@ -137,9 +138,9 @@ const cardSelected = ref<IRadioProps>(
                 />
             </UFormGroup>
         </div>
-        <div class="grid md:grid-cols-4 gap-8 justify-center items-center">
+        <div class="md:grid md:grid-cols-4 gap-8">
             <UFormGroup
-                class="my-5"
+                class="my-5 md:col-start-2 md:col-span-1"
                 :label="i18n.t('app.settings.billing.labels.cardExpiry')"
             >
                 <UInput
@@ -150,7 +151,7 @@ const cardSelected = ref<IRadioProps>(
                 />
             </UFormGroup>
             <UFormGroup
-                class="my-5"
+                class="my-5 md:col-start-3 md:col-span-1"
                 :label="i18n.t('app.settings.billing.labels.cardCvc')"
             >
                 <UInput

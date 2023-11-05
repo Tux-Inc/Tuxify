@@ -75,27 +75,31 @@ onMounted(async () => {
     });
     flows.value = rawFlows;
 });
+
+const { isMobile } = useDevice();
 </script>
 
 <template>
     <div class="flex flex-col gap-x-6 gap-y-10 justify-center max">
         <Head>
-            <Title>Flows</Title>
+            <Title> {{ i18n.t("app.flows.title") }} </Title>
         </Head>
         <div
-            class="flex items-center justify-between gap-4 flex-wrap md:flex-nowrap"
+            class="flex justify-center items-center md:justify-between gap-4 flex-wrap md:flex-nowrap"
         >
             <div>
-                <h1 class="text-4xl font-bold text-dark dark:text-light">
-                    Flows
-                </h1>
-                <span class="text-dark dark:text-light"
-                    >On this page you can manage your flows, flows are used to
-                    automate your tasks.</span
+                <h1
+                    v-if="!isMobile"
+                    class="text-4xl font-bold text-dark dark:text-light"
                 >
+                    {{ i18n.t("app.flows.title") }}
+                </h1>
+                <span class="text-dark dark:text-light">
+                    {{ i18n.t("app.flows.description") }}
+                </span>
             </div>
             <UTooltip
-                text="Create a new flow"
+                :text="i18n.t('app.flows.tooltip.new')"
                 :shortcuts="[metaSymbol, 'shift', 'F']"
             >
                 <UButton
@@ -103,8 +107,8 @@ onMounted(async () => {
                     @click="sendEvent('app:newFlow')"
                     color="primary"
                     variant="solid"
-                    >New flow</UButton
-                >
+                    :label="i18n.t('app.flows.boutons.create')"
+                />
             </UTooltip>
         </div>
         <div class="w-full mt-4">

@@ -50,30 +50,29 @@ function signOut() {
     router.push("/auth/sign-in");
     isLoading.value = false;
 }
+
+const { isMobile } = useDevice();
 </script>
 
 <template>
-    <div>
+    <div class="flex flex-col gap-x-6 gap-y-10 justify-center max">
         <Head>
             <Title>{{ i18n.t("app.settings.title") }}</Title>
         </Head>
-        <div class="flex flex-wrap items-center justify-between gap-4">
-            <h1
-                class="text-4xl font-bold text-dark dark:text-light hidden sm:block"
-            >
-                {{ i18n.t("app.settings.title") }}
-            </h1>
-            <p class="mt-1 text-sm leading-6 text-gray-600">
-                {{ i18n.t("app.settings.description") }}
-            </p>
-        </div>
-        <div class="flex flex-col gap-4 mt-10">
-            <ProfileCard :display-title="true" />
-            <AccountSettings />
-            <DebitCard />
-            <UserPreferences />
-        </div>
-        <div class="mt-10 flex items-center justify-between">
+        <div
+            class="flex justify-center items-center md:justify-between gap-4 flex-wrap md:flex-nowrap"
+        >
+            <div>
+                <h1
+                    v-if="!isMobile"
+                    class="text-4xl font-bold text-dark dark:text-light"
+                >
+                    {{ i18n.t("app.settings.title") }}
+                </h1>
+                <span class="text-dark dark:text-light">
+                    {{ i18n.t("app.settings.description") }}
+                </span>
+            </div>
             <UButton
                 icon="i-heroicons-arrow-left-on-rectangle"
                 color="red"
@@ -82,6 +81,16 @@ function signOut() {
                 :loading="isLoading"
                 label="Sign Out"
             />
+        </div>
+    </div>
+    <div>
+        <div class="flex flex-col gap-4 mt-10">
+            <ProfileCard :display-title="true" />
+            <AccountSettings />
+            <DebitCard />
+            <UserPreferences />
+        </div>
+        <div class="mt-10 flex items-center justify-between">
             <UButton type="button" label="Cancel" />
             <UButton type="submit" label="Save" />
         </div>

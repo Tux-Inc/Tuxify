@@ -103,38 +103,37 @@ const themeSelected = ref<ISelectOptionsProps>(
     <p class="text-sm leading-6 text-gray-600">
         {{ i18n.t("app.settings.preferences.description") }}
     </p>
-    <div
-        class="grid md:grid-cols-4 gap-8 justify-center items-center text-center"
-    >
-        {{ languageSelected }}
-        {{ themeSelected }}
-        {{ colorMode }}
+    <div class="md:grid md:grid-cols-4 gap-8">
+        <!-- {{ languageSelected }} -->
         <USelect
-            id="language"
-            name="language"
+            class="col-start-2"
             @click="
                 () => {
                     console.log('click');
                     if (languageSelected.click) languageSelected.click();
                 }
             "
-            :value="languageSelected"
+            :v-model="languageSelected"
             :options="languagesSelector.options"
             :option-attribute="languagesSelector['option-attribute']"
         />
-        <UButton
-            v-for="(theme, index) in themesSelector.options"
-            class="sm:grid sm:grid-cols-2 gap-4"
-            @click="
-                () => {
-                    themeSelected = theme;
-                    if (theme.click) theme.click();
-                }
-            "
-            :key="theme.name + index"
-            :label="theme.name"
-            :color="themeSelected.value === theme.value ? 'gray' : 'primary'"
-        />
+        <div class="grid-cols-2 col-start-3 mt-5 md:mt-0">
+            <UButton
+                v-for="(theme, index) in themesSelector.options"
+                class="w-1/2"
+                @click="
+                    () => {
+                        themeSelected = theme;
+                        if (theme.click) theme.click();
+                    }
+                "
+                :key="theme.name + index"
+                :label="theme.name"
+                :color="
+                    themeSelected.value === theme.value ? 'gray' : 'primary'
+                "
+            />
+        </div>
     </div>
 </template>
 
