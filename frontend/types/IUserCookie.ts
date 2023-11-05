@@ -27,6 +27,8 @@ THE SOFTWARE.
 
 import { User } from "~/types/IUser";
 
+/* The code is defining an interface named `IUserCookie`. This interface has three
+properties: */
 export interface IUserCookie {
     user: User;
     accessToken: string;

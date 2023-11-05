@@ -41,11 +41,12 @@ const sendEvent = (event: string) => $event(event);
             />
             <span
                 class="text-base-dark dark:text-base-light font-bold text-2xl mt-2"
-                >Uh oh, you don't have any flows yet!</span
             >
-            <span class="text-gray-500 dark:text-gray-400 text-lg"
-                >Create a new flow to get started</span
-            >
+                Uh oh, you don't have any flows yet !
+            </span>
+            <span class="text-gray-500 dark:text-gray-400 text-lg">
+                Create a new flow to get started
+            </span>
         </div>
         <div class="mt-4">
             <UButton

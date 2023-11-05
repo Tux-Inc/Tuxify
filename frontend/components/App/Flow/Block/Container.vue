@@ -26,8 +26,8 @@ THE SOFTWARE.
 -->
 
 <script setup lang="ts">
-import { IBlockFullProps } from "~/types/IBlockFullProps";
 import { randomUUID } from "uncrypto";
+import { IBlockFullProps } from "~/types/IBlockFullProps";
 
 const props = defineProps<{
     flowData: IBlockFullProps[];

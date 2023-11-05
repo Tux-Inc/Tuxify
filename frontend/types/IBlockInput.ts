@@ -25,6 +25,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+/* The `export interface IBlockInput` is defining an interface in TypeScript. An
+interface is a way to define the structure of an object. In this case, the
+`IBlockInput` interface has four properties: */
 export interface IBlockInput {
     label: string;
     value: string;

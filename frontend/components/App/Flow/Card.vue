@@ -49,8 +49,9 @@ async function redirectToFlow() {
             <div class="flex gap-2 items-center">
                 <span
                     class="text-2xl font-bold text-ellipsis overflow-hidden line-clamp-1"
-                    >{{ flow.name }}</span
                 >
+                    {{ flow.name }}
+                </span>
                 <UTooltip v-if="flow.enabled" text="Flow enabled">
                     <UIcon
                         name="i-heroicons-check-circle-solid"
@@ -67,10 +68,9 @@ async function redirectToFlow() {
             <div class="w-2/3">
                 <span
                     class="text-ellipsis overflow-hidden line-clamp-1 text-gray-500 dark:text-gray-400"
-                    >{{
-                        flow.description ? flow.description : "No description"
-                    }}</span
                 >
+                    {{ flow.description ? flow.description : "No description" }}
+                </span>
             </div>
         </div>
         <div>

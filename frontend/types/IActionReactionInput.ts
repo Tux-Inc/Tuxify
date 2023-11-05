@@ -25,6 +25,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+/* The code is defining an interface called `IActionReactionInput`. An interface
+in TypeScript is a way to define the structure of an object. */
 export interface IActionReactionInput {
     name: string;
     title: string;

@@ -27,6 +27,8 @@ THE SOFTWARE.
 
 import { IActionReaction } from "~/types/IActionReaction";
 
+/* The `export interface IActionReactionService` is defining an interface in
+TypeScript. */
 export interface IActionReactionService {
     name: string;
     image: string;

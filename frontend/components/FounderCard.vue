@@ -86,5 +86,3 @@ const props = withDefaults(defineProps<IFounderCardProps>(), {
         </div>
     </UCard>
 </template>
-
-<style scoped></style>

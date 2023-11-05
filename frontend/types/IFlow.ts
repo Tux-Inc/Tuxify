@@ -27,6 +27,8 @@ THE SOFTWARE.
 
 import { IBlockFullProps } from "~/types/IBlockFullProps";
 
+/* The `export interface IFlow` is defining an interface in TypeScript called
+`IFlow`. */
 export interface IFlow {
     _id?: string;
     name: string;

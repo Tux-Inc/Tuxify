@@ -25,9 +25,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-import type { FetchRequest, FetchOptions, FetchResponse } from "ofetch";
 import { ofetch } from "ofetch";
 import { IUserCookie } from "~/types/IUserCookie";
+import type { FetchRequest, FetchOptions, FetchResponse } from "ofetch";
 
 /* Custom fetcher to handle token refresh
  * Nuxt 3 useFetch() wrapper seems to not
@@ -35,8 +35,14 @@ import { IUserCookie } from "~/types/IUserCookie";
  * token refreshing. See https://github.com/unjs/ofetch/issues/79
  * for further infos. Gwenaël HUBLER */
 
+/* The `fetcher` constant is an instance of the `ofetch` library's fetcher. It is
+created using the `ofetch.create()` method and configured with a base URL. */
 const fetcher = ofetch.create({
     baseURL: useRuntimeConfig().public.API_BASE_URL,
+    /* The `async onRequest({ options })` function is a callback function that is
+    executed before a request is sent to the server. It is part of the custom
+    fetcher implementation and is responsible for adding the access token to
+    the request headers. */
     async onRequest({ options }) {
         const userCookie = useCookie<IUserCookie>("user");
         const user: IUserCookie = userCookie.value;
@@ -49,6 +55,11 @@ const fetcher = ofetch.create({
             };
         }
     },
+
+    /* The `async onResponse({ response })` function is a callback function that
+    is executed after a response is received from the server. It is part of the
+    custom fetcher implementation and is responsible for handling token
+    refresh. */
     async onResponse({ response }) {
         if (
             response.status === 403 &&
@@ -78,6 +89,9 @@ const fetcher = ofetch.create({
     },
 });
 
+/* The code `export default async <T>(request: FetchRequest, options?:
+FetchOptions) => { ... }` is exporting an asynchronous function as the default
+export of the module. */
 export default async <T>(request: FetchRequest, options?: FetchOptions) => {
     try {
         const response = await fetcher.raw(request, options);

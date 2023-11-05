@@ -25,6 +25,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+/* The code is defining an interface named `IBlockAvailableProps`. This interface
+has a single property `type` which can have a value of either "action" or
+"reaction". The `export` keyword is used to make this interface available for
+other modules to import and use. */
 export interface IBlockAvailableProps {
     type: "action" | "reaction";
 }
