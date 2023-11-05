@@ -59,18 +59,17 @@ const languagesSelector = ref<ISelectProps>({
     "option-attribute": "label",
 });
 
+const languageSelected = ref<ISelectOptionsProps>(
+    languagesSelector.value.options.find(
+        (option) => option.value === i18n.locale.value,
+    ) ?? languagesSelector.value.options[0],
+);
+
 const themesSelector = ref<ISelectProps>({
     label: "Theme",
     name: "theme",
     id: "theme",
     options: [
-        {
-            name: "Light",
-            label: "Light",
-            value: "light",
-            icon: "i-heroicons-sun",
-            click: () => (isDark.value = false),
-        },
         {
             name: "Dark",
             label: "Dark",
@@ -78,12 +77,21 @@ const themesSelector = ref<ISelectProps>({
             icon: "i-heroicons-moon",
             click: () => (isDark.value = true),
         },
+        {
+            name: "Light",
+            label: "Light",
+            value: "light",
+            icon: "i-heroicons-sun",
+            click: () => (isDark.value = false),
+        },
     ],
     "option-attribute": "name",
 });
 
 const themeSelected = ref<ISelectOptionsProps>(
-    themesSelector.value.options.find((option) => option.value === "light"),
+    themesSelector.value.options.find(
+        (option) => option.value === colorMode.value,
+    ) ?? themesSelector.value.options[0],
 );
 </script>
 
@@ -97,21 +105,33 @@ const themeSelected = ref<ISelectOptionsProps>(
     <div
         class="grid md:grid-cols-4 gap-8 justify-center items-center text-center"
     >
+        {{ languageSelected }}
+        {{ themeSelected }}
+        {{ colorMode }}
         <USelect
             id="language"
             name="language"
+            @click="
+                () => {
+                    console.log('click');
+                    if (languageSelected.click) languageSelected.click();
+                }
+            "
+            :value="languageSelected"
             :options="languagesSelector.options"
-            v-model="languagesSelector.value"
-            @click="languagesSelector.click"
-            option-attribute="label"
+            :option-attribute="languagesSelector['option-attribute']"
         />
-        <USelect
-            :id="themesSelector.id"
-            :name="themesSelector.name"
-            :options="themesSelector.options"
-            v-model="themeSelected.value"
-            @click="themeSelected.click"
-            option-attribute="name"
+        <UButton
+            v-for="(theme, index) in themesSelector.options"
+            @click="
+                () => {
+                    themeSelected = theme;
+                    if (theme.click) theme.click();
+                }
+            "
+            :key="theme.name + index"
+            :label="theme.name"
+            :color="themeSelected.value === theme.value ? 'gray' : 'primary'"
         />
     </div>
 </template>
