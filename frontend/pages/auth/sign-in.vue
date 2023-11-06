@@ -86,6 +86,8 @@ async function submit(event: FormSubmitEvent<any>) {
     }
 }
 
+const { isMobile } = useDevice();
+
 async function ssoSignIn(provider: string) {
     navigateTo(
         `${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/ext/${provider}`,
