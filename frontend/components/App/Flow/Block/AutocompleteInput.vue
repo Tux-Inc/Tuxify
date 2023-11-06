@@ -40,6 +40,9 @@ const userInput = ref(props.input.value);
 const hideTimeout = ref<NodeJS.Timeout | null>(null);
 
 const suggestions = computed(() => {
+  if (!userInput.value) {
+        return [];
+  }
     if (userInput.value.includes("{{")) {
         const pattern = /{{\s*flow.step.(\w+)?\.?(\w+)?\s*}}?/g;
         const match = pattern.exec(userInput.value);

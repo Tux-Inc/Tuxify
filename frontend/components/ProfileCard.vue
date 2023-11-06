@@ -72,7 +72,7 @@ function getUserAlt() {
     >
         Welcome back {{ userCookie.user.name }} !
     </h1>
-    <div class="flex justify-center items-center grid grid-cols-1 p-5">
+    <div class="justify-center items-center grid grid-cols-1 p-5">
         <div class="flex justify-center items-center">
             <NuxtImg
                 quality="100"

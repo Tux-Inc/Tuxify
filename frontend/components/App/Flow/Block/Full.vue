@@ -146,11 +146,7 @@ const contextualItems = [
                     {{ input.title }}
                 </label>
                 <AppFlowBlockAutocompleteInput
-                    :input="
-                        () => {
-                            return input as unknown as IBlockInput;
-                        }
-                    "
+                    :input="input"
                     :current-block="props.currentBlock"
                     :flow-blocks="props.flowBlocks"
                     @flow-block-autocomplete="localInputs[index].value = $event"
