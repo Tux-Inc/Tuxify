@@ -69,9 +69,8 @@ const validate = (state: any): FormError[] => {
 };
 
 async function submit(event: FormSubmitEvent<any>) {
-    const { data, pending, error } = await useAsyncData<any, any>("user", () =>
-        $fetch(
-            `${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/reset-password`,
+    const { data, error } = await useFetch(
+        `${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/reset-password`,
             {
                 method: "POST",
                 body: JSON.stringify({
@@ -80,7 +79,6 @@ async function submit(event: FormSubmitEvent<any>) {
                     resetToken: resetToken,
                 }),
             },
-        ),
     );
     if (error.value) {
         toast.add({
