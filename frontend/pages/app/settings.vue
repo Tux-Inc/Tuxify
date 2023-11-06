@@ -55,6 +55,7 @@ const { isMobile } = useDevice();
 </script>
 
 <template>
+  <div>
     <div class="flex flex-col gap-x-6 gap-y-10 justify-center max">
         <Head>
             <Title>{{ i18n.t("app.settings.title") }}</Title>
@@ -95,4 +96,5 @@ const { isMobile } = useDevice();
             <UButton type="submit" label="Save" />
         </div>
     </div>
+  </div>
 </template>

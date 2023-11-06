@@ -79,6 +79,7 @@ onMounted(async () => {
 </script>
 
 <template>
+  <div>
     <div class="flex flex-wrap items-center justify-between gap-4">
         <Head>
             <Title>Home</Title>
@@ -89,11 +90,11 @@ onMounted(async () => {
         </div>
     </div>
     <div class="gap-4 mt-10">
-        <UContainer
-            class="border-2 border-gray-300 dark:border-gray-700 rounded-lg"
+        <div
+            class="border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900"
         >
             <ProfileCard />
-        </UContainer>
+        </div>
     </div>
     <div v-if="flows.length === 0">
         <AppFlowHomeEmptyList
@@ -101,9 +102,10 @@ onMounted(async () => {
         />
     </div>
     <div
-        class="flex grid md:grid-cols-2 grid-cols-1 items-center justify-between gap-4 mt-10"
+        class="grid md:grid-cols-2 grid-cols-1 items-center justify-between gap-4 mt-10"
         v-else
     >
         <AppFlowHomeCard v-for="flow in flows" :key="flow._id" :flow="flow" />
     </div>
+  </div>
 </template>

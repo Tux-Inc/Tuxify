@@ -99,7 +99,6 @@ const cardSelected = ref<IRadioProps>(
         </span>
         <div
             class="grid sm:grid-cols-2 md:grid-cols-4 my-2"
-            :label="i18n.t('app.settings.billing.labels.card')"
         >
             <URadio
                 v-for="(card, index) in cardTypes"
@@ -113,9 +112,9 @@ const cardSelected = ref<IRadioProps>(
                 :value="card.value"
             />
         </div>
-        <div class="md:grid md:grid-cols-4 gap-8">
+        <div class="md:grid md:grid-cols-2 gap-8">
             <UFormGroup
-                class="my-5 md:col-start-2 md:col-span-1"
+                class="my-5"
                 :label="i18n.t('app.settings.billing.labels.cardName')"
             >
                 <UInput
@@ -126,7 +125,7 @@ const cardSelected = ref<IRadioProps>(
                 />
             </UFormGroup>
             <UFormGroup
-                class="my-5 md:col-start-3 md:col-span-1"
+                class="my-5"
                 :label="i18n.t('app.settings.billing.labels.cardNumber')"
             >
                 <UInput
@@ -137,9 +136,9 @@ const cardSelected = ref<IRadioProps>(
                 />
             </UFormGroup>
         </div>
-        <div class="md:grid md:grid-cols-4 gap-8">
+        <div class="md:grid md:grid-cols-2 gap-8">
             <UFormGroup
-                class="my-5 md:col-start-2 md:col-span-1"
+                class="my-5"
                 :label="i18n.t('app.settings.billing.labels.cardExpiry')"
             >
                 <UInput
@@ -150,7 +149,7 @@ const cardSelected = ref<IRadioProps>(
                 />
             </UFormGroup>
             <UFormGroup
-                class="my-5 md:col-start-3 md:col-span-1"
+                class="my-5"
                 :label="i18n.t('app.settings.billing.labels.cardCvc')"
             >
                 <UInput
@@ -163,5 +162,3 @@ const cardSelected = ref<IRadioProps>(
         </div>
     </UForm>
 </template>
-
-<style scoped></style>

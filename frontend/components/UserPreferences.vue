@@ -103,10 +103,9 @@ const themeSelected = ref<ISelectOptionsProps>(
     <p class="text-sm leading-6 text-gray-600">
         {{ i18n.t("app.settings.preferences.description") }}
     </p>
-    <div class="md:grid md:grid-cols-4 gap-8">
+    <div class="md:grid md:grid-cols-2 gap-8">
         <!-- {{ languageSelected }} -->
         <USelect
-            class="col-start-2"
             @click="
                 () => {
                     console.log('click');
@@ -117,7 +116,7 @@ const themeSelected = ref<ISelectOptionsProps>(
             :options="languagesSelector.options"
             :option-attribute="languagesSelector['option-attribute']"
         />
-        <div class="grid-cols-2 col-start-3 mt-5 md:mt-0">
+        <div class="grid-cols-2 mt-5 md:mt-0">
             <UButton
                 v-for="(theme, index) in themesSelector.options"
                 class="w-1/2"
