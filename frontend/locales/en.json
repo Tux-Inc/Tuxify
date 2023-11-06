@@ -3,7 +3,8 @@
         "en": "English",
         "fr": "French",
         "de": "German",
-        "zh": "Chinese"
+        "zh": "Chinese",
+        "pr": "Portuguese"
     },
     "auth": {
         "signIn": "Sign In",
@@ -119,63 +120,7 @@
         "integration": {
             "title": "Connect to any <span class=\"text-primary\">service</span>",
             "description": "Tuxify allows you to connect to any service that has an API. You can connect to an unlimited number of services.",
-            "button": "View all services",
-            "services": [
-                {
-                    "title": "GitHub",
-                    "description": "GitHub is a development platform inspired by the way you work. You can host and review code, manage projects used by over50 million developers.",
-                    "icon": "landing/integration_icons/github.svg",
-                    "alt": "GitHub logo"
-                },
-                {
-                    "title": "Gmail",
-                    "description": "Gmail is email that's intuitive, efficient, and useful. 15 GB of storage, less spam, and mobile access.",
-                    "icon": "landing/integration_icons/gmail.svg",
-                    "alt": "Gmail logo"
-                },
-                {
-                    "title": "Google Calendar",
-                    "description": "Google Calendar is a online tool for scheduling, organizing events, and managing time collaboratively with customizable reminders.",
-                    "icon": "landing/integration_icons/google-calendar.svg",
-                    "alt": "Google Calendar logo"
-                },
-                {
-                    "title": "Google Sheets",
-                    "description": "Google Sheets is a cloud-based spreadsheet software for data analysis, collaboration, and visualization.",
-                    "icon": "landing/integration_icons/google-sheets.svg",
-                    "alt": "Google Sheets logo"
-                },
-                {
-                    "title": "Google Docs",
-                    "description": "Google Docs is a online collaborative word processor by Google, enables real-time editing and sharing of documents.",
-                    "icon": "landing/integration_icons/google-docs.svg",
-                    "alt": "Google Docs logo"
-                },
-                {
-                    "title": "Google Drive",
-                    "description": "Google Drive is a cloud storage service by Google for files, documents, and collaboration, accessible from anywhere online.",
-                    "icon": "landing/integration_icons/google-drive.svg",
-                    "alt": "Google Drive logo"
-                },
-                {
-                    "title": "Linear",
-                    "description": "Linear helps streamline software projects, sprints, tasks, and bug tracking. It's built for high-performance teams.",
-                    "icon": "landing/integration_icons/linear.svg",
-                    "alt": "Linear logo"
-                },
-                {
-                    "title": "Slack",
-                    "description": "Slack is a new way to communicate with your team. It's faster, better organized, and more secure than email.",
-                    "icon": "landing/integration_icons/slack.svg",
-                    "alt": "Slack logo"
-                },
-                {
-                    "title": "LinkedIn",
-                    "description": "LinkedIn is professional networking platform connecting individuals, fostering career development, and facilitating business connections for professionals worldwide.",
-                    "icon": "landing/integration_icons/linkedin.svg",
-                    "alt": "LinkedIn logo"
-                }
-            ]
+            "button": "View all services"
         },
         "about-us": {
             "hero": {
