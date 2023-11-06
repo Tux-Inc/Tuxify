@@ -25,6 +25,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+/* The code is defining an interface called `IActionReactionOutput` with a generic
+type `T`. The interface has three properties: */
 export interface IActionReactionOutput<T> {
     name: string;
     title: string;

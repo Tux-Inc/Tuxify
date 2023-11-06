@@ -25,6 +25,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+/* The code is defining an interface named `User` in TypeScript. An interface is a
+way to define the structure of an object. In this case, the `User` interface
+has the following properties: */
 export interface User {
     id: number;
     name: string;

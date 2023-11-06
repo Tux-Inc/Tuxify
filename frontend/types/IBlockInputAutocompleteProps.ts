@@ -25,9 +25,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-import { IBlockFullProps } from "~/types/IBlockFullProps";
 import { IBlockInput } from "~/types/IBlockInput";
+import { IBlockFullProps } from "~/types/IBlockFullProps";
 
+/* The `export interface IBlockInputAutocompleteProps` is defining an interface in
+TypeScript. This interface is used to define the props (properties) that can be
+passed to the Block Input Autocomplete component. */
 export interface IBlockInputAutocompleteProps {
     input: IBlockInput;
     currentBlock: IBlockFullProps;

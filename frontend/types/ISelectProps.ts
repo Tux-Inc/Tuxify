@@ -25,6 +25,21 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+/**
+ * The ISelectOptionsProps type defines the properties for a select option,
+ * including name, label, value, icon, and click function.
+ * @property {string} name - A string representing the name of the select option.
+ * This is used to identify the option when it is selected or submitted.
+ * @property {string} label - The label property is a string that represents the
+ * text label for the select option.
+ * @property {string} value - The `value` property is a string that represents the
+ * selected value of the select options.
+ * @property {string} icon - An optional property that represents the icon
+ * associated with the select option. It is of type string.
+ * @property click - The `click` property is an optional callback function that
+ * will be called when the select option is clicked. It does not take any
+ * arguments and does not return any value.
+ */
 export type ISelectOptionsProps = {
     name: string;
     label: string;
@@ -33,6 +48,20 @@ export type ISelectOptionsProps = {
     click?: () => void;
 };
 
+/**
+ * The above type represents the props required for a select component in
+ * TypeScript, including label, name, id, options, and an additional option
+ * attribute.
+ * @property {string} label - A string that represents the label for the select
+ * input field.
+ * @property {string} name - The `name` property is a string that represents the
+ * name of the select input field.
+ * @property {string} id - A unique identifier for the select element.
+ * @property options - An array of objects representing the options for the select
+ * input. Each object should have the following properties:
+ * @property {string}  - - `label`: A string representing the label for the select
+ * input.
+ */
 export type ISelectProps = {
     label: string;
     name: string;

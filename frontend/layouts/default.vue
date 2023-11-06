@@ -25,8 +25,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -->
 
-<style scoped></style>
-
 <template>
     <div
         class="antialiased min-w-screen min-h-screen bg-gray-50 dark:bg-base-dark"

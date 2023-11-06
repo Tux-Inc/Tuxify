@@ -27,6 +27,9 @@ THE SOFTWARE.
 
 import { IServiceDisplay } from "~/types/IServiceDisplay";
 
+/* The `export interface IBlockPreviewProps` is defining an interface named
+`IBlockPreviewProps`. This interface specifies the structure and types of the
+properties that a component should have in order to be used as a block preview. */
 export interface IBlockPreviewProps {
     service: IServiceDisplay;
     name: string;

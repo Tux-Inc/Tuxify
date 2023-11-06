@@ -27,6 +27,7 @@ THE SOFTWARE.
 
 <script setup lang="ts">
 import { IBlockPreviewProps } from "~/types/IBlockPreviewProps";
+
 const block: IBlockPreviewProps = defineProps<IBlockPreviewProps>();
 </script>
 <template>

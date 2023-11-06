@@ -35,8 +35,8 @@ const emit = defineEmits<{
     (e: "flow-block-autocomplete", value: string): void;
 }>();
 
-const userInput = ref(props.input.value);
 const isFocused = ref(false);
+const userInput = ref(props.input.value);
 const hideTimeout = ref<NodeJS.Timeout | null>(null);
 
 const suggestions = computed(() => {

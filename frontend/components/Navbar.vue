@@ -28,8 +28,8 @@ THE SOFTWARE.
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
 import { useColorMode } from "@vueuse/core";
-import { ISelectOptionsProps } from "~/types/ISelectProps";
 import { IUserCookie } from "~/types/IUserCookie";
+import { ISelectOptionsProps } from "~/types/ISelectProps";
 
 const i18n = useI18n();
 const colorMode = useColorMode();
@@ -100,35 +100,41 @@ function isUserLoggedIn() {
                     variant="ghost"
                     :label="i18n.t('landing.navbar.home')"
                 />
-                <UButton to="/pricing" size="lg" color="gray" variant="ghost"
-                    >{{ i18n.t("landing.navbar.pricing") }}
-                </UButton>
-                <UButton to="/about-us" size="lg" color="gray" variant="ghost"
-                    >{{ i18n.t("landing.navbar.aboutUs") }}
-                </UButton>
+                <UButton
+                    to="/pricing"
+                    size="lg"
+                    color="gray"
+                    variant="ghost"
+                    :label="i18n.t('landing.navbar.pricing')"
+                />
+                <UButton
+                    to="/about-us"
+                    size="lg"
+                    color="gray"
+                    variant="ghost"
+                    :label="i18n.t('landing.navbar.aboutUs')"
+                />
                 <UButton
                     to="https://github.com/tux-inc/Tuxify/releases"
                     size="lg"
                     color="gray"
                     variant="ghost"
-                >
-                    {{ i18n.t("landing.navbar.changelog") }}
-                </UButton>
+                    :label="i18n.t('landing.navbar.changelog')"
+                />
                 <UButton
                     to="https://github.com/tux-inc/Tuxify/wiki"
                     size="lg"
                     color="gray"
                     variant="ghost"
-                >
-                    {{ i18n.t("landing.navbar.documentation") }}
-                </UButton>
+                    :label="i18n.t('landing.navbar.documentation')"
+                />
                 <UButton
                     to="/integration"
                     size="lg"
                     color="gray"
                     variant="ghost"
-                    >{{ i18n.t("landing.navbar.integration") }}
-                </UButton>
+                    :label="i18n.t('landing.navbar.integration')"
+                />
                 <UButton
                     to="/contact"
                     size="lg"

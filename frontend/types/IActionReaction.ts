@@ -28,6 +28,7 @@ THE SOFTWARE.
 import { IActionReactionInput } from "~/types/IActionReactionInput";
 import { IActionReactionOutput } from "~/types/IActionReactionOutput";
 
+/* The `export interface IActionReaction` is defining an interface in TypeScript. */
 export interface IActionReaction {
     name: string;
     type: "action" | "reaction";

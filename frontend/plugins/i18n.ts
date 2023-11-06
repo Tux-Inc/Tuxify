@@ -25,10 +25,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-import { createI18n } from "vue-i18n";
 import en from "~/locales/en.json";
 import fr from "~/locales/fr.json";
+import { createI18n } from "vue-i18n";
 
+/* The code `export default defineNuxtPlugin(({ vueApp }) => { ... })` is
+exporting a NuxtJS plugin. */
 export default defineNuxtPlugin(({ vueApp }) => {
     const i18n = createI18n({
         legacy: false,

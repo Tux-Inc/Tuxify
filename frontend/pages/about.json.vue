@@ -26,34 +26,11 @@ THE SOFTWARE.
 -->
 
 <script setup lang="ts">
-import { IServiceDisplay } from "~/types/IServiceDisplay";
+const runtimeConfig = useRuntimeConfig();
 
-const servicesDisplay = ref<IServiceDisplay[]>([]);
-
-onMounted(async () => {
-    const res = await useApiRequest<IServiceDisplay[]>("/providers");
-    servicesDisplay.value = res._data as IServiceDisplay[];
-});
-
-const aboutJSON = computed(() => {
-    return JSON.stringify({
-        name: "Tux",
-        version: "1.0.0",
-        description:
-            "Tux is a service that allows you to connect all your accounts to one place.",
-        client: {
-            host: "https://tux.gwenaelhubler.com",
-            port: 443,
-            protocol: "https",
-        },
-        server: {
-            current_time: new Date().toISOString(),
-            services: servicesDisplay.value,
-        },
-    });
+navigateTo(`${runtimeConfig.public.API_BASE_URL}/about.json`, {
+    external: true,
 });
 </script>
 
-<template>
-    {{ aboutJSON }}
-</template>
+<template></template>

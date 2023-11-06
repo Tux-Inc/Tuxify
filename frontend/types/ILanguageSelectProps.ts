@@ -25,6 +25,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+/* The code is defining an interface named `ILanguageSelectProps`. An interface in
+TypeScript is a way to define the structure of an object. */
 export interface ILanguageSelectProps {
     label: string;
     icon: string;

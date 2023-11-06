@@ -46,34 +46,32 @@ const sendEvent = (event: string) => $event(event);
                     @click="sendEvent('app:newFlow')"
                     color="primary"
                     variant="solid"
-                    >{{ i18n.t("app.sidebar.newFlow") }}</UButton
-                >
+                    :label="i18n.t('app.sidebar.newFlow')"
+                />
                 <UButton
                     to="/app"
                     size="lg"
                     icon="i-heroicons-home"
                     color="gray"
                     variant="ghost"
-                >
-                    {{ i18n.t("app.sidebar.home") }}
-                </UButton>
+                    :label="i18n.t('app.sidebar.home')"
+                />
                 <UButton
                     to="/app/flows"
                     size="lg"
                     icon="i-heroicons-link"
                     color="gray"
                     variant="ghost"
-                >
-                    {{ i18n.t("app.sidebar.flows") }}
-                </UButton>
+                    :label="i18n.t('app.sidebar.flows')"
+                />
                 <UButton
                     to="/app/services"
                     size="lg"
                     icon="i-heroicons-globe-europe-africa"
                     color="gray"
                     variant="ghost"
-                    >{{ i18n.t("app.sidebar.services") }}
-                </UButton>
+                    :label="i18n.t('app.sidebar.services')"
+                />
             </div>
             <div class="flex flex-col items-start justify-center gap-4 w-full">
                 <UButton
@@ -82,9 +80,8 @@ const sendEvent = (event: string) => $event(event);
                     icon="i-heroicons-cog-8-tooth"
                     color="gray"
                     variant="ghost"
-                >
-                    {{ i18n.t("app.sidebar.settings") }}
-                </UButton>
+                    :label="i18n.t('app.sidebar.settings')"
+                />
             </div>
         </div>
     </div>

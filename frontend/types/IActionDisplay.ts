@@ -25,6 +25,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+/* The code is defining an interface named `IActionDisplay` with a single property
+`name` of type `string`. The `export` keyword is used to make the interface
+accessible outside of the current file, allowing other files to import and use
+it. */
 export interface IActionDisplay {
     name: string;
 }

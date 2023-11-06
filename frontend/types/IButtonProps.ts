@@ -25,6 +25,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+/* The code is defining an interface called `IButtonProps` in TypeScript. An
+interface in TypeScript is a way to define the shape or structure of an object. */
 export interface IButtonProps {
     text: string;
     type: "primary" | "secondary" | "danger" | "warning" | "success" | "info";

@@ -26,8 +26,10 @@ THE SOFTWARE.
 -->
 
 <script setup lang="ts">
-import { IBlockFullProps } from "~/types/IBlockFullProps";
 import { PropType } from "@vue/runtime-core";
+import { IActionReactionInput } from "~/types/IActionReactionInput";
+import { IBlockFullProps } from "~/types/IBlockFullProps";
+import { IBlockInput } from "~/types/IBlockInput";
 
 const props = defineProps({
     currentBlock: {
@@ -97,9 +99,9 @@ const contextualItems = [
                         alt="icon"
                     />
                 </UTooltip>
-                <span class="text-2xl font-bold text-dark dark:text-light">{{
-                    props.currentBlock.title
-                }}</span>
+                <span class="text-2xl font-bold text-dark dark:text-light">
+                    {{ props.currentBlock.title }}
+                </span>
             </div>
             <div class="flex items-center gap-2">
                 <div v-if="!isValid">
@@ -125,26 +127,30 @@ const contextualItems = [
             </div>
         </div>
         <div class="flex flex-col">
-            <span class="text-sm text-gray-500 dark:text-gray-400">{{
-                props.currentBlock.name
-            }}</span>
-            <span class="text-sm text-gray-500 dark:text-gray-400">{{
-                props.currentBlock.uuid
-            }}</span>
+            <span class="text-sm text-gray-500 dark:text-gray-400">
+                {{ props.currentBlock.name }}
+            </span>
+            <span class="text-sm text-gray-500 dark:text-gray-400">
+                {{ props.currentBlock.uuid }}
+            </span>
         </div>
         <div class="flex flex-col gap-2 mt-4">
-            <span class="text-dark dark:text-light">{{
-                props.currentBlock.description
-            }}</span>
+            <span class="text-dark dark:text-light">
+                {{ props.currentBlock.description }}
+            </span>
             <div
                 v-for="(input, index) in localInputs"
                 class="flex flex-col gap-2"
             >
-                <label class="text-dark dark:text-light">{{
-                    input.title
-                }}</label>
+                <label class="text-dark dark:text-light">
+                    {{ input.title }}
+                </label>
                 <AppFlowBlockAutocompleteInput
-                    :input="input"
+                    :input="
+                        () => {
+                            return input as unknown as IBlockInput;
+                        }
+                    "
                     :current-block="props.currentBlock"
                     :flow-blocks="props.flowBlocks"
                     @flow-block-autocomplete="localInputs[index].value = $event"
