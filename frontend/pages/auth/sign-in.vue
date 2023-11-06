@@ -57,7 +57,7 @@ async function submit(event: FormSubmitEvent<any>) {
     isLoading.value = true;
     const { data, error } = await useFetch(
         `${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/sign-in`,
-        { method: "POST", body: JSON.stringify(event.data) },
+        { method: "POST", body: JSON.stringify(event.data), server: false },
     );
     if (error.value) {
         isLoading.value = false;

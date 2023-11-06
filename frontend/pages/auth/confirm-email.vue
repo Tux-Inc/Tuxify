@@ -38,7 +38,7 @@ const toast = useToast();
 async function confirmEmail() {
     const { error } = await useFetch(
         `${runtimeConfig.public.API_AUTH_BASE_URL}/api/auth/confirm-email`,
-        { method: "POST", body: { confirmationToken } },
+        { method: "POST", body: { confirmationToken }, server: false }
     );
     if (error.value) {
         toast.add({
