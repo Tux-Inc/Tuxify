@@ -57,11 +57,10 @@ async function submit(event: FormSubmitEvent<any>) {
             {{ i18n.t("app.settings.account.title") }}
         </span>
         <p class="text-sm leading-6 text-gray-600">
-            Customize your user informations.
+          {{ i18n.t("app.settings.account.description") }}
         </p>
-        <div class="grid md:grid-cols-4 sm:grid-cols-1 gap-8">
+        <div class="grid md:grid-cols-2 sm:grid-cols-1 gap-8">
             <UFormGroup
-                class="md:col-start-2 md:col-span-1"
                 :label="i18n.t('app.settings.account.title')"
             >
                 <UInput
@@ -72,14 +71,11 @@ async function submit(event: FormSubmitEvent<any>) {
                 />
             </UFormGroup>
             <UFormGroup
-                class="md:col-start-3 md:col-span-1"
                 :label="i18n.t('app.settings.account.labels.email')"
             >
                 <UInput
                     v-model="state.email"
-                    :placeholder="
-                        i18n.t('app.settings.account.placeholders.email')
-                    "
+                    placeholder="john.doe@tuxify.fr"
                 />
             </UFormGroup>
         </div>
@@ -117,7 +113,7 @@ async function submit(event: FormSubmitEvent<any>) {
                 />
             </UFormGroup>
         </div>
-        <div class="mt-5 flex justify-center items-center text-center">
+        <div class="mt-5 flex justify-end items-center text-center">
             <UButton type="button" label="Change" />
         </div>
     </UForm>
