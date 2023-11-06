@@ -3,6 +3,9 @@
     "appName": "Tuxify",
     "webDir": "dist",
     "server": {
+        "clea"
+        "url": "https://tuxify.fr",
+        "hostname": "tuxify.fr",
         "androidScheme": "https"
     }
 }
