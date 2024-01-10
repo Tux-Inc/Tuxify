@@ -9,6 +9,14 @@ on:
       - main
 
 jobs:
+  add_to_portfolio:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Mirror to portfolio repo'
+        uses: 'neeptossss/add-to-nuxt-content@v1.8'
+        with:
+          repo: 'neeptossss/portfolio'
+          ssh-key: ${{ secrets.GIT_SSH_PRIVATE_KEY }}
   build_api:
     name: Build and push Backend images
     runs-on: ubuntu-latest
