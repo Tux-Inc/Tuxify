@@ -130,7 +130,7 @@ export class FlowsService {
      * @returns The `deleteFlow` function is returning a Promise that resolves to
      * a `Flow` object.
      */
-    async deleteFlow(getFlow: GetFlow): Promise<Flow> {
+    async deleteFlow(getFlow: GetFlow): Promise<Flow> | null {
         this.logger.log(
             `Deleting flow ${getFlow.id} for user ${getFlow.userId}`,
         );
