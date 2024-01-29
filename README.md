@@ -1,8 +1,8 @@
-Welcome to the B-DEV-500-NCE-5-1-area-alexandre-kevin.de-freitas-martins wiki!
+Welcome to the README of the poc mern stack project !
 
 ## Introduction
 
-This project is a web application that allows you to manage your tasks. It is a project that we have been working on for 2 months. We have used the PNN stack (PostgresSQL, Next.js, Nuxt.js) to develop this application.
+This project is a web application that allows you to manage your tasks. It is a proof of concept of a MERN stack application. The MERN stack is a JavaScript stack that is used for building modern web applications. MERN stands for MongoDB, Express, React, Node, after the four key technologies that make up the stack.
 
 ## Installation
 
@@ -16,13 +16,20 @@ cd ../backend && yarn install
 
 ## Usage
 
-To use the project in dev mode, you must first start the docker containers. To do this, you must run the following command in the root folder of the project:
+First go to Atlas MongoDB and create a new cluster. Then, you must create a .env file in the backend folder and fill in the following information:
 
 ```bash
-docker-compose up -d
+MONGO_URI=mongodb+srv://<username>:<password>@<cluster-url>/<database>?retryWrites=true&w=majority
 ```
 
-Finally, you can access the application by going to the following address: http://localhost:8080/
+Then, you must run the following command in the root folder of the project:
+
+```bash
+cd ./backend && yarn app
+cd ../frontend && yarn start
+```
+
+Finally, you can access the application by going to the following address: http://localhost:3000/
 
 ## Contributors
 
@@ -35,8 +42,3 @@ Finally, you can access the application by going to the following address: http:
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
-
-## Project Infos
-
-Tuxify is a project like IFTTT, the goal is simple, be the revolution of
-action/reaction.
