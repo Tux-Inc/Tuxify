@@ -27,7 +27,7 @@
         "@nestjs/microservices": "^10.2.6",
         "@nestjs/platform-express": "^10.0.0",
         "@nestjs/typeorm": "^10.0.0",
-        "mysql2": "^3.6.1",
+        "mysql2": "^3.9.7",
         "nats": "^2.17.0",
         "pg": "^8.11.3",
         "reflect-metadata": "^0.1.13",
