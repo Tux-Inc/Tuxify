@@ -1,63 +1,51 @@
-# Nuxt 3 Minimal Starter
+# Next.js & NextUI Template
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+This is a template for creating applications using Next.js 14 (app directory) and NextUI (v2).
 
-## Setup
+## Technologies Used
 
-Make sure to install the dependencies:
+- [Next.js 14](https://nextjs.org/docs/getting-started)
+- [NextUI v2](https://nextui.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Tailwind Variants](https://tailwind-variants.org)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Framer Motion](https://www.framer.com/motion/)
+- [next-themes](https://github.com/pacocoursey/next-themes)
+
+## How to Use
+
+### Use the template with create-next-app
+
+To create a new project based on this template using `create-next-app`, run the following command:
 
 ```bash
-# npm
+npx create-next-app -e https://github.com/nextui-org/next-app-template
+```
+
+### Install dependencies
+
+You can use one of them `npm`, `yarn`, `pnpm`, `bun`, Example using `npm`:
+
+```bash
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+### Run the development server
 
 ```bash
-# npm
 npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
 ```
 
-## Production
+### Setup pnpm (optional)
 
-Build the application for production:
+If you are using `pnpm`, you need to add the following code to your `.npmrc` file:
 
 ```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
+public-hoist-pattern[]=*@nextui-org/*
 ```
 
-Locally preview production build:
+After modifying the `.npmrc` file, you need to run `pnpm install` again to ensure that the dependencies are installed correctly.
 
-```bash
-# npm
-npm run preview
+## License
 
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+Licensed under the [MIT license](https://github.com/nextui-org/next-app-template/blob/main/LICENSE).

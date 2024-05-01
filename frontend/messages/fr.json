@@ -1,0 +1,428 @@
+{
+    "locales": {
+        "en": "Anglais",
+        "fr": "Français",
+        "de": "Allemand",
+        "zh": "Chinois",
+        "pr": "Portugais"
+    },
+    "auth": {
+        "signIn": "Se connecter",
+        "signOut": "Créer un compte",
+        "goToApp": "Aller à l'application",
+        "button": {
+            "signIn": "Connexion",
+            "signUp": "Créer un compte",
+            "forgotPassword": "Mot de passe oublié",
+            "resetPassword": "Réinitialiser le mot de passe",
+            "next": "Suivant",
+            "back": "Retour"
+        },
+        "form": {
+            "email": "Email",
+            "password": "Mot de passe",
+            "confirmPassword": "Confirmation du mot de passe",
+            "confirmNewPassword": "Confirmation du nouveau mot de passe",
+            "name": "Nom complet"
+        },
+        "sso": {
+            "google": "Se connecter avec Google",
+            "github": "Se connecter avec GitHub",
+            "slack": "Se connecter avec Slack"
+        },
+        "password": {
+            "new": "Nouveau mot de passe",
+            "confirm": "Confirmation du nouveau mot de passe"
+        }
+    },
+    "landing": {
+        "navbar": {
+            "home": "Accueil",
+            "pricing": "Tarification",
+            "aboutUs": "A propos",
+            "changelog": "Changelog",
+            "documentation": "Documentation",
+            "integration": "Intégrations",
+            "contact": "Contact"
+        },
+        "footer": {
+            "poweredBy": "Propulsé par <span class=\"text-red-500 dark:text-red-400\">♥</span> by <a href=\"https://github.com/tux-inc\" class=\"font-medium text-gray-900 dark:text-gray-100 hover:underline\">Tux Inc.</a>",
+            "publishedWith": "Publié sous licence <a href=\"https://github.com/tux-inc\" class=\"font-medium text-gray-900 dark:text-gray-100 hover:underline\">MIT License</a>"
+        },
+        "home": {
+            "hero": {
+                "title": "Décuplez votre <span class=\"text-primary\">productivité</span> avec les automatisations",
+                "description": "Tuxify est un outil d'automatisation qui vous permet de connecter vos applications et services préférés ensemble, pour automatiser des tâches répétitives et gagner du temps.",
+                "getStarted": "Commencer",
+                "viewOnGitHub": "Voir sur Github"
+            },
+            "features": {
+                "title": "Le monde repose sur les automatisations, devenez en <span class=\"text-primary\">l'initiateur</span>",
+                "ai": {
+                    "title": "IA",
+                    "description": "Tuxify utilise l'IA pour vous aider à créer des Flows plus facilement."
+                },
+                "graphFlow": {
+                    "title": "Flows graphiques",
+                    "description": "Tuxify utilise un éditeur graphique pour vous permettre de créer des Flows visuellement."
+                },
+                "services": {
+                    "title": "Tous vos services",
+                    "description": "Tuxify vous permet de connecter tous vos services préférés ensemble, oui, tous."
+                }
+            }
+        },
+        "pricing": {
+            "hero": {
+                "title": "Des prix simples, sans <span class=\"text-primary\">surprises</span>",
+                "description": "Nous vous proposons des prix simples et transparents, sans frais cachés. Vous pouvez commencer gratuitement et passer à un plan payant quand vous le souhaitez.",
+                "free": {
+                    "title": "Gratuit",
+                    "description": "Pour de petits projets et utilisation personnelle",
+                    "price": "0",
+                    "features": [
+                        "Services illimités",
+                        "Intégrations illimitées",
+                        "10 Flows",
+                        "1 Utilisateur"
+                    ],
+                    "button": "Commencer gratuitement"
+                },
+                "pro": {
+                    "title": "Pro",
+                    "description": "Pour les projets plus importants et les équipes",
+                    "price": "9",
+                    "features": [
+                        "Services illimités",
+                        "Intégrations illimitées",
+                        "200 Flows",
+                        "5 Utilisateurs",
+                        "1 Organisation"
+                    ],
+                    "button": "Commencer avec 14 jours gratuits"
+                },
+                "enterprise": {
+                    "title": "Entreprise",
+                    "description": "Pour les grandes entreprises et les organisations",
+                    "price": "99",
+                    "features": [
+                        "Services illimités",
+                        "Intégrations illimitées",
+                        "Flows illimités",
+                        "Utilisateurs illimités",
+                        "Organisations illimitées",
+                        "Bien plus encore..."
+                    ],
+                    "button": "Nous contacter"
+                }
+            }
+        },
+        "integration": {
+            "title": "Se connecter à n'importe quel <span class=\"text-primary\">service</span>",
+            "description": "Tuxify vous permet de vous connecter à n'importe quel service disposant d'une API. Vous pouvez vous connecter à un nombre illimité de service",
+            "button": "View all services"
+        },
+        "about-us": {
+            "hero": {
+                "title": "Un voyage sur le thème de la <span class=\"text-primary\">passion </span>",
+                "description": "Tuxify a été créé par une petite équipe de développeurs passionnés. Nous aimons construire des produits qui facilitent la vie des gens."
+            },
+            "team": {
+                "members": [
+                    {
+                        "image": "/landing/contributors/gwenael_hubler.jpg",
+                        "alt": "Gwenaël Hubler profile picture",
+                        "name": "Gwenaël Hubler",
+                        "job": "CEO",
+                        "description": "Gwenaël est le PDG de Tux Inc. Gwenaël est un entrepreneur passionné qui aime construire de beaux produits faciles à utiliser.",
+                        "socials": [
+                            {
+                                "icon": "twitter",
+                                "name": "Twitter",
+                                "link": "https://twitter.com"
+                            },
+                            {
+                                "icon": "linkedin",
+                                "name": "LinkedIn",
+                                "link": "https://linkedin.com"
+                            },
+                            {
+                                "icon": "github",
+                                "name": "Github",
+                                "link": "https://github.com"
+                            },
+                            {
+                                "icon": "web",
+                                "name": "Website",
+                                "link": "http://honixsystems.com/"
+                            },
+                            {
+                                "icon": "mail",
+                                "name": "Email",
+                                "link": "mailto:gwenael.hublert@tuxify.fr"
+                            }
+                        ]
+                    },
+                    {
+                        "image": "/landing/contributors/alexandre-kevin_de_freitas_martins.jpg",
+                        "alt": "Alexandre De Freitas Martins profile picture",
+                        "name": "Alexandre De Freitas Martins",
+                        "job": "Développeur",
+                        "description": "Etudiant à Epitech Nice en 3ème année, Alexandre est un développeur passionné et aime construire des produits qui facilitent la vie des gens.",
+                        "socials": [
+                            {
+                                "icon": "twitter",
+                                "name": "Twitter",
+                                "link": "https://twitter.com"
+                            },
+                            {
+                                "icon": "linkedin",
+                                "name": "LinkedIn",
+                                "link": "https://linkedin.com"
+                            },
+                            {
+                                "icon": "github",
+                                "name": "Github",
+                                "link": "https://github.com"
+                            },
+                            {
+                                "icon": "email",
+                                "name": "Email",
+                                "link": "mailto:alexandre.de-freitas-martins@tuxify.fr"
+                            }
+                        ]
+                    },
+                    {
+                        "image": "/landing/contributors/roman_lopes.jpg",
+                        "alt": "Roman Lopes profile picture",
+                        "name": "Roman Lopes",
+                        "job": "Développeur",
+                        "description": "Etudiant à Epitech Nice en 3ème année, Roman est un développeur passionné qui sait gérer une équipe.",
+                        "socials": [
+                            {
+                                "icon": "twitter",
+                                "name": "Twitter",
+                                "link": "https://twitter.com"
+                            },
+                            {
+                                "icon": "linkedin",
+                                "name": "LinkedIn",
+                                "link": "https://linkedin.com"
+                            },
+                            {
+                                "icon": "github",
+                                "name": "Github",
+                                "link": "https://github.com"
+                            },
+                            {
+                                "icon": "email",
+                                "name": "Email",
+                                "link": "mailto:roman.lopes@tuxify.fr"
+                            }
+                        ]
+                    },
+                    {
+                        "image": "/landing/contributors/stephane_fievez.jpg",
+                        "alt": "Stéphane Fievez profile picture",
+                        "name": "Stéphane Fievez",
+                        "job": "Développeur",
+                        "description": "Etudiant à Epitech Nice en 3ème année, Stéphane est un développeur qui sait stimuler le plaisir et la motivation au sein d'une équipe.",
+                        "socials": [
+                            {
+                                "icon": "twitter",
+                                "name": "Twitter",
+                                "link": "https://twitter.com"
+                            },
+                            {
+                                "icon": "linkedin",
+                                "name": "LinkedIn",
+                                "link": "https://linkedin.com"
+                            },
+                            {
+                                "icon": "github",
+                                "name": "Github",
+                                "link": "https://github.com"
+                            },
+                            {
+                                "icon": "email",
+                                "name": "Email",
+                                "link": "mailto:stephane.fievez@tuxify.fr"
+                            }
+                        ]
+                    },
+                    {
+                        "image": "/landing/contributors/bouna_diallo.jpg",
+                        "alt": "Bouna Diallo profile picture",
+                        "name": "Bouna Diallo",
+                        "job": "Développeur",
+                        "description": "Etudiant à Epitech Nice en 3ème année, Bouna est un développeur qui monte en puissance très rapidement.",
+                        "socials": [
+                            {
+                                "icon": "twitter",
+                                "name": "Twitter",
+                                "link": "https://twitter.com"
+                            },
+                            {
+                                "icon": "linkedin",
+                                "name": "LinkedIn",
+                                "link": "https://linkedin.com"
+                            },
+                            {
+                                "icon": "github",
+                                "name": "Github",
+                                "link": "https://github.com"
+                            },
+                            {
+                                "icon": "email",
+                                "name": "Email",
+                                "link": "mailto:bouna.diallo@tuxify.fr"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "contact": {
+            "hero": {
+                "title": "Prenez <span class=\"text-primary\">contact</span> avec nous",
+                "description": "Nous sommes toujours heureux d'avoir de vos nouvelles. Si vous avez des questions ou des commentaires, n'hésitez pas à nous contacter."
+            },
+            "form": {
+                "title": "Contactez <span class=\"text-primary\">nous</span>",
+                "description": "Vous avez une question ? Une idée ? Une demande de fonctionnalité ? Un bug à signaler ? Une autre raison ?\nN'hésitez pas à nous contacter !\nNous vous répondrons dans les plus brefs délais.",
+                "address": "131 Boulevard René Cassin, 06200 Nice, France",
+                "labels": {
+                    "name": "Nom",
+                    "email": "Email",
+                    "phone": "Téléphone",
+                    "message": "Message",
+                    "reason": "Raison",
+                    "submit": "Soumettre"
+                },
+                "placeholders": {
+                    "name": "Nom",
+                    "email": "Email",
+                    "phone": "Téléphone",
+                    "message": "Message",
+                    "reason": "Raison",
+                    "submit": "Soumettre"
+                },
+                "reasons": {
+                    "sales": "Vente",
+                    "support": "Support",
+                    "feedback": "Feedback",
+                    "other": "Autre"
+                },
+                "messages": {
+                    "success": "Votre message a été envoyé avec succès.",
+                    "error": "Une erreur s'est produite lors de l'envoi de votre message. Veuillez réessayer plus tard."
+                }
+            }
+        }
+    },
+    "app": {
+        "sidebar": {
+            "newFlow": "Nouveau Flow",
+            "home": "Accueil",
+            "flows": "Flows",
+            "services": "Services",
+            "settings": "Paramètres"
+        },
+        "flows": {
+            "title": "Flows",
+            "description": "Sur cette page vous pouvez voir tous vos flows, les flows sont des automatisations qui vous permettent de connecter vos services ensemble.",
+            "boutons": {
+                "create": "Créer un flow"
+            },
+            "tooltip": {
+                "new": "Créer un nouveau flow",
+                "edit": "Editer le flow",
+                "delete": "Supprimer le flow"
+            }
+        },
+        "settings": {
+            "title": "Settings",
+            "description": "Controller les paramètres de votre compte.",
+            "profile": {
+                "title": "Profile",
+                "description": "Gérer les informations de votre profile.",
+                "labels": {
+                    "name": "Nom",
+                    "email": "Email",
+                    "avatar": "Avatar"
+                },
+                "placeholders": {
+                    "name": "Nom",
+                    "email": "Email",
+                    "avatar": "Avatar"
+                },
+                "messages": {
+                    "success": "Votre profile a été mis à jour avec succès.",
+                    "error": "Une erreur s'est produite lors de la mise à jour de votre profile. Veuillez réessayer plus tard."
+                }
+            },
+            "account": {
+                "title": "Account",
+                "description": "Gérer les informations de votre profile.",
+                "labels": {
+                    "name": "Nom",
+                    "email": "Email",
+                    "password": "Mot de passe",
+                    "newPassword": "Nouveau mot de passe",
+                    "confirmNewPassword": "Confirmation du nouveau mot de passe"
+                },
+                "placeholders": {
+                    "name": "John Doe",
+                    "email": "john.doe@tuxify.fr",
+                    "password": "Mot de passe",
+                    "newPassword": "Nouveau mot de passe",
+                    "confirmNewPassword": "Confirmation du nouveau mot de passe"
+                },
+                "messages": {
+                    "success": "Votre compte a été mis à jour avec succès.",
+                    "error": "Une erreur s'est produite lors de la mise à jour de votre compte. Veuillez réessayer plus tard."
+                }
+            },
+            "billing": {
+                "title": "Facturation",
+                "description": "Gérer vos paramètres de facturation.",
+                "labels": {
+                    "card": "Carte",
+                    "cardName": "Nom de la carte",
+                    "cardNumber": "Numéro de la carte",
+                    "cardExpiry": "Date d'expiration de la carte",
+                    "cardCvc": "CVC de la carte",
+                    "cardPostalCode": "Code postal de la carte"
+                },
+                "placeholders": {
+                    "card": "Carte",
+                    "cardName": "Nom de la carte",
+                    "cardNumber": "Numéro de la carte",
+                    "cardExpiry": "Date d'expiration de la carte",
+                    "cardCvc": "CVC de la carte",
+                    "cardPostalCode": "Code postal de la carte"
+                },
+                "messages": {
+                    "success": "Vos informations de facturation ont été mises à jour avec succès.",
+                    "error": "Une erreur s'est produite lors de la mise à jour de vos informations de facturation. Veuillez réessayer plus tard."
+                }
+            },
+            "preferences": {
+                "title": "Préférences",
+                "description": "Gérer vos préférences.",
+                "labels": {
+                    "language": "Language",
+                    "darkMode": "Dark Mode"
+                },
+                "placeholders": {
+                    "language": "Language",
+                    "darkMode": "Dark Mode"
+                },
+                "messages": {
+                    "success": "Vos préférences ont été mises à jour avec succès.",
+                    "error": "Une erreur s'est produite lors de la mise à jour de vos préférences. Veuillez réessayer plus tard."
+                }
+            }
+        }
+    }
+}
