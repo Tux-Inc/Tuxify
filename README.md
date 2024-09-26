@@ -1,5 +1,3 @@
-Welcome to the B-DEV-500-NCE-5-1-area-alexandre-kevin.de-freitas-martins wiki!
-
 ## Introduction
 
 This project is a web application that allows you to manage your tasks. It is a project that we have been working on for 2 months. We have used the PNN stack (PostgresSQL, Next.js, Nuxt.js) to develop this application.
