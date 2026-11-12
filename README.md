@@ -22,6 +22,12 @@ cp .env.example .env
 
 Modify the `.env` file to set your environment variables as needed.
 
+Generate the RS256 key pair used by the auth service to sign access tokens (it is never committed):
+
+```bash
+./backend/auth/scripts/generate-keys.sh
+```
+
 Then, you can start the docker containers by running:
 
 ```bash

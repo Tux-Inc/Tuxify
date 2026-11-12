@@ -275,6 +275,8 @@ jobs:
           secret-type: "generic"
           secret-name: "tuxify-api-auth-secret"
           arguments: --from-literal=COOKIE_SECRET=${{ secrets.COOKIE_SECRET }}
+            --from-literal=JWT_ACCESS_PRIVATE_KEY=${{ secrets.JWT_ACCESS_PRIVATE_KEY }}
+            --from-literal=JWT_ACCESS_PUBLIC_KEY=${{ secrets.JWT_ACCESS_PUBLIC_KEY }}
             --from-literal=FACEBOOK_CLIENT_ID=${{ secrets.FACEBOOK_CLIENT_ID }}
             --from-literal=FACEBOOK_CLIENT_SECRET=${{ secrets.FACEBOOK_CLIENT_SECRET }}
             --from-literal=GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
