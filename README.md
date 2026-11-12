@@ -1,5 +1,3 @@
-Welcome to the B-DEV-500-NCE-5-1-area-alexandre-kevin.de-freitas-martins wiki!
-
 ## Introduction
 
 This project is a web application that allows you to manage your tasks. It is a project that we have been working on for 2 months. We have used the PNN stack (PostgresSQL, Next.js, Nuxt.js) to develop this application.
@@ -11,12 +9,20 @@ To install the project, you must first clone the repository on your computer. Th
 ```bash
 cd frontend && yarn install
 
-cd ../backend && yarn install
+cd ../backend && ./yarn-install-script.sh
 ```
 
 ## Usage
 
 To use the project in dev mode, you must first start the docker containers. To do this, you must run the following command in the root folder of the project:
+
+```bash
+cp .env.example .env
+```
+
+Modify the `.env` file to set your environment variables as needed.
+
+Then, you can start the docker containers by running:
 
 ```bash
 docker-compose up -d
