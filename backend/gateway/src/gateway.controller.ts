@@ -25,25 +25,12 @@ THE SOFTWARE.
 */
 
 import { lastValueFrom } from "rxjs";
-import { GatewayService } from "./gateway.service";
-import { CreatedUserDto } from "./created-user.dto";
 import { ClientProxy } from "@nestjs/microservices";
-import { Body, Controller, Get, Inject, Post, Req } from "@nestjs/common";
+import { Controller, Get, Inject, Req } from "@nestjs/common";
 
-/* The GatewayController class is a TypeScript controller that handles sending
-emails using the GatewayService. */
 @Controller()
 export class GatewayController {
-    /**
-     * The constructor function takes a GatewayService instance as a parameter and
-     * assigns it to the gatewayService property.
-     * @param {GatewayService} gatewayService - The `gatewayService` parameter is
-     * of type `GatewayService` and is marked as `private` and `readonly`. This
-     * means that it can only be accessed within the class and its value cannot be
-     * changed once it is assigned in the constructor.
-     */
     constructor(
-        private readonly gatewayService: GatewayService,
         @Inject("NATS_CLIENT") private readonly natsClient: ClientProxy,
     ) {}
 
@@ -62,16 +49,5 @@ export class GatewayController {
                 ),
             },
         };
-    }
-
-    @Post()
-    /**
-     * The function sends an email using the createdUserDto data.
-     * @param {CreatedUserDto} createdUserDto - The `createdUserDto` parameter is
-     * an object of type `CreatedUserDto`. It is passed as the body of the HTTP
-     * request to the `sendEmail` method.
-     */
-    sendEmail(@Body() createdUserDto: CreatedUserDto) {
-        this.gatewayService.sendEmail(createdUserDto);
     }
 }
