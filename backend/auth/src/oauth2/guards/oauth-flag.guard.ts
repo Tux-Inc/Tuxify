@@ -35,7 +35,7 @@ import {
 } from "@nestjs/common";
 import { FastifyRequest } from "fastify";
 import { ConfigService } from "@nestjs/config";
-import { IClient } from "../interfaces/client.interface";
+import { IClient } from "@tuxify/common";
 import { isNull } from "../../common/utils/validation.util";
 import { OAuthProvidersEnum } from "../../users/enums/oauth-providers.enum";
 

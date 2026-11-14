@@ -24,7 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-import { ActionInfos } from './action-infos.dto';
+import { ActionInfos } from '@tuxify/common';
 import { ReactionInfos } from './reaction-infos.dto';
 
 /* The ProviderInfos class represents information about a provider, including its

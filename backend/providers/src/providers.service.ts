@@ -30,14 +30,10 @@ THE SOFTWARE.
 import { Repository } from 'typeorm';
 import { lastValueFrom, Observable } from 'rxjs';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AddProvider } from './dtos/add-provider.dto';
-import { AddedProvider } from './dtos/added-provider.dto';
+import { ActionReactionService, AddProvider, AddProviderCallback, AddedProvider, ProviderRequestTokens } from '@tuxify/common';
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ProviderEntity } from './entities/provider.entity';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
-import { AddProviderCallback } from './dtos/add-provider-callback.dto';
-import { ProviderRequestTokens } from './dtos/provider-request-tokens.dto';
-import { ActionReactionService } from './dtos/action-reaction-service.dto';
 import { LocalUserProviderTokens } from './events/local-user-provider-tokens.event';
 
 /* The `ProvidersService` class is responsible for managing providers, including

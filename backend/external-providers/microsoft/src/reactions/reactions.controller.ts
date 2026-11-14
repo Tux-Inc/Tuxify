@@ -27,14 +27,13 @@
 import { Observable } from "rxjs";
 import { Controller, Inject } from "@nestjs/common";
 import { ReactionsService } from "./reactions.service";
-import { ActionReaction } from "../dtos/action-reaction.dto";
+import { ActionReaction, CommonReactionInput } from "@tuxify/common";
 import { TasksListInput } from "../dtos/tasks-list-input.dto";
 import { TasksTodoInput } from "../dtos/tasks-todo-input.dto";
 import { TasksTodoOutput } from "../dtos/tasks-todo-output.dto";
 import { TasksListOutput } from "../dtos/tasks-list-output.dto";
 import { OneNotePageInput } from "../dtos/onenote-page-input.dto";
 import { OneNotePageOutput } from "../dtos/onenote-page-output.dto";
-import { CommonReactionInput } from "../dtos/common-reaction-input.dto";
 import { TasksTodoDeleteInput } from "../dtos/tasks-todo-delete-input.dto";
 import { TasksListDeleteInput } from "../dtos/tasks-list-delete-input.dto";
 import { OutlookSendEmailInput } from "../dtos/outlook-send-email-input.dto";
