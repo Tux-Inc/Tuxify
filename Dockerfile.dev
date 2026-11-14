@@ -26,3 +26,8 @@ COPY backend/external-providers/microsoft/package.json backend/external-provider
 # Workspace scripts (nuxt prepare) need the sources, which are mounted at
 # runtime: skip them here and only build the native dependencies.
 RUN pnpm install --frozen-lockfile --ignore-scripts && pnpm rebuild
+
+# Shared package used by the services: built into the image (not mounted).
+# Rebuild the image after changing it.
+COPY common/ common/
+RUN pnpm --filter @tuxify/common build
