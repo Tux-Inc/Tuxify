@@ -48,3 +48,6 @@ lerna-debug.log*
 .env.test
 .env*.local
 docker.env
+
+# RS256 key pair (never commit it, see scripts/generate-keys.sh)
+/keys/

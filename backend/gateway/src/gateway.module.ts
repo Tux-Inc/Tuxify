@@ -27,7 +27,6 @@ THE SOFTWARE.
 import * as process from "process";
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { GatewayService } from "./gateway.service";
 import { FlowsModule } from "./flows/flows.module";
 import { GatewayController } from "./gateway.controller";
 import { DevtoolsModule } from "@nestjs/devtools-integration";
@@ -55,7 +54,6 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
         ProvidersModule,
     ],
     controllers: [GatewayController],
-    providers: [GatewayService],
 })
 
 /* The GatewayModule class is exported as a module in TypeScript. */

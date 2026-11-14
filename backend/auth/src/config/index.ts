@@ -26,7 +26,7 @@ THE SOFTWARE.
 */
 
 import { join } from "path";
-import { readFileSync } from "fs";
+import { loadKey } from "./utils/load-key.util";
 import { Injectable } from "@nestjs/common";
 import { LoadStrategy } from "@mikro-orm/core";
 import { IConfig } from "./interfaces/config.interface";
@@ -41,13 +41,14 @@ import { defineConfig as defineSqliteConfig } from "@mikro-orm/sqlite";
  * @returns The `config()` function returns an object of type `IConfig`.
  */
 export function config(): IConfig {
-    const publicKey = readFileSync(
-        join(__dirname, "..", "..", "keys/public.key"),
-        "utf-8",
+    const keysDir = join(__dirname, "..", "..", "keys");
+    const publicKey = loadKey(
+        "JWT_ACCESS_PUBLIC_KEY",
+        join(keysDir, "public.key"),
     );
-    const privateKey = readFileSync(
-        join(__dirname, "..", "..", "keys/private.key"),
-        "utf-8",
+    const privateKey = loadKey(
+        "JWT_ACCESS_PRIVATE_KEY",
+        join(keysDir, "private.key"),
     );
     const testing = process.env.NODE_ENV !== "production";
     const dbOptions = {
