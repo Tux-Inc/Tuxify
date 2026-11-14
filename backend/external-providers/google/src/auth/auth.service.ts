@@ -28,11 +28,7 @@ import { HttpService } from "@nestjs/axios";
 import { OAuthClass } from "./classes/oauth.class";
 import { Injectable, Logger } from "@nestjs/common";
 import { RpcException } from "@nestjs/microservices";
-import { ProviderEntity } from "./dtos/provider.dto";
-import { AddProvider } from "./dtos/add-provider.dto";
-import { IClient } from "./interfaces/client.interface";
-import { AddedProvider } from "./dtos/added-provider.dto";
-import { AddProviderCallback } from "./dtos/add-provider-callback.dto";
+import { AddProvider, AddProviderCallback, AddedProvider, IClient, ProviderEntity } from "@tuxify/common";
 
 /* The AuthService class is responsible for handling authentication and
 authorization using OAuth2 with Google as the provider. */

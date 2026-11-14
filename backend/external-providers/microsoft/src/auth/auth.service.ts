@@ -27,12 +27,8 @@
 import { randomBytes } from "crypto";
 import { HttpService } from "@nestjs/axios";
 import { Injectable, Logger } from "@nestjs/common";
-import { ProviderEntity } from "./dtos/provider.dto";
+import { AddProvider, AddProviderCallback, AddedProvider, IProvider, ProviderEntity } from "@tuxify/common";
 import { RpcException } from "@nestjs/microservices";
-import { AddProvider } from "./dtos/add-provider.dto";
-import { AddedProvider } from "./dtos/added-provider.dto";
-import { IProvider } from "./interfaces/provider.interface";
-import { AddProviderCallback } from "./dtos/add-provider-callback.dto";
 
 /* The AuthService class is responsible for handling authentication and
 authorization with Microsoft services. */

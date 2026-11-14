@@ -25,10 +25,9 @@
  */
 
 import { MicrosoftService } from "./microsoft.service";
-import { ActionReaction } from "./dtos/action-reaction.dto";
+import { ActionReaction, ActionReactionService } from "@tuxify/common";
 import { Controller, Get, Inject, Logger } from "@nestjs/common";
 import { ClientProxy, EventPattern, Payload } from "@nestjs/microservices";
-import { ActionReactionService } from "./dtos/action-reaction-service.dto";
 
 /* The MicrosoftController class is a TypeScript controller that handles actions
 and reactions for the Microsoft service. */

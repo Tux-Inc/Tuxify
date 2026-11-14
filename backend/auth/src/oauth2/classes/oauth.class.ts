@@ -27,9 +27,7 @@ THE SOFTWARE.
 
 import { randomBytes } from "crypto";
 import { AuthorizationCode } from "simple-oauth2";
-import { IClient } from "../interfaces/client.interface";
-import { IProvider } from "../interfaces/provider.interface";
-import { IAuthParams } from "../interfaces/auth-params.interface";
+import { IAuthParams, IClient, IProvider } from "@tuxify/common";
 import { OAuthProvidersEnum } from "../../users/enums/oauth-providers.enum";
 import { IAuthResponseTokensInterface } from "../interfaces/auth-response-tokens.interface";
 

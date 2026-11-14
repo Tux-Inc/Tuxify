@@ -13,7 +13,7 @@ WORKDIR /repo
 COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
 RUN pnpm fetch --frozen-lockfile
 COPY . .
-RUN pnpm install --frozen-lockfile --offline --filter "./frontend..."
+RUN pnpm install --frozen-lockfile --offline --filter "{./frontend}..."
 RUN pnpm --filter ./frontend generate
 
 FROM nginx:latest AS production

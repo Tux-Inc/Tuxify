@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 import { ActionsService } from "./actions.service";
 import { Controller, Inject } from "@nestjs/common";
-import { ActionReaction } from "../dtos/action-reaction.dto";
+import { ActionReaction } from "@tuxify/common";
 import { ClientProxy, MessagePattern, Payload } from "@nestjs/microservices";
 import { GmailPubsubPublishEvent } from "./events/gmail-pubsub-publish.event";
 

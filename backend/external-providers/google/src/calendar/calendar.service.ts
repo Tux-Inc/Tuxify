@@ -30,8 +30,7 @@ import { Injectable, Logger } from "@nestjs/common";
 import { TokensService } from "../tokens/tokens.service";
 import { AddEventInput } from "./dtos/add-event-input.dto";
 import { calendar } from "googleapis/build/src/apis/calendar";
-import { CommonReactionInput } from "../dtos/common-reaction-input.dto";
-import { UserProviderTokens } from "../tokens/dtos/user-provider-tokens.dto";
+import { CommonReactionInput, UserProviderTokens } from "@tuxify/common";
 
 /* The CalendarService class is responsible for adding events to a calendar using
 the Google Calendar API. */

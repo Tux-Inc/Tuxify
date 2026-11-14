@@ -25,10 +25,9 @@ THE SOFTWARE.
 */
 
 import { GoogleService } from "./google.service";
-import { ActionReaction } from "./dtos/action-reaction.dto";
+import { ActionReaction, ActionReactionService } from "@tuxify/common";
 import { Controller, Inject, Logger } from "@nestjs/common";
 import { ClientProxy, EventPattern, Payload } from "@nestjs/microservices";
-import { ActionReactionService } from "./dtos/action-reaction-service.dto";
 
 /* The GoogleController class is a TypeScript controller that handles actions and
 reactions for the Google service. */

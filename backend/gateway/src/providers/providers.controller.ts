@@ -42,10 +42,8 @@ import {
 import { AuthGuard } from "../guards/auth.guard";
 import { ClientProxy } from "@nestjs/microservices";
 import { firstValueFrom, lastValueFrom } from "rxjs";
-import { AddProvider } from "./dto/add-provider.dto";
+import { ActionReactionService, AddProvider, AddProviderCallback } from "@tuxify/common";
 import { CallbackQueryDto } from "./dto/callback-query.dto";
-import { AddProviderCallback } from "./dto/add-provider-callback.dto";
-import { ActionReactionService } from "./dto/action-reaction-service.dto";
 
 /* The ProvidersController class is a TypeScript controller that handles requests
 related to providers, such as retrieving available providers, adding providers,

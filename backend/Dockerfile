@@ -18,8 +18,9 @@ RUN apk add --no-cache python3 make g++
 COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
 RUN pnpm fetch --frozen-lockfile
 COPY . .
-RUN pnpm install --frozen-lockfile --offline --filter "./${SERVICE}..."
-RUN pnpm --filter "./${SERVICE}" build
+RUN pnpm install --frozen-lockfile --offline --filter "{./${SERVICE}}..."
+# "..." also builds the workspace packages the service depends on (@tuxify/common).
+RUN pnpm --filter "{./${SERVICE}}..." build
 # Self-contained copy of the service with production dependencies only.
 RUN pnpm --filter "./${SERVICE}" deploy --prod --legacy /prod
 

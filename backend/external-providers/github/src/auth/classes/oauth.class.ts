@@ -31,11 +31,7 @@ import { Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { AuthorizationCode } from 'simple-oauth2';
 import { RpcException } from '@nestjs/microservices';
-import { ProviderEntity } from '../dtos/provider.dto';
-import { IClient } from '../interfaces/client.interface';
-import { AddedProvider } from '../dtos/added-provider.dto';
-import { IProvider } from '../interfaces/provider.interface';
-import { IAuthParams } from '../interfaces/auth-params.interface';
+import { AddedProvider, IAuthParams, IClient, IProvider, ProviderEntity } from '@tuxify/common';
 
 /* The `OAuthClass` is a TypeScript class that handles OAuth authentication with
 GitHub and provides methods for generating authorization URLs, exchanging

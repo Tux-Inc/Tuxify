@@ -28,11 +28,7 @@ import { randomBytes } from "crypto";
 import { Logger } from "@nestjs/common";
 import { HttpService } from "@nestjs/axios";
 import { AuthorizationCode } from "simple-oauth2";
-import { ProviderEntity } from "../dtos/provider.dto";
-import { IClient } from "../interfaces/client.interface";
-import { AddedProvider } from "../dtos/added-provider.dto";
-import { IProvider } from "../interfaces/provider.interface";
-import { IAuthParams } from "../interfaces/auth-params.interface";
+import { AddedProvider, IAuthParams, IClient, IProvider, ProviderEntity } from "@tuxify/common";
 
 /* The `OAuthClass` is a TypeScript class that handles OAuth authentication and
 token management for Google APIs. */
