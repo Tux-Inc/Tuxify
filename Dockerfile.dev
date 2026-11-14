@@ -1,0 +1,28 @@
+# Development image shared by every service of docker-compose.yml.
+# It installs the whole pnpm workspace once; docker compose then mounts each
+# service's sources on top and runs it in watch mode.
+# Rebuild it after changing a package.json or the lockfile:
+#   docker compose build
+
+FROM node:24.22.2-bookworm-slim
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends python3 make g++ \
+    && rm -rf /var/lib/apt/lists/*
+RUN npm install -g pnpm@12.17.0
+WORKDIR /repo
+
+COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
+COPY common/package.json common/
+COPY frontend/package.json frontend/
+COPY backend/auth/package.json backend/auth/
+COPY backend/gateway/package.json backend/gateway/
+COPY backend/flows/package.json backend/flows/
+COPY backend/mailer/package.json backend/mailer/
+COPY backend/providers/package.json backend/providers/
+COPY backend/external-providers/google/package.json backend/external-providers/google/
+COPY backend/external-providers/github/package.json backend/external-providers/github/
+COPY backend/external-providers/microsoft/package.json backend/external-providers/microsoft/
+
+# Workspace scripts (nuxt prepare) need the sources, which are mounted at
+# runtime: skip them here and only build the native dependencies.
+RUN pnpm install --frozen-lockfile --ignore-scripts && pnpm rebuild

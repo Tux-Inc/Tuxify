@@ -24,6 +24,12 @@
 
 version: "3"
 
+# Every Node service runs from the same development image (Dockerfile.dev),
+# which holds the whole pnpm workspace; only the sources are mounted.
+x-dev-build: &dev-build
+  context: .
+  dockerfile: Dockerfile.dev
+
 services:
   # PostgreSQL auth database
   api_auth_db:
@@ -100,18 +106,17 @@ services:
   # Nest API services
   api_gateway:
     container_name: tuxify-api-gateway
-    build:
-      context: ./backend/gateway
-      dockerfile: Dockerfile.dev
+    build: *dev-build
+    image: tuxify-dev:local
     restart: unless-stopped
-    command: npm run start:dev --watch-preserve-output
-    working_dir: /usr/src/app
+    command: pnpm start:dev
+    working_dir: /repo/backend/gateway
     ports:
       - "3000:3000"
       - "8000:8000"
     volumes:
-      - ./backend/gateway:/usr/src/app
-      - /usr/src/app/node_modules
+      - ./backend/gateway:/repo/backend/gateway
+      - /repo/backend/gateway/node_modules
     networks:
       - tuxify-network
     env_file:
@@ -120,15 +125,14 @@ services:
   # Mailer microservice
   api_mailer:
     container_name: tuxify-api-mailer
-    build:
-      context: ./backend/mailer
-      dockerfile: Dockerfile.dev
+    build: *dev-build
+    image: tuxify-dev:local
     restart: unless-stopped
-    command: npm run start:dev --watch-preserve-output
-    working_dir: /usr/src/app
+    command: pnpm start:dev
+    working_dir: /repo/backend/mailer
     volumes:
-      - ./backend/mailer:/usr/src/app
-      - /usr/src/app/node_modules
+      - ./backend/mailer:/repo/backend/mailer
+      - /repo/backend/mailer/node_modules
     networks:
       - tuxify-network
     env_file:
@@ -137,17 +141,16 @@ services:
   # Auth microservice
   api_auth:
     container_name: tuxify-api-auth
-    build:
-      context: ./backend/auth
-      dockerfile: Dockerfile.dev
+    build: *dev-build
+    image: tuxify-dev:local
     restart: unless-stopped
-    command: npm run start:dev --watch-preserve-output
-    working_dir: /usr/src/app
+    command: pnpm start:dev
+    working_dir: /repo/backend/auth
     ports:
       - ${NESTSV_AUTH_PORT}:${NESTSV_AUTH_PORT}
     volumes:
-      - ./backend/auth:/usr/src/app
-      - /usr/src/app/node_modules
+      - ./backend/auth:/repo/backend/auth
+      - /repo/backend/auth/node_modules
     depends_on:
       - api_auth_db
       - api_auth_cache
@@ -159,15 +162,14 @@ services:
   # Flows microservice
   api_flows:
     container_name: tuxify-api-flows
-    build:
-      context: ./backend/flows
-      dockerfile: Dockerfile.dev
+    build: *dev-build
+    image: tuxify-dev:local
     restart: unless-stopped
-    command: npm run start:dev --watch-preserve-output
-    working_dir: /usr/src/app
+    command: pnpm start:dev
+    working_dir: /repo/backend/flows
     volumes:
-      - ./backend/flows:/usr/src/app
-      - /usr/src/app/node_modules
+      - ./backend/flows:/repo/backend/flows
+      - /repo/backend/flows/node_modules
     depends_on:
       - api_flows_db
     networks:
@@ -178,17 +180,16 @@ services:
   # Providers microservice
   api_providers:
     container_name: tuxify-api-providers
-    build:
-      context: ./backend/providers
-      dockerfile: Dockerfile.dev
+    build: *dev-build
+    image: tuxify-dev:local
     restart: unless-stopped
-    command: npm run start:dev --watch-preserve-output
-    working_dir: /usr/src/app
+    command: pnpm start:dev
+    working_dir: /repo/backend/providers
     ports:
       - ${NESTSV_PROVIDERS_PORT}:${NESTSV_PROVIDERS_PORT}
     volumes:
-      - ./backend/providers:/usr/src/app
-      - /usr/src/app/node_modules
+      - ./backend/providers:/repo/backend/providers
+      - /repo/backend/providers/node_modules
     depends_on:
       - api_providers_db
     networks:
@@ -199,17 +200,16 @@ services:
   # Google provider
   api_google:
     container_name: tuxify-api-google
-    build:
-      context: ./backend/external-providers/google
-      dockerfile: Dockerfile.dev
+    build: *dev-build
+    image: tuxify-dev:local
     restart: unless-stopped
-    command: npm run start:dev --watch-preserve-output
-    working_dir: /usr/src/app
+    command: pnpm start:dev
+    working_dir: /repo/backend/external-providers/google
     ports:
       - ${NESTSV_GOOGLE_PORT}:${NESTSV_GOOGLE_PORT}
     volumes:
-      - ./backend/external-providers/google:/usr/src/app
-      - /usr/src/app/node_modules
+      - ./backend/external-providers/google:/repo/backend/external-providers/google
+      - /repo/backend/external-providers/google/node_modules
     depends_on:
       - api_providers
     networks:
@@ -220,17 +220,16 @@ services:
   # Github provider
   api_github:
     container_name: tuxify-api-github
-    build:
-      context: ./backend/external-providers/github
-      dockerfile: Dockerfile.dev
+    build: *dev-build
+    image: tuxify-dev:local
     restart: unless-stopped
-    command: npm run start:dev --watch-preserve-output
-    working_dir: /usr/src/app
+    command: pnpm start:dev
+    working_dir: /repo/backend/external-providers/github
     ports:
       - ${NESTSV_GITHUB_PORT}:${NESTSV_GITHUB_PORT}
     volumes:
-      - ./backend/external-providers/github:/usr/src/app
-      - /usr/src/app/node_modules
+      - ./backend/external-providers/github:/repo/backend/external-providers/github
+      - /repo/backend/external-providers/github/node_modules
     depends_on:
       - api_providers
     networks:
@@ -241,17 +240,16 @@ services:
   # Microsoft provider
   api_microsoft:
     container_name: tuxify-api-microsoft
-    build:
-      context: ./backend/external-providers/microsoft
-      dockerfile: Dockerfile.dev
+    build: *dev-build
+    image: tuxify-dev:local
     restart: unless-stopped
-    command: npm run start:dev --watch-preserve-output
-    working_dir: /usr/src/app
+    command: pnpm start:dev
+    working_dir: /repo/backend/external-providers/microsoft
     ports:
       - ${NESTSV_MICROSOFT_PORT}:${NESTSV_MICROSOFT_PORT}
     volumes:
-      - ./backend/external-providers/microsoft:/usr/src/app
-      - /usr/src/app/node_modules
+      - ./backend/external-providers/microsoft:/repo/backend/external-providers/microsoft
+      - /repo/backend/external-providers/microsoft/node_modules
     depends_on:
       - api_providers
     networks:
@@ -262,16 +260,19 @@ services:
   # Nuxt Frontend
   frontend:
     container_name: tuxify-frontend
-    image: node:latest
+    build: *dev-build
+    image: tuxify-dev:local
     restart: unless-stopped
-    command: yarn dev
-    working_dir: /usr/src/app
+    command: pnpm dev --host 0.0.0.0
+    working_dir: /repo/frontend
     ports:
       - "8080:8080"
       - "24678:24678"
     volumes:
-      - ./frontend:/usr/src/app
-      - ./frontend/node_modules:/usr/src/app/node_modules
+      - ./frontend:/repo/frontend
+      - /repo/frontend/node_modules
+      - /repo/frontend/.nuxt
+      - /repo/frontend/.output
     depends_on:
       - api_gateway
     networks:
