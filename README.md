@@ -2,15 +2,29 @@
 
 This project is a web application that allows you to manage your tasks. It is a project that we have been working on for 2 months. We have used the PNN stack (PostgresSQL, Next.js, Nuxt.js) to develop this application.
 
+## Requirements
+
+- Node.js 24 (see `.nvmrc`)
+- pnpm 12 (the exact version is pinned in `package.json` under `packageManager`)
+- Docker with Docker Compose
+
 ## Installation
 
-To install the project, you must first clone the repository on your computer. Then, you must install the dependencies of the project. To do this, you must run the following command in the frontend folder and the backend folder of the project:
+The repository is a pnpm workspace: the frontend, every backend service and
+the shared `common` package are installed together, with a single lockfile.
 
 ```bash
-cd frontend && yarn install
-
-cd ../backend && ./yarn-install-script.sh
+pnpm install
 ```
+
+Useful commands from the repository root:
+
+| Command | Description |
+| --- | --- |
+| `pnpm build` | Build every backend service |
+| `pnpm build:frontend` | Generate the static frontend |
+| `pnpm test` | Run the backend unit tests |
+| `pnpm --filter @tuxify/auth start:dev` | Run one service in watch mode |
 
 ## Usage
 
@@ -31,10 +45,29 @@ Generate the RS256 key pair used by the auth service to sign access tokens (it i
 Then, you can start the docker containers by running:
 
 ```bash
-docker-compose up -d
+docker compose up -d
+```
+
+All Node services share one development image (`Dockerfile.dev`) that contains
+the installed workspace; only the sources are mounted, so changes are picked up
+in watch mode. Rebuild the image after changing a `package.json` or the
+lockfile:
+
+```bash
+docker compose build
 ```
 
 Finally, you can access the application by going to the following address: http://localhost:8080/
+
+## Production images
+
+Images are built from the repository root so that pnpm can use the workspace
+lockfile:
+
+```bash
+docker build -f backend/Dockerfile --build-arg SERVICE=backend/auth -t tuxify-api-auth .
+docker build -f frontend/Dockerfile -t tuxify .
+```
 
 ## Contributors
 
