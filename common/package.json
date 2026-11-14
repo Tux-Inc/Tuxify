@@ -1,14 +1,19 @@
 {
-  "name": "@tuxify/common",
-  "version": "1.0.0",
-  "description": "Tuxify shared functionalities including types and utilities",
-  "types": "index.d.ts",
-  "scripts": {
-    "build": "tsc"
-  },
-  "author": "Neeptossss",
-  "license": "ISC",
-  "devDependencies": {
-    "typescript": "^4.0.5"
-  }
+    "name": "@tuxify/common",
+    "version": "1.0.0",
+    "private": true,
+    "description": "Types and DTOs shared by the Tuxify services",
+    "license": "MIT",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "tsc -p tsconfig.json",
+        "prepare": "tsc -p tsconfig.json"
+    },
+    "devDependencies": {
+        "typescript": "5.2.2"
+    }
 }
