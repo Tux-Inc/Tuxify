@@ -1,0 +1,19 @@
+packages:
+  - backend/*
+  - backend/external-providers/*
+  - frontend
+  - common
+
+# Nuxt 3.7 resolves some of its own dependencies (vue-router...) from the
+# project root, and the previous Yarn setup hoisted every package. Keep that
+# behaviour until the frontend dependencies are upgraded.
+shamefullyHoist: true
+
+# Only these dependencies may run install scripts (native builds).
+allowBuilds:
+  '@nestjs/core': false
+  bcrypt: true
+  esbuild: true
+  sharp: true
+  sqlite3: true
+  vue-demi: true
