@@ -33,7 +33,6 @@ import { IConfig } from "./interfaces/config.interface";
 import { isUndefined } from "../common/utils/validation.util";
 import { redisUrlParser } from "./utils/redis-url-parser.util";
 import { defineConfig as definePGConfig } from "@mikro-orm/postgresql";
-import { defineConfig as defineSqliteConfig } from "@mikro-orm/sqlite";
 
 /**
  * The `config` function returns a configuration object with various properties

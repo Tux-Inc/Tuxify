@@ -27,7 +27,6 @@ THE SOFTWARE.
 
 import { LoadStrategy, Options } from "@mikro-orm/core";
 import { defineConfig as definePGConfig } from "@mikro-orm/postgresql";
-import { defineConfig as defineSqliteConfig } from "@mikro-orm/sqlite";
 
 const baseOptions = {
     entities: ["dist/**/*.entity.js", "dist/**/*.embeddable.js"],
