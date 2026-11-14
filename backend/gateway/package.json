@@ -1,5 +1,5 @@
 {
-    "name": "tuxifyapi",
+    "name": "@tuxify/gateway",
     "version": "0.0.1",
     "description": "",
     "author": "",
@@ -73,6 +73,5 @@
         ],
         "coverageDirectory": "../coverage",
         "testEnvironment": "node"
-    },
-    "packageManager": "yarn@3.6.3"
+    }
 }

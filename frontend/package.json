@@ -1,5 +1,5 @@
 {
-    "name": "nuxt-app",
+    "name": "@tuxify/frontend",
     "private": true,
     "type": "module",
     "scripts": {
@@ -10,7 +10,7 @@
         "postinstall": "nuxt prepare"
     },
     "devDependencies": {
-        "@nuxt/devtools": "latest",
+        "@nuxt/devtools": "^0.8.3",
         "@nuxtjs/device": "^3.1.1",
         "@types/js-cookie": "^3.0.4",
         "@types/md5": "^2.3.3",
@@ -30,10 +30,9 @@
         "@capacitor/core": "^5.4.0",
         "@capacitor/ios": "^5.4.0",
         "@iconify-json/mdi": "^1.1.54",
-        "@nuxt/image": "rc",
+        "@nuxt/image": "1.0.0-rc.3",
         "@nuxt/ui": "^2.8.1",
         "mitt": "^3.0.1",
         "uuid": "^9.0.1"
-    },
-    "packageManager": "yarn@3.6.3"
+    }
 }

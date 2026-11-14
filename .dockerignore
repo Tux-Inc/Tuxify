@@ -1,0 +1,19 @@
+# Images are built from the repository root so that pnpm can use the
+# workspace lockfile. Keep the build context small and free of secrets.
+**/node_modules
+**/dist
+**/coverage
+frontend/.nuxt
+frontend/.output
+frontend/android
+frontend/ios
+.git
+.github
+.env
+.env.*
+!.env.example
+**/keys
+kubernetes
+portfolio
+database
+*.md

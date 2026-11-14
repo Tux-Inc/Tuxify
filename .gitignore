@@ -7,3 +7,8 @@
 
 # OS
 .DS_Store
+
+# Dependencies and build output
+node_modules/
+dist/
+.pnpm-store/

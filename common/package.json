@@ -1,5 +1,5 @@
 {
-  "name": "tuxify-common",
+  "name": "@tuxify/common",
   "version": "1.0.0",
   "description": "Tuxify shared functionalities including types and utilities",
   "types": "index.d.ts",

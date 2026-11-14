@@ -1,0 +1,16 @@
+{
+  "name": "tuxify",
+  "private": true,
+  "description": "Tuxify monorepo: NestJS microservices and Nuxt frontend",
+  "license": "MIT",
+  "packageManager": "pnpm@12.17.0",
+  "engines": {
+    "node": ">=24.11 <25"
+  },
+  "scripts": {
+    "build": "pnpm -r --parallel --filter \"./backend/**\" build",
+    "build:frontend": "pnpm --filter @tuxify/frontend generate",
+    "lint": "pnpm -r --parallel --filter \"./backend/**\" lint",
+    "test": "pnpm -r --filter \"./backend/**\" test"
+  }
+}

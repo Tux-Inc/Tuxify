@@ -36,7 +36,9 @@ jobs:
       - name: Build and push gateway image
         uses: docker/build-push-action@v2
         with:
-          context: "./backend/gateway"
+          context: .
+          file: backend/Dockerfile
+          build-args: SERVICE=backend/gateway
           push: true
           tags: |
             ghcr.io/tux-inc/tuxify-api-gateway:latest
@@ -46,7 +48,9 @@ jobs:
       - name: Build and push mailer image
         uses: docker/build-push-action@v2
         with:
-          context: "./backend/mailer"
+          context: .
+          file: backend/Dockerfile
+          build-args: SERVICE=backend/mailer
           push: true
           tags: |
             ghcr.io/tux-inc/tuxify-api-mailer:latest
@@ -56,7 +60,9 @@ jobs:
       - name: Build and push auth image
         uses: docker/build-push-action@v2
         with:
-          context: "./backend/auth"
+          context: .
+          file: backend/Dockerfile
+          build-args: SERVICE=backend/auth
           push: true
           tags: |
             ghcr.io/tux-inc/tuxify-api-auth:latest
@@ -66,7 +72,9 @@ jobs:
       - name: Build and push flows image
         uses: docker/build-push-action@v2
         with:
-          context: "./backend/flows"
+          context: .
+          file: backend/Dockerfile
+          build-args: SERVICE=backend/flows
           push: true
           tags: |
             ghcr.io/tux-inc/tuxify-api-flows:latest
@@ -76,7 +84,9 @@ jobs:
       - name: Build and push providers image
         uses: docker/build-push-action@v2
         with:
-          context: "./backend/providers"
+          context: .
+          file: backend/Dockerfile
+          build-args: SERVICE=backend/providers
           push: true
           tags: |
             ghcr.io/tux-inc/tuxify-api-providers:latest
@@ -86,7 +96,9 @@ jobs:
       - name: Build and push google image
         uses: docker/build-push-action@v2
         with:
-          context: "./backend/external-providers/google"
+          context: .
+          file: backend/Dockerfile
+          build-args: SERVICE=backend/external-providers/google
           push: true
           tags: |
             ghcr.io/tux-inc/tuxify-api-google:latest
@@ -96,7 +108,9 @@ jobs:
       - name: Build and push github image
         uses: docker/build-push-action@v2
         with:
-          context: "./backend/external-providers/github"
+          context: .
+          file: backend/Dockerfile
+          build-args: SERVICE=backend/external-providers/github
           push: true
           tags: |
             ghcr.io/tux-inc/tuxify-api-github:latest
@@ -106,7 +120,9 @@ jobs:
       - name: Build and push microsoft image
         uses: docker/build-push-action@v2
         with:
-          context: "./backend/external-providers/microsoft"
+          context: .
+          file: backend/Dockerfile
+          build-args: SERVICE=backend/external-providers/microsoft
           push: true
           tags: |
             ghcr.io/tux-inc/tuxify-api-microsoft:latest
@@ -134,7 +150,8 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
-          context: "./frontend"
+          context: .
+          file: frontend/Dockerfile
           push: true
           tags: |
             ghcr.io/tux-inc/tuxify:latest
@@ -163,22 +180,25 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 19.x
+          node-version-file: .nvmrc
+
+      - name: Setup pnpm
+        run: npm install -g pnpm@12.17.0
 
       - name: Install dependencies
-        run: npm i
+        run: pnpm install --frozen-lockfile
 
       - name: Create Build Folder
-        run: npm run generate
+        run: pnpm generate
 
       - name: Add android folder if not present
-        run: if [ ! -d "./android" ]; then npx cap add android; fi
+        run: if [ ! -d "./android" ]; then pnpm exec cap add android; fi
 
       - name: Capacitor copy
-        run: npx cap copy
+        run: pnpm exec cap copy
 
       - name: Generate icons and splash screen to android folder
-        run: if [ -d "./assets" ]; then npm install @capacitor/assets --save-dev && npx capacitor-assets generate --android; fi
+        run: if [ -d "./assets" ]; then pnpm exec capacitor-assets generate --android; fi
 
       - name: Build app bundle
         run: cd android && ./gradlew bundle && ./gradlew assembleDebug
