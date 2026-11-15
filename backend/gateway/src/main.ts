@@ -25,16 +25,15 @@ THE SOFTWARE.
 */
 
 import { NestFactory } from "@nestjs/core";
+import { NestExpressApplication } from "@nestjs/platform-express";
+import { configureApp } from "./app.setup";
 import { GatewayModule } from "./gateway.module";
 
 async function bootstrap() {
-    const app = await NestFactory.create(GatewayModule, {
+    const app = await NestFactory.create<NestExpressApplication>(GatewayModule, {
         snapshot: true,
     });
-    const whitelist = ["http://localhost:8080", "https://tuxify.fr"];
-    app.enableCors({
-        origin: whitelist,
-    });
+    configureApp(app);
     await app.listen(3000);
 }
 

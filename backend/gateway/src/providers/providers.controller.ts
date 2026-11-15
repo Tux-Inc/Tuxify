@@ -25,167 +25,140 @@ THE SOFTWARE.
 */
 
 import {
-    BadGatewayException,
     Body,
     Controller,
     Get,
     HttpCode,
     Inject,
     Logger,
+    NotFoundException,
     Param,
+    PipeTransform,
     Post,
     Query,
     Req,
     Res,
+    UnauthorizedException,
     UseGuards,
 } from "@nestjs/common";
-import { AuthGuard } from "../guards/auth.guard";
+import { Throttle } from "@nestjs/throttler";
 import { ClientProxy } from "@nestjs/microservices";
-import { firstValueFrom, lastValueFrom } from "rxjs";
-import { ActionReactionService, AddProvider, AddProviderCallback } from "@tuxify/common";
+import { lastValueFrom } from "rxjs";
+import {
+    ActionReactionService,
+    AddProvider,
+    AddProviderCallback,
+    isProviderName,
+    isWebhookScope,
+    ProviderName,
+    safeEqual,
+} from "@tuxify/common";
+import { AuthGuard } from "../guards/auth.guard";
 import { CallbackQueryDto } from "./dto/callback-query.dto";
 
-/* The ProvidersController class is a TypeScript controller that handles requests
-related to providers, such as retrieving available providers, adding providers,
-and performing actions on providers. */
+/** Rejects any provider that is not registered, before it reaches a NATS subject. */
+class ProviderPipe implements PipeTransform<string, ProviderName> {
+    transform(value: string): ProviderName {
+        if (!isProviderName(value)) throw new NotFoundException("Unknown provider");
+        return value;
+    }
+}
+
+/** Microsoft Graph sends this token once when a subscription is created and expects it back. */
+const MAX_VALIDATION_TOKEN_LENGTH = 1024;
+
 @Controller("providers")
 export class ProvidersController {
-    public readonly logger: Logger = new Logger(ProvidersController.name);
+    private readonly logger: Logger = new Logger(ProvidersController.name);
 
-    /**
-     * The constructor function takes in a client proxy object and injects it as a
-     * dependency using the "NATS_CLIENT" token.
-     * @param {ClientProxy} natsClient - The `natsClient` parameter is of type
-     * `ClientProxy` and is being injected using the `@Inject` decorator. It is
-     * likely being used to establish a connection to a NATS server for messaging
-     * purposes.
-     */
     constructor(
         @Inject("NATS_CLIENT") private readonly natsClient: ClientProxy,
     ) {}
 
     @Get("infos")
-    /**
-     * The function `getAllAvailableProviders` returns a promise that resolves to
-     * an array of `ActionReactionService` objects.
-     * @returns The function `getAllAvailableProviders` returns a Promise that
-     * resolves to an array of `ActionReactionService` objects.
-     */
     async getAllAvailableProviders(): Promise<ActionReactionService[]> {
         return await lastValueFrom(this.natsClient.send("infos.providers", {}));
     }
 
     @UseGuards(AuthGuard)
     @Get()
-    /**
-     * The function `getProvidersForUser` is an asynchronous function that sends a
-     * request to a NATS client to retrieve a list of providers for a user.
-     * @param {any} req - The `req` parameter is the request object that contains
-     * information about the incoming HTTP request. It is typically provided by
-     * the framework or library you are using to handle HTTP requests (e.g.,
-     * Express.js, Nest.js). In this case, it seems to be an object that contains
-     * the `user`
-     * @returns a Promise that resolves to an array of ActionReactionService
-     * objects.
-     */
     async getProvidersForUser(
         @Req() req: any,
     ): Promise<ActionReactionService[]> {
-        try {
-            return lastValueFrom(this.natsClient.send("providers", req.user));
-        } catch (e) {
-            throw e;
-        }
+        return await lastValueFrom(this.natsClient.send("providers", req.user));
     }
 
     @UseGuards(AuthGuard)
     @Get(":provider/add")
-    /**
-     * The addProvider function in TypeScript is an asynchronous function that
-     * adds a provider to a list and sends a message to a NATS client.
-     * @param {string} provider - The "provider" parameter is a string that
-     * represents the name of the provider being added.
-     * @param {any} res - The `res` parameter is the response object that is used
-     * to send the response back to the client. It is typically used to send data,
-     * set headers, and handle the response status.
-     * @param {any} req - The `req` parameter is an object that represents the
-     * HTTP request made to the server. It contains information such as the
-     * request headers, query parameters, and body of the request.
-     */
     async addProvider(
-        @Param("provider") provider: string,
-        @Res() res: any,
+        @Param("provider", ProviderPipe) provider: ProviderName,
         @Req() req: any,
-    ): Promise<any> {
-        const addProvider: AddProvider = {
-            provider,
-            userId: req.user,
-        };
-        try {
-            await lastValueFrom(
-                this.natsClient.send(`providers.${provider}.add`, addProvider),
-            ).then((data) => {
-                res.send(data);
-            });
-        } catch (e) {
-            throw e;
-        }
+    ): Promise<string> {
+        const addProvider: AddProvider = { provider, userId: req.user };
+        return await lastValueFrom(
+            this.natsClient.send(`providers.${provider}.add`, addProvider),
+        );
     }
 
     @Get(":provider/callback")
     async addProviderCallback(
-        @Param("provider") provider: string,
-        @Res() res: any,
+        @Param("provider", ProviderPipe) provider: ProviderName,
         @Query() cbQuery: CallbackQueryDto,
+        @Res() res: any,
     ): Promise<void> {
         const addProviderCallback: AddProviderCallback = {
             provider,
             code: cbQuery.code,
             state: cbQuery.state,
         };
-        try {
-            await lastValueFrom(
-                this.natsClient.send(
-                    `providers.${provider}.add.callback`,
-                    addProviderCallback,
-                ),
-            ).then((data) => {
-                res.redirect(data);
-            });
-        } catch (e) {
-            throw e;
-        }
+        const redirectUrl: string = await lastValueFrom(
+            this.natsClient.send(
+                `providers.${provider}.add.callback`,
+                addProviderCallback,
+            ),
+        );
+        res.redirect(redirectUrl);
     }
 
+    /**
+     * Webhooks of the providers (Gmail Pub/Sub push, Microsoft Graph notifications).
+     * Only whitelisted provider/scope pairs are accepted, each one authenticated:
+     * - google: `?token=` must equal GMAIL_PUSH_TOKEN;
+     * - microsoft: the subscription validation handshake is answered here, and every
+     *   notification carries a signed clientState checked by the Microsoft service.
+     * The event is forwarded asynchronously and acknowledged right away (Microsoft
+     * Graph expects an answer within 3 seconds).
+     */
+    @Throttle({ default: { limit: 600, ttl: 60000 } })
     @Post(":provider/action/:scope")
-    @HttpCode(200)
+    @HttpCode(202)
     async action(
-        @Param("provider") provider: string,
+        @Param("provider", ProviderPipe) provider: ProviderName,
         @Param("scope") scope: string,
-        @Body() body: any,
-        @Req() req: any,
-        @Res() res: any,
-    ): Promise<void> {
-        try {
-            await firstValueFrom(
-                this.natsClient.send(
-                    `provider.${provider}.action.${scope}`,
-                    body,
-                ),
-            );
-            if (req.query && req.query.validationToken) {
-                res.set("Content-Type", "text/plain");
-                res.send(req.query.validationToken);
-            } else {
-                res.send();
+        @Query() query: Record<string, string | undefined>,
+        @Body() body: unknown,
+        @Res({ passthrough: true }) res: any,
+    ): Promise<string | void> {
+        if (!isWebhookScope(provider, scope)) {
+            throw new NotFoundException("Unknown webhook");
+        }
+
+        if (provider === "microsoft" && typeof query.validationToken === "string") {
+            const token = query.validationToken.slice(0, MAX_VALIDATION_TOKEN_LENGTH);
+            res.status(200).type("text/plain");
+            return token;
+        }
+
+        if (provider === "google") {
+            const expected = process.env.GMAIL_PUSH_TOKEN;
+            if (!expected) {
+                this.logger.warn("GMAIL_PUSH_TOKEN is not set: Gmail push notifications are rejected");
             }
-        } catch (e) {
-            if (req.query && req.query.validationToken) {
-                res.set("Content-Type", "text/plain");
-                res.send(req.query.validationToken);
-            } else {
-                res.send();
+            if (!expected || !safeEqual(query.token, expected)) {
+                throw new UnauthorizedException();
             }
         }
+
+        this.natsClient.emit(`provider.${provider}.action.${scope}`, body);
     }
 }
