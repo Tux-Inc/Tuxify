@@ -36,7 +36,7 @@ import { BranchMergeInput } from '../dtos/branch-merge-input.dto';
 import { BranchMergeOutput } from '../dtos/branch-merge-output.dto';
 import { IssueCommentInput } from '../dtos/issue-comment-input.dto';
 import { IssueCommentOutput } from '../dtos/issue-comment-output.dto';
-import { CommonReactionInput } from '../dtos/common-reaction-input.dto';
+import { CommonReactionInput } from '@tuxify/common';
 import { IssueCommentReactionInput } from '../dtos/issue-comment-reaction-input.dto';
 import { IssueCommentReactionOutput } from '../dtos/issue-comment-reaction-output.dto';
 import { IssueCommentReactionDeleteInput } from '../dtos/issue-comment-reaction-delete-input.dto';

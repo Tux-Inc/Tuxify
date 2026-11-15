@@ -25,11 +25,9 @@ THE SOFTWARE.
 */
 
 import { lastValueFrom, toArray } from "rxjs";
-import { ProviderEntity } from "../auth/dtos/provider.dto";
+import { ProviderEntity, ProviderRequestTokens, UserProviderTokens } from "@tuxify/common";
 import { Inject, Injectable, Logger } from "@nestjs/common";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
-import { UserProviderTokens } from "./dtos/user-provider-tokens.dto";
-import { ProviderRequestTokens } from "../reactions/dtos/provider-request-tokens.dto";
 
 /* The `TokensService` class is an Injectable service that provides methods for
 retrieving user tokens and all provider tokens. */

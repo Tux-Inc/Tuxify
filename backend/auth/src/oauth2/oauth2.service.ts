@@ -39,7 +39,7 @@ import { catchError, firstValueFrom } from "rxjs";
 import { OAuthClass } from "./classes/oauth.class";
 import { ClientProxy } from "@nestjs/microservices";
 import { UsersService } from "../users/users.service";
-import { IClient } from "./interfaces/client.interface";
+import { IClient } from "@tuxify/common";
 import { CommonService } from "../common/common.service";
 import { isNull } from "../common/utils/validation.util";
 import { ICallbackQuery } from "./interfaces/callback-query.interface";

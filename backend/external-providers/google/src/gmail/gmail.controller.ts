@@ -27,7 +27,7 @@ THE SOFTWARE.
 import { Controller } from "@nestjs/common";
 import { GmailService } from "./gmail.service";
 import { EventPattern } from "@nestjs/microservices";
-import { AddedProvider } from "../auth/dtos/added-provider.dto";
+import { AddedProvider } from "@tuxify/common";
 
 /* The GmailController class is a TypeScript controller that handles events
 related to adding a user to a publisher in the Gmail service. */

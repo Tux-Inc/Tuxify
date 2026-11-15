@@ -32,12 +32,8 @@ import {
   RpcException,
 } from '@nestjs/microservices';
 import { Controller } from '@nestjs/common';
-import { AddProvider } from './dtos/add-provider.dto';
+import { ActionReactionService, AddProvider, AddProviderCallback, ProviderRequestTokens, UserProviderTokens } from '@tuxify/common';
 import { ProviderEntity } from './entities/provider.entity';
-import { UserProviderTokens } from './dtos/user-provider-tokens.dto';
-import { AddProviderCallback } from './dtos/add-provider-callback.dto';
-import { ActionReactionService } from './dtos/action-reaction-service.dto';
-import { ProviderRequestTokens } from './dtos/provider-request-tokens.dto';
 // import { LocalUserProviderTokens } from "./events/local-user-provider-tokens.event";
 
 /* The `ProvidersController` class is a TypeScript controller that handles

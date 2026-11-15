@@ -36,12 +36,11 @@ import { ReactionsService } from "../reactions/reactions.service";
 import { SubscribeTodoInput } from "./dtos/subscribe-todo-input.dto";
 import { TasksTodoGetInput } from "src/dtos/tasks-todo-get-input.dto";
 import { TasksTodoGetOutput } from "src/dtos/tasks-todo-get-output.dto";
-import { CommonReactionInput } from "../dtos/common-reaction-input.dto";
+import { CommonReactionInput, UserProviderTokens } from "@tuxify/common";
 import { CommonSubscribeInput } from "./dtos/common-subscribe-input.dto";
 import { OutlookGetEmailInput } from "../dtos/outlook-get-email-input.dto";
 import { SubscribeOutlookInput } from "./dtos/subscribe-outlook-input.dto";
 import { OutlookGetEmailOutput } from "../dtos/outlook-get-email-output.dto";
-import { UserProviderTokens } from "../tokens/dtos/user-provider-tokens.dto";
 import { OutlookMessageNotification } from "./dtos/outlook-message-notification.dto";
 
 /* The ActionsService class is responsible for subscribing to Microsoft Outlook

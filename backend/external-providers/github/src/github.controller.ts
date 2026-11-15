@@ -25,10 +25,9 @@ THE SOFTWARE.
 */
 
 import { GithubService } from './github.service';
-import { ActionReaction } from './dtos/action-reaction.dto';
+import { ActionReaction, ActionReactionService } from '@tuxify/common';
 import { Controller, Inject, Logger } from '@nestjs/common';
 import { ClientProxy, EventPattern, Payload } from '@nestjs/microservices';
-import { ActionReactionService } from './dtos/action-reaction-service.dto';
 
 /* The GithubController class is responsible for managing available actions and
 reactions for the Github provider and sending heartbeat updates. */

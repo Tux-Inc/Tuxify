@@ -36,12 +36,11 @@ import { OneNotePageInput } from "../dtos/onenote-page-input.dto";
 import { OneNotePageOutput } from "../dtos/onenote-page-output.dto";
 import { TasksTodoGetInput } from "src/dtos/tasks-todo-get-input.dto";
 import { TasksTodoGetOutput } from "src/dtos/tasks-todo-get-output.dto";
-import { CommonReactionInput } from "../dtos/common-reaction-input.dto";
+import { CommonReactionInput, UserProviderTokens } from "@tuxify/common";
 import { TasksTodoDeleteInput } from "../dtos/tasks-todo-delete-input.dto";
 import { TasksListDeleteInput } from "../dtos/tasks-list-delete-input.dto";
 import { OutlookGetEmailInput } from "../dtos/outlook-get-email-input.dto";
 import { OutlookGetEmailOutput } from "../dtos/outlook-get-email-output.dto";
-import { UserProviderTokens } from "../tokens/dtos/user-provider-tokens.dto";
 import { OutlookSendEmailInput } from "../dtos/outlook-send-email-input.dto";
 
 /* The ReactionsService class is responsible for handling various reactions

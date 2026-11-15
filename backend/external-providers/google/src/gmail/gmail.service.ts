@@ -32,10 +32,8 @@ import { Payload } from "@nestjs/microservices";
 import { Injectable, Logger } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { TokensService } from "../tokens/tokens.service";
-import { ProviderEntity } from "../auth/dtos/provider.dto";
+import { CommonReactionInput, ProviderEntity, UserProviderTokens } from "@tuxify/common";
 import { SendEmailInput } from "./dtos/send-email-input.dto";
-import { CommonReactionInput } from "../dtos/common-reaction-input.dto";
-import { UserProviderTokens } from "../tokens/dtos/user-provider-tokens.dto";
 
 const MailComposer = require("nodemailer/lib/mail-composer");
 

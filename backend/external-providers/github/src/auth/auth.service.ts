@@ -27,12 +27,8 @@ THE SOFTWARE.
 import { HttpService } from '@nestjs/axios';
 import { OAuthClass } from './classes/oauth.class';
 import { Injectable, Logger } from '@nestjs/common';
-import { ProviderEntity } from './dtos/provider.dto';
+import { AddProvider, AddProviderCallback, AddedProvider, IClient, ProviderEntity } from '@tuxify/common';
 import { RpcException } from '@nestjs/microservices';
-import { AddProvider } from './dtos/add-provider.dto';
-import { IClient } from './interfaces/client.interface';
-import { AddedProvider } from './dtos/added-provider.dto';
-import { AddProviderCallback } from './dtos/add-provider-callback.dto';
 
 /* The AuthService class is responsible for handling authentication and
 authorization using OAuth with GitHub. */

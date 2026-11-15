@@ -28,7 +28,7 @@ THE SOFTWARE.
 import { ActionsService } from './actions.service';
 import { ClientProxy } from '@nestjs/microservices';
 import { Controller, Inject } from '@nestjs/common';
-import { ActionReaction } from '../dtos/action-reaction.dto';
+import { ActionReaction } from '@tuxify/common';
 
 /* The ActionsController class is responsible for periodically emitting available
 actions to the NATS client. */

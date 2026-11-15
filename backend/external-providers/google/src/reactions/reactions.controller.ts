@@ -26,11 +26,10 @@ THE SOFTWARE.
 
 import { Controller, Inject } from "@nestjs/common";
 import { GmailService } from "../gmail/gmail.service";
-import { ActionReaction } from "../dtos/action-reaction.dto";
+import { ActionReaction, CommonReactionInput } from "@tuxify/common";
 import { CalendarService } from "../calendar/calendar.service";
 import { AddEventInput } from "../calendar/dtos/add-event-input.dto";
 import { SendEmailInput } from "../gmail/dtos/send-email-input.dto";
-import { CommonReactionInput } from "../dtos/common-reaction-input.dto";
 import { ClientProxy, MessagePattern, Payload } from "@nestjs/microservices";
 
 /* The ReactionsController class is responsible for handling reactions related to

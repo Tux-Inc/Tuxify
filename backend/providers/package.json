@@ -25,6 +25,7 @@
     "@nestjs/microservices": "^10.2.7",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/typeorm": "^10.0.0",
+    "@tuxify/common": "workspace:*",
     "nats": "^2.17.0",
     "pg": "^8.11.3",
     "reflect-metadata": "^0.1.13",

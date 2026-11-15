@@ -26,10 +26,7 @@
 
 import { Controller } from "@nestjs/common";
 import { AuthService } from "./auth.service";
-import { ProviderEntity } from "./dtos/provider.dto";
-import { AddProvider } from "./dtos/add-provider.dto";
-import { AddedProvider } from "./dtos/added-provider.dto";
-import { AddProviderCallback } from "./dtos/add-provider-callback.dto";
+import { AddProvider, AddProviderCallback, AddedProvider, ProviderEntity } from "@tuxify/common";
 import { MessagePattern, Payload, RpcException } from "@nestjs/microservices";
 
 /* The AuthController class handles authentication-related requests and

@@ -25,7 +25,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-import { IClient } from "../../oauth2/interfaces/client.interface";
+import { IClient } from "@tuxify/common";
 
 /* The `export interface IOAuth2` is defining an interface named `IOAuth2` that
 describes the configuration for different OAuth2 providers. It has four
