@@ -11,6 +11,7 @@
     "build": "pnpm -r --filter @tuxify/common --filter \"./backend/**\" build",
     "build:frontend": "pnpm --filter @tuxify/frontend generate",
     "lint": "pnpm -r --parallel --filter \"./backend/**\" lint",
-    "test": "pnpm -r --filter \"./backend/**\" test"
+    "test": "pnpm -r --filter @tuxify/common --filter \"./backend/**\" test",
+    "test:e2e": "pnpm --filter @tuxify/gateway test:e2e"
   }
 }
