@@ -10,7 +10,9 @@
         "strict": true,
         "strictPropertyInitialization": false,
         "esModuleInterop": true,
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "types": ["node"]
     },
-    "include": ["src"]
+    "include": ["src"],
+    "exclude": ["src/**/*.test.ts"]
 }
