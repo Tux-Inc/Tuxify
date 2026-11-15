@@ -31,6 +31,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { GetFlow } from "./events/GetFlow.event";
 import { ClientProxy } from "@nestjs/microservices";
 import { Inject, Injectable, Logger } from "@nestjs/common";
+import { isProviderStepName } from "@tuxify/common";
 import { FlowActionData } from "./events/FlowActionData.event";
 
 /* The `FlowsService` class is responsible for managing flows, including creating,
@@ -156,6 +157,12 @@ export class FlowsService {
             const actions = flow.data.filter((step) => step.type === "action");
             if (actions.length === 0) return;
             for (const action of actions) {
+                if (!isProviderStepName(action.name, "action")) {
+                    this.logger.warn(
+                        `Skipping subscription of flow ${flow._id}: ${action.name} is not a provider action`,
+                    );
+                    continue;
+                }
                 try {
                     this.logger.log(`Subscribing to action ${action.name}`);
                     const subscribeActionName = action.name.replace(
@@ -331,6 +338,10 @@ export class FlowsService {
         userId: number,
     ): Promise<unknown> {
         this.logger.log(`Executing step ${step.uuid}`);
+        // The step name is used as a NATS subject: never let it reach an internal one.
+        if (!isProviderStepName(step.name, "reaction")) {
+            throw new Error(`${step.name} is not a provider reaction`);
+        }
         return lastValueFrom(
             this.natsClient.send<any, any>(step.name, {
                 userId,
