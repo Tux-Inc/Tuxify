@@ -169,7 +169,9 @@ export class ActionsController {
      * `TodoNotification` type represents the structure of the data being
      * received.
      */
-    async receiveTodoTask(@Payload() data: TodoNotification): Promise<void> {
+    async receiveTodoTask(
+        @Payload() data: { value?: TodoNotification[] },
+    ): Promise<void> {
         await this.actionsService.receiveTodo(data);
     }
 }
