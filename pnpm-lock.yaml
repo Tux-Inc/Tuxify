@@ -731,6 +731,9 @@ importers:
       '@nestjs/platform-express':
         specifier: ^10.0.0
         version: 10.2.7(@nestjs/common@10.2.7(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1))(@nestjs/core@10.2.7)(supports-color@9.4.0)
+      '@tuxify/common':
+        specifier: workspace:*
+        version: link:../../common
       mongoose:
         specifier: ^7.6.0
         version: 7.6.0(supports-color@9.4.0)
@@ -831,12 +834,24 @@ importers:
       '@nestjs/platform-express':
         specifier: ^10.0.0
         version: 10.2.5(@nestjs/common@10.2.5(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1))(@nestjs/core@10.2.5)(supports-color@9.4.0)
+      '@nestjs/throttler':
+        specifier: 5.0.0
+        version: 5.0.0(@nestjs/common@10.2.5(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1))(@nestjs/core@10.2.5)(reflect-metadata@0.1.13)
       '@nestjs/typeorm':
         specifier: ^10.0.0
         version: 10.0.0(@nestjs/common@10.2.5(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1))(@nestjs/core@10.2.5)(reflect-metadata@0.1.13)(rxjs@7.8.1)(typeorm@0.3.17(ioredis@5.3.2(supports-color@9.4.0))(mongodb@5.9.0)(mysql2@3.6.1)(pg@8.11.3)(sqlite3@5.1.6(encoding@0.1.13)(supports-color@9.4.0))(supports-color@9.4.0)(ts-node@10.9.1(@types/node@20.6.2)(typescript@5.2.2)))
       '@tuxify/common':
         specifier: workspace:*
         version: link:../../common
+      class-transformer:
+        specifier: 0.5.1
+        version: 0.5.1
+      class-validator:
+        specifier: 0.14.0
+        version: 0.14.0
+      helmet:
+        specifier: 7.0.0
+        version: 7.0.0
       mysql2:
         specifier: ^3.6.1
         version: 3.6.1
@@ -1125,6 +1140,9 @@ importers:
 
   common:
     devDependencies:
+      '@types/node':
+        specifier: 20.8.10
+        version: 20.8.10
       typescript:
         specifier: 5.2.2
         version: 5.2.2
@@ -13284,6 +13302,13 @@ snapshots:
       '@nestjs/microservices': 10.2.7(@nestjs/common@10.2.7(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1))(@nestjs/core@10.2.7)(cache-manager@5.2.3)(ioredis@5.3.2(supports-color@9.4.0))(nats@2.17.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/platform-express': 10.2.7(@nestjs/common@10.2.7(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1))(@nestjs/core@10.2.7)(supports-color@9.4.0)
 
+  '@nestjs/throttler@5.0.0(@nestjs/common@10.2.5(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1))(@nestjs/core@10.2.5)(reflect-metadata@0.1.13)':
+    dependencies:
+      '@nestjs/common': 10.2.5(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      '@nestjs/core': 10.2.5(@nestjs/common@10.2.5(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1))(@nestjs/microservices@10.2.6)(@nestjs/platform-express@10.2.5)(encoding@0.1.13)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      md5: 2.3.0
+      reflect-metadata: 0.1.13
+
   '@nestjs/throttler@5.0.0(@nestjs/common@10.2.7(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1))(@nestjs/core@10.2.7)(reflect-metadata@0.1.13)':
     dependencies:
       '@nestjs/common': 10.2.7(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
@@ -14207,7 +14232,7 @@ snapshots:
 
   '@types/fs-extra@8.1.3':
     dependencies:
-      '@types/node': 20.6.2
+      '@types/node': 20.8.10
 
   '@types/graceful-fs@4.1.5':
     dependencies:
@@ -14227,7 +14252,7 @@ snapshots:
 
   '@types/http-proxy@1.17.12':
     dependencies:
-      '@types/node': 20.6.2
+      '@types/node': 20.8.10
 
   '@types/istanbul-lib-coverage@2.0.4': {}
 
