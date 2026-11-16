@@ -152,8 +152,11 @@ export class Oauth2Service {
      * you want to get the authorization URL.
      * @returns The authorization URL for the specified OAuth provider.
      */
-    public getAuthorizationUrl(provider: OAuthProvidersEnum): string {
-        return this.getOAuth(provider).authorizationUrl;
+    public getAuthorizationUrl(
+        provider: OAuthProvidersEnum,
+        state: string,
+    ): string {
+        return this.getOAuth(provider).authorizationUrl(state);
     }
 
     /**
@@ -174,8 +177,8 @@ export class Oauth2Service {
         provider: OAuthProvidersEnum,
         cbQuery: ICallbackQuery,
     ): Promise<T> {
-        const { code, state } = cbQuery;
-        const tokens = await this.getAccessToken(provider, code, state);
+        // The state has already been checked by Oauth2Controller (cookie).
+        const tokens = await this.getAccessToken(provider, cbQuery.code);
         const userData = await firstValueFrom(
             this.httpService
                 .get<T>(this.getOAuth(provider).dataUrl, {
@@ -267,14 +270,8 @@ export class Oauth2Service {
     private async getAccessToken(
         provider: OAuthProvidersEnum,
         code: string,
-        state: string,
     ): Promise<IAuthResponseTokensInterface> {
         const oauth = this.getOAuth(provider);
-
-        if (state !== oauth.state) {
-            throw new UnauthorizedException("Corrupted state");
-        }
-
         return await this.commonService.throwInternalError(
             oauth.getToken(code),
         );

@@ -25,7 +25,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-import { randomBytes } from "crypto";
 import { AuthorizationCode } from "simple-oauth2";
 import { IAuthParams, IClient, IProvider } from "@tuxify/common";
 import { OAuthProvidersEnum } from "../../users/enums/oauth-providers.enum";
@@ -92,7 +91,7 @@ export class OAuthClass {
     };
 
     private readonly code: AuthorizationCode;
-    private readonly authorization: IAuthParams;
+    private readonly authorization: Omit<IAuthParams, "state">;
     private readonly userDataUrl: string;
 
     /**
@@ -126,13 +125,6 @@ export class OAuthClass {
         this.userDataUrl = OAuthClass.userDataUrls[provider];
     }
 
-    /**
-     * The function returns the state property of the authorization object.
-     * @returns The state property of the authorization object.
-     */
-    public get state(): string {
-        return this.authorization.state;
-    }
 
     /**
      * The function returns the data URL of the user's data.
@@ -142,13 +134,9 @@ export class OAuthClass {
         return this.userDataUrl;
     }
 
-    /**
-     * The function returns the authorization URL for the given authorization
-     * code.
-     * @returns The authorization URL is being returned.
-     */
-    public get authorizationUrl(): string {
-        return this.code.authorizeURL(this.authorization);
+    /** Authorisation URL for a state generated for this login (see Oauth2Controller). */
+    public authorizationUrl(state: string): string {
+        return this.code.authorizeURL({ ...this.authorization, state });
     }
 
     /**
@@ -165,14 +153,12 @@ export class OAuthClass {
     private static genAuthorization(
         provider: OAuthProvidersEnum,
         url: string,
-    ): IAuthParams {
+    ): Omit<IAuthParams, "state"> {
         const redirect_uri = `${url}/api/auth/ext/${provider}/callback`;
-        const state = randomBytes(16).toString("hex");
 
         switch (provider) {
             case OAuthProvidersEnum.GOOGLE:
                 return {
-                    state,
                     redirect_uri,
                     scope: [
                         "https://www.googleapis.com/auth/userinfo.email",
@@ -189,19 +175,16 @@ export class OAuthClass {
                 };
             case OAuthProvidersEnum.MICROSOFT:
                 return {
-                    state,
                     redirect_uri,
                     scope: ["openid", "profile", "email"],
                 };
             case OAuthProvidersEnum.FACEBOOK:
                 return {
-                    state,
                     redirect_uri,
                     scope: ["email", "public_profile"],
                 };
             case OAuthProvidersEnum.GITHUB:
                 return {
-                    state,
                     redirect_uri,
                     scope: ["user:email", "read:user"],
                 };
