@@ -27,6 +27,7 @@ THE SOFTWARE.
 import {
     Body,
     Controller,
+    ForbiddenException,
     Get,
     HttpCode,
     Inject,
@@ -38,6 +39,7 @@ import {
     Query,
     Req,
     Res,
+    ServiceUnavailableException,
     UnauthorizedException,
     UseGuards,
 } from "@nestjs/common";
@@ -55,6 +57,15 @@ import {
 } from "@tuxify/common";
 import { AuthGuard } from "../guards/auth.guard";
 import { CallbackQueryDto } from "./dto/callback-query.dto";
+import {
+    callbackPath,
+    checkLinkState,
+    createLinkState,
+    isLinkStateConfigured,
+    LINK_STATE_COOKIE,
+    LINK_STATE_TTL_SECONDS,
+    readCookie,
+} from "./link-state/link-state";
 
 /** Rejects any provider that is not registered, before it reaches a NATS subject. */
 class ProviderPipe implements PipeTransform<string, ProviderName> {
@@ -88,28 +99,59 @@ export class ProvidersController {
         return await lastValueFrom(this.natsClient.send("providers", req.user));
     }
 
+    /**
+     * Starts linking a provider account: returns the provider authorisation URL.
+     * The OAuth state is created here and also set as an httpOnly cookie, which the
+     * frontend must accept (credentials: "include").
+     */
     @UseGuards(AuthGuard)
     @Get(":provider/add")
     async addProvider(
         @Param("provider", ProviderPipe) provider: ProviderName,
         @Req() req: any,
+        @Res({ passthrough: true }) res: any,
     ): Promise<string> {
-        const addProvider: AddProvider = { provider, userId: req.user };
+        if (!isLinkStateConfigured()) {
+            this.logger.warn("PROVIDER_STATE_SECRET is not set: provider linking is disabled");
+            throw new ServiceUnavailableException("Provider linking is not configured");
+        }
+        const state = createLinkState(req.user);
+        res.cookie(LINK_STATE_COOKIE, state, {
+            httpOnly: true,
+            sameSite: "lax",
+            secure: req.secure,
+            path: callbackPath(provider),
+            maxAge: LINK_STATE_TTL_SECONDS * 1000,
+        });
+        const addProvider: AddProvider = { provider, userId: req.user, state };
         return await lastValueFrom(
             this.natsClient.send(`providers.${provider}.add`, addProvider),
         );
     }
 
+    /**
+     * OAuth callback of provider linking. The user id comes from the state, which
+     * must be validly signed, unexpired, and equal to the cookie set by /add in the
+     * same browser.
+     */
     @Get(":provider/callback")
     async addProviderCallback(
         @Param("provider", ProviderPipe) provider: ProviderName,
         @Query() cbQuery: CallbackQueryDto,
+        @Req() req: any,
         @Res() res: any,
     ): Promise<void> {
+        const cookie = readCookie(req.headers.cookie, LINK_STATE_COOKIE);
+        res.clearCookie(LINK_STATE_COOKIE, { path: callbackPath(provider) });
+        const userId = checkLinkState(cbQuery.state, cookie);
+        if (userId === null) {
+            throw new ForbiddenException("Invalid or expired linking request, please try again");
+        }
         const addProviderCallback: AddProviderCallback = {
             provider,
             code: cbQuery.code,
             state: cbQuery.state,
+            userId,
         };
         const redirectUrl: string = await lastValueFrom(
             this.natsClient.send(
