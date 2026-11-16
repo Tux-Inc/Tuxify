@@ -32,6 +32,8 @@ import { GatewayController } from "./gateway.controller";
 import { DevtoolsModule } from "@nestjs/devtools-integration";
 import { ProvidersModule } from "./providers/providers.module";
 import { ClientsModule, Transport } from "@nestjs/microservices";
+import { APP_GUARD } from "@nestjs/core";
+import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 
 @Module({
     imports: [
@@ -50,10 +52,13 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
         DevtoolsModule.register({
             http: process.env.NODE_ENV !== "production",
         }),
+        // Per client IP: 120 requests per minute (webhooks have their own limit).
+        ThrottlerModule.forRoot([{ ttl: 60000, limit: 120 }]),
         FlowsModule,
         ProvidersModule,
     ],
     controllers: [GatewayController],
+    providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
 })
 
 /* The GatewayModule class is exported as a module in TypeScript. */

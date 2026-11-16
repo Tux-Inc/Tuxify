@@ -24,9 +24,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-/* The `CallbackQueryDto` class is a TypeScript class that represents a callback
-query with a code and state. */
+import { IsString, MaxLength } from "class-validator";
+
 export class CallbackQueryDto {
+    @IsString()
+    @MaxLength(2048)
     public readonly code: string;
+
+    @IsString()
+    @MaxLength(512)
     public readonly state: string;
 }

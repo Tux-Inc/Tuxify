@@ -24,7 +24,6 @@
  * THE SOFTWARE.
  */
 
-import { randomBytes } from "crypto";
 import { HttpService } from "@nestjs/axios";
 import { ClientProxy } from "@nestjs/microservices";
 import { TokensService } from "../tokens/tokens.service";
@@ -36,7 +35,12 @@ import { ReactionsService } from "../reactions/reactions.service";
 import { SubscribeTodoInput } from "./dtos/subscribe-todo-input.dto";
 import { TasksTodoGetInput } from "src/dtos/tasks-todo-get-input.dto";
 import { TasksTodoGetOutput } from "src/dtos/tasks-todo-get-output.dto";
-import { CommonReactionInput, UserProviderTokens } from "@tuxify/common";
+import {
+    CommonReactionInput,
+    signUserState,
+    UserProviderTokens,
+    verifyUserState,
+} from "@tuxify/common";
 import { CommonSubscribeInput } from "./dtos/common-subscribe-input.dto";
 import { OutlookGetEmailInput } from "../dtos/outlook-get-email-input.dto";
 import { SubscribeOutlookInput } from "./dtos/subscribe-outlook-input.dto";
@@ -75,38 +79,18 @@ export class ActionsService {
     ) {}
 
     /**
-     * The genState function generates a unique state string by concatenating a
-     * random hexadecimal string with a user ID.
-     * @param {number} userId - The `userId` parameter is a number that represents
-     * the unique identifier of a user.
-     * @returns a string that consists of a randomly generated 16-byte hexadecimal
-     * string followed by a period (.) and the userId.
+     * The Graph clientState is echoed back in every notification, and the
+     * notification endpoint is public: sign the user id with
+     * MICROSOFT_WEBHOOK_SECRET so that a forged notification cannot target
+     * another user.
      */
     private genState(userId: number): string {
-        try {
-            return `${randomBytes(16).toString("hex")}.${userId}`;
-        } catch (e) {
-            this.logger.error(e);
-            throw e;
-        }
+        return signUserState(userId, process.env.MICROSOFT_WEBHOOK_SECRET ?? "");
     }
 
-    /**
-     * The function `parseState` takes a string as input, splits it by ".", and
-     * returns the last element as a number.
-     * @param {string} state - The `state` parameter is a string that represents a
-     * state.
-     * @returns a number.
-     */
-    private parseState(state: string): number {
-        try {
-            this.logger.debug(`Parsing state ${state}`);
-            const decodedState: string[] = state.split(".");
-            return Number(decodedState[decodedState.length - 1]);
-        } catch (e) {
-            this.logger.error(e);
-            throw e;
-        }
+    /** Returns the user id of a signed clientState, or null when it is invalid. */
+    private parseState(state: string): number | null {
+        return verifyUserState(state, process.env.MICROSOFT_WEBHOOK_SECRET ?? "");
     }
 
     /**
@@ -208,49 +192,59 @@ export class ActionsService {
      * notification from Outlook.
      */
     public async receiveEmail(data: OutlookMessageNotification): Promise<void> {
-        this.logger.debug("Received email from Outlook");
-        const actionReactionInput: CommonReactionInput<OutlookGetEmailInput> = {
-            userId: this.parseState(data.value[0].clientState),
-            input: {
-                messageId: data.value[0].resourceData.id,
-            },
-        };
-        const emailData: OutlookGetEmailOutput =
-            await lastValueFrom<OutlookGetEmailOutput>(
-                this.reactionService.getEmail(actionReactionInput),
-            );
-        const flowActionData: FlowActionData = {
-            userId: actionReactionInput.userId,
-            actionName: "provider.microsoft.action.outlook",
-            data: emailData,
-        };
-        this.natsClient.emit("flows.actions", flowActionData);
+        for (const notification of data?.value ?? []) {
+            const userId = this.parseState(notification.clientState);
+            if (userId === null) {
+                this.logger.warn("Ignoring an Outlook notification with an invalid clientState");
+                continue;
+            }
+            const actionReactionInput: CommonReactionInput<OutlookGetEmailInput> = {
+                userId,
+                input: {
+                    messageId: notification.resourceData.id,
+                },
+            };
+            const emailData: OutlookGetEmailOutput =
+                await lastValueFrom<OutlookGetEmailOutput>(
+                    this.reactionService.getEmail(actionReactionInput),
+                );
+            const flowActionData: FlowActionData = {
+                userId,
+                actionName: "provider.microsoft.action.outlook",
+                data: emailData,
+            };
+            this.natsClient.emit("flows.actions", flowActionData);
+        }
     }
 
     /**
-     * The function receives a todo notification, retrieves the corresponding task
-     * data, and emits a flow action with the task data.
-     * @param {TodoNotification} data - The `data` parameter is of type
-     * `TodoNotification`. It represents the data received from the Todo service.
+     * Microsoft Graph sends notifications as `{ value: [...] }`, like for
+     * Outlook: each one is checked separately.
      */
-    public async receiveTodo(data: TodoNotification): Promise<void> {
-        this.logger.debug("Received todo from Todo");
-        const actionReactionInput: CommonReactionInput<TasksTodoGetInput> = {
-            userId: this.parseState(data.clientState),
-            input: {
-                listId: data.resourceData.id,
-                taskId: data.resourceData.id,
-            },
-        };
-        const todoData: TasksTodoGetOutput =
-            await lastValueFrom<TasksTodoGetOutput>(
-                this.reactionService.getTask(actionReactionInput),
-            );
-        const flowActionData: FlowActionData = {
-            userId: actionReactionInput.userId,
-            actionName: "provider.microsoft.action.todo",
-            data: todoData,
-        };
-        this.natsClient.emit("flows.actions", flowActionData);
+    public async receiveTodo(data: { value?: TodoNotification[] }): Promise<void> {
+        for (const notification of data?.value ?? []) {
+            const userId = this.parseState(notification.clientState);
+            if (userId === null) {
+                this.logger.warn("Ignoring a To Do notification with an invalid clientState");
+                continue;
+            }
+            const actionReactionInput: CommonReactionInput<TasksTodoGetInput> = {
+                userId,
+                input: {
+                    listId: notification.resourceData.id,
+                    taskId: notification.resourceData.id,
+                },
+            };
+            const todoData: TasksTodoGetOutput =
+                await lastValueFrom<TasksTodoGetOutput>(
+                    this.reactionService.getTask(actionReactionInput),
+                );
+            const flowActionData: FlowActionData = {
+                userId,
+                actionName: "provider.microsoft.action.todo",
+                data: todoData,
+            };
+            this.natsClient.emit("flows.actions", flowActionData);
+        }
     }
 }
