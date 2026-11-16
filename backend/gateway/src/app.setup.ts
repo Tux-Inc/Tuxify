@@ -27,6 +27,8 @@ export function configureApp(app: NestExpressApplication): void {
         }),
     );
     app.enableCors({
+        // Needed for the provider linking cookie (see providers/link-state).
+        credentials: true,
         origin: (process.env.CORS_ORIGINS || DEFAULT_CORS_ORIGINS)
             .split(",")
             .map((origin) => origin.trim())

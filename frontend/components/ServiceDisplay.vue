@@ -40,7 +40,10 @@ const props = withDefaults(defineProps<IServiceDisplay>(), {
 
 async function connect() {
     try {
-        const res = await useApiRequest<string>(`/providers/${props.name}/add`);
+        // The API sets the linking state as a cookie, checked on the OAuth callback.
+        const res = await useApiRequest<string>(`/providers/${props.name}/add`, {
+            credentials: "include",
+        });
         navigateTo(res._data as string, { external: true });
     } catch (e: any) {
         toast.add({

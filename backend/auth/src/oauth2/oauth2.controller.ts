@@ -30,16 +30,20 @@ import {
     Get,
     HttpStatus,
     Query,
+    Req,
     Res,
+    UnauthorizedException,
     UseGuards,
 } from "@nestjs/common";
+import { randomBytes } from "crypto";
+import { safeEqual } from "@tuxify/common";
 import {
     IFacebookUser,
     IGitHubUser,
     IGoogleUser,
     IMicrosoftUser,
 } from "./interfaces/user-response.interface";
-import { FastifyReply } from "fastify";
+import { FastifyReply, FastifyRequest } from "fastify";
 import { ConfigService } from "@nestjs/config";
 import { Oauth2Service } from "./oauth2.service";
 import { OAuthFlagGuard } from "./guards/oauth-flag.guard";
@@ -56,6 +60,10 @@ to the respective OAuth providers for login and callback. */
 @Controller("api/auth/ext")
 // @UseGuards(FastifyThrottlerGuard)
 export class Oauth2Controller {
+    /** Signed cookie binding an OAuth login to the browser that started it. */
+    private static readonly STATE_COOKIE = "oauth_state";
+    private static readonly STATE_TTL_SECONDS = 600;
+
     private readonly url: string;
     private readonly cookiePath = "/api/auth";
     private readonly cookieName: string;
@@ -134,9 +142,11 @@ export class Oauth2Controller {
      */
     public async microsoftCallback(
         @Query() cbQuery: CallbackQueryDto,
+        @Req() req: FastifyRequest,
         @Res() res: FastifyReply,
     ): Promise<FastifyReply> {
         const provider = OAuthProvidersEnum.MICROSOFT;
+        this.checkState(req, res, provider, cbQuery.state);
         const { displayName, mail, tokens } =
             await this.oauth2Service.getUserData<IMicrosoftUser>(
                 provider,
@@ -195,9 +205,11 @@ export class Oauth2Controller {
      */
     public async googleCallback(
         @Query() cbQuery: CallbackQueryDto,
+        @Req() req: FastifyRequest,
         @Res() res: FastifyReply,
     ): Promise<FastifyReply> {
         const provider = OAuthProvidersEnum.GOOGLE;
+        this.checkState(req, res, provider, cbQuery.state);
         const { name, email, tokens } =
             await this.oauth2Service.getUserData<IGoogleUser>(
                 provider,
@@ -254,9 +266,11 @@ export class Oauth2Controller {
      */
     public async facebookCallback(
         @Query() cbQuery: CallbackQueryDto,
+        @Req() req: FastifyRequest,
         @Res() res: FastifyReply,
     ): Promise<FastifyReply> {
         const provider = OAuthProvidersEnum.FACEBOOK;
+        this.checkState(req, res, provider, cbQuery.state);
         const { name, email, tokens } =
             await this.oauth2Service.getUserData<IFacebookUser>(
                 provider,
@@ -316,9 +330,11 @@ export class Oauth2Controller {
      */
     public async githubCallback(
         @Query() cbQuery: CallbackQueryDto,
+        @Req() req: FastifyRequest,
         @Res() res: FastifyReply,
     ): Promise<FastifyReply> {
         const provider = OAuthProvidersEnum.GITHUB;
+        this.checkState(req, res, provider, cbQuery.state);
         const { name, email, tokens } =
             await this.oauth2Service.getUserData<IGitHubUser>(
                 provider,
@@ -343,9 +359,43 @@ export class Oauth2Controller {
         res: FastifyReply,
         provider: OAuthProvidersEnum,
     ): FastifyReply {
+        // A new random state per login, bound to this browser by a signed cookie.
+        const state = randomBytes(32).toString("base64url");
+        res.setCookie(Oauth2Controller.STATE_COOKIE, state, {
+            httpOnly: true,
+            sameSite: "lax",
+            secure: !this.testing,
+            signed: true,
+            path: Oauth2Controller.statePath(provider),
+            maxAge: Oauth2Controller.STATE_TTL_SECONDS,
+        });
         return res
             .status(HttpStatus.TEMPORARY_REDIRECT)
-            .redirect(this.oauth2Service.getAuthorizationUrl(provider));
+            .redirect(this.oauth2Service.getAuthorizationUrl(provider, state));
+    }
+
+    private static statePath(provider: OAuthProvidersEnum): string {
+        return `/api/auth/ext/${provider}/callback`;
+    }
+
+    /**
+     * Accepts the callback only if its state equals the signed cookie set by
+     * startRedirect in the same browser. The cookie is cleared: a state works once.
+     */
+    private checkState(
+        req: FastifyRequest,
+        res: FastifyReply,
+        provider: OAuthProvidersEnum,
+        state: string,
+    ): void {
+        const raw = req.cookies?.[Oauth2Controller.STATE_COOKIE];
+        res.clearCookie(Oauth2Controller.STATE_COOKIE, {
+            path: Oauth2Controller.statePath(provider),
+        });
+        const cookie = raw ? req.unsignCookie(raw) : { valid: false, value: null };
+        if (!cookie.valid || !safeEqual(cookie.value, state)) {
+            throw new UnauthorizedException("Invalid OAuth state");
+        }
     }
 
     /**

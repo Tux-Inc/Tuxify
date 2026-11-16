@@ -35,3 +35,37 @@ export function verifyUserState(state: unknown, secret: string): number | null {
     const userId = Number(id);
     return Number.isSafeInteger(userId) ? userId : null;
 }
+
+/**
+ * Like signUserState, with an expiry (`<userId>.<expiresAt>.<nonce>.<signature>`,
+ * expiresAt in seconds). Used for the OAuth `state` of provider linking.
+ */
+export function signExpiringUserState(
+    userId: number,
+    secret: string,
+    ttlSeconds: number,
+    now: number = Date.now(),
+): string {
+    if (!secret) throw new Error("A secret is required to sign a user state");
+    if (!Number.isSafeInteger(userId) || userId < 0) throw new Error("Invalid user id");
+    const expiresAt = Math.floor(now / 1000) + ttlSeconds;
+    const payload = `${userId}.${expiresAt}.${randomBytes(16).toString("base64url")}`;
+    return `${payload}.${sign(payload, secret)}`;
+}
+
+/** Returns the user id of a valid, unexpired value built by signExpiringUserState, or null. */
+export function verifyExpiringUserState(
+    state: unknown,
+    secret: string,
+    now: number = Date.now(),
+): number | null {
+    if (!secret || typeof state !== "string") return null;
+    const parts = state.split(".");
+    if (parts.length !== 4) return null;
+    const [id, expiresAt, nonce, signature] = parts;
+    if (!/^\d+$/.test(id) || !/^\d+$/.test(expiresAt) || !nonce) return null;
+    if (!safeEqual(signature, sign(`${id}.${expiresAt}.${nonce}`, secret))) return null;
+    if (Number(expiresAt) * 1000 < now) return null;
+    const userId = Number(id);
+    return Number.isSafeInteger(userId) ? userId : null;
+}

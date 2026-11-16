@@ -30,147 +30,46 @@ import { Injectable, Logger } from '@nestjs/common';
 import { AddProvider, AddProviderCallback, AddedProvider, IClient, ProviderEntity } from '@tuxify/common';
 import { RpcException } from '@nestjs/microservices';
 
-/* The AuthService class is responsible for handling authentication and
-authorization using OAuth with GitHub. */
+
 @Injectable()
 export class AuthService {
-  private github: OAuthClass | null;
   private readonly logger: Logger = new Logger(AuthService.name);
 
-  /**
-   * The constructor function takes an HttpService parameter and assigns it to the
-   * httpService property.
-   * @param {HttpService} httpService - The `httpService` parameter is of type
-   * `HttpService` and is marked as `public` and `readonly`. This means that it is
-   * a public property of the class and cannot be modified once it is assigned a
-   * value. The `HttpService` is likely a service or class that provides
-   * functionality
-   */
   constructor(public readonly httpService: HttpService) {}
 
-  /**
-   * The function sends an authentication URL to the client and returns the
-   * authorization URL.
-   * @param {AddProvider} addProvider - The `addProvider` parameter is an object
-   * that contains the necessary information to add a provider. It likely includes
-   * properties such as `userId`, which represents the user for whom the provider
-   * is being added.
-   * @returns a Promise that resolves to a string.
-   */
+  /** Authorisation URL for the OAuth state created by the gateway. */
   async addProvider(addProvider: AddProvider): Promise<string> {
+    if (!addProvider.state) throw new RpcException('Missing OAuth state');
     this.logger.log('Sending authentication URL to client');
-    this.github = AuthService.setOAuthClass(
-      process.env.API_BASE_URL,
-      addProvider.userId,
-      this.httpService,
-    );
-    return this.getAuthorizationUrl();
+    return this.oauth().authorizationUrl(addProvider.state);
   }
 
-  /**
-   * The function `addProviderCallback` receives a callback from Github, extracts
-   * the code and state, retrieves access tokens using the code and state, and
-   * returns the tokens for the user.
-   * @param {AddProviderCallback} addProviderCallback - The addProviderCallback
-   * parameter is an object that contains the callback information received from
-   * Github. It typically includes properties such as code and state, which are
-   * used to obtain access tokens.
-   * @returns a Promise that resolves to an object of type AddedProvider.
-   */
+  /** The gateway has verified the state: the user comes from the callback message. */
   async addProviderCallback(
     addProviderCallback: AddProviderCallback,
   ): Promise<AddedProvider> {
     this.logger.log('Callback received from Github');
-    const { code, state } = addProviderCallback;
-    const tokensUser: AddedProvider = await this.getAccessToken(code, state);
-    this.logger.log(
-      `Tokens received from Github for user ${tokensUser.userId}`,
-    );
+    const { code, userId } = addProviderCallback;
+    if (!code || !Number.isSafeInteger(userId)) {
+      throw new RpcException('Invalid Github callback');
+    }
+    const tokensUser: AddedProvider = await this.oauth().getToken(code, userId);
+    this.logger.log(`Tokens received from Github for user ${tokensUser.userId}`);
     return tokensUser;
   }
 
-  /**
-   * The function refreshes the access tokens for a provider entity using the
-   * GitHub OAuth class.
-   * @param {ProviderEntity} providerEntity - An object that represents the
-   * provider entity. It contains information such as the user ID and the refresh
-   * token.
-   * @returns a Promise that resolves to a ProviderEntity object.
-   */
-  async refreshTokens(providerEntity: ProviderEntity): Promise<ProviderEntity> {
-    const { refreshToken } = providerEntity;
-    this.github = AuthService.setOAuthClass(
-      process.env.API_BASE_URL,
-      providerEntity.userId,
-      this.httpService,
-    );
-    return await this.github.refreshTokens(providerEntity);
+  async refreshTokens(
+    providerEntity: ProviderEntity,
+  ): Promise<ProviderEntity> {
+    return await this.oauth().refreshTokens(providerEntity);
   }
 
-  /**
-   * The function sets up and returns an instance of the OAuthClass using the
-   * provided parameters.
-   * @param {string} url - The `url` parameter is a string that represents the URL
-   * of the OAuth server that you want to connect to.
-   * @param {number} userId - The `userId` parameter is the unique identifier for
-   * the user. It is typically used to associate the OAuthClass instance with a
-   * specific user in the system.
-   * @param {HttpService} httpService - The `httpService` parameter is an instance
-   * of the `HttpService` class. It is used to make HTTP requests to the specified
-   * URL.
-   * @returns an instance of the OAuthClass with the provided client, url, userId,
-   * and httpService parameters.
-   */
-  private static setOAuthClass(
-    url: string,
-    userId: number,
-    httpService: HttpService,
-  ): OAuthClass | null {
+  /** A new instance per call, so that no OAuth data is shared between users. */
+  private oauth(): OAuthClass {
     const client: IClient = {
       id: process.env.GH_CLIENT_ID,
       secret: process.env.GH_CLIENT_SECRET,
     };
-    return new OAuthClass(client, url, userId, httpService);
-  }
-
-  /**
-   * The function returns the authorization URL for OAuth.
-   * @returns The authorization URL.
-   */
-  public getAuthorizationUrl(): string {
-    return this.getOAuth().authorizationUrl;
-  }
-
-  /**
-   * The function returns the configured Github OAuth2 instance or throws an error
-   * if it is not configured.
-   * @returns The `getOAuth()` function is returning an instance of the
-   * `OAuthClass` class.
-   */
-  private getOAuth(): OAuthClass {
-    if (!this.github) throw new Error('Github OAuth2 is not configured');
-    return this.github;
-  }
-
-  /**
-   * The function `getAccessToken` is a private asynchronous function that
-   * retrieves an access token using a code and state, and returns an
-   * `AddedProvider` object.
-   * @param {string} code - The "code" parameter is a string that represents the
-   * authorization code obtained from the OAuth provider. This code is used to
-   * exchange for an access token.
-   * @param {string} state - The "state" parameter is a unique value generated by
-   * the client application and included in the authorization request. It is used
-   * to prevent cross-site request forgery attacks by ensuring that the
-   * authorization response matches the initial request.
-   * @returns a Promise that resolves to an object of type AddedProvider.
-   */
-  private async getAccessToken(
-    code: string,
-    state: string,
-  ): Promise<AddedProvider> {
-    const oauth: OAuthClass = this.getOAuth();
-    if (state !== oauth.state) throw new RpcException('Corrupted state');
-    return oauth.getToken(code, state);
+    return new OAuthClass(client, process.env.API_BASE_URL, this.httpService);
   }
 }

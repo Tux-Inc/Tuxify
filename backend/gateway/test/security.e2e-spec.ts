@@ -3,11 +3,13 @@
 // that records every message the gateway would send.
 process.env.NODE_ENV = "production"; // no Devtools HTTP server during the tests
 process.env.GMAIL_PUSH_TOKEN = "gmail-push-token";
+process.env.PROVIDER_STATE_SECRET = "provider-state-secret";
 
 import * as request from "supertest";
 import { Observable, of, throwError } from "rxjs";
 import { Test } from "@nestjs/testing";
 import { RpcException } from "@nestjs/microservices";
+import { signExpiringUserState, verifyExpiringUserState } from "@tuxify/common";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { configureApp } from "../src/app.setup";
 import { GatewayModule } from "../src/gateway.module";
@@ -174,21 +176,99 @@ describe("Gateway security (e2e)", () => {
                 await request(app.getHttpServer()).get(`/providers/${provider}/add`).set(auth).expect(404);
             }
             expect(nats.sent).toHaveLength(0);
-            await request(app.getHttpServer()).get("/providers/google/add").set(auth).expect(200);
-            expect(nats.sent[0]).toEqual({
-                pattern: "providers.google.add",
-                data: { provider: "google", userId: USER_ID },
-            });
+        });
+    });
+
+    describe("provider linking (OAuth state)", () => {
+        const SECRET = "provider-state-secret";
+        const linkCookieOf = (res: request.Response): string | undefined =>
+            ([res.headers["set-cookie"]].flat().filter(Boolean) as string[]).find((c) =>
+                c.startsWith("tuxify_link_state="),
+            );
+
+        /** Starts a linking as USER_ID and returns the state sent to the provider and the cookie. */
+        async function startLinking(provider = "google") {
+            const res = await request(app.getHttpServer()).get(`/providers/${provider}/add`).set(auth).expect(200);
+            const message = nats.sent.find((m) => m.pattern === `providers.${provider}.add`);
+            const setCookie = linkCookieOf(res);
+            return { state: message?.data.state as string, setCookie, cookie: setCookie?.split(";")[0], message };
+        }
+
+        const callback = (state: string, cookie?: string, provider = "google") => {
+            const req = request(app.getHttpServer()).get(
+                `/providers/${provider}/callback?code=abc&state=${encodeURIComponent(state)}`,
+            );
+            return cookie ? req.set("Cookie", cookie) : req;
+        };
+
+        it("creates a signed state for the authenticated user and sets it as an httpOnly cookie", async () => {
+            const { state, setCookie, message } = await startLinking();
+            expect(message?.data).toEqual({ provider: "google", userId: USER_ID, state });
+            expect(verifyExpiringUserState(state, SECRET)).toBe(USER_ID);
+            expect(setCookie).toMatch(/HttpOnly/i);
+            expect(setCookie).toMatch(/SameSite=Lax/i);
+            expect(setCookie).toMatch(/Path=\/providers\/google\/callback/);
         });
 
-        it("keeps the OAuth callback parameters", async () => {
-            await request(app.getHttpServer())
-                .get("/providers/google/callback?code=abc&state=xyz")
-                .expect(302)
-                .expect("Location", "https://tuxify.fr/app/services");
-            expect(nats.sent[0].data).toEqual({ provider: "google", code: "abc", state: "xyz" });
+        it("links the account of the user who started it, taken from the verified state", async () => {
+            const { state, cookie } = await startLinking();
+            nats.sent = [];
+            await callback(state, cookie).expect(302).expect("Location", "https://tuxify.fr/app/services");
+            expect(nats.sent).toEqual([
+                {
+                    pattern: "providers.google.add.callback",
+                    data: { provider: "google", code: "abc", state, userId: USER_ID },
+                },
+            ]);
         });
 
+        it("rejects a callback opened in another browser (no cookie)", async () => {
+            const { state } = await startLinking();
+            nats.sent = [];
+            await callback(state).expect(403);
+            expect(nats.sent).toHaveLength(0);
+        });
+
+        it("rejects a linking link started by someone else", async () => {
+            // the attacker starts a linking for their own account and sends the URL to a victim
+            const attackerState = signExpiringUserState(666, SECRET, 600);
+            const { cookie: victimCookie } = await startLinking();
+            nats.sent = [];
+            await callback(attackerState, victimCookie).expect(403);
+            expect(nats.sent).toHaveLength(0);
+        });
+
+        it("rejects forged, tampered or expired states even with a matching cookie", async () => {
+            const forged = "deadbeef-42";
+            const [, exp, nonce, signature] = signExpiringUserState(USER_ID, SECRET, 600).split(".");
+            const tampered = `666.${exp}.${nonce}.${signature}`;
+            const expired = signExpiringUserState(USER_ID, SECRET, 600, Date.now() - 3600_000);
+            const otherSecret = signExpiringUserState(USER_ID, "other", 600);
+            for (const state of [forged, tampered, expired, otherSecret]) {
+                await callback(state, `tuxify_link_state=${encodeURIComponent(state)}`).expect(403);
+            }
+            expect(nats.sent).toHaveLength(0);
+        });
+
+        it("refuses to start a linking when PROVIDER_STATE_SECRET is not set", async () => {
+            delete process.env.PROVIDER_STATE_SECRET;
+            try {
+                await request(app.getHttpServer()).get("/providers/google/add").set(auth).expect(503);
+                expect(nats.sent).toHaveLength(0);
+            } finally {
+                process.env.PROVIDER_STATE_SECRET = SECRET;
+            }
+        });
+
+        it("lets the frontend send credentials (cookie) to the API", async () => {
+            const res = await request(app.getHttpServer())
+                .get("/providers/infos")
+                .set("Origin", "http://localhost:8080");
+            expect(res.headers["access-control-allow-credentials"]).toBe("true");
+        });
+    });
+
+    describe("webhooks", () => {
         it("rejects unknown webhooks", async () => {
             for (const path of ["github/action/issue.create", "google/action/gmail.>", "microsoft/action/outlook.x", "evil/action/x"]) {
                 await request(app.getHttpServer()).post(`/providers/${path}`).send({}).expect(404);

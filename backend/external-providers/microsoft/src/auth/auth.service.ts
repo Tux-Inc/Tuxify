@@ -24,7 +24,6 @@
  * THE SOFTWARE.
  */
 
-import { randomBytes } from "crypto";
 import { HttpService } from "@nestjs/axios";
 import { Injectable, Logger } from "@nestjs/common";
 import { AddProvider, AddProviderCallback, AddedProvider, IProvider, ProviderEntity } from "@tuxify/common";
@@ -72,46 +71,15 @@ export class AuthService {
      */
     constructor(private readonly httpService: HttpService) {}
 
-    /**
-     * The function `genState` generates a unique state string by concatenating a
-     * random hexadecimal string with a user ID.
-     * @param {number} userId - The `userId` parameter is of type `number` and
-     * represents the unique identifier of a user.
-     * @returns a string that consists of two parts separated by a period. The
-     * first part is a randomly generated 16-byte string encoded in hexadecimal
-     * format, and the second part is the userId passed as a parameter to the
-     * function.
-     */
-    private static genState(userId: number): string {
-        return `${randomBytes(16).toString("hex")}.${userId}`;
-    }
 
-    /**
-     * The function `getTokens` is an asynchronous function that takes in a code
-     * and state as parameters, and returns a Promise that resolves to an object
-     * containing the userId, accessToken, and refreshToken.
-     * @param {string} code - The code parameter is a string that represents the
-     * authorization code received from Microsoft after the user has successfully
-     * authenticated and authorized the application.
-     * @param {string} state - The `state` parameter is a string that is generated
-     * by the client and passed to the server during the authorization process. It
-     * is used to maintain the state of the user's session and prevent cross-site
-     * request forgery attacks. In this code, the `state` parameter is expected to
-     * be in the
-     * @returns an object of type `AddedProvider` with the properties `userId`,
-     * `accessToken`, and `refreshToken`.
-     */
+    /** Exchanges the authorisation code for the tokens of the given user. */
     private async getTokens(
         code: string,
-        state: string,
+        userId: number,
     ): Promise<AddedProvider> {
-        if (!code || !state)
-            throw new RpcException(
-                "Invalid code or state received from Microsoft",
-            );
-        const [nonce, userId] = state.split(".");
-        if (!nonce || !userId)
-            throw new RpcException("Invalid state received from Microsoft");
+        if (!code || !Number.isSafeInteger(userId)) {
+            throw new RpcException("Invalid Microsoft callback");
+        }
         const params = {
             client_id: process.env.MICROSOFT_CLIENT_ID,
             client_secret: process.env.MICROSOFT_CLIENT_SECRET,
@@ -133,7 +101,7 @@ export class AuthService {
                 .toPromise();
             const { access_token, refresh_token } = data;
             return {
-                userId: parseInt(userId),
+                userId,
                 accessToken: access_token,
                 refreshToken: refresh_token,
             };
@@ -152,6 +120,7 @@ export class AuthService {
      * @returns a string that represents the authentication URL.
      */
     async addProvider(addProvider: AddProvider): Promise<string> {
+        if (!addProvider.state) throw new RpcException("Missing OAuth state");
         this.logger.log("Sending authentication URL to client");
         const url = `${AuthService.authProviderEndpoints.authorizeHost}${AuthService.authProviderEndpoints.authorizePath}`;
         const params = {
@@ -159,7 +128,8 @@ export class AuthService {
             response_type: "code",
             redirect_uri: `${process.env.API_BASE_URL}/providers/microsoft/callback`,
             scope: AuthService.scopes.join(" "),
-            state: AuthService.genState(addProvider.userId),
+            // Created and checked by the gateway.
+            state: addProvider.state,
         };
         const queryParams = new URLSearchParams(params).toString();
         return `${url}?${queryParams}`;
@@ -179,8 +149,9 @@ export class AuthService {
         addProviderCallback: AddProviderCallback,
     ): Promise<AddedProvider> {
         this.logger.log("Callback received from Microsoft");
-        const { code, state } = addProviderCallback;
-        const tokensUser: AddedProvider = await this.getTokens(code, state);
+        // The gateway has verified the state: the user comes from the message.
+        const { code, userId } = addProviderCallback;
+        const tokensUser: AddedProvider = await this.getTokens(code, userId);
         this.logger.log(
             `Tokens received from Microsoft for user ${tokensUser.userId}`,
         );
