@@ -2,6 +2,8 @@
 export class AddProvider {
     provider: string;
     userId: number;
+    /** OAuth state created and checked by the gateway: providers must send it as is. */
+    state: string;
 }
 
 /** OAuth callback received after the user authorised a provider. */
@@ -9,6 +11,8 @@ export class AddProviderCallback {
     public readonly provider: string;
     public readonly code: string;
     public readonly state: string;
+    /** User who started the linking, taken by the gateway from the verified state. */
+    public readonly userId: number;
 }
 
 /** Tokens obtained once a provider account is linked to a user. */
